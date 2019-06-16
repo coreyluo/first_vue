@@ -16,6 +16,7 @@ import SellParam from '@/page/sellParam'
 import HotBlockStock from '@/page/hotBlockStock'
 import BlockView from '@/page/blockView'
 import OpenButton from '@/page/openButton'
+import InsertQueue from '@/page/insertQueue'
 
 Vue.use(Router)
 
@@ -69,6 +70,9 @@ export default new Router({
     }, {
       path: '/openButton/:id',
       component: OpenButton
+    }, {
+      path: '/insertQueue/:id',
+      component: InsertQueue
     }
 
   ]
