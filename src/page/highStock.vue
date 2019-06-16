@@ -10,11 +10,20 @@
         background: #fff;
         box-shadow: 0 1px 1px rgba(0,0,0,.1);
     }
+
+    .ivu-table .demo-table-info-row td{
+      background-color: #2db7f5;
+      color: #fff;
+    }
+    .ivu-table .demo-table-error-row td{
+      background-color: #ff6600;
+      color: #fff;
+    }
 </style>
 <template>
     <div class="layout">
         <Sider :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
-            <Menu active-name="1-5" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
+            <Menu active-name="1-11" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
                 <Submenu name="1">
                     <template slot="title">
                         <Icon type="ios-navigate"></Icon>
@@ -29,8 +38,8 @@
                    <MenuItem  name="1-7"><router-link to="/targetParam/1"><font color="#fff">靶向参数</font></router-link></MenuItem>
                    <MenuItem  name="1-8"><router-link to="/cancelLog/1"><font color="#fff">今日撤单日志</font></router-link></MenuItem>
                    <MenuItem  name="1-9"><router-link to="/dealOrder/1"><font color="#fff">今日成交</font></router-link></MenuItem>
-                  <MenuItem  name="1-10"><router-link to="/sellOrder/1"><font color="#fff">今日可卖</font></router-link></MenuItem>
-                  <MenuItem  name="1-11"><router-link to="/highStock/1"><font color="#fff">高位板</font></router-link></MenuItem>
+                   <MenuItem  name="1-10"><router-link to="/sellOrder/1"><font color="#fff">今日可卖</font></router-link></MenuItem>
+                   <MenuItem  name="1-11"><router-link to="/highStock/1"><font color="#fff">高位板</font></router-link></MenuItem>
                   <MenuItem  name="1-12"><router-link to="/dragonParam/1"><font color="#fff">龙头模式参数</font></router-link></MenuItem>
                   <MenuItem  name="1-13"><router-link to="/sellParam/1"><font color="#fff">卖出参数</font></router-link></MenuItem>
                   <MenuItem  name="1-14"><router-link to="/hotBlockStock/1"><font color="#fff">热门板块</font></router-link></MenuItem>
@@ -44,39 +53,38 @@
             </div>
             <template>
                 <div>
-                    <Button style="float:right" type="success" @click="modal1=true;show()">添加</Button>
+                  <Button style="float:right" type="info" @click="addAll()">一键禁止所有</Button>
                 </div>
-
             </template>
-            <Table border :columns="columns12" :data="data6">
-                <template slot-scope="{ row }" slot="tab">
+            <Table  border :columns="columns12" :data="data7">
+
+                <template  slot-scope="{ row }" slot="tab">
                     <strong>{{ row.tab }}</strong>
                 </template>
-                <template slot-scope="{ row, index }" slot="action">
-                    <Button type="primary" size="small" style="margin-right: 5px" @click="deleteInfo(index)">删除</Button>
-                </template>
-            </Table>
 
-            <template>
-                <Modal
-                    v-model="modal1"
-                    title="添加监听股票"
-                    @on-ok="ok"
-                    @on-cancel="cancel">
-                    <div>
-                        股票代码:<Input name= "param2" v-model="param2" placeholder="" style="width: 300px" />
-                    </div>
-                </Modal>
-            </template>
+                <template slot-scope="{ row, index }" slot="action">
+                    <Button v-if="row.disableInsertStatus ==0" type="primary" size="small" style="margin-right: 5px" @click="addOne(row.id)">禁止下单</Button>
+                    <Button v-if="row.disableInsertStatus ==1" type="primary" size="small" style="margin-right: 5px" @click="cancelOne(row.id)">取消禁止下单</Button>
+                </template>
+
+            </Table>
         </Layout>
     </div>
 </template>
 <script>
     export default {
         created () {
-            this.$api.get('singular/aggressiveListenPool/dataList', {pageNo:1,pageSize:100}, r => {
-                var infos = r.data;
-                 this.data6=infos;
+            this.$api.get('singular/highPlank/dataList', null, r => {
+              var infos = r.data;
+              infos.forEach(item => {
+                if(item.plankEndStatus==0){
+                  item.plankEndStatusStr = "封住";
+                }
+                if(item.plankEndStatus==1){
+                  item.plankEndStatusStr = "未封住";
+                }
+              })
+                this.data7 = infos;
             })
         },
         data () {
@@ -84,56 +92,66 @@
                 columns12: [
                     {
                         title: '股票代码',
-                        key: 'stockCode'
+                        key: 'stockCode',
+                        align: 'center'
                     },
                     {
                         title: '股票名称',
-                        key: 'stockName'
+                        key: 'name',
+                        align: 'center'
                     },
                     {
-                       title: '操作',
-                       slot: 'action',
-                       width: 150,
-                       align: 'center'
+                        title: '上板时间',
+                        key: 'onPlankTime',
+                        width: 150,
+                        align: 'center'
+                    },
+                    {
+                        title: '连板次数',
+                        key: 'plankTime',
+                        width: 150,
+                        align: 'center'
+                    },
+                    {
+                        title: '开板次数',
+                        key: 'openTime',
+                        width: 150,
+                        align: 'center'
+                    },
+                    {
+                        title: '最终是否封住',
+                        key: 'plankEndStatusStr',
+                        width: 150,
+                        align: 'center'
+                    },
+                    {
+                        title: 'Action',
+                        slot: 'action',
+                        width: 200,
+                        align: 'center'
                     }
                 ],
-                data6: [
+                data7: [
 
-                ],
-                 modal1: false
+                ]
             }
         },
         methods: {
-            search(){
-                var stockCode = this.param1;
-                if(stockCode){
-                  stockCode = stockCode;
-                }else{
-                  stockCode = null;
-                }
-                this.$api.get('singular/aggressiveListenPool/dataList', {stockCode:stockCode,pageNo:1,pageSize:100}, r => {
-                    var infoos = r.data;
-                    this.data6=infoos;
-                })
-            },
-            ok () {
-                var stockCodeAdd= this.param2
-                this.$api.get('singular/aggressiveListenPool/batchToPool', {stockCodeStr:stockCodeAdd}, r => {
-                    this.$Message.info("添加成功");
-                })
-                location.reload()
-            },
-            cancel () {
-               this.$Message.info($("param1").value)
-            },
-            deleteInfo(index){
-                var stockCodeStr = this.data6[index].stockCode;
-                this.$api.get('singular/aggressiveListenPool/deleteStockCode', {stockCode:stockCodeStr}, r => {
-                    this.$Message.info("删除成功");
-                    location.reload()
-                })
-            }
-
+          addAll() {
+            this.$api.get('singular/highPlank/addAll', {}, r => {
+            })
+            location.reload()
+          },
+          addOne(index) {
+            this.$api.get('singular/highPlank/addOne', {id:index}, r => {
+            })
+            location.reload()
+          },
+          cancelOne(index) {
+            this.$api.get('singular/highPlank/cancelOne', {id:index}, r => {
+            })
+            location.reload()
+          }
         }
     }
 </script>

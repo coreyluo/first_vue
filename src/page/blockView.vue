@@ -14,7 +14,7 @@
 <template>
     <div class="layout">
         <Sider :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
-            <Menu active-name="1-5" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
+            <Menu active-name="1-15" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
                 <Submenu name="1">
                     <template slot="title">
                         <Icon type="ios-navigate"></Icon>
@@ -44,7 +44,9 @@
             </div>
             <template>
                 <div>
-                    <Button style="float:right" type="success" @click="modal1=true;show()">添加</Button>
+                    <font style="font-weight:bold;font-size:15px;">板块代码或名称：</font><Input name= "param1" v-model="param1" placeholder="stockCode" style="width: 300px" />
+                    <Button type="primary" icon="ios-search" @click="search()">查询</Button>
+                     <Button style="float:right" type="primary" @click="prohibitAll()">禁止所有板块</Button>
                 </div>
 
             </template>
@@ -53,14 +55,15 @@
                     <strong>{{ row.tab }}</strong>
                 </template>
                 <template slot-scope="{ row, index }" slot="action">
-                    <Button type="primary" size="small" style="margin-right: 5px" @click="deleteInfo(index)">删除</Button>
+                    <Button  type="primary" size="small"  @click="prohibitBlock(row.id)">禁止下单</Button>
+                    <Button  type="error" size="small"  @click="allowBlock(row.id)">允许下单</Button>
                 </template>
             </Table>
 
             <template>
                 <Modal
                     v-model="modal1"
-                    title="添加监听股票"
+                    title="添加人工干预股票"
                     @on-ok="ok"
                     @on-cancel="cancel">
                     <div>
@@ -74,27 +77,31 @@
 <script>
     export default {
         created () {
-            this.$api.get('singular/aggressiveListenPool/dataList', {pageNo:1,pageSize:100}, r => {
+            this.$api.get('singular/blockView/listData', {blockCode:null}, r => {
                 var infos = r.data;
-                 this.data6=infos;
+                this.data6=infos;
             })
         },
         data () {
             return {
                 columns12: [
                     {
-                        title: '股票代码',
-                        key: 'stockCode'
+                        title: '板块代码',
+                        key: 'blockCode'
                     },
                     {
-                        title: '股票名称',
-                        key: 'stockName'
+                        title: '板块名称',
+                        key: 'blockName'
                     },
                     {
-                       title: '操作',
-                       slot: 'action',
-                       width: 150,
-                       align: 'center'
+                        title: '包含股票数量',
+                        key: 'totalCount'
+                    },
+                    {
+                        title: 'Action',
+                        slot: 'action',
+                        width: 300,
+                        align: 'center'
                     }
                 ],
                 data6: [
@@ -105,33 +112,32 @@
         },
         methods: {
             search(){
-                var stockCode = this.param1;
-                if(stockCode){
-                  stockCode = stockCode;
+                var blockCode = this.param1;
+                if(blockCode){
+                  blockCode = blockCode;
                 }else{
-                  stockCode = null;
+                  blockCode = null;
                 }
-                this.$api.get('singular/aggressiveListenPool/dataList', {stockCode:stockCode,pageNo:1,pageSize:100}, r => {
-                    var infoos = r.data;
-                    this.data6=infoos;
+                this.$api.get('singular/blockView/listData', {blockCode:blockCode}, r => {
+                    var infos = r.data;
+                    this.data6=infos;
                 })
             },
-            ok () {
-                var stockCodeAdd= this.param2
-                this.$api.get('singular/aggressiveListenPool/batchToPool', {stockCodeStr:stockCodeAdd}, r => {
-                    this.$Message.info("添加成功");
+
+            prohibitAll(){
+                this.$api.get('singular/blockView/prohibitAll', null, r => {
                 })
                 location.reload()
             },
-            cancel () {
-               this.$Message.info($("param1").value)
+            prohibitBlock(index){
+              this.$api.get('singular/blockView/prohibitBlock', {id:index}, r => {
+              })
+              location.reload()
             },
-            deleteInfo(index){
-                var stockCodeStr = this.data6[index].stockCode;
-                this.$api.get('singular/aggressiveListenPool/deleteStockCode', {stockCode:stockCodeStr}, r => {
-                    this.$Message.info("删除成功");
-                    location.reload()
-                })
+            allowBlock(index){
+              this.$api.get('singular/blockView/allowBlock', {id:index}, r => {
+              })
+              location.reload()
             }
 
         }

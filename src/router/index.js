@@ -10,6 +10,12 @@ import TargetParam from '@/page/targetParam'
 import CancelLog from '@/page/cancelLog'
 import DealOrder from '@/page/dealOrder'
 import SellOrder from '@/page/sellOrder'
+import HighStock from '@/page/highStock'
+import DragonParam from '@/page/dragonParam'
+import SellParam from '@/page/sellParam'
+import HotBlockStock from '@/page/hotBlockStock'
+import BlockView from '@/page/blockView'
+import OpenButton from '@/page/openButton'
 
 Vue.use(Router)
 
@@ -45,6 +51,24 @@ export default new Router({
     }, {
       path: '/sellOrder/:id',
       component: SellOrder
+    }, {
+      path: '/highStock/:id',
+      component: HighStock
+    }, {
+      path: '/dragonParam/:id',
+      component: DragonParam
+    }, {
+      path: '/sellParam/:id',
+      component: SellParam
+    }, {
+      path: '/hotBlockStock/:id',
+      component: HotBlockStock
+    }, {
+      path: '/blockView/:id',
+      component: BlockView
+    }, {
+      path: '/openButton/:id',
+      component: OpenButton
     }
 
   ]

@@ -57,6 +57,12 @@
                     <MenuItem  name="1-8"><router-link to="/cancelLog/1"><font color="#fff">今日撤单日志</font></router-link></MenuItem>
                   <MenuItem  name="1-9"><router-link to="/dealOrder/1"><font color="#fff">今日成交</font></router-link></MenuItem>
                   <MenuItem  name="1-10"><router-link to="/sellOrder/1"><font color="#fff">今日可卖</font></router-link></MenuItem>
+                  <MenuItem  name="1-11"><router-link to="/highStock/1"><font color="#fff">高位板</font></router-link></MenuItem>
+                  <MenuItem  name="1-12"><router-link to="/dragonParam/1"><font color="#fff">龙头模式参数</font></router-link></MenuItem>
+                  <MenuItem  name="1-13"><router-link to="/sellParam/1"><font color="#fff">卖出参数</font></router-link></MenuItem>
+                  <MenuItem  name="1-14"><router-link to="/hotBlockStock/1"><font color="#fff">热门板块</font></router-link></MenuItem>
+                  <MenuItem  name="1-15"><router-link to="/blockView/1"><font color="#fff">所有板块</font></router-link></MenuItem>
+                  <MenuItem  name="1-16"><router-link to="/openButton/1"><font color="#fff">开启策略按钮</font></router-link></MenuItem>
                 </Submenu>
             </Menu>
         </Sider>
@@ -69,6 +75,8 @@
                   <i class="remark" >{{remark1}}</i><i>&nbsp&nbsp&nbsp&nbsp</i><Button type="success" @click="modal2=true;showRemark(remark1,1)">修改描述</Button>
                   <tag v-if="inUse===1" class="in-use">正在使用</tag>
                   <tag v-else class="no-use">未启用</tag>
+                  <Button style="float:right" v-if="open1===1" type="error" @click="closeAllStrategy(1)">所有策略启用,请关闭</Button>
+                  <Button style="float:right" v-if="open1===0" type="primary" @click="openAllStrategy(1)">已经关闭某某些策略,请启用</Button>
 
                   <Button style="float:right" type="warning" @click="flushCache(1)">启用参数</Button>
                 </div>
@@ -91,6 +99,9 @@
                   <i class="remark" >{{remark2}}</i><i>&nbsp&nbsp&nbsp&nbsp</i><Button type="success" @click="modal2=true;showRemark(remark2,2)">修改描述</Button>
                   <tag v-if="inUse===2" class="in-use">正在使用</tag>
                   <tag class="no-use" v-else >未启用</tag>
+                  <Button style="float:right" v-if="open2===1" type="error" @click="closeAllStrategy(2)">所有策略启用,请关闭</Button>
+                  <Button style="float:right" v-if="open2===0" type="primary" @click="openAllStrategy(2)">已经关闭某某些策略,请启用</Button>
+
                   <Button style="float:right" type="warning" @click="flushCache(2)">启用参数</Button>
                 </div>
               </template>
@@ -112,6 +123,9 @@
                   <i class="remark" >{{remark3}}</i><i>&nbsp&nbsp&nbsp&nbsp</i><Button type="success" @click="modal2=true;showRemark(remark3,3)">修改描述</Button>
                   <tag v-if="inUse===3" class="in-use">正在使用</tag>
                   <tag class="no-use" v-else >未启用</tag>
+                  <Button style="float:right" v-if="open3===1" type="error" @click="closeAllStrategy(3)">所有策略启用,请关闭</Button>
+                  <Button style="float:right" v-if="open3===0" type="primary" @click="openAllStrategy(3)">已经关闭某某些策略,请启用</Button>
+
                   <Button style="float:right" type="warning" @click="flushCache(3)">启用参数</Button>
                 </div>
               </template>
@@ -133,6 +147,9 @@
                   <i class="remark" >{{remark4}}</i><i>&nbsp&nbsp&nbsp&nbsp</i><Button type="success" @click="modal2=true;showRemark(remark4,4)">修改描述</Button>
                   <tag v-if="inUse===4" class="in-use">正在使用</tag>
                   <tag class="no-use" v-else >未启用</tag>
+                  <Button style="float:right" v-if="open4===1" type="error" @click="closeAllStrategy(4)">所有策略启用,请关闭</Button>
+                  <Button style="float:right" v-if="open4===0" type="primary" @click="openAllStrategy(4)">已经关闭某某些策略,请启用</Button>
+
                   <Button style="float:right" type="warning" @click="flushCache(4)">启用参数</Button>
                 </div>
               </template>
@@ -171,7 +188,7 @@
                         买入（买一封单达到流通z的比例(万分)）:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<Input name= "param1" v-model="param1" placeholder="" style="width: 100px" />
                     </div>
                     <div>
-                        买入（卖一的数量小于多少手下单）:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<Input name= "param2" v-model="param2" placeholder="" style="width: 100px" />
+                        炮灰或者但前量大于多少直接不下单或者撤单(手):&nbsp&nbsp<Input name= "param2" v-model="param2" placeholder="" style="width: 100px" />
                     </div>
                     <div>
                         买入（炮灰量 单位:手）:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp   <Input name= "param3" v-model="param3" placeholder="" style="width: 100px" />
@@ -279,6 +296,19 @@
                       this.remark4=item.remark;
                     }
 
+                    if(item.sign==1){
+                      this.open1=item.openAll;
+                    }
+                    if(item.sign==2){
+                      this.open2=item.openAll;
+                    }
+                    if(item.sign==3){
+                      this.open3=item.openAll;
+                    }
+                    if(item.sign==4){
+                      this.open4=item.openAll;
+                    }
+
                   })
 
              })
@@ -298,7 +328,7 @@
                          align: 'center'
                      },
                      {
-                        title: '买入（卖一的数量小于多少手下单）',
+                        title: '炮灰或者但前量大于多少直接不下单或者撤单(手)',
                         key: 'soldOneQuantity',
                         align: 'center'
                      },
@@ -397,6 +427,10 @@
                  remark2:'暂时无描述',
                  remark3:'暂时无描述',
                  remark4:'暂时无描述',
+                 open1:0,
+                 open2:0,
+                 open3:0,
+                 open4:0,
                  indexId:0
              }
         },
@@ -462,6 +496,17 @@
               var remarkStr= this.param0;
               this.$api.post('singular/paramConfig/updateRemark', {sign:signIndex,remark:remarkStr}, r => {
                 this.$Message.info("刷新成功");
+                location.reload()
+              })
+            },
+
+            closeAllStrategy(signIndex){
+              this.$api.post('singular/paramConfig/closeAllStrategy', {sign:signIndex}, r => {
+                location.reload()
+              })
+            },
+            openAllStrategy(signIndex){
+              this.$api.post('singular/paramConfig/openAllStrategy', {sign:signIndex}, r => {
                 location.reload()
               })
             },
