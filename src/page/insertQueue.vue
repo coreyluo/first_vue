@@ -55,6 +55,9 @@
                 <template slot-scope="{ row }" slot="tab">
                     <strong>{{ row.tab }}</strong>
                 </template>
+                <template slot-scope="{ row, index }" slot="action">
+                  <Button type="error" size="small"  @click="removeJumpQueue(row.stockCode)">移除</Button>
+                </template>
             </Table>
 
             <template>
@@ -74,8 +77,16 @@
 <script>
     export default {
         created () {
-            this.$api.get('singular/disablePool/dataList', {pageNo:1,pageSize:100}, r => {
+            this.$api.get('singular/jumpQueue/listData', {}, r => {
                 var infos = r.data;
+                infos.forEach(item => {
+                  if(item.status==0){
+                    item.canInsert = "不允许";
+                  }
+                  if(item.status==1){
+                    item.canInsert = "允许";
+                  }
+                })
                  this.data6=infos;
             })
         },
@@ -89,6 +100,16 @@
                     {
                         title: '股票名称',
                         key: 'stockName'
+                    },
+                    {
+                      title: '是否允许插队',
+                      key: 'canInsert'
+                    },
+                    {
+                      title: 'Action',
+                      slot: 'action',
+                      width: 150,
+                      align: 'center'
                     }
                 ],
                 data6: [
@@ -105,47 +126,33 @@
                 }else{
                   stockCode = null;
                 }
-                this.$api.get('singular/disablePool/dataList', {stockCode:stockCode,pageNo:1,pageSize:100}, r => {
+                this.$api.get('singular/jumpQueue/listData', {stockCode:stockCode}, r => {
                     var infos = r.data;
-                     infos.forEach(item => {
-                        if(item.operateStatus==0){
-                          item.operateStatusStr = "系统操作";
-                        }
-                        if(item.operateStatus==1){
-                          item.operateStatusStr = "人工操作";
-                        }
-                     })
+                    infos.forEach(item => {
+                      if(item.status==0){
+                        item.canInsert = "不允许";
+                      }
+                      if(item.status==1){
+                        item.canInsert = "允许";
+                      }
+                    })
                      this.data6=infos;
                 })
             },
             ok () {
                 var stockCodeAdd= this.param2
-                this.$api.get('singular/disablePool/oneToPool', {stockCode:stockCodeAdd}, r => {
+                this.$api.get('singular/jumpQueue/addJumpQueue', {stockCode:stockCodeAdd}, r => {
                 })
                 location.reload()
             },
             cancel () {
                this.$Message.info($("param1").value)
             },
-            change(index) {
-                var stockCodeStr = this.data6[index].stockCode;
-                this.$api.get('singular/disablePool/changeOperateStatus', {stockCode:stockCodeStr}, r => {
-                })
-                location.reload()
+            removeJumpQueue (stockCodeRemove) {
+              this.$api.get('singular/jumpQueue/removeJumpQueue', {stockCode:stockCodeRemove}, r => {
+              })
+              location.reload()
             },
-            deleteInfo(index){
-                var primaryKey = this.data6[index].stockCode;
-                this.$api.get('singular/disablePool/removeStockCode', {stockCode:primaryKey}, r => {
-
-                });
-                location.reload()
-            },
-            removeAll(){
-                this.$api.get('singular/disablePool/deleteAll', null, r => {
-                })
-                location.reload()
-            }
-
         }
     }
 </script>
