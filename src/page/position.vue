@@ -44,8 +44,8 @@
             </div>
             <template>
               <div>
-                <button v-if="tradeStatus" style="float:right" type="warning" @click="changeTradeStatus()">禁止下单</Button>
-                <button v-if="!tradeStatus" style="float:right" type="primary" @click="changeTradeStatus()">启用下单</Button>
+                <Button v-if="tradeStatus" style="float:right" type="warning" @click="changeTradeStatus()">禁止下单</Button>
+                <Button v-if="!tradeStatus" style="float:right" type="primary" @click="changeTradeStatus()">启用下单</Button>
               </div>
             </template>
             <Table border :columns="columns13" :data="data7">
@@ -74,14 +74,13 @@
 <script>
    export default {
         created () {
-             this.$api.get('singular/command/listOrderPrice', null, r => {
+             this.$api.get('singular/tradeAccount/listOrderPrice', null, r => {
                   var infos = r.data;
                  this.data7 = infos
              })
             this.$api.get('singular/command/showTradeStatus', null, r => {
                 this.tradeStatus = r.data;
             })
-
         },
 
         data () {
@@ -120,7 +119,7 @@
              ok () {
                   var position= this.param1;
                   var changerId = this.indexId;
-                  this.$api.post('singular/command/changeOrderPrice', {id:changerId,position:position}, r => {
+                  this.$api.post('singular/tradeAccount/changeOrderPrice', {id:changerId,position:position}, r => {
 
                   })
                   location.reload();
