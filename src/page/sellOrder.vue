@@ -71,6 +71,10 @@
             return {
                 columns12: [
                     {
+                      title: '账号id',
+                      key: 'accountId'
+                    },
+                    {
                         title: '股票代码',
                         key: 'stockCode'
                     },

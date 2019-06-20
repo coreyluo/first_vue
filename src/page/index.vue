@@ -56,6 +56,7 @@
                 <template slot-scope="{ row, index }" slot="action">
                     <Button v-if="row.status==0" type="primary" size="small" @click="stopCancel(index)">停撤</Button>
                     <Button v-if="row.status==2" type="error" size="small" @click="resume(index)">恢复</Button>
+                    <Button v-if="row.status==0" type="error" size="small" @click="manHandleCancel(index)">执行撤单</Button>
                 </template>
             </Table>
         </Layout>
@@ -80,14 +81,17 @@
         data () {
             return {
                 columns12: [
-
+                    {
+                      title: '账号id',
+                      key: 'accountId'
+                    },
                     {
                         title: '股票代码',
                         key: 'stockCode'
                     },
                     {
                         title: '股票名称',
-                        key: 'ticketName'
+                        key: 'stockName'
                     },
                     {
                         title: '委托编号',
@@ -142,6 +146,12 @@
                     this.data6 = infos
                 })
             },
+            manHandleCancel(index){
+                var idStr = this.data6[index].id;
+                this.$api.get('singular/orderCancel/manHandleCancel', {id:idStr}, r => {
+                  location.reload()
+                })
+            }
 
         }
     }
