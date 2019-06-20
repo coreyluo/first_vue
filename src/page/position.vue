@@ -45,8 +45,8 @@
             </div>
             <template>
               <div>
-                <Button v-if="tradeStatus" style="float:right" type="warning" @click="changeTradeStatus()">禁止下单</Button>
-                <Button v-if="!tradeStatus" style="float:right" type="primary" @click="changeTradeStatus()">启用下单</Button>
+                <Button v-if="tradeStatus" style="float:right" type="primary" @click="changeTradeStatus()">已经开启,请禁用</Button>
+                <Button v-if="!tradeStatus" style="float:right" type="warning" @click="changeTradeStatus()">已经禁止,请开启</Button>
               </div>
             </template>
             <Table border :columns="columns13" :data="data7">
@@ -55,6 +55,9 @@
                 </template>
                 <template slot-scope="{ row, index }" slot="action">
                     <Button type="primary" size="small" style="margin-right: 5px" @click="modal1=true;show(index)">修改</Button>
+
+                    <Button v-if="row.accountStatus===1" style="float:right" type="warning" @click="changeAccountStatus(index,0)">已经禁止,请开启</Button>
+                    <Button v-if="row.accountStatus===0" style="float:right" type="primary" @click="changeAccountStatus(index,1)">已经开启,请禁用</Button>
                 </template>
 
             </Table>
@@ -100,7 +103,7 @@
                      {
                          title: '操作',
                          slot: 'action',
-                         width: 150,
+                         width: 350,
                          align: 'center'
                      }
                  ],
@@ -133,7 +136,14 @@
                this.$api.post('singular/command/changeTradeStatus', {}, r => {
                   this.tradeStatus = r.data
                })
-             }
+             },
+          changeAccountStatus (index,accountStatusStr){
+            var idVal=this.data7[index].id;
+              this.$api.post('singular/tradeAccount/changeAccountStatus', {id:idVal,accountStatus:accountStatusStr}, r => {
+                location.reload();
+              })
+
+            }
         }
    }
 </script>
