@@ -102,11 +102,14 @@
               <Button v-if="!openScareOpen"  type="primary" @click="changeButton(4)">恐慌开板已关闭,请开启</Button>
               <Button v-if="openScareOpen"  type="error" @click="changeButton(4)">恐慌开板已开启,请关闭</Button>
 
-              <Button v-if="!openOneLinePlankInsertOrder"  type="primary" @click="changeButton(5)">一字回封下单越过禁止下单已关闭,请开启</Button>
-              <Button v-if="openOneLinePlankInsertOrder"  type="error" @click="changeButton(5)">一字回封下单越过禁止下单池已开启,请关闭</Button>
+              <Button v-if="!openOneLinePlankInsertOrder"  type="primary" @click="changeButton(5)">一字回封下单越过禁止下单按钮已关闭,请开启</Button>
+              <Button v-if="openOneLinePlankInsertOrder"  type="error" @click="changeButton(5)">一字回封下单越过禁止下单按钮已开启,请关闭</Button>
 
               <Button v-if="!openSuperSpeed"  type="primary" @click="changeButton(6)">超级加速已关闭,请开启</Button>
               <Button v-if="openSuperSpeed"  type="error" @click="changeButton(6)">超级加速已开启,请关闭</Button>
+
+              <Button v-if="!openUniteCirculateInfo"  type="primary" @click="changeButton(7)">按照3亿流通z撤单已经关闭,请开启</Button>
+              <Button v-if="openUniteCirculateInfo"  type="error" @click="changeButton(7)">按照3亿流通z撤单已经开启,请关闭</Button>
             </div>
           </template>
 
@@ -123,7 +126,8 @@
              this.openTwoBigEntrust=r.data.openTwoBigEntrust,
              this.openScareOpen = r.data.openScareOpen,
              this.openOneLinePlankInsertOrder= r.data.openOneLinePlankInsertOrder,
-             this.openSuperSpeed= r.data.openSuperSpeed
+             this.openSuperSpeed= r.data.openSuperSpeed,
+             this.openUniteCirculateInfo = this.data.openUniteCirculateInfo
            });
 
         },
@@ -137,6 +141,7 @@
              openScareOpen:false,
              openOneLinePlankInsertOrder:true,
              openSuperSpeed:false,
+             openUniteCirculateInfo:false,
            }
         },
         methods: {
@@ -162,6 +167,9 @@
               if(index ==6){
                 this.openSuperSpeed = !(this.openSuperSpeed);
               }
+              if(index ==7){
+                this.openUniteCirculateInfo = !(this.openUniteCirculateInfo);
+              }
 
               var openLongLegFlag = this.openLongLeg;
               var openJumpInQueueFlag = this.openJumpInQueue;
@@ -170,7 +178,8 @@
               var openScareOpenFlag = this.openScareOpen;
               var openOneLinePlankInsertOrderFlag = this.openOneLinePlankInsertOrder;
               var openSuperSpeedFlag = this.openSuperSpeed;
-              this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag}, r => {
+              var openUniteCirculateInfoFlag = this.openUniteCirculateInfo;
+              this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag,openUniteCirculateInfo:openUniteCirculateInfoFlag}, r => {
                 location.reload()
               })
 
