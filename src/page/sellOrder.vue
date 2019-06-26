@@ -55,6 +55,8 @@
                 <template slot-scope="{ row, index }" slot="action">
                   <Button v-if="row.status ==0" type="primary" size="small"  @click="changeStatus(row.id)">停卖</Button>
                   <Button v-if="row.status ==1" type="error" size="small"  @click="changeStatus(row.id)">继续卖出</Button>
+                  <Button v-if="row.noSellFiveMinute" type="error" size="small"  @click="noSellFiveMinute(row.stockCode)">龙头5分钟已经禁卖,请允许</Button>
+                  <Button v-if="!row.noSellFiveMinute" type="primary" size="small"  @click="noSellFiveMinute(row.stockCode)">龙头5分钟未禁卖,请禁卖</Button>
                 </template>
             </Table>
         </Layout>
@@ -89,7 +91,7 @@
                     {
                       title: '操作',
                       slot: 'action',
-                      width: 150,
+                      width: 350,
                       align: 'center'
                     }
                 ],
@@ -111,8 +113,14 @@
 
             })
             location.reload()
-          }
+          },
+          noSellFiveMinute(stockCode){
+            this.$api.get('singular/sellAvailable/noSellFiveMinute', {stockCode:stockCode}, r => {
 
-        }
+            })
+            location.reload()
+          }
+        },
+
     }
 </script>

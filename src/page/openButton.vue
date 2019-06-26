@@ -127,7 +127,7 @@
              this.openScareOpen = r.data.openScareOpen,
              this.openOneLinePlankInsertOrder= r.data.openOneLinePlankInsertOrder,
              this.openSuperSpeed= r.data.openSuperSpeed,
-             this.openUniteCirculateInfo = this.data.openUniteCirculateInfo
+             this.openUniteCirculateInfo = r.data.openUniteCirculateInfo
            });
 
         },
