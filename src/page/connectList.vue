@@ -14,7 +14,7 @@
 <template>
     <div class="layout">
         <Sider :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
-            <Menu active-name="1-17" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
+            <Menu active-name="1-18" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
                 <Submenu name="1">
                     <template slot="title">
                         <Icon type="ios-navigate"></Icon>
@@ -29,7 +29,7 @@
                    <MenuItem  name="1-7"><router-link to="/targetParam/1"><font color="#fff">靶向参数</font></router-link></MenuItem>
                    <MenuItem  name="1-8"><router-link to="/cancelLog/1"><font color="#fff">今日撤单日志</font></router-link></MenuItem>
                    <MenuItem  name="1-9"><router-link to="/dealOrder/1"><font color="#fff">今日成交</font></router-link></MenuItem>
-                  <MenuItem  name="1-10"><router-link to="/sellOrder/1"><font color="#fff">今日可卖</font></router-link></MenuItem>
+                   <MenuItem  name="1-10"><router-link to="/sellOrder/1"><font color="#fff">今日可卖</font></router-link></MenuItem>
                   <MenuItem  name="1-11"><router-link to="/highStock/1"><font color="#fff">高位板</font></router-link></MenuItem>
                   <MenuItem  name="1-12"><router-link to="/dragonParam/1"><font color="#fff">龙头模式参数</font></router-link></MenuItem>
                   <MenuItem  name="1-13"><router-link to="/sellParam/1"><font color="#fff">卖出参数</font></router-link></MenuItem>
@@ -44,116 +44,60 @@
         <Layout :style="{marginLeft: '200px'}">
             <div style="height: 30px">
             </div>
-            <template>
-                <div>
-                    <font style="font-weight:bold;font-size:15px;">股票代码：</font><Input name= "param1" v-model="param1" placeholder="stockCode" style="width: 300px" />
-                    <Button type="primary" icon="ios-search" @click="search()">查询</Button>
-                     <Button style="float:right" type="success" @click="modal1=true;show()">添加</Button>
-                </div>
-            </template>
-
-            <Table border :columns="columns12" :data="data6">
+            <Table border :columns="columns12" :data="data7">
                 <template slot-scope="{ row }" slot="tab">
                     <strong>{{ row.tab }}</strong>
                 </template>
-                <template slot-scope="{ row, index }" slot="action">
-                  <Button type="error" size="small"  @click="removeJumpQueue(row.stockCode)">移除</Button>
-                </template>
             </Table>
-
-            <template>
-                <Modal
-                    v-model="modal1"
-                    title="添加允许插队股票"
-                    @on-ok="ok"
-                    @on-cancel="cancel">
-                    <div>
-                        股票代码:<Input name= "param2" v-model="param2" placeholder="" style="width: 300px" />
-                    </div>
-                </Modal>
-            </template>
         </Layout>
     </div>
 </template>
 <script>
     export default {
         created () {
-            this.$api.get('singular/jumpQueue/listData', {}, r => {
-                var infos = r.data;
-                infos.forEach(item => {
-                  if(item.status==0){
-                    item.canInsert = "不允许";
+            this.$api.get('singular/connect/getDataList', null, r => {
+                r.data.forEach(item => {
+                  if(item.connectId==0){
+                    item.connectStatusStr = "没有连接"
+                  }else{
+                    item.connectStatusStr = "正常"
                   }
-                  if(item.status==1){
-                    item.canInsert = "允许";
+
+                  if(item.accountType==1){
+                    item.connectTypeStr = "L1连接"
+                  } else if(item.accountType==2){
+                    item.connectTypeStr = "L2连接"
+                    item.connectStatusStr = "正常"
+                  }else if(item.accountType==3){
+                    item.connectTypeStr = "交易连接"
                   }
-                })
-                 this.data6=infos;
+                });
+                this.data7 = r.data;
             })
         },
         data () {
             return {
                 columns12: [
                     {
-                        title: '股票代码',
-                        key: 'stockCode'
+                      title: '账号id',
+                      key: 'accountId'
                     },
                     {
-                        title: '股票名称',
-                        key: 'stockName'
+                        title: '账号连接类型',
+                        key: 'connectTypeStr'
                     },
                     {
-                      title: '是否允许插队',
-                      key: 'canInsert'
-                    },
-                    {
-                      title: 'Action',
-                      slot: 'action',
-                      width: 150,
-                      align: 'center'
+                      title: '连接状态',
+                      key: 'connectStatusStr'
                     }
                 ],
-                data6: [
+                data7: [
 
-                ],
-                 modal1: false
+                ]
             }
         },
         methods: {
-            search(){
-                var stockCode = this.param1;
-                if(stockCode){
-                  stockCode = stockCode;
-                }else{
-                  stockCode = null;
-                }
-                this.$api.get('singular/jumpQueue/listData', {stockCode:stockCode}, r => {
-                    var infos = r.data;
-                    infos.forEach(item => {
-                      if(item.status==0){
-                        item.canInsert = "不允许";
-                      }
-                      if(item.status==1){
-                        item.canInsert = "允许";
-                      }
-                    })
-                     this.data6=infos;
-                })
-            },
-            ok () {
-                var stockCodeAdd= this.param2
-                this.$api.get('singular/jumpQueue/addJumpQueue', {stockCode:stockCodeAdd}, r => {
-                })
-                location.reload()
-            },
-            cancel () {
-               this.$Message.info($("param1").value)
-            },
-            removeJumpQueue (stockCodeRemove) {
-              this.$api.get('singular/jumpQueue/removeJumpQueue', {stockCode:stockCodeRemove}, r => {
-              })
-              location.reload()
-            },
-        }
+        },
+
     }
 </script>

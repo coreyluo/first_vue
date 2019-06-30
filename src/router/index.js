@@ -17,6 +17,7 @@ import HotBlockStock from '@/page/hotBlockStock'
 import BlockView from '@/page/blockView'
 import OpenButton from '@/page/openButton'
 import InsertQueue from '@/page/insertQueue'
+import ConnectList from '@/page/connectList'
 
 Vue.use(Router)
 
@@ -73,6 +74,9 @@ export default new Router({
     }, {
       path: '/insertQueue/:id',
       component: InsertQueue
+    }, {
+      path: '/connect/:id',
+      component: ConnectList
     }
 
   ]
