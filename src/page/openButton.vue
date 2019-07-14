@@ -122,6 +122,9 @@
             <div>
               <Button v-if="!openNineSecond"  type="primary" @click="changeButton(9)">单前量9s防爆头已关闭,请开启</Button>
               <Button v-if="openNineSecond"  type="error" @click="changeButton(9)">单前量9s防爆头已开启,请关闭</Button>
+
+              <Button v-if="!openNewWeakPlank"  type="primary" @click="changeButton(10)">卖一弱板已关闭,请开启</Button>
+              <Button v-if="openNewWeakPlank"  type="error" @click="changeButton(10)">卖一弱板已开启,请关闭</Button>
             </div>
           </template>
 
@@ -141,7 +144,8 @@
              this.openSuperSpeed= r.data.openSuperSpeed,
              this.openUniteCirculateInfo = r.data.openUniteCirculateInfo,
              this.openYesterdayHot = r.data.openYesterdayHot,
-             this.openNineSecond = r.data.openNineSecond
+             this.openNineSecond = r.data.openNineSecond,
+             this.openNewWeakPlank = r.data.openNewWeakPlank
            });
 
         },
@@ -157,7 +161,8 @@
              openSuperSpeed:false,
              openUniteCirculateInfo:false,
              openYesterdayHot:false,
-             openNineSecond:false
+             openNineSecond:false,
+             openNewWeakPlank:false
            }
         },
         methods: {
@@ -192,6 +197,9 @@
               if(index ==9){
                 this.openNineSecond = !(this.openNineSecond);
               }
+            if(index ==10){
+              this.openNewWeakPlank = !(this.openNewWeakPlank);
+            }
 
               var openLongLegFlag = this.openLongLeg;
               var openJumpInQueueFlag = this.openJumpInQueue;
@@ -203,7 +211,8 @@
               var openUniteCirculateInfoFlag = this.openUniteCirculateInfo;
               var openYesterdayHotFlag = this.openYesterdayHot;
               var openNineSecondFlag = this.openNineSecond;
-              this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag,openUniteCirculateInfo:openUniteCirculateInfoFlag,openYesterdayHot:openYesterdayHotFlag,openNineSecond:openNineSecondFlag}, r => {
+              var openNewWeakPlankFlag = this.openNewWeakPlank;
+              this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag,openUniteCirculateInfo:openUniteCirculateInfoFlag,openYesterdayHot:openYesterdayHotFlag,openNineSecond:openNineSecondFlag,openNewWeakPlank:openNewWeakPlankFlag}, r => {
                 location.reload()
               })
 

@@ -250,24 +250,27 @@
                   infos.forEach(item => {
                       item.insertCirculatezPercentStr=item.insertCirculatezPercent;
                       if(item.stockType==0){
-                        item.stockTypeStr = "1亿以下"
+                        item.stockTypeStr = "5000万以下"
                       }
                       if(item.stockType==1){
-                        item.stockTypeStr = "1-2亿"
+                        item.stockTypeStr = "5000万-1亿"
                       }
                       if(item.stockType==2){
-                        item.stockTypeStr = "2-3亿"
+                        item.stockTypeStr = "1-2亿"
                       }
                       if(item.stockType==3){
-                        item.stockTypeStr = "3-5.5亿"
+                        item.stockTypeStr = "2-3亿"
                       }
                       if(item.stockType==4){
-                        item.stockTypeStr = "5.5-8亿以上"
+                        item.stockTypeStr = "3-5.5亿"
                       }
                       if(item.stockType==5){
-                        item.stockTypeStr = "8-11亿以上"
+                        item.stockTypeStr = "5.5-8亿"
                       }
                       if(item.stockType==6){
+                        item.stockTypeStr = "8-11亿"
+                      }
+                      if(item.stockType==7){
                         item.stockTypeStr = "11亿以上"
                       }
                    })
