@@ -48,6 +48,9 @@
                 <template slot-scope="{ row }" slot="tab">
                     <strong>{{ row.tab }}</strong>
                 </template>
+                <template slot-scope="{ row, index }" slot="action">
+                  <Button type="primary" size="small" @click="resumeConnect(index)">重连</Button>
+                </template>
             </Table>
         </Layout>
     </div>
@@ -89,6 +92,12 @@
                     {
                       title: '连接状态',
                       key: 'connectStatusStr'
+                    },
+                    {
+                      title: 'Action',
+                      slot: 'action',
+                      width: 150,
+                      align: 'center'
                     }
                 ],
                 data7: [
@@ -97,6 +106,14 @@
             }
         },
         methods: {
+          resumeConnect (index) {
+            var accountIdStr = this.data7[index].accountId;
+            var accountTypeStr = this.data7[index].accountType;
+            var connectIdStr = this.data7[index].connectId;
+            this.$api.post('singular/connect/resume', {accountId:accountIdStr,accountType:accountTypeStr,connectId:connectIdStr}, r => {
+              location.reload()
+            })
+          }
         },
 
     }
