@@ -84,6 +84,9 @@
                  if(item.insertOrderType==1&&item.entrustStatus==1){
                    item.insertTypeStr="逐笔下单"
                  }
+                 if(item.orderStamp!=""&&item.beforeQuantity!=null){
+                   item.beforeQuantityStr = item.beforeQuantity/100
+                 }
               })
               this.data6 = infos
             })
@@ -110,6 +113,10 @@
                     {
                       title: '下单实际炮灰量',
                       key: 'realCannonQuantity'
+                    },
+                    {
+                      title: '下单实际单前量',
+                      key: 'beforeQuantityStr'
                     },
                     {
                       title: '下单方式',
@@ -168,6 +175,9 @@
                         }
                         if(item.insertOrderType==1&&item.entrustStatus==1){
                           item.insertTypeStr=="逐笔下单"
+                        }
+                        if(item.orderStamp!=null){
+                          item.beforeQuantityStr = item.beforeQuantity
                         }
                     })
                     this.data6 = infos
