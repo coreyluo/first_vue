@@ -75,6 +75,15 @@
                  if(item.status==2){
                    item.statusStr = "已经禁止撤单"
                  }
+                 if(item.insertOrderType==0){
+                   item.insertTypeStr="L1行情下单"
+                 }
+                 if(item.insertOrderType==1&&item.entrustStatus==0){
+                   item.insertTypeStr="L2行情下单"
+                 }
+                 if(item.insertOrderType==1&&item.entrustStatus==1){
+                   item.insertTypeStr="逐笔下单"
+                 }
               })
               this.data6 = infos
             })
@@ -101,6 +110,10 @@
                     {
                       title: '下单实际炮灰量',
                       key: 'realCannonQuantity'
+                    },
+                    {
+                      title: '下单方式',
+                      key: 'insertTypeStr'
                     },
                     {
                         title: '状态',
@@ -147,6 +160,15 @@
                        if(item.status==2){
                          item.statusStr = "已禁止撤单"
                        }
+                        if(item.insertOrderType==0){
+                          item.insertTypeStr=="L1行情下单"
+                        }
+                        if(item.insertOrderType==1&&item.entrustStatus==0){
+                          item.insertTypeStr=="L2行情下单"
+                        }
+                        if(item.insertOrderType==1&&item.entrustStatus==1){
+                          item.insertTypeStr=="逐笔下单"
+                        }
                     })
                     this.data6 = infos
                 })
