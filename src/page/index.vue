@@ -99,6 +99,10 @@
                         key: 'orderNo'
                     },
                     {
+                      title: '下单实际炮灰量',
+                      key: 'realCannonQuantity'
+                    },
+                    {
                         title: '状态',
                         key: 'statusStr'
                     },
