@@ -106,8 +106,7 @@
               <Button v-if="!openOneLinePlankInsertOrder"  type="primary" @click="changeButton(5)">一字回封下单越过禁止下单按钮已关闭,请开启</Button>
               <Button v-if="openOneLinePlankInsertOrder"  type="error" @click="changeButton(5)">一字回封下单越过禁止下单按钮已开启,请关闭</Button>
 
-              <Button v-if="!openSuperSpeed"  type="primary" @click="changeButton(6)">超级加速已关闭,请开启</Button>
-              <Button v-if="openSuperSpeed"  type="error" @click="changeButton(6)">超级加速已开启,请关闭</Button>
+
 
               <Button v-if="!openUniteCirculateInfo"  type="primary" @click="changeButton(7)">按照3亿流通撤单已关闭,请开启</Button>
               <Button v-if="openUniteCirculateInfo"  type="error" @click="changeButton(7)">按照3亿流通撤单已开启,请关闭</Button>
@@ -120,11 +119,25 @@
             <div class="blankRow">
             </div>
             <div>
+
+
               <Button v-if="!openNineSecond"  type="primary" @click="changeButton(9)">单前量9s防爆头已关闭,请开启</Button>
               <Button v-if="openNineSecond"  type="error" @click="changeButton(9)">单前量9s防爆头已开启,请关闭</Button>
 
               <Button v-if="!openNewWeakPlank"  type="primary" @click="changeButton(10)">卖一弱板已关闭,请开启</Button>
               <Button v-if="openNewWeakPlank"  type="error" @click="changeButton(10)">卖一弱板已开启,请关闭</Button>
+
+              <Button v-if="!openSuperSpeed"  type="primary" @click="changeButton(6)">开盘5分钟L1超级加速已关闭,请开启</Button>
+              <Button v-if="openSuperSpeed"  type="error" @click="changeButton(6)">开盘5分钟L1超级加速已开启,请关闭</Button>
+
+              <Button v-if="!openZhuBiSuperSpeed"  type="primary" @click="changeButton(11)">全天逐笔超级加速已关闭,请开启</Button>
+              <Button v-if="openZhuBiSuperSpeed"  type="error" @click="changeButton(11)">全天逐笔超级加速已开启,请关闭</Button>
+
+              <Button v-if="!openCancelSuperSpeed"  type="primary" @click="changeButton(12)">撤单0.5s已关闭,请开启</Button>
+              <Button v-if="openCancelSuperSpeed"  type="error" @click="changeButton(12)">撤单0.5s已开启,请关闭</Button>
+
+              <Button v-if="!openBeforeBigEntrust"  type="primary" @click="changeButton(13)">靶前大单撤单策略已关闭,请开启</Button>
+              <Button v-if="openBeforeBigEntrust"  type="error" @click="changeButton(13)">靶前大单撤单策略已开启,请关闭</Button>
             </div>
           </template>
 
@@ -145,7 +158,10 @@
              this.openUniteCirculateInfo = r.data.openUniteCirculateInfo,
              this.openYesterdayHot = r.data.openYesterdayHot,
              this.openNineSecond = r.data.openNineSecond,
-             this.openNewWeakPlank = r.data.openNewWeakPlank
+             this.openNewWeakPlank = r.data.openNewWeakPlank,
+             this.openZhuBiSuperSpeed = r.data.openZhuBiSuperSpeed,
+             this.openCancelSuperSpeed = r.data.openCancelSuperSpeed,
+             this.openBeforeBigEntrust = r.data.openBeforeBigEntrust
            });
 
         },
@@ -162,7 +178,10 @@
              openUniteCirculateInfo:false,
              openYesterdayHot:false,
              openNineSecond:false,
-             openNewWeakPlank:false
+             openNewWeakPlank:false,
+             openZhuBiSuperSpeed:false,
+             openCancelSuperSpeed:false,
+             openBeforeBigEntrust:false
            }
         },
         methods: {
@@ -200,6 +219,15 @@
             if(index ==10){
               this.openNewWeakPlank = !(this.openNewWeakPlank);
             }
+            if(index ==11){
+              this.openZhuBiSuperSpeed = !(this.openZhuBiSuperSpeed);
+            }
+            if(index ==12){
+              this.openCancelSuperSpeed = !(this.openCancelSuperSpeed);
+            }
+            if(index==13){
+                this.openBeforeBigEntrust = !(this.openBeforeBigEntrust);
+            }
 
               var openLongLegFlag = this.openLongLeg;
               var openJumpInQueueFlag = this.openJumpInQueue;
@@ -212,7 +240,10 @@
               var openYesterdayHotFlag = this.openYesterdayHot;
               var openNineSecondFlag = this.openNineSecond;
               var openNewWeakPlankFlag = this.openNewWeakPlank;
-              this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag,openUniteCirculateInfo:openUniteCirculateInfoFlag,openYesterdayHot:openYesterdayHotFlag,openNineSecond:openNineSecondFlag,openNewWeakPlank:openNewWeakPlankFlag}, r => {
+              var openZhuBiSuperSpeedFlag = this.openZhuBiSuperSpeed;
+              var openCancelSuperSpeedFlag = this.openCancelSuperSpeed;
+              var openBeforeBigEntrustFlag = this.openBeforeBigEntrust;
+              this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag,openUniteCirculateInfo:openUniteCirculateInfoFlag,openYesterdayHot:openYesterdayHotFlag,openNineSecond:openNineSecondFlag,openNewWeakPlank:openNewWeakPlankFlag,openZhuBiSuperSpeed:openZhuBiSuperSpeedFlag,openCancelSuperSpeed:openCancelSuperSpeedFlag,openBeforeBigEntrust:openBeforeBigEntrustFlag}, r => {
                 location.reload()
               })
 
