@@ -138,6 +138,9 @@
 
               <Button v-if="!openBeforeBigEntrust"  type="primary" @click="changeButton(13)">靶前大单撤单策略已关闭,请开启</Button>
               <Button v-if="openBeforeBigEntrust"  type="error" @click="changeButton(13)">靶前大单撤单策略已开启,请关闭</Button>
+
+              <Button v-if="!openNearBigEntrust"  type="primary" @click="changeButton(14)">靶附近大单撤单策略已关闭,请开启</Button>
+              <Button v-if="openNearBigEntrust"  type="error" @click="changeButton(14)">靶附近大单撤单策略已开启,请关闭</Button>
             </div>
           </template>
 
@@ -161,7 +164,8 @@
              this.openNewWeakPlank = r.data.openNewWeakPlank,
              this.openZhuBiSuperSpeed = r.data.openZhuBiSuperSpeed,
              this.openCancelSuperSpeed = r.data.openCancelSuperSpeed,
-             this.openBeforeBigEntrust = r.data.openBeforeBigEntrust
+             this.openBeforeBigEntrust = r.data.openBeforeBigEntrust,
+             this.openNearBigEntrust = r.data.openNearBigEntrust
            });
 
         },
@@ -181,7 +185,8 @@
              openNewWeakPlank:false,
              openZhuBiSuperSpeed:false,
              openCancelSuperSpeed:false,
-             openBeforeBigEntrust:false
+             openBeforeBigEntrust:false,
+             openNearBigEntrust:false,
            }
         },
         methods: {
@@ -228,6 +233,9 @@
             if(index==13){
                 this.openBeforeBigEntrust = !(this.openBeforeBigEntrust);
             }
+            if(index==14){
+              this.openNearBigEntrust = !(this.openNearBigEntrust);
+            }
 
               var openLongLegFlag = this.openLongLeg;
               var openJumpInQueueFlag = this.openJumpInQueue;
@@ -243,7 +251,8 @@
               var openZhuBiSuperSpeedFlag = this.openZhuBiSuperSpeed;
               var openCancelSuperSpeedFlag = this.openCancelSuperSpeed;
               var openBeforeBigEntrustFlag = this.openBeforeBigEntrust;
-              this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag,openUniteCirculateInfo:openUniteCirculateInfoFlag,openYesterdayHot:openYesterdayHotFlag,openNineSecond:openNineSecondFlag,openNewWeakPlank:openNewWeakPlankFlag,openZhuBiSuperSpeed:openZhuBiSuperSpeedFlag,openCancelSuperSpeed:openCancelSuperSpeedFlag,openBeforeBigEntrust:openBeforeBigEntrustFlag}, r => {
+              var openNearBigEntrustFlag = this.openNearBigEntrust;
+              this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag,openUniteCirculateInfo:openUniteCirculateInfoFlag,openYesterdayHot:openYesterdayHotFlag,openNineSecond:openNineSecondFlag,openNewWeakPlank:openNewWeakPlankFlag,openZhuBiSuperSpeed:openZhuBiSuperSpeedFlag,openCancelSuperSpeed:openCancelSuperSpeedFlag,openBeforeBigEntrust:openBeforeBigEntrustFlag,openNearBigEntrust:openNearBigEntrustFlag}, r => {
                 location.reload()
               })
 
