@@ -144,7 +144,17 @@
 
               <Button v-if="!openCallMarketInvestorListen"  type="primary" @click="changeButton(15)">集合庄股检测已关闭,请开启</Button>
               <Button v-if="openCallMarketInvestorListen"  type="error" @click="changeButton(15)">集合庄股检测已开启,请关闭</Button>
+
             </div>
+
+            <div class="blankRow">
+            </div>
+            <div>
+              <Button v-if="!open125MillionSpeed"  type="primary" @click="changeButton(16)">125ms加速已关闭,请开启</Button>
+              <Button v-if="open125MillionSpeed"  type="error" @click="changeButton(16)">125ms加速已开启,请关闭</Button>
+            </div>
+
+
           </template>
 
         </Layout>
@@ -169,7 +179,8 @@
              this.openCancelSuperSpeed = r.data.openCancelSuperSpeed,
              this.openBeforeBigEntrust = r.data.openBeforeBigEntrust,
              this.openNearBigEntrust = r.data.openNearBigEntrust,
-             this.openCallMarketInvestorListen=r.data.openCallMarketInvestorListen
+             this.openCallMarketInvestorListen=r.data.openCallMarketInvestorListen,
+             this.open125MillionSpeed=r.data.open125MillionSpeed
            });
 
         },
@@ -192,6 +203,7 @@
              openBeforeBigEntrust:false,
              openNearBigEntrust:false,
              openCallMarketInvestorListen:false,
+             open125MillionSpeed:false
            }
         },
         methods: {
@@ -244,6 +256,9 @@
             if(index==15){
               this.openCallMarketInvestorListen = !(this.openCallMarketInvestorListen);
             }
+            if(index==16){
+              this.open125MillionSpeed = !(this.open125MillionSpeed);
+            }
 
               var openLongLegFlag = this.openLongLeg;
               var openJumpInQueueFlag = this.openJumpInQueue;
@@ -261,7 +276,8 @@
               var openBeforeBigEntrustFlag = this.openBeforeBigEntrust;
               var openNearBigEntrustFlag = this.openNearBigEntrust;
               var openCallMarketInvestorListenFlag = this.openCallMarketInvestorListen;
-              this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag,openUniteCirculateInfo:openUniteCirculateInfoFlag,openYesterdayHot:openYesterdayHotFlag,openNineSecond:openNineSecondFlag,openNewWeakPlank:openNewWeakPlankFlag,openZhuBiSuperSpeed:openZhuBiSuperSpeedFlag,openCancelSuperSpeed:openCancelSuperSpeedFlag,openBeforeBigEntrust:openBeforeBigEntrustFlag,openNearBigEntrust:openNearBigEntrustFlag,openCallMarketInvestorListen:openCallMarketInvestorListenFlag}, r => {
+              var open125MillionSpeedFlag = this.open125MillionSpeed;
+              this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag,openUniteCirculateInfo:openUniteCirculateInfoFlag,openYesterdayHot:openYesterdayHotFlag,openNineSecond:openNineSecondFlag,openNewWeakPlank:openNewWeakPlankFlag,openZhuBiSuperSpeed:openZhuBiSuperSpeedFlag,openCancelSuperSpeed:openCancelSuperSpeedFlag,openBeforeBigEntrust:openBeforeBigEntrustFlag,openNearBigEntrust:openNearBigEntrustFlag,openCallMarketInvestorListen:openCallMarketInvestorListenFlag,open125MillionSpeed:open125MillionSpeedFlag}, r => {
                 location.reload()
               })
 
