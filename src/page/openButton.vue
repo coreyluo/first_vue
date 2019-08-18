@@ -152,6 +152,12 @@
             <div>
               <Button v-if="!open125MillionSpeed"  type="primary" @click="changeButton(16)">125ms加速已关闭,请开启</Button>
               <Button v-if="open125MillionSpeed"  type="error" @click="changeButton(16)">125ms加速已开启,请关闭</Button>
+
+              <Button v-if="!openBeforeQuantity"  type="primary" @click="changeButton(17)">单前量5万策略已关闭,请开启</Button>
+              <Button v-if="openBeforeQuantity"  type="error" @click="changeButton(17)">单前量5万策略已已开启,请关闭</Button>
+
+              <Button v-if="!openHighSellHelper"  type="primary" @click="changeButton(18)">33分前高点卖出小助手已关闭,请开启</Button>
+              <Button v-if="openHighSellHelper"  type="error" @click="changeButton(18)">33分前高点卖出小助手已开启,请关闭</Button>
             </div>
 
 
@@ -180,7 +186,9 @@
              this.openBeforeBigEntrust = r.data.openBeforeBigEntrust,
              this.openNearBigEntrust = r.data.openNearBigEntrust,
              this.openCallMarketInvestorListen=r.data.openCallMarketInvestorListen,
-             this.open125MillionSpeed=r.data.open125MillionSpeed
+             this.open125MillionSpeed=r.data.open125MillionSpeed,
+             this.openBeforeQuantity=r.data.openBeforeQuantity,
+               this.openHighSellHelper = r.data.openHighSellHelper
            });
 
         },
@@ -203,7 +211,9 @@
              openBeforeBigEntrust:false,
              openNearBigEntrust:false,
              openCallMarketInvestorListen:false,
-             open125MillionSpeed:false
+             open125MillionSpeed:false,
+             openBeforeQuantity:false,
+             openHighSellHelper:false
            }
         },
         methods: {
@@ -259,6 +269,12 @@
             if(index==16){
               this.open125MillionSpeed = !(this.open125MillionSpeed);
             }
+            if(index==17){
+              this.openBeforeQuantity = !(this.openBeforeQuantity);
+            }
+            if(index==18){
+              this.openHighSellHelper = !(this.openHighSellHelper);
+            }
 
               var openLongLegFlag = this.openLongLeg;
               var openJumpInQueueFlag = this.openJumpInQueue;
@@ -277,7 +293,9 @@
               var openNearBigEntrustFlag = this.openNearBigEntrust;
               var openCallMarketInvestorListenFlag = this.openCallMarketInvestorListen;
               var open125MillionSpeedFlag = this.open125MillionSpeed;
-              this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag,openUniteCirculateInfo:openUniteCirculateInfoFlag,openYesterdayHot:openYesterdayHotFlag,openNineSecond:openNineSecondFlag,openNewWeakPlank:openNewWeakPlankFlag,openZhuBiSuperSpeed:openZhuBiSuperSpeedFlag,openCancelSuperSpeed:openCancelSuperSpeedFlag,openBeforeBigEntrust:openBeforeBigEntrustFlag,openNearBigEntrust:openNearBigEntrustFlag,openCallMarketInvestorListen:openCallMarketInvestorListenFlag,open125MillionSpeed:open125MillionSpeedFlag}, r => {
+              var openBeforeQuantityFlag = this.openBeforeQuantity;
+              var openHighSellHelperFlag = this.openHighSellHelper;
+              this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag,openUniteCirculateInfo:openUniteCirculateInfoFlag,openYesterdayHot:openYesterdayHotFlag,openNineSecond:openNineSecondFlag,openNewWeakPlank:openNewWeakPlankFlag,openZhuBiSuperSpeed:openZhuBiSuperSpeedFlag,openCancelSuperSpeed:openCancelSuperSpeedFlag,openBeforeBigEntrust:openBeforeBigEntrustFlag,openNearBigEntrust:openNearBigEntrustFlag,openCallMarketInvestorListen:openCallMarketInvestorListenFlag,open125MillionSpeed:open125MillionSpeedFlag,openBeforeQuantity:openBeforeQuantityFlag,openHighSellHelper:openHighSellHelperFlag}, r => {
                 location.reload()
               })
 
