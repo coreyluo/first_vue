@@ -124,8 +124,8 @@
               <Button v-if="!openNineSecond"  type="primary" @click="changeButton(9)">单前量9s防爆头已关闭,请开启</Button>
               <Button v-if="openNineSecond"  type="error" @click="changeButton(9)">单前量9s防爆头已开启,请关闭</Button>
 
-              <Button v-if="!openNewWeakPlank"  type="primary" @click="changeButton(10)">卖一弱板已关闭,请开启</Button>
-              <Button v-if="openNewWeakPlank"  type="error" @click="changeButton(10)">卖一弱板已开启,请关闭</Button>
+              <Button v-if="!openNewWeakPlank"  type="primary" @click="changeButton(10)">卖一弱板3次已开启,请切换4次</Button>
+              <Button v-if="openNewWeakPlank"  type="error" @click="changeButton(10)">卖一弱板4次已开启,请切换3次</Button>
 
               <Button v-if="!openSuperSpeed"  type="primary" @click="changeButton(6)">开盘5分钟L1超级加速已关闭,请开启</Button>
               <Button v-if="openSuperSpeed"  type="error" @click="changeButton(6)">开盘5分钟L1超级加速已开启,请关闭</Button>
@@ -158,6 +158,12 @@
 
               <Button v-if="!openHighSellHelper"  type="primary" @click="changeButton(18)">33分前高点卖出小助手已关闭,请开启</Button>
               <Button v-if="openHighSellHelper"  type="error" @click="changeButton(18)">33分前高点卖出小助手已开启,请关闭</Button>
+
+              <Button v-if="!openCallMarketInsert"  type="primary" @click="changeButton(19)">集合竞价下单已关闭,请开启</Button>
+              <Button v-if="openCallMarketInsert"  type="error" @click="changeButton(19)">集合竞价下单已开启,请关闭</Button>
+
+              <Button v-if="!openBigSunDetailOrder"  type="primary" @click="changeButton(20)">大阳线逐笔介入已关闭,请开启</Button>
+              <Button v-if="openBigSunDetailOrder"  type="error" @click="changeButton(20)">大阳线逐笔介入下单已开启,请关闭</Button>
             </div>
 
 
@@ -188,7 +194,9 @@
              this.openCallMarketInvestorListen=r.data.openCallMarketInvestorListen,
              this.open125MillionSpeed=r.data.open125MillionSpeed,
              this.openBeforeQuantity=r.data.openBeforeQuantity,
-               this.openHighSellHelper = r.data.openHighSellHelper
+               this.openHighSellHelper = r.data.openHighSellHelper,
+               this.openCallMarketInsert = r.data.openCallMarketInsert,
+               this.openBigSunDetailOrder = r.data.openBigSunDetailOrder
            });
 
         },
@@ -213,7 +221,9 @@
              openCallMarketInvestorListen:false,
              open125MillionSpeed:false,
              openBeforeQuantity:false,
-             openHighSellHelper:false
+             openHighSellHelper:false,
+             openCallMarketInsert:false,
+             openBigSunDetailOrder:false
            }
         },
         methods: {
@@ -275,6 +285,12 @@
             if(index==18){
               this.openHighSellHelper = !(this.openHighSellHelper);
             }
+            if(index==19){
+              this.openCallMarketInsert = !(this.openCallMarketInsert);
+            }
+            if(index==20){
+              this.openBigSunDetailOrder = !(this.openBigSunDetailOrder);
+            }
 
               var openLongLegFlag = this.openLongLeg;
               var openJumpInQueueFlag = this.openJumpInQueue;
@@ -295,7 +311,9 @@
               var open125MillionSpeedFlag = this.open125MillionSpeed;
               var openBeforeQuantityFlag = this.openBeforeQuantity;
               var openHighSellHelperFlag = this.openHighSellHelper;
-              this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag,openUniteCirculateInfo:openUniteCirculateInfoFlag,openYesterdayHot:openYesterdayHotFlag,openNineSecond:openNineSecondFlag,openNewWeakPlank:openNewWeakPlankFlag,openZhuBiSuperSpeed:openZhuBiSuperSpeedFlag,openCancelSuperSpeed:openCancelSuperSpeedFlag,openBeforeBigEntrust:openBeforeBigEntrustFlag,openNearBigEntrust:openNearBigEntrustFlag,openCallMarketInvestorListen:openCallMarketInvestorListenFlag,open125MillionSpeed:open125MillionSpeedFlag,openBeforeQuantity:openBeforeQuantityFlag,openHighSellHelper:openHighSellHelperFlag}, r => {
+              var openCallMarketInsertFlag = this.openCallMarketInsert;
+              var openBigSunDetailOrderFlag = this.openBigSunDetailOrder;
+              this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag,openUniteCirculateInfo:openUniteCirculateInfoFlag,openYesterdayHot:openYesterdayHotFlag,openNineSecond:openNineSecondFlag,openNewWeakPlank:openNewWeakPlankFlag,openZhuBiSuperSpeed:openZhuBiSuperSpeedFlag,openCancelSuperSpeed:openCancelSuperSpeedFlag,openBeforeBigEntrust:openBeforeBigEntrustFlag,openNearBigEntrust:openNearBigEntrustFlag,openCallMarketInvestorListen:openCallMarketInvestorListenFlag,open125MillionSpeed:open125MillionSpeedFlag,openBeforeQuantity:openBeforeQuantityFlag,openHighSellHelper:openHighSellHelperFlag,openCallMarketInsert:openCallMarketInsertFlag,openBigSunDetailOrder:openBigSunDetailOrderFlag}, r => {
                 location.reload()
               })
 
