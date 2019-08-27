@@ -18,6 +18,8 @@ import BlockView from '@/page/blockView'
 import OpenButton from '@/page/openButton'
 import InsertQueue from '@/page/insertQueue'
 import ConnectList from '@/page/connectList'
+import AreaBlockView from '@/page/areaBlockView'
+
 
 Vue.use(Router)
 
@@ -77,6 +79,9 @@ export default new Router({
     }, {
       path: '/connect/:id',
       component: ConnectList
+    }, {
+      path: '/areaBlockView/:id',
+      component: AreaBlockView
     }
 
   ]

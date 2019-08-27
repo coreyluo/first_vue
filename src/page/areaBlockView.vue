@@ -14,7 +14,7 @@
 <template>
     <div class="layout">
         <Sider :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
-            <Menu active-name="1-8" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
+            <Menu active-name="1-19" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
                 <Submenu name="1">
                     <template slot="title">
                         <Icon type="ios-navigate"></Icon>
@@ -47,123 +47,92 @@
             </div>
             <template>
                 <div>
-                    <font style="font-weight:bold;font-size:15px;">股票代码：</font><Input name= "param1" v-model="param1" placeholder="stockCode" style="width: 300px" />
+                    <font style="font-weight:bold;font-size:15px;">区域代码：</font><Input name= "param1" v-model="param1" placeholder="areaCode" style="width: 300px" />
                     <Button type="primary" icon="ios-search" @click="search()">查询</Button>
+                     <Button style="float:right" type="primary" @click="prohibitAreaAll()">禁止当前查询区域所有股票</Button>
                 </div>
+
             </template>
             <Table border :columns="columns12" :data="data6">
                 <template slot-scope="{ row }" slot="tab">
                     <strong>{{ row.tab }}</strong>
                 </template>
-                <template slot-scope="{ row, index }" slot="action">
-                    <Button v-if="row.status==0" type="primary" size="small" @click="stopCancel(index)">停撤</Button>
-                    <Button v-if="row.status==2" type="error" size="small" @click="resume(index)">恢复</Button>
-                </template>
             </Table>
+
+            <template>
+                <Modal
+                    v-model="modal1"
+                    title="添加人工干预股票"
+                    @on-ok="ok"
+                    @on-cancel="cancel">
+                    <div>
+                        股票代码:<Input name= "param2" v-model="param2" placeholder="" style="width: 300px" />
+                    </div>
+                </Modal>
+            </template>
         </Layout>
     </div>
 </template>
 <script>
     export default {
         created () {
-            this.$api.get('singular/cancelLog/dataList', {pageNo:1,pageSize:50}, r => {
-               r.data.forEach(item => {
-                 if(item.success==0){
-                   item.successStr = "失败"
-                 }
-                 if(item.success==1){
-                   item.successStr = "成功"
-                 }
-                 if(item.strategyCode=="delay_circulatez_percent"){
-                   item.strategyCodeStr = "延迟流通z百分比策略"
-                 }else if(item.strategyCode=="third_second_transaction"){
-                   item.strategyCodeStr = "分时成交策略"
-                 }else if(item.strategyCode=="compare_by_last_sealing"){
-                   item.strategyCodeStr = "封单量大于下降至上次的一定比例撤单策略"
-                 }else if(item.strategyCode="detail_order_summary"){
-                   item.strategyCodeStr = "逐笔委托统计策略"
-                 }else{
-                   item.strategyCodeStr = "逐笔防爆头"
-                 }
-              });
-              this.data6 = r.data;
+            this.$api.get('singular/areaBlockView/listData', {areaCode:null}, r => {
+                var infos = r.data;
+                this.data6=infos;
             })
         },
         data () {
             return {
                 columns12: [
-
                     {
-                        title: '股票代码',
-                        key: 'stockCode'
+                        title: '区域代码',
+                        key: 'areaCode'
+                    },
+                    {
+                        title: '区域名称',
+                        key: 'areaName'
+                    },
+                    {
+                      title: '股票代码',
+                      key: 'stockCode'
                     },
                     {
                         title: '股票名称',
-                        key: 'ticketName'
-                    },
-                    {
-                        title: '撤单策略类型',
-                        key: 'strategyCodeStr'
-                    },
-                    {
-                        title: '撤单参数',
-                        key: 'strategyParam'
-                    },
-                    {
-                        title: '委托编号',
-                        key: 'orderNo'
-                    },
-                    {
-                        title: '是否成功',
-                        key: 'successStr'
-                    },
-                    {
-                        title: '撤单时间',
-                        key: 'createTime'
-                    },
-                    {
-                        title: '描述',
-                        key: 'message'
+                        key: 'stockName'
                     }
                 ],
                 data6: [
 
-                ]
+                ],
+                 modal1: false
             }
         },
         methods: {
-
             search(){
-                var stockCode = this.param1;
-                if(stockCode){
-                  stockCode = stockCode;
+                var blockCode = this.param1;
+                if(blockCode){
+                  blockCode = blockCode;
                 }else{
-                  stockCode = null;
+                  blockCode = null;
                 }
-                this.$api.get('singular/cancelLog/dataList', {stockCode:stockCode,pageNo:1,pageSize:50}, r => {
-                  r.data.forEach(item => {
-                    if(item.success==0){
-                      item.successStr = "失败"
-                    }
-                    if(item.success==1){
-                      item.successStr = "成功"
-                    }
-                    if(item.strategyCode=="delay_circulatez_percent"){
-                      item.strategyCodeStr = "延迟流通z百分比策略"
-                    }else if(item.strategyCode=="second_trade_quantity"){
-                      item.strategyCodeStr = "一秒成交量策略"
-                    }else if(item.strategyCode=="compare_by_last_sealing"){
-                      item.strategyCodeStr = "封单量大于下降至上次的一定比例撤单策略"
-                    }else if(item.strategyCode="target_four"){
-                      item.strategyCodeStr = "靶向四"
-                    }else if(item.strategyCode="detail_order_summary"){
-                      item.strategyCodeStr = "逐笔委托统计策略"
-                    }
-
-                  });
-                  this.data6 = r.data;
+                this.$api.get('singular/areaBlockView/listData', {areaCode:blockCode}, r => {
+                    var infos = r.data;
+                    this.data6=infos;
                 })
-            }
+            },
+
+            prohibitAreaAll(){
+                var blockCode = this.param1;
+                if(blockCode){
+                  blockCode = blockCode;
+                }else{
+                  blockCode = null;
+                }
+                this.$api.get('singular/areaBlockView/prohibitAreaAll', {areaCode:blockCode}, r => {
+                })
+                location.reload()
+            },
+
         }
     }
 </script>
