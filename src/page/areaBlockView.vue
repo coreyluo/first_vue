@@ -41,7 +41,7 @@
                   <MenuItem  name="1-19"><router-link to="/areaBlockView/1"><font color="#fff">地区板块</font></router-link></MenuItem>
                 </Submenu>
             </Menu>
-        </Sider>
+        </Sider>n
         <Layout :style="{marginLeft: '200px'}">
             <div style="height: 30px">
             </div>
@@ -49,7 +49,9 @@
                 <div>
                     <font style="font-weight:bold;font-size:15px;">区域代码：</font><Input name= "param1" v-model="param1" placeholder="areaCode" style="width: 300px" />
                     <Button type="primary" icon="ios-search" @click="search()">查询</Button>
-                     <Button style="float:right" type="primary" @click="prohibitAreaAll()">禁止当前查询区域所有股票</Button>
+
+                    <Button style="float:right" type="primary" @click="removeAreaAll()">移除当前查询区域所有股票</Button>
+                    <Button style="float:right" type="error" @click="prohibitAreaAll()">禁止当前查询区域所有股票</Button>
                 </div>
 
             </template>
@@ -128,10 +130,23 @@
                 }else{
                   blockCode = null;
                 }
-                this.$api.get('singular/areaBlockView/prohibitAreaAll', {areaCode:blockCode}, r => {
+                this.$api.get('singular/areaBlockView/prohibitAreaAll', {stockCode:blockCode}, r => {
                 })
                 location.reload()
             },
+
+
+          removeAreaAll(){
+            var blockCode = this.param1;
+            if(blockCode){
+              blockCode = blockCode;
+            }else{
+              blockCode = null;
+            }
+            this.$api.get('singular/areaBlockView/removeAreaAll', {stockCode:blockCode}, r => {
+            })
+            location.reload()
+          },
 
         }
     }
