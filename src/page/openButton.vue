@@ -167,7 +167,27 @@
               <Button v-if="openBigSunDetailOrder"  type="error" @click="changeButton(20)">大阳线逐笔介入下单已开启,请关闭</Button>
             </div>
 
+            <div class="blankRow">
+            </div>
 
+            <div>
+              <Button v-if="big2BMaxCirculate===0" type="primary" @click="modal1=true;show()">扫版流通z设置</Button>
+              <Button v-if="big2BMaxCirculate>0" type="error" @click="modal1=true;show()">扫版流通z设置</Button>
+            </div>
+
+
+          </template>
+
+          <template>
+            <Modal
+              v-model="modal1"
+              title="扫版流通z"
+              @on-ok="ok"
+              @on-cancel="cancel">
+              <div>
+                扫版流通z(单位:亿):<Input name= "param2" v-model="param2" placeholder="" style="width: 300px" />
+              </div>
+            </Modal>
           </template>
 
         </Layout>
@@ -197,7 +217,8 @@
              this.openBeforeQuantity=r.data.openBeforeQuantity,
                this.openHighSellHelper = r.data.openHighSellHelper,
                this.openCallMarketInsert = r.data.openCallMarketInsert,
-               this.openBigSunDetailOrder = r.data.openBigSunDetailOrder
+               this.openBigSunDetailOrder = r.data.openBigSunDetailOrder,
+               this.big2BMaxCirculate = r.data.big2BMaxCirculate
            });
 
         },
@@ -224,10 +245,14 @@
              openBeforeQuantity:false,
              openHighSellHelper:false,
              openCallMarketInsert:false,
-             openBigSunDetailOrder:false
+             openBigSunDetailOrder:false,
+             big2BMaxCirculate:0,
+             modal1: false
            }
+
         },
         methods: {
+
           changeButton (index) {
               if(index ==0){
                 this.openLongLeg = !(this.openLongLeg);
@@ -292,7 +317,6 @@
             if(index==20){
               this.openBigSunDetailOrder = !(this.openBigSunDetailOrder);
             }
-
               var openLongLegFlag = this.openLongLeg;
               var openJumpInQueueFlag = this.openJumpInQueue;
               var openNewPositionFlag = this.openNewPosition;
@@ -314,11 +338,27 @@
               var openHighSellHelperFlag = this.openHighSellHelper;
               var openCallMarketInsertFlag = this.openCallMarketInsert;
               var openBigSunDetailOrderFlag = this.openBigSunDetailOrder;
-              this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag,openUniteCirculateInfo:openUniteCirculateInfoFlag,openYesterdayHot:openYesterdayHotFlag,openNineSecond:openNineSecondFlag,openNewWeakPlank:openNewWeakPlankFlag,openZhuBiSuperSpeed:openZhuBiSuperSpeedFlag,openCancelSuperSpeed:openCancelSuperSpeedFlag,openBeforeBigEntrust:openBeforeBigEntrustFlag,openNearBigEntrust:openNearBigEntrustFlag,openCallMarketInvestorListen:openCallMarketInvestorListenFlag,open125MillionSpeed:open125MillionSpeedFlag,openBeforeQuantity:openBeforeQuantityFlag,openHighSellHelper:openHighSellHelperFlag,openCallMarketInsert:openCallMarketInsertFlag,openBigSunDetailOrder:openBigSunDetailOrderFlag}, r => {
+              var big2BMaxCirculateFlag = this.big2BMaxCirculate;
+              this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag,openUniteCirculateInfo:openUniteCirculateInfoFlag,openYesterdayHot:openYesterdayHotFlag,openNineSecond:openNineSecondFlag,openNewWeakPlank:openNewWeakPlankFlag,openZhuBiSuperSpeed:openZhuBiSuperSpeedFlag,openCancelSuperSpeed:openCancelSuperSpeedFlag,openBeforeBigEntrust:openBeforeBigEntrustFlag,openNearBigEntrust:openNearBigEntrustFlag,openCallMarketInvestorListen:openCallMarketInvestorListenFlag,open125MillionSpeed:open125MillionSpeedFlag,openBeforeQuantity:openBeforeQuantityFlag,openHighSellHelper:openHighSellHelperFlag,openCallMarketInsert:openCallMarketInsertFlag,openBigSunDetailOrder:openBigSunDetailOrderFlag,big2BMaxCirculate:big2BMaxCirculateFlag}, r => {
                 location.reload()
               })
 
             },
+
+            show () {
+              this.param2=this.big2BMaxCirculate;
+            },
+            ok () {
+
+              this.big2BMaxCirculate = this.param2
+              if(this.param===''){
+                this.big2BMaxCirculate = 0;
+              }
+              this.changeButton (30)
+            },
+            cancel () {
+              this.$Message.info($("param1").value)
+            }
         }
    }
 </script>
