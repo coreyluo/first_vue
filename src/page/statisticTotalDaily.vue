@@ -14,7 +14,7 @@
 <template>
     <div class="layout">
         <Sider :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
-            <Menu active-name="1-18" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
+            <Menu active-name="1-21" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
                 <Submenu name="1">
                     <template slot="title">
                         <Icon type="ios-navigate"></Icon>
@@ -29,7 +29,7 @@
                    <MenuItem  name="1-7"><router-link to="/targetParam/1"><font color="#fff">靶向参数</font></router-link></MenuItem>
                    <MenuItem  name="1-8"><router-link to="/cancelLog/1"><font color="#fff">今日撤单日志</font></router-link></MenuItem>
                    <MenuItem  name="1-9"><router-link to="/dealOrder/1"><font color="#fff">今日成交</font></router-link></MenuItem>
-                   <MenuItem  name="1-10"><router-link to="/sellOrder/1"><font color="#fff">今日可卖</font></router-link></MenuItem>
+                  <MenuItem  name="1-10"><router-link to="/sellOrder/1"><font color="#fff">今日可卖</font></router-link></MenuItem>
                   <MenuItem  name="1-11"><router-link to="/highStock/1"><font color="#fff">高位板</font></router-link></MenuItem>
                   <MenuItem  name="1-12"><router-link to="/dragonParam/1"><font color="#fff">龙头模式参数</font></router-link></MenuItem>
                   <MenuItem  name="1-13"><router-link to="/sellParam/1"><font color="#fff">卖出参数</font></router-link></MenuItem>
@@ -47,12 +47,27 @@
         <Layout :style="{marginLeft: '200px'}">
             <div style="height: 30px">
             </div>
-            <Table border :columns="columns12" :data="data7">
+            <template>
+                <div>
+                    <Col span="5">
+                      <font style="font-weight:bold;font-size:15px;">起始日期：</font><DatePicker format="yyyy-MM-dd"  @on-change="getStartTime" type="date" placeholder="Select date" style="width: 200px"></DatePicker>
+                    </Col>
+                    <Col span="5">
+                      <font style="font-weight:bold;font-size:15px;">结止日期：</font><DatePicker format="yyyy-MM-dd" @on-change="getEndTime"  type="date" placeholder="Select date" style="width: 200px"></DatePicker>
+                    </Col>
+
+                  <Button type="primary" icon="ios-search" @click="search()">查询</Button>
+
+                </div>
+
+            </template>
+            <Table border :columns="columns12" :data="data6">
                 <template slot-scope="{ row }" slot="tab">
                     <strong>{{ row.tab }}</strong>
                 </template>
                 <template slot-scope="{ row, index }" slot="action">
-                  <Button type="primary" size="small" @click="resumeConnect(index)">重连</Button>
+                    <Button v-if="row.status==0" type="primary" size="small" @click="stopCancel(index)">停撤</Button>
+                    <Button v-if="row.status==2" type="error" size="small" @click="resume(index)">恢复</Button>
                 </template>
             </Table>
         </Layout>
@@ -61,63 +76,106 @@
 <script>
     export default {
         created () {
-            this.$api.get('singular/connect/getDataList', null, r => {
-                r.data.forEach(item => {
-                  if(item.connectId==0){
-                    item.connectStatusStr = "没有连接"
-                  }else{
-                    item.connectStatusStr = "正常"
-                  }
+            this.$api.get('singular/statisticDaily/listTotal', {pageNo:1,pageSize:100}, r => {
+               r.data.forEach(item => {
 
-                  if(item.accountType==1){
-                    item.connectTypeStr = "L1连接"
-                  } else if(item.accountType==2){
-                    item.connectTypeStr = "L2连接"
-                    item.connectStatusStr = "正常"
-                  }else if(item.accountType==3){
-                    item.connectTypeStr = "交易连接"
-                  }
-                });
-                this.data7 = r.data;
+              });
+              this.data6 = r.data;
             })
         },
         data () {
             return {
                 columns12: [
-                    {
-                      title: '账号id',
-                      key: 'accountId'
-                    },
-                    {
-                        title: '账号连接类型',
-                        key: 'connectTypeStr'
-                    },
-                    {
-                      title: '连接状态',
-                      key: 'connectStatusStr'
-                    },
-                    {
-                      title: 'Action',
-                      slot: 'action',
-                      width: 150,
-                      align: 'center'
-                    }
-                ],
-                data7: [
 
-                ]
+                    {
+                        title: '交易日期',
+                        key: 'tradeDate'
+                    },
+                    {
+                        title: '总上板数',
+                        key: 'allPlank'
+                    },
+                    {
+                        title: '总封住数量',
+                        key: 'allNicePlank'
+                    },
+                    {
+                        title: '可以打板数',
+                        key: 'allInsertPlank'
+                    },
+                    {
+                      title: '可以打板封住数量',
+                      key: 'allNiceInsertPlank'
+                    },
+                    {
+                      title: '可以打一板数',
+                      key: 'allFirstInsertPlank'
+                    },
+                    {
+                      title: '可以打一板封住数量',
+                      key: 'allNiceFirstInsertPlank'
+                    },
+                    {
+                      title: '可以打二板数',
+                      key: 'allSecondInsertPlank'
+                    },
+                    {
+                      title: '可以打er板封住数量',
+                      key: 'allNiceSecondInsertPlank'
+                    },
+                    {
+                      title: '可以打三板数',
+                      key: 'allThirdInsertPlank'
+                    },
+                    {
+                      title: '可以打三板封住数量',
+                      key: 'allNiceThirdInsertPlank'
+                    },
+                    {
+                      title: '可以打四板数',
+                      key: 'allFourthInsertPlank'
+                    },
+                    {
+                      title: '可以打四板封住数量',
+                      key: 'allNiceFourthInsertPlank'
+                    },
+                    {
+                      title: '可以打五板数',
+                      key: 'allFifthInsertPlank'
+                    },
+                    {
+                      title: '可以打五板及以上封住数量',
+                      key: 'allNiceFifthInsertPlank'
+                    }
+
+                ],
+                data6: [
+
+                ],
+                dateStart:"",
+                dateEnd:""
             }
         },
         methods: {
-          resumeConnect (index) {
-            var accountIdStr = this.data7[index].accountId;
-            var accountTypeStr = this.data7[index].accountType;
-            var connectIdStr = this.data7[index].connectId;
-            this.$api.post('singular/connect/resume', {accountId:accountIdStr,accountType:accountTypeStr,connectId:connectIdStr}, r => {
-              location.reload()
-            })
-          }
-        },
 
+
+          getStartTime(starTime) {
+            this.dateStart = starTime;
+          },
+          getEndTime(endTime) {
+            this.dateEnd = endTime;
+          },
+
+
+          search(){
+                var tradeTimeStart = this.dateStart;
+                var tradeTimeEnd = this.dateEnd;
+                this.$api.get('singular/statisticDaily/listTotal', {createTimeFrom:tradeTimeStart,createTimeTo:tradeTimeEnd}, r => {
+                  r.data.forEach(item => {
+                  });
+                  this.data6 = r.data;
+                })
+            }
+        }
     }
 </script>

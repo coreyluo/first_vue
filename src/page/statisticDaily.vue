@@ -14,7 +14,7 @@
 <template>
     <div class="layout">
         <Sider :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
-            <Menu active-name="1-8" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
+            <Menu active-name="1-20" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
                 <Submenu name="1">
                     <template slot="title">
                         <Icon type="ios-navigate"></Icon>
@@ -50,8 +50,30 @@
             <template>
                 <div>
                     <font style="font-weight:bold;font-size:15px;">股票代码：</font><Input name= "param1" v-model="param1" placeholder="stockCode" style="width: 300px" />
-                    <Button type="primary" icon="ios-search" @click="search()">查询</Button>
+                  <font style="font-weight:bold;font-size:15px;">连板数：</font><Input name= "param2" v-model="param2" placeholder="板数" style="width: 300px" />
+
+                    <Col span="5">
+                      <font style="font-weight:bold;font-size:15px;">起始日期：</font><DatePicker format="yyyy-MM-dd"  @on-change="getStartTime" type="date" placeholder="Select date" style="width: 200px"></DatePicker>
+                    </Col>
+                    <Col span="5">
+                      <font style="font-weight:bold;font-size:15px;">结止日期：</font><DatePicker format="yyyy-MM-dd" @on-change="getEndTime"  type="date" placeholder="Select date" style="width: 200px"></DatePicker>
+                    </Col>
+
+                  <font style="font-weight:bold;font-size:15px;">是否成功封住：</font>
+                  <Dropdown trigger="click" @on-click="changeMenu">
+                    <a href="javascript:void(0)" name="all"  v-html='this.MenuText' >全部 <Icon type="ios-arrow-down"></Icon> </a>
+
+                    <DropdownMenu slot="list">
+                      <DropdownItem  name="all">全部</DropdownItem>
+                      <DropdownItem  name="plank">尾盘封住</DropdownItem>
+                      <DropdownItem  name="circulate">尾盘未封住</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+
+                  <Button type="primary" icon="ios-search" @click="search()">查询</Button>
+
                 </div>
+
             </template>
             <Table border :columns="columns12" :data="data6">
                 <template slot-scope="{ row }" slot="tab">
@@ -68,25 +90,15 @@
 <script>
     export default {
         created () {
-            this.$api.get('singular/cancelLog/dataList', {pageNo:1,pageSize:50}, r => {
+            this.$api.get('singular/statisticDaily/list', {pageNo:1,pageSize:100}, r => {
                r.data.forEach(item => {
-                 if(item.success==0){
-                   item.successStr = "失败"
+                 if(item.endStatus==0){
+                   item.endStatusName = "失败"
                  }
-                 if(item.success==1){
-                   item.successStr = "成功"
+                 if(item.endStatus==1){
+                   item.endStatusName = "成功"
                  }
-                 if(item.strategyCode=="delay_circulatez_percent"){
-                   item.strategyCodeStr = "延迟流通z百分比策略"
-                 }else if(item.strategyCode=="third_second_transaction"){
-                   item.strategyCodeStr = "分时成交策略"
-                 }else if(item.strategyCode=="compare_by_last_sealing"){
-                   item.strategyCodeStr = "封单量大于下降至上次的一定比例撤单策略"
-                 }else if(item.strategyCode="detail_order_summary"){
-                   item.strategyCodeStr = "逐笔委托统计策略"
-                 }else{
-                   item.strategyCodeStr = "逐笔防爆头"
-                 }
+
               });
               this.data6 = r.data;
             })
@@ -101,67 +113,87 @@
                     },
                     {
                         title: '股票名称',
-                        key: 'ticketName'
+                        key: 'stockName'
                     },
                     {
-                        title: '撤单策略类型',
-                        key: 'strategyCodeStr'
+                        title: '第几板',
+                        key: 'plankType'
                     },
                     {
-                        title: '撤单参数',
-                        key: 'strategyParam'
+                        title: '尾盘是否炸板',
+                        key: 'endStatusName'
                     },
                     {
-                        title: '委托编号',
-                        key: 'orderNo'
+                      title: '最高溢价',
+                      key: 'highest'
                     },
                     {
-                        title: '是否成功',
-                        key: 'successStr'
+                      title: '最低溢价',
+                      key: 'lowest'
                     },
                     {
-                        title: '撤单时间',
-                        key: 'createTime'
+                      title: '平均溢价',
+                      key: 'average'
                     },
                     {
-                        title: '描述',
-                        key: 'message'
+                      title: '交易日期',
+                      key: 'tradeDate'
                     }
+
                 ],
                 data6: [
 
-                ]
+                ],
+                dateStart:"",
+                dateEnd:"",
+                MenuText:'全部',
+                endStatus:null
+
             }
         },
         methods: {
 
-            search(){
+
+          changeMenu(name) {
+            if (name == 'all') {
+              this.MenuText = '全部';
+              this.endStatus = null;
+            } else if (name == 'plank') {
+              this.MenuText = '尾盘封住';
+              this.endStatus = 1;
+            } else {
+              this.MenuText = '尾盘未封住';
+              this.endStatus = 0;
+            }
+          },
+
+
+          getStartTime(starTime) {
+            this.dateStart = starTime;
+          },
+          getEndTime(endTime) {
+            this.dateEnd = endTime;
+          },
+
+
+          search(){
                 var stockCode = this.param1;
+                var plankType = this.param2;
+                var tradeTimeStart = this.dateStart;
+                var tradeTimeEnd = this.dateEnd;
                 if(stockCode){
                   stockCode = stockCode;
                 }else{
                   stockCode = null;
                 }
-                this.$api.get('singular/cancelLog/dataList', {stockCode:stockCode,pageNo:1,pageSize:50}, r => {
+                this.$api.get('singular/statisticDaily/list', {stockCode:stockCode,pageNo:1,pageSize:50,createTimeFrom:tradeTimeStart,createTimeTo:tradeTimeEnd,plankType:plankType,endStatus:this.endStatus}, r => {
                   r.data.forEach(item => {
-                    if(item.success==0){
-                      item.successStr = "失败"
+                    if(item.endStatus==0){
+                      item.endStatusName = "失败"
                     }
-                    if(item.success==1){
-                      item.successStr = "成功"
+                    if(item.endStatus==1){
+                      item.endStatusName = "成功"
                     }
-                    if(item.strategyCode=="delay_circulatez_percent"){
-                      item.strategyCodeStr = "延迟流通z百分比策略"
-                    }else if(item.strategyCode=="second_trade_quantity"){
-                      item.strategyCodeStr = "一秒成交量策略"
-                    }else if(item.strategyCode=="compare_by_last_sealing"){
-                      item.strategyCodeStr = "封单量大于下降至上次的一定比例撤单策略"
-                    }else if(item.strategyCode="target_four"){
-                      item.strategyCodeStr = "靶向四"
-                    }else if(item.strategyCode="detail_order_summary"){
-                      item.strategyCodeStr = "逐笔委托统计策略"
-                    }
-
                   });
                   this.data6 = r.data;
                 })

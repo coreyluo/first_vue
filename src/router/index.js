@@ -19,6 +19,8 @@ import OpenButton from '@/page/openButton'
 import InsertQueue from '@/page/insertQueue'
 import ConnectList from '@/page/connectList'
 import AreaBlockView from '@/page/areaBlockView'
+import StatisticDaily from '@/page/statisticDaily'
+import StatisticTotalDaily from '@/page/statisticTotalDaily'
 
 
 Vue.use(Router)
@@ -82,6 +84,12 @@ export default new Router({
     }, {
       path: '/areaBlockView/:id',
       component: AreaBlockView
+    }, {
+      path: '/statisticDaily/:id',
+      component: StatisticDaily
+    }, {
+      path: '/statisticTotalDaily/:id',
+      component: StatisticTotalDaily
     }
 
   ]
