@@ -175,8 +175,13 @@
             <div>
               <Button v-if="big2BMaxCirculate===0" type="primary" @click="modal1=true;show()">扫版流通z设置</Button>
               <Button v-if="big2BMaxCirculate>0" type="error" @click="modal1=true;show()">扫版流通z设置</Button>
-            </div>
 
+              <Button  type="primary" @click="modal3=true;show3()">阳线板下单次数设置{{generalPlankCount}}次</Button>
+
+              <Button  type="primary" @click="modal4=true;show4()">一字板下单次数设置{{oneLinePlankCount}}次</Button>
+
+              <Button  type="primary" @click="modal5=true;show5()">插队下单次数设置{{jumpQueueCount}}次</Button>
+            </div>
 
           </template>
 
@@ -188,6 +193,40 @@
               @on-cancel="cancel">
               <div>
                 扫版流通z(单位:亿):<Input name= "param2" v-model="param2" placeholder="" style="width: 300px" />
+              </div>
+            </Modal>
+          </template>
+
+          <template>
+            <Modal
+              v-model="modal3"
+              title="阳线板下单次数"
+              @on-ok="ok3"
+              @on-cancel="cancel3">
+              <div>
+                阳线板下单次数:<Input name= "param3" v-model="param3" placeholder="" style="width: 300px" />
+              </div>
+            </Modal>
+          </template>
+          <template>
+            <Modal
+              v-model="modal4"
+              title="一字板下单次数"
+              @on-ok="ok4"
+              @on-cancel="cancel4">
+              <div>
+                一字板下单次数:<Input name= "param4" v-model="param4" placeholder="" style="width: 300px" />
+              </div>
+            </Modal>
+          </template>
+          <template>
+            <Modal
+              v-model="modal5"
+              title="插队下单次数"
+              @on-ok="ok5"
+              @on-cancel="cancel5">
+              <div>
+                插队下单次数:<Input name= "param5" v-model="param5" placeholder="" style="width: 300px" />
               </div>
             </Modal>
           </template>
@@ -220,7 +259,10 @@
                this.openHighSellHelper = r.data.openHighSellHelper,
                this.openCallMarketInsert = r.data.openCallMarketInsert,
                this.openBigSunDetailOrder = r.data.openBigSunDetailOrder,
-               this.big2BMaxCirculate = r.data.big2BMaxCirculate
+               this.big2BMaxCirculate = r.data.big2BMaxCirculate,
+               this.generalPlankCount = r.data.generalPlankCount,
+               this.oneLinePlankCount =r.data.oneLinePlankCount,
+               this.jumpQueueCount = r.data.jumpQueueCount
            });
 
         },
@@ -249,7 +291,13 @@
              openCallMarketInsert:false,
              openBigSunDetailOrder:false,
              big2BMaxCirculate:0,
-             modal1: false
+             generalPlankCount:2,
+             oneLinePlankCount:2,
+             jumpQueueCount:1,
+             modal1: false,
+             modal3: false,
+             modal4: false,
+             modal5: false
            }
 
         },
@@ -341,7 +389,10 @@
               var openCallMarketInsertFlag = this.openCallMarketInsert;
               var openBigSunDetailOrderFlag = this.openBigSunDetailOrder;
               var big2BMaxCirculateFlag = this.big2BMaxCirculate;
-              this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag,openUniteCirculateInfo:openUniteCirculateInfoFlag,openYesterdayHot:openYesterdayHotFlag,openNineSecond:openNineSecondFlag,openNewWeakPlank:openNewWeakPlankFlag,openZhuBiSuperSpeed:openZhuBiSuperSpeedFlag,openCancelSuperSpeed:openCancelSuperSpeedFlag,openBeforeBigEntrust:openBeforeBigEntrustFlag,openNearBigEntrust:openNearBigEntrustFlag,openCallMarketInvestorListen:openCallMarketInvestorListenFlag,open125MillionSpeed:open125MillionSpeedFlag,openBeforeQuantity:openBeforeQuantityFlag,openHighSellHelper:openHighSellHelperFlag,openCallMarketInsert:openCallMarketInsertFlag,openBigSunDetailOrder:openBigSunDetailOrderFlag,big2BMaxCirculate:big2BMaxCirculateFlag}, r => {
+              var generalPlankCountFlag = this.generalPlankCount;
+              var oneLinePlankCountFlag = this.oneLinePlankCount;
+              var jumpQueueCountFlag = this.jumpQueueCount;
+              this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag,openUniteCirculateInfo:openUniteCirculateInfoFlag,openYesterdayHot:openYesterdayHotFlag,openNineSecond:openNineSecondFlag,openNewWeakPlank:openNewWeakPlankFlag,openZhuBiSuperSpeed:openZhuBiSuperSpeedFlag,openCancelSuperSpeed:openCancelSuperSpeedFlag,openBeforeBigEntrust:openBeforeBigEntrustFlag,openNearBigEntrust:openNearBigEntrustFlag,openCallMarketInvestorListen:openCallMarketInvestorListenFlag,open125MillionSpeed:open125MillionSpeedFlag,openBeforeQuantity:openBeforeQuantityFlag,openHighSellHelper:openHighSellHelperFlag,openCallMarketInsert:openCallMarketInsertFlag,openBigSunDetailOrder:openBigSunDetailOrderFlag,big2BMaxCirculate:big2BMaxCirculateFlag,generalPlankCount:generalPlankCountFlag,oneLinePlankCount:oneLinePlankCountFlag,jumpQueueCount:jumpQueueCountFlag}, r => {
                 location.reload()
               })
 
@@ -360,7 +411,51 @@
             },
             cancel () {
               this.$Message.info($("param1").value)
+            },
+
+          show3 () {
+            this.param3=this.generalPlankCount;
+          },
+          ok3 () {
+
+            this.generalPlankCount = this.param3
+            if(this.param===''){
+              this.generalPlankCount = 2;
             }
+            this.changeButton (31)
+          },
+          cancel3 () {
+            this.$Message.info($("param3").value)
+          },
+
+          show4 () {
+            this.param4=this.oneLinePlankCount;
+          },
+          ok4 () {
+
+            this.oneLinePlankCount = this.param4
+            if(this.param===''){
+              this.oneLinePlankCount = 2;
+            }
+            this.changeButton (32)
+          },
+          cancel4 () {
+            this.$Message.info($("param4").value)
+          },
+
+          show5 () {
+            this.param5=this.jumpQueueCount;
+          },
+          ok5 () {
+            this.jumpQueueCount = this.param5
+            if(this.param===''){
+              this.jumpQueueCount = 1;
+            }
+            this.changeButton (33)
+          },
+          cancel5 () {
+            this.$Message.info($("param5").value)
+          }
         }
    }
 </script>

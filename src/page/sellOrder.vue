@@ -61,8 +61,29 @@
                   <Button v-if="row.status ==1" type="error" size="small"  @click="changeStatus(row.id)">继续卖出</Button>
                   <Button v-if="row.noSellFiveMinute" type="error" size="small"  @click="noSellFiveMinute(row.stockCode)">龙头5分钟已经禁卖,请允许</Button>
                   <Button v-if="!row.noSellFiveMinute" type="primary" size="small"  @click="noSellFiveMinute(row.stockCode)">龙头5分钟未禁卖,请禁卖</Button>
+                  <Button v-if="row.sellCallAuction ==0" type="primary" size="small" @click="modal1=true;show(row.id,row.sellCallAuction)">集合卖出未开启,请开启</Button>
+                  <Button v-if="row.sellCallAuction !==0" type="error" size="small" @click="modal1=true;show(row.id,row.sellCallAuction)">集合卖出已开启,请关闭</Button>
                 </template>
             </Table>
+
+          <template>
+            <Modal
+              v-model="modal1"
+              title="比例"
+              @on-ok="ok"
+              @on-cancel="cancel">
+              <div>
+                <div>
+                  可&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp卖&nbsp&nbsp&nbsp&nbspid&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:<Input name= "param3" readonly="true" v-model="param3" placeholder="" style="width: 300px" />
+                </div>
+                <div>
+                  集合卖出比例:<Input name= "param2" v-model="param2" placeholder="" style="width: 300px" />
+                </div>
+
+              </div>
+            </Modal>
+          </template>
+
         </Layout>
     </div>
 </template>
@@ -95,13 +116,14 @@
                     {
                       title: '操作',
                       slot: 'action',
-                      width: 350,
+                      width: 550,
                       align: 'center'
                     }
                 ],
                 data7: [
 
-                ]
+                ],
+                modal1: false
             }
         },
         methods: {
@@ -123,6 +145,19 @@
 
             })
             location.reload()
+          },
+          show (id,rowPercent) {
+            this.param2=rowPercent;
+            this.param3=id;
+          },
+          ok () {
+            this.$api.get('singular/sellAvailable/sellCallAuction', {id:this.param3,percent:this.param2}, r => {
+
+            })
+            location.reload()
+          },
+          cancel () {
+            this.$Message.info($("param1").value)
           }
         },
 
