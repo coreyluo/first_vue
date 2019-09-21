@@ -63,21 +63,41 @@
                   <Button v-if="!row.noSellFiveMinute" type="primary" size="small"  @click="noSellFiveMinute(row.stockCode)">龙头5分钟未禁卖,请禁卖</Button>
                   <Button v-if="row.sellCallAuction ==0" type="primary" size="small" @click="modal1=true;show(row.id,row.sellCallAuction)">集合卖出未开启,请开启</Button>
                   <Button v-if="row.sellCallAuction !==0" type="error" size="small" @click="modal1=true;show(row.id,row.sellCallAuction)">集合卖出已开启,请关闭</Button>
+                  <Button v-if="row.sellFallV ==0" type="primary" size="small" @click="modal2=true;show2(row.id,row.sellFallV)">倒v卖出未开启,请开启</Button>
+                  <Button v-if="row.sellFallV !==0" type="error" size="small" @click="modal2=true;show2(row.id,row.sellFallV)">倒v卖出已开启,请关闭</Button>
                 </template>
             </Table>
 
           <template>
             <Modal
               v-model="modal1"
-              title="比例"
+              title="集合卖出比例"
               @on-ok="ok"
               @on-cancel="cancel">
               <div>
                 <div>
-                  可&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp卖&nbsp&nbsp&nbsp&nbspid&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:<Input name= "param3" readonly="true" v-model="param3" placeholder="" style="width: 300px" />
+                  可&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp卖&nbsp&nbsp&nbsp&nbspid&nbsp&nbsp:<Input name= "param3" readonly="true" v-model="param3" placeholder="" style="width: 300px" />
                 </div>
                 <div>
                   集合卖出比例:<Input name= "param2" v-model="param2" placeholder="" style="width: 300px" />
+                </div>
+
+              </div>
+            </Modal>
+          </template>
+
+          <template>
+            <Modal
+              v-model="modal2"
+              title="倒v卖出比例"
+              @on-ok="ok2"
+              @on-cancel="cancel2">
+              <div>
+                <div>
+                  可&nbsp&nbsp&nbsp&nbsp卖&nbsp&nbsp&nbsp&nbspid&nbsp&nbsp:<Input name= "param3" readonly="true" v-model="param21" placeholder="" style="width: 300px" />
+                </div>
+                <div>
+                  倒v卖出比例:<Input name= "param2" v-model="param22" placeholder="" style="width: 300px" />
                 </div>
 
               </div>
@@ -123,7 +143,8 @@
                 data7: [
 
                 ],
-                modal1: false
+                modal1: false,
+                modal2: false
             }
         },
         methods: {
@@ -157,6 +178,20 @@
             location.reload()
           },
           cancel () {
+            this.$Message.info($("param1").value)
+          },
+
+          show2 (id,rowPercent) {
+            this.param22=rowPercent;
+            this.param21=id;
+          },
+          ok2 () {
+            this.$api.get('singular/sellAvailable/sellFallV', {id:this.param21,percent:this.param22}, r => {
+
+            })
+            location.reload()
+          },
+          cancel2 () {
             this.$Message.info($("param1").value)
           }
         },
