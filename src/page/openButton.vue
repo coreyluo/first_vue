@@ -179,6 +179,8 @@
               <Button v-if="big2BMaxCirculate===0" type="primary" @click="modal1=true;show()">扫版流通z设置</Button>
               <Button v-if="big2BMaxCirculate>0" type="error" @click="modal1=true;show()">扫版流通z设置</Button>
 
+              <Button  type="primary" @click="modal6=true;show6()">{{disableOrderOverMinutes}}分钟后回封不打</Button>
+
               <Button  type="primary" @click="modal3=true;show3()">阳线板下单次数设置{{generalPlankCount}}次</Button>
 
               <Button  type="primary" @click="modal4=true;show4()">一字板下单次数设置{{oneLinePlankCount}}次</Button>
@@ -234,6 +236,18 @@
             </Modal>
           </template>
 
+          <template>
+            <Modal
+              v-model="modal6"
+              title="回封间隔时间"
+              @on-ok="ok6"
+              @on-cancel="cancel6">
+              <div>
+                回封间隔时间:<Input name= "param6" v-model="param6" placeholder="" style="width: 300px" />
+              </div>
+            </Modal>
+          </template>
+
         </Layout>
     </div>
 </template>
@@ -266,7 +280,8 @@
                this.big2BMaxCirculate = r.data.big2BMaxCirculate,
                this.generalPlankCount = r.data.generalPlankCount,
                this.oneLinePlankCount =r.data.oneLinePlankCount,
-               this.jumpQueueCount = r.data.jumpQueueCount
+               this.jumpQueueCount = r.data.jumpQueueCount,
+               this.disableOrderOverMinutes = r.data.disableOrderOverMinutes
            });
 
         },
@@ -299,10 +314,12 @@
              generalPlankCount:2,
              oneLinePlankCount:2,
              jumpQueueCount:1,
+             disableOrderOverMinutes:360,
              modal1: false,
              modal3: false,
              modal4: false,
-             modal5: false
+             modal5: false,
+             modal6:false
            }
 
         },
@@ -401,7 +418,8 @@
               var oneLinePlankCountFlag = this.oneLinePlankCount;
               var jumpQueueCountFlag = this.jumpQueueCount;
               var openBreakingOrderFlag = this.openBreakingOrder;
-              this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag,openUniteCirculateInfo:openUniteCirculateInfoFlag,openYesterdayHot:openYesterdayHotFlag,openNineSecond:openNineSecondFlag,openNewWeakPlank:openNewWeakPlankFlag,openZhuBiSuperSpeed:openZhuBiSuperSpeedFlag,openCancelSuperSpeed:openCancelSuperSpeedFlag,openBeforeBigEntrust:openBeforeBigEntrustFlag,openNearBigEntrust:openNearBigEntrustFlag,openCallMarketInvestorListen:openCallMarketInvestorListenFlag,open125MillionSpeed:open125MillionSpeedFlag,openBeforeQuantity:openBeforeQuantityFlag,openHighSellHelper:openHighSellHelperFlag,openCallMarketInsert:openCallMarketInsertFlag,openBigSunDetailOrder:openBigSunDetailOrderFlag,big2BMaxCirculate:big2BMaxCirculateFlag,generalPlankCount:generalPlankCountFlag,oneLinePlankCount:oneLinePlankCountFlag,jumpQueueCount:jumpQueueCountFlag,openBreakingOrder:openBreakingOrderFlag}, r => {
+              var disableOrderOverMinutesFlag = this.disableOrderOverMinutes;
+              this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag,openUniteCirculateInfo:openUniteCirculateInfoFlag,openYesterdayHot:openYesterdayHotFlag,openNineSecond:openNineSecondFlag,openNewWeakPlank:openNewWeakPlankFlag,openZhuBiSuperSpeed:openZhuBiSuperSpeedFlag,openCancelSuperSpeed:openCancelSuperSpeedFlag,openBeforeBigEntrust:openBeforeBigEntrustFlag,openNearBigEntrust:openNearBigEntrustFlag,openCallMarketInvestorListen:openCallMarketInvestorListenFlag,open125MillionSpeed:open125MillionSpeedFlag,openBeforeQuantity:openBeforeQuantityFlag,openHighSellHelper:openHighSellHelperFlag,openCallMarketInsert:openCallMarketInsertFlag,openBigSunDetailOrder:openBigSunDetailOrderFlag,big2BMaxCirculate:big2BMaxCirculateFlag,generalPlankCount:generalPlankCountFlag,oneLinePlankCount:oneLinePlankCountFlag,jumpQueueCount:jumpQueueCountFlag,openBreakingOrder:openBreakingOrderFlag,disableOrderOverMinutes:disableOrderOverMinutesFlag}, r => {
                 location.reload()
               })
 
@@ -464,6 +482,21 @@
           },
           cancel5 () {
             this.$Message.info($("param5").value)
+          },
+
+          show6 () {
+            this.param6=this.disableOrderOverMinutes;
+          },
+
+          ok6 () {
+            this.disableOrderOverMinutes = this.param6
+            if(this.param===''){
+              this.disableOrderOverMinutes = 360;
+            }
+            this.changeButton (34)
+          },
+          cancel6 () {
+            this.$Message.info($("param6").value)
           }
         }
    }
