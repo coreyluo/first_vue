@@ -127,8 +127,8 @@
               <Button v-if="!openNineSecond"  type="primary" @click="changeButton(9)">单前量9s防爆头已关闭,请开启</Button>
               <Button v-if="openNineSecond"  type="error" @click="changeButton(9)">单前量9s防爆头已开启,请关闭</Button>
 
-              <Button v-if="!openNewWeakPlank"  type="primary" @click="changeButton(10)">卖一弱板3次已开启,请切换4次</Button>
-              <Button v-if="openNewWeakPlank"  type="error" @click="changeButton(10)">卖一弱板4次已开启,请切换3次</Button>
+              <Button v-if="openNewWeakPlank"  type="primary" @click="changeButton(10)">卖一弱板3次已开启,请切换4次</Button>
+              <Button v-if="!openNewWeakPlank"  type="error" @click="changeButton(10)">卖一弱板4次已开启,请切换3次</Button>
 
               <Button v-if="!openSuperSpeed"  type="primary" @click="changeButton(6)">开盘5分钟L1超级加速已关闭,请开启</Button>
               <Button v-if="openSuperSpeed"  type="error" @click="changeButton(6)">开盘5分钟L1超级加速已开启,请关闭</Button>
