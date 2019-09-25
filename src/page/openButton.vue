@@ -170,6 +170,9 @@
 
               <Button v-if="!openBreakingOrder"  type="primary" @click="changeButton(21)">拆单已关闭,请开启</Button>
               <Button v-if="openBreakingOrder"  type="error" @click="changeButton(21)">拆单已开启,请关闭</Button>
+
+              <Button v-if="!openTradesCompare"  type="primary" @click="changeButton(22)">分时成交放量已关闭,请开启</Button>
+              <Button v-if="openTradesCompare"  type="error" @click="changeButton(22)">分时成交放量已开启,请关闭</Button>
             </div>
 
             <div class="blankRow">
@@ -273,6 +276,7 @@
              this.openCallMarketInvestorListen=r.data.openCallMarketInvestorListen,
              this.open125MillionSpeed=r.data.open125MillionSpeed,
              this.openBeforeQuantity=r.data.openBeforeQuantity,
+               this.openTradesCompare = r.data.openTradesCompare,
                this.openBreakingOrder = r.data.openBreakingOrder,
                this.openHighSellHelper = r.data.openHighSellHelper,
                this.openCallMarketInsert = r.data.openCallMarketInsert,
@@ -310,6 +314,7 @@
              openCallMarketInsert:false,
              openBigSunDetailOrder:false,
              openBreakingOrder:true,
+             openTradesCompare:false,
              big2BMaxCirculate:0,
              generalPlankCount:2,
              oneLinePlankCount:2,
@@ -392,6 +397,9 @@
             if(index==21){
               this.openBreakingOrder = !(this.openBreakingOrder);
             }
+            if(index =22){
+                this.openTradesCompare = !(this.openTradesCompare);
+            }
               var openLongLegFlag = this.openLongLeg;
               var openJumpInQueueFlag = this.openJumpInQueue;
               var openNewPositionFlag = this.openNewPosition;
@@ -419,7 +427,8 @@
               var jumpQueueCountFlag = this.jumpQueueCount;
               var openBreakingOrderFlag = this.openBreakingOrder;
               var disableOrderOverMinutesFlag = this.disableOrderOverMinutes;
-              this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag,openUniteCirculateInfo:openUniteCirculateInfoFlag,openYesterdayHot:openYesterdayHotFlag,openNineSecond:openNineSecondFlag,openNewWeakPlank:openNewWeakPlankFlag,openZhuBiSuperSpeed:openZhuBiSuperSpeedFlag,openCancelSuperSpeed:openCancelSuperSpeedFlag,openBeforeBigEntrust:openBeforeBigEntrustFlag,openNearBigEntrust:openNearBigEntrustFlag,openCallMarketInvestorListen:openCallMarketInvestorListenFlag,open125MillionSpeed:open125MillionSpeedFlag,openBeforeQuantity:openBeforeQuantityFlag,openHighSellHelper:openHighSellHelperFlag,openCallMarketInsert:openCallMarketInsertFlag,openBigSunDetailOrder:openBigSunDetailOrderFlag,big2BMaxCirculate:big2BMaxCirculateFlag,generalPlankCount:generalPlankCountFlag,oneLinePlankCount:oneLinePlankCountFlag,jumpQueueCount:jumpQueueCountFlag,openBreakingOrder:openBreakingOrderFlag,disableOrderOverMinutes:disableOrderOverMinutesFlag}, r => {
+              var openTradesCompareFlag = this.openTradesCompare;
+              this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag,openUniteCirculateInfo:openUniteCirculateInfoFlag,openYesterdayHot:openYesterdayHotFlag,openNineSecond:openNineSecondFlag,openNewWeakPlank:openNewWeakPlankFlag,openZhuBiSuperSpeed:openZhuBiSuperSpeedFlag,openCancelSuperSpeed:openCancelSuperSpeedFlag,openBeforeBigEntrust:openBeforeBigEntrustFlag,openNearBigEntrust:openNearBigEntrustFlag,openCallMarketInvestorListen:openCallMarketInvestorListenFlag,open125MillionSpeed:open125MillionSpeedFlag,openBeforeQuantity:openBeforeQuantityFlag,openHighSellHelper:openHighSellHelperFlag,openCallMarketInsert:openCallMarketInsertFlag,openBigSunDetailOrder:openBigSunDetailOrderFlag,big2BMaxCirculate:big2BMaxCirculateFlag,generalPlankCount:generalPlankCountFlag,oneLinePlankCount:oneLinePlankCountFlag,jumpQueueCount:jumpQueueCountFlag,openBreakingOrder:openBreakingOrderFlag,disableOrderOverMinutes:disableOrderOverMinutesFlag,openTradesCompare:openTradesCompareFlag}, r => {
                 location.reload()
               })
 
