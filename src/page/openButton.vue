@@ -130,8 +130,8 @@
               <Button v-if="openNewWeakPlank"  type="primary" @click="changeButton(10)">卖一弱板3次已开启,请切换4次</Button>
               <Button v-if="!openNewWeakPlank"  type="error" @click="changeButton(10)">卖一弱板4次已开启,请切换3次</Button>
 
-              <Button v-if="!openSuperSpeed"  type="primary" @click="changeButton(6)">开盘5分钟L1超级加速已关闭,请开启</Button>
-              <Button v-if="openSuperSpeed"  type="error" @click="changeButton(6)">开盘5分钟L1超级加速已开启,请关闭</Button>
+              <Button v-if="!openSuperSpeed"  type="primary" @click="changeButton(6)">上午L1超级加速已关闭,请开启</Button>
+              <Button v-if="openSuperSpeed"  type="error" @click="changeButton(6)">上午L1超级加速已开启,请关闭</Button>
 
               <Button v-if="!openZhuBiSuperSpeed"  type="primary" @click="changeButton(11)">全天逐笔超级加速已关闭,请开启</Button>
               <Button v-if="openZhuBiSuperSpeed"  type="error" @click="changeButton(11)">全天逐笔超级加速已开启,请关闭</Button>
@@ -189,6 +189,11 @@
               <Button  type="primary" @click="modal4=true;show4()">一字板下单次数设置{{oneLinePlankCount}}次</Button>
 
               <Button  type="primary" @click="modal5=true;show5()">插队下单次数设置{{jumpQueueCount}}次</Button>
+
+              <Button v-if="carryManySInto===0" type="primary" @click="modal7=true;show7()">抬轿大于多少流通z已关闭</Button>
+              <Button v-if="carryManySInto>0" type="error" @click="modal7=true;show7()"> 抬轿大于多少流通z已开启</Button>
+
+
             </div>
 
           </template>
@@ -251,6 +256,18 @@
             </Modal>
           </template>
 
+          <template>
+            <Modal
+              v-model="modal7"
+              title="抬轿大于多少流通z开启"
+              @on-ok="ok7"
+              @on-cancel="cancel7">
+              <div>
+                抬轿大于多少流通z开启:<Input name= "param7" v-model="param7" placeholder="" style="width: 300px" />
+              </div>
+            </Modal>
+          </template>
+
         </Layout>
     </div>
 </template>
@@ -285,7 +302,8 @@
                this.generalPlankCount = r.data.generalPlankCount,
                this.oneLinePlankCount =r.data.oneLinePlankCount,
                this.jumpQueueCount = r.data.jumpQueueCount,
-               this.disableOrderOverMinutes = r.data.disableOrderOverMinutes
+               this.disableOrderOverMinutes = r.data.disableOrderOverMinutes,
+               this.carryManySInto = r.data.carryManySInto
            });
 
         },
@@ -320,11 +338,13 @@
              oneLinePlankCount:2,
              jumpQueueCount:1,
              disableOrderOverMinutes:360,
+             carryManySInto:0,
              modal1: false,
              modal3: false,
              modal4: false,
              modal5: false,
-             modal6:false
+             modal6:false,
+             modal7:false
            }
 
         },
@@ -428,7 +448,8 @@
               var openBreakingOrderFlag = this.openBreakingOrder;
               var disableOrderOverMinutesFlag = this.disableOrderOverMinutes;
               var openTradesCompareFlag = this.openTradesCompare;
-              this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag,openUniteCirculateInfo:openUniteCirculateInfoFlag,openYesterdayHot:openYesterdayHotFlag,openNineSecond:openNineSecondFlag,openNewWeakPlank:openNewWeakPlankFlag,openZhuBiSuperSpeed:openZhuBiSuperSpeedFlag,openCancelSuperSpeed:openCancelSuperSpeedFlag,openBeforeBigEntrust:openBeforeBigEntrustFlag,openNearBigEntrust:openNearBigEntrustFlag,openCallMarketInvestorListen:openCallMarketInvestorListenFlag,open125MillionSpeed:open125MillionSpeedFlag,openBeforeQuantity:openBeforeQuantityFlag,openHighSellHelper:openHighSellHelperFlag,openCallMarketInsert:openCallMarketInsertFlag,openBigSunDetailOrder:openBigSunDetailOrderFlag,big2BMaxCirculate:big2BMaxCirculateFlag,generalPlankCount:generalPlankCountFlag,oneLinePlankCount:oneLinePlankCountFlag,jumpQueueCount:jumpQueueCountFlag,openBreakingOrder:openBreakingOrderFlag,disableOrderOverMinutes:disableOrderOverMinutesFlag,openTradesCompare:openTradesCompareFlag}, r => {
+              var carryManySIntoFlag = this.carryManySInto;
+              this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag,openUniteCirculateInfo:openUniteCirculateInfoFlag,openYesterdayHot:openYesterdayHotFlag,openNineSecond:openNineSecondFlag,openNewWeakPlank:openNewWeakPlankFlag,openZhuBiSuperSpeed:openZhuBiSuperSpeedFlag,openCancelSuperSpeed:openCancelSuperSpeedFlag,openBeforeBigEntrust:openBeforeBigEntrustFlag,openNearBigEntrust:openNearBigEntrustFlag,openCallMarketInvestorListen:openCallMarketInvestorListenFlag,open125MillionSpeed:open125MillionSpeedFlag,openBeforeQuantity:openBeforeQuantityFlag,openHighSellHelper:openHighSellHelperFlag,openCallMarketInsert:openCallMarketInsertFlag,openBigSunDetailOrder:openBigSunDetailOrderFlag,big2BMaxCirculate:big2BMaxCirculateFlag,generalPlankCount:generalPlankCountFlag,oneLinePlankCount:oneLinePlankCountFlag,jumpQueueCount:jumpQueueCountFlag,openBreakingOrder:openBreakingOrderFlag,disableOrderOverMinutes:disableOrderOverMinutesFlag,openTradesCompare:openTradesCompareFlag,carryManySInto:carryManySIntoFlag}, r => {
                 location.reload()
               })
 
@@ -506,6 +527,21 @@
           },
           cancel6 () {
             this.$Message.info($("param6").value)
+          },
+
+          show7 () {
+            this.param7=this.carryManySInto;
+          },
+
+          ok7 () {
+            this.carryManySInto = this.param7
+            if(this.param===''){
+              this.carryManySInto = 0;
+            }
+            this.changeButton (35)
+          },
+          cancel7 () {
+            this.$Message.info($("param7").value)
           }
         }
    }
