@@ -397,7 +397,7 @@
             if(index==21){
               this.openBreakingOrder = !(this.openBreakingOrder);
             }
-            if(index =22){
+            if(index ==22){
                 this.openTradesCompare = !(this.openTradesCompare);
             }
               var openLongLegFlag = this.openLongLeg;
