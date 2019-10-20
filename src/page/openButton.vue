@@ -193,6 +193,9 @@
               <Button v-if="carryManySInto===0" type="primary" @click="modal7=true;show7()">抬轿大于多少流通z已关闭</Button>
               <Button v-if="carryManySInto>0" type="error" @click="modal7=true;show7()"> 抬轿大于多少流通z已开启</Button>
 
+              <Button v-if="sweepPlankCirculate===0" type="primary" @click="modal8=true;show8()">新版扫版已关闭,请开启</Button>
+              <Button v-if="sweepPlankCirculate>0" type="error" @click="modal8=true;show8()"> 新版扫版已开启,请关闭</Button>
+
 
             </div>
 
@@ -268,6 +271,18 @@
             </Modal>
           </template>
 
+          <template>
+            <Modal
+              v-model="modal8"
+              title="抬轿大于多少流通z开启"
+              @on-ok="ok8"
+              @on-cancel="cancel8">
+              <div>
+                抬轿大于多少流通z开启:<Input name= "param8" v-model="param8" placeholder="" style="width: 300px" />
+              </div>
+            </Modal>
+          </template>
+
         </Layout>
     </div>
 </template>
@@ -303,7 +318,8 @@
                this.oneLinePlankCount =r.data.oneLinePlankCount,
                this.jumpQueueCount = r.data.jumpQueueCount,
                this.disableOrderOverMinutes = r.data.disableOrderOverMinutes,
-               this.carryManySInto = r.data.carryManySInto
+               this.carryManySInto = r.data.carryManySInto,
+               this.sweepPlankCirculate = r.data.sweepPlankCirculate
            });
 
         },
@@ -339,12 +355,14 @@
              jumpQueueCount:1,
              disableOrderOverMinutes:360,
              carryManySInto:0,
+             sweepPlankCirculate:0,
              modal1: false,
              modal3: false,
              modal4: false,
              modal5: false,
              modal6:false,
-             modal7:false
+             modal7:false,
+             modal8:false
            }
 
         },
@@ -449,7 +467,8 @@
               var disableOrderOverMinutesFlag = this.disableOrderOverMinutes;
               var openTradesCompareFlag = this.openTradesCompare;
               var carryManySIntoFlag = this.carryManySInto;
-              this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag,openUniteCirculateInfo:openUniteCirculateInfoFlag,openYesterdayHot:openYesterdayHotFlag,openNineSecond:openNineSecondFlag,openNewWeakPlank:openNewWeakPlankFlag,openZhuBiSuperSpeed:openZhuBiSuperSpeedFlag,openCancelSuperSpeed:openCancelSuperSpeedFlag,openBeforeBigEntrust:openBeforeBigEntrustFlag,openNearBigEntrust:openNearBigEntrustFlag,openCallMarketInvestorListen:openCallMarketInvestorListenFlag,open125MillionSpeed:open125MillionSpeedFlag,openBeforeQuantity:openBeforeQuantityFlag,openHighSellHelper:openHighSellHelperFlag,openCallMarketInsert:openCallMarketInsertFlag,openBigSunDetailOrder:openBigSunDetailOrderFlag,big2BMaxCirculate:big2BMaxCirculateFlag,generalPlankCount:generalPlankCountFlag,oneLinePlankCount:oneLinePlankCountFlag,jumpQueueCount:jumpQueueCountFlag,openBreakingOrder:openBreakingOrderFlag,disableOrderOverMinutes:disableOrderOverMinutesFlag,openTradesCompare:openTradesCompareFlag,carryManySInto:carryManySIntoFlag}, r => {
+              var sweepPlankCirculateFlag = this.sweepPlankCirculate;
+              this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag,openUniteCirculateInfo:openUniteCirculateInfoFlag,openYesterdayHot:openYesterdayHotFlag,openNineSecond:openNineSecondFlag,openNewWeakPlank:openNewWeakPlankFlag,openZhuBiSuperSpeed:openZhuBiSuperSpeedFlag,openCancelSuperSpeed:openCancelSuperSpeedFlag,openBeforeBigEntrust:openBeforeBigEntrustFlag,openNearBigEntrust:openNearBigEntrustFlag,openCallMarketInvestorListen:openCallMarketInvestorListenFlag,open125MillionSpeed:open125MillionSpeedFlag,openBeforeQuantity:openBeforeQuantityFlag,openHighSellHelper:openHighSellHelperFlag,openCallMarketInsert:openCallMarketInsertFlag,openBigSunDetailOrder:openBigSunDetailOrderFlag,big2BMaxCirculate:big2BMaxCirculateFlag,generalPlankCount:generalPlankCountFlag,oneLinePlankCount:oneLinePlankCountFlag,jumpQueueCount:jumpQueueCountFlag,openBreakingOrder:openBreakingOrderFlag,disableOrderOverMinutes:disableOrderOverMinutesFlag,openTradesCompare:openTradesCompareFlag,carryManySInto:carryManySIntoFlag,sweepPlankCirculate:sweepPlankCirculateFlag}, r => {
                 location.reload()
               })
 
@@ -542,6 +561,22 @@
           },
           cancel7 () {
             this.$Message.info($("param7").value)
+          },
+
+
+          show8 () {
+            this.param8=this.sweepPlankCirculate;
+          },
+
+          ok8 () {
+            this.sweepPlankCirculate = this.param8
+            if(this.param===''){
+              this.sweepPlankCirculate = 0;
+            }
+            this.changeButton (35)
+          },
+          cancel8 () {
+            this.$Message.info($("param8").value)
           }
         }
    }
