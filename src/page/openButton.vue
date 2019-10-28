@@ -173,6 +173,9 @@
 
               <Button v-if="!openTradesCompare"  type="primary" @click="changeButton(22)">分时成交放量已关闭,请开启</Button>
               <Button v-if="openTradesCompare"  type="error" @click="changeButton(22)">分时成交放量已开启,请关闭</Button>
+
+              <Button v-if="!dragonHeadSwitch"  type="primary" @click="changeButton(23)">打爆当日跟风已关闭,请开启</Button>
+              <Button v-if="dragonHeadSwitch"  type="error" @click="changeButton(23)">打爆当日跟风已开启,请关闭</Button>
             </div>
 
             <div class="blankRow">
@@ -274,11 +277,11 @@
           <template>
             <Modal
               v-model="modal8"
-              title="抬轿大于多少流通z开启"
+              title="新版扫版大于多少流通z开启"
               @on-ok="ok8"
               @on-cancel="cancel8">
               <div>
-                抬轿大于多少流通z开启:<Input name= "param8" v-model="param8" placeholder="" style="width: 300px" />
+                新版扫版大于多少流通z开启:<Input name= "param8" v-model="param8" placeholder="" style="width: 300px" />
               </div>
             </Modal>
           </template>
@@ -319,7 +322,8 @@
                this.jumpQueueCount = r.data.jumpQueueCount,
                this.disableOrderOverMinutes = r.data.disableOrderOverMinutes,
                this.carryManySInto = r.data.carryManySInto,
-               this.sweepPlankCirculate = r.data.sweepPlankCirculate
+               this.sweepPlankCirculate = r.data.sweepPlankCirculate,
+             this.dragonHeadSwitch = r.data.dragonHeadSwitch
            });
 
         },
@@ -356,6 +360,7 @@
              disableOrderOverMinutes:360,
              carryManySInto:0,
              sweepPlankCirculate:0,
+             dragonHeadSwitch:true,
              modal1: false,
              modal3: false,
              modal4: false,
@@ -438,6 +443,9 @@
             if(index ==22){
                 this.openTradesCompare = !(this.openTradesCompare);
             }
+            if(index ==23){
+              this.dragonHeadSwitch = !(this.dragonHeadSwitch);
+            }
               var openLongLegFlag = this.openLongLeg;
               var openJumpInQueueFlag = this.openJumpInQueue;
               var openNewPositionFlag = this.openNewPosition;
@@ -468,7 +476,8 @@
               var openTradesCompareFlag = this.openTradesCompare;
               var carryManySIntoFlag = this.carryManySInto;
               var sweepPlankCirculateFlag = this.sweepPlankCirculate;
-              this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag,openUniteCirculateInfo:openUniteCirculateInfoFlag,openYesterdayHot:openYesterdayHotFlag,openNineSecond:openNineSecondFlag,openNewWeakPlank:openNewWeakPlankFlag,openZhuBiSuperSpeed:openZhuBiSuperSpeedFlag,openCancelSuperSpeed:openCancelSuperSpeedFlag,openBeforeBigEntrust:openBeforeBigEntrustFlag,openNearBigEntrust:openNearBigEntrustFlag,openCallMarketInvestorListen:openCallMarketInvestorListenFlag,open125MillionSpeed:open125MillionSpeedFlag,openBeforeQuantity:openBeforeQuantityFlag,openHighSellHelper:openHighSellHelperFlag,openCallMarketInsert:openCallMarketInsertFlag,openBigSunDetailOrder:openBigSunDetailOrderFlag,big2BMaxCirculate:big2BMaxCirculateFlag,generalPlankCount:generalPlankCountFlag,oneLinePlankCount:oneLinePlankCountFlag,jumpQueueCount:jumpQueueCountFlag,openBreakingOrder:openBreakingOrderFlag,disableOrderOverMinutes:disableOrderOverMinutesFlag,openTradesCompare:openTradesCompareFlag,carryManySInto:carryManySIntoFlag,sweepPlankCirculate:sweepPlankCirculateFlag}, r => {
+              var dragonHeadSwitchFlag = this.dragonHeadSwitch;
+              this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag,openUniteCirculateInfo:openUniteCirculateInfoFlag,openYesterdayHot:openYesterdayHotFlag,openNineSecond:openNineSecondFlag,openNewWeakPlank:openNewWeakPlankFlag,openZhuBiSuperSpeed:openZhuBiSuperSpeedFlag,openCancelSuperSpeed:openCancelSuperSpeedFlag,openBeforeBigEntrust:openBeforeBigEntrustFlag,openNearBigEntrust:openNearBigEntrustFlag,openCallMarketInvestorListen:openCallMarketInvestorListenFlag,open125MillionSpeed:open125MillionSpeedFlag,openBeforeQuantity:openBeforeQuantityFlag,openHighSellHelper:openHighSellHelperFlag,openCallMarketInsert:openCallMarketInsertFlag,openBigSunDetailOrder:openBigSunDetailOrderFlag,big2BMaxCirculate:big2BMaxCirculateFlag,generalPlankCount:generalPlankCountFlag,oneLinePlankCount:oneLinePlankCountFlag,jumpQueueCount:jumpQueueCountFlag,openBreakingOrder:openBreakingOrderFlag,disableOrderOverMinutes:disableOrderOverMinutesFlag,openTradesCompare:openTradesCompareFlag,carryManySInto:carryManySIntoFlag,sweepPlankCirculate:sweepPlankCirculateFlag,dragonHeadSwitch:dragonHeadSwitchFlag}, r => {
                 location.reload()
               })
 
