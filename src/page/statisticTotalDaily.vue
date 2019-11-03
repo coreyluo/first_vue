@@ -1,4 +1,4 @@
-<style scoped>
+<style>
     .layout{
         border: 1px solid #d7dde4;
         background: #f5f7f9;
@@ -9,6 +9,43 @@
     .layout-header-bar{
         background: #fff;
         box-shadow: 0 1px 1px rgba(0,0,0,.1);
+    }
+
+    .ivu-table td.all-table-info-column{
+      background-color: #a1a3a6;
+      color: #fff;
+    }
+    .ivu-table td.all-insert-table-info-column{
+      background-color: #a1a3a6;
+      color: #fff;
+    }
+    .ivu-table td.all-insert-first-table-info-column{
+      background-color: #a1a3a6;
+      color: #fff;
+    }
+    .ivu-table td.all-insert-second-table-info-column{
+      background-color: #a1a3a6;
+      color: #fff;
+    }
+    .ivu-table td.all-insert-third-table-info-column{
+      background-color: #a1a3a6;
+      color: #fff;
+    }
+    .ivu-table td.all-insert-fourth-table-info-column{
+      background-color: #a1a3a6;
+      color: #fff;
+    }
+    .ivu-table td.all-insert-fifth-table-info-column{
+      background-color: #a1a3a6;
+      color: #fff;
+    }
+    .ivu-table td.three-day-two-table-info-column{
+      background-color: #a1a3a6;
+      color: #fff;
+    }
+    .ivu-table td.four-day-three-table-info-column{
+      background-color: #a1a3a6;
+      color: #fff;
     }
 </style>
 <template>
@@ -89,65 +126,249 @@
 
                     {
                         title: '交易日期',
-                        key: 'tradeDate'
+                        key: 'tradeDate',
+                        align: 'center',
+                        width: 105
                     },
                     {
-                        title: '总上板数',
-                        key: 'allPlank'
+                      title: '所有上板统计',
+                      align: 'center',
+                      children:[
+                        {
+                          title: '摸板',
+                          key: 'allPlank',
+                          align: 'center',
+                          className: 'all-table-info-column',
+                          width: 70
+                        },
+                        {
+                          title: '成功',
+                          key: 'allNicePlank',
+                          className: 'all-table-info-column',
+                          align: 'center',
+                          width: 70
+                        },
+                        {
+                          title: '成功率',
+                          key: 'allPlankRate',
+                          className: 'all-table-info-column',
+                          align: 'center',
+                          width: 80
+                        }
+                      ]
                     },
-                    {
-                        title: '总封住数量',
-                        key: 'allNicePlank'
-                    },
-                    {
-                        title: '可以打板数',
-                        key: 'allInsertPlank'
-                    },
-                    {
-                      title: '可以打板封住数量',
-                      key: 'allNiceInsertPlank'
-                    },
-                    {
-                      title: '可以打一板数',
-                      key: 'allFirstInsertPlank'
-                    },
-                    {
-                      title: '可以打一板封住数量',
-                      key: 'allNiceFirstInsertPlank'
-                    },
-                    {
-                      title: '可以打二板数',
-                      key: 'allSecondInsertPlank'
-                    },
-                    {
-                      title: '可以打er板封住数量',
-                      key: 'allNiceSecondInsertPlank'
-                    },
-                    {
-                      title: '可以打三板数',
-                      key: 'allThirdInsertPlank'
-                    },
-                    {
-                      title: '可以打三板封住数量',
-                      key: 'allNiceThirdInsertPlank'
-                    },
-                    {
-                      title: '可以打四板数',
-                      key: 'allFourthInsertPlank'
-                    },
-                    {
-                      title: '可以打四板封住数量',
-                      key: 'allNiceFourthInsertPlank'
-                    },
-                    {
-                      title: '可以打五板数',
-                      key: 'allFifthInsertPlank'
-                    },
-                    {
-                      title: '可以打五板及以上封住数量',
-                      key: 'allNiceFifthInsertPlank'
-                    }
 
+                    {
+                      title: '可以打板统计',
+                      align: 'center',
+                      children:[
+                        {
+                          title: '摸板',
+                          key: 'allInsertPlank',
+                          align: 'center',
+                          width: 70
+                        },
+                        {
+                          title: '成功',
+                          key: 'allNiceInsertPlank',
+                          align: 'center',
+                          width: 70
+                        },
+                        {
+                          title: '成功率',
+                          key: 'allInsertPlankRate',
+                          align: 'center',
+                          width: 80
+                        }
+                      ]
+                    },
+
+                    {
+                      title: '可以打一板统计',
+                      align: 'center',
+                      children:[
+                        {
+                          title: '摸板',
+                          key: 'allFirstInsertPlank',
+                          className: 'all-insert-first-table-info-column',
+                          align: 'center',
+                          width: 70
+                        },
+                        {
+                          title: '成功',
+                          key: 'allNiceFirstInsertPlank',
+                          className: 'all-insert-first-table-info-column',
+                          align: 'center',
+                          width: 70
+                        },
+                        {
+                          title: '成功率',
+                          key: 'allFirstInsertPlankRate',
+                          className: 'all-insert-first-table-info-column',
+                          align: 'center',
+                          width: 80
+                        }
+                      ]
+                    },
+
+                    {
+                      title: '可以打二板统计',
+                      align: 'center',
+                      children:[
+                        {
+                          title: '摸板',
+                          key: 'allSecondInsertPlank',
+                          align: 'center',
+                          width: 70
+                        },
+                        {
+                          title: '成功',
+                          key: 'allNiceSecondInsertPlank',
+                          align: 'center',
+                          width: 70
+                        },
+                        {
+                          title: '成功率',
+                          key: 'allSecondInsertPlankRate',
+                          align: 'center',
+                          width: 80
+                        }
+                      ]
+                    },
+
+                    {
+                      title: '可以打三板统计',
+                      align: 'center',
+                      children:[
+                        {
+                          title: '摸板',
+                          key: 'allThirdInsertPlank',
+                          align: 'center',
+                          className: 'all-insert-third-table-info-column',
+                          width: 70
+                        },
+                        {
+                          title: '成功',
+                          key: 'allNiceThirdInsertPlank',
+                          align: 'center',
+                          className: 'all-insert-third-table-info-column',
+                          width: 70
+                        },
+                        {
+                          title: '成功率',
+                          key: 'allThirdInsertPlankRate',
+                          align: 'center',
+                          className: 'all-insert-third-table-info-column',
+                          width: 80
+                        }
+                      ]
+                    },
+
+                    {
+                      title: '可以打四板统计',
+                      align: 'center',
+                      children:[
+                        {
+                          title: '摸板',
+                          key: 'allFourthInsertPlank',
+                          align: 'center',
+                          width: 70
+                        },
+                        {
+                          title: '成功',
+                          key: 'allNiceFourthInsertPlank',
+                          align: 'center',
+                          width: 70
+                        },
+                        {
+                          title: '成功率',
+                          key: 'allFourthInsertPlankRate',
+                          align: 'center',
+                          width: 80
+                        }
+                      ]
+                    },
+
+                  {
+                    title: '可以打五板统计',
+                    align: 'center',
+                    children:[
+                      {
+                        title: '摸板',
+                        key: 'allFifthInsertPlank',
+                        align: 'center',
+                        className: 'all-insert-fifth-table-info-column',
+                        width: 70
+                      },
+                      {
+                        title: '成功',
+                        key: 'allNiceFifthInsertPlank',
+                        className: 'all-insert-fifth-table-info-column',
+                        align: 'center',
+                        width: 70
+                      },
+                      {
+                        title: '成功率',
+                        key: 'allFifthInsertPlankRate',
+                        className: 'all-insert-fifth-table-info-column',
+                        align: 'center',
+                        width: 80
+                      }
+                    ]
+                  },
+
+                  {
+                    title: '可以打三天两板统计',
+                    align: 'center',
+                    children:[
+                      {
+                        title: '摸板',
+                        key: 'allThreeDayTwoInsertPlank',
+                        align: 'center',
+                        width: 70
+                      },
+                      {
+                        title: '成功',
+                        key: 'allNiceThreeDayTwoInsertPlank',
+                        align: 'center',
+                        width: 70
+                      },
+                      {
+                        title: '成功率',
+                        key: 'allThreeDayTwoInsertPlankRate',
+                        align: 'center',
+                        width: 80
+                      }
+                    ]
+                  },
+
+                  {
+                    title: '可以打四天三板统计',
+                    align: 'center',
+                    children:[
+                      {
+                        title: '摸板',
+                        key: 'allFourDayThreeInsertPlank',
+                        className: 'four-day-three-table-info-column',
+                        align: 'center',
+                        width: 70
+                      },
+                      {
+                        title: '成功',
+                        key: 'allNiceFourDayThreeInsertPlank',
+                        className: 'four-day-three-table-info-column',
+                        align: 'center',
+                        width: 70
+                      },
+                      {
+                        title: '成功率',
+                        key: 'allFourDayThreeInsertPlankRate',
+                        className: 'four-day-three-table-info-column',
+                        align: 'center',
+                        width: 80
+                      }
+                    ]
+                  },
                 ],
                 data6: [
 
