@@ -136,17 +136,10 @@
                       children:[
                         {
                           title: '摸板',
-                          key: 'allPlank',
+                          key: 'allPlankInfo',
                           align: 'center',
                           className: 'all-table-info-column',
-                          width: 70
-                        },
-                        {
-                          title: '成功',
-                          key: 'allNicePlank',
-                          className: 'all-table-info-column',
-                          align: 'center',
-                          width: 70
+                          width: 80
                         },
                         {
                           title: '成功率',
@@ -164,19 +157,19 @@
                       children:[
                         {
                           title: '摸板',
-                          key: 'allInsertPlank',
+                          key: 'allInsertPlankInfo',
                           align: 'center',
-                          width: 70
-                        },
-                        {
-                          title: '成功',
-                          key: 'allNiceInsertPlank',
-                          align: 'center',
-                          width: 70
+                          width: 80
                         },
                         {
                           title: '成功率',
                           key: 'allInsertPlankRate',
+                          align: 'center',
+                          width: 80
+                        },
+                        {
+                          title: '溢价',
+                          key: 'allInsertPlankAvg',
                           align: 'center',
                           width: 80
                         }
@@ -189,21 +182,21 @@
                       children:[
                         {
                           title: '摸板',
-                          key: 'allFirstInsertPlank',
+                          key: 'allFirstInsertPlankInfo',
                           className: 'all-insert-first-table-info-column',
                           align: 'center',
-                          width: 70
-                        },
-                        {
-                          title: '成功',
-                          key: 'allNiceFirstInsertPlank',
-                          className: 'all-insert-first-table-info-column',
-                          align: 'center',
-                          width: 70
+                          width: 80
                         },
                         {
                           title: '成功率',
                           key: 'allFirstInsertPlankRate',
+                          className: 'all-insert-first-table-info-column',
+                          align: 'center',
+                          width: 80
+                        },
+                        {
+                          title: '溢价',
+                          key: 'allFirstInsertPlankAvg',
                           className: 'all-insert-first-table-info-column',
                           align: 'center',
                           width: 80
@@ -217,19 +210,19 @@
                       children:[
                         {
                           title: '摸板',
-                          key: 'allSecondInsertPlank',
+                          key: 'allSecondInsertPlankInfo',
                           align: 'center',
-                          width: 70
-                        },
-                        {
-                          title: '成功',
-                          key: 'allNiceSecondInsertPlank',
-                          align: 'center',
-                          width: 70
+                          width: 80
                         },
                         {
                           title: '成功率',
                           key: 'allSecondInsertPlankRate',
+                          align: 'center',
+                          width: 80
+                        },
+                        {
+                          title: '溢价',
+                          key: 'allSecondInsertPlankAvg',
                           align: 'center',
                           width: 80
                         }
@@ -242,21 +235,21 @@
                       children:[
                         {
                           title: '摸板',
-                          key: 'allThirdInsertPlank',
+                          key: 'allThirdInsertPlankInfo',
                           align: 'center',
                           className: 'all-insert-third-table-info-column',
-                          width: 70
-                        },
-                        {
-                          title: '成功',
-                          key: 'allNiceThirdInsertPlank',
-                          align: 'center',
-                          className: 'all-insert-third-table-info-column',
-                          width: 70
+                          width: 80
                         },
                         {
                           title: '成功率',
                           key: 'allThirdInsertPlankRate',
+                          align: 'center',
+                          className: 'all-insert-third-table-info-column',
+                          width: 80
+                        },
+                        {
+                          title: '溢价',
+                          key: 'allThirdInsertPlankAvg',
                           align: 'center',
                           className: 'all-insert-third-table-info-column',
                           width: 80
@@ -270,19 +263,19 @@
                       children:[
                         {
                           title: '摸板',
-                          key: 'allFourthInsertPlank',
+                          key: 'allFourthInsertPlankInfo',
                           align: 'center',
-                          width: 70
-                        },
-                        {
-                          title: '成功',
-                          key: 'allNiceFourthInsertPlank',
-                          align: 'center',
-                          width: 70
+                          width: 80
                         },
                         {
                           title: '成功率',
                           key: 'allFourthInsertPlankRate',
+                          align: 'center',
+                          width: 80
+                        },
+                        {
+                          title: '溢价',
+                          key: 'allFourthInsertPlankAvg',
                           align: 'center',
                           width: 80
                         }
@@ -295,21 +288,21 @@
                     children:[
                       {
                         title: '摸板',
-                        key: 'allFifthInsertPlank',
+                        key: 'allFifthInsertPlankInfo',
                         align: 'center',
                         className: 'all-insert-fifth-table-info-column',
-                        width: 70
-                      },
-                      {
-                        title: '成功',
-                        key: 'allNiceFifthInsertPlank',
-                        className: 'all-insert-fifth-table-info-column',
-                        align: 'center',
-                        width: 70
+                        width: 80
                       },
                       {
                         title: '成功率',
                         key: 'allFifthInsertPlankRate',
+                        className: 'all-insert-fifth-table-info-column',
+                        align: 'center',
+                        width: 80
+                      },
+                      {
+                        title: '溢价',
+                        key: 'allFifthInsertPlankAvg',
                         className: 'all-insert-fifth-table-info-column',
                         align: 'center',
                         width: 80
@@ -323,19 +316,19 @@
                     children:[
                       {
                         title: '摸板',
-                        key: 'allThreeDayTwoInsertPlank',
+                        key: 'allThreeDayTwoInsertPlankInfo',
                         align: 'center',
-                        width: 70
-                      },
-                      {
-                        title: '成功',
-                        key: 'allNiceThreeDayTwoInsertPlank',
-                        align: 'center',
-                        width: 70
+                        width: 80
                       },
                       {
                         title: '成功率',
                         key: 'allThreeDayTwoInsertPlankRate',
+                        align: 'center',
+                        width: 80
+                      },
+                      {
+                        title: '溢价',
+                        key: 'allThreeDayTwoInsertPlankAvg',
                         align: 'center',
                         width: 80
                       }
@@ -348,21 +341,21 @@
                     children:[
                       {
                         title: '摸板',
-                        key: 'allFourDayThreeInsertPlank',
+                        key: 'allFourDayThreeInsertPlankInfo',
                         className: 'four-day-three-table-info-column',
                         align: 'center',
-                        width: 70
-                      },
-                      {
-                        title: '成功',
-                        key: 'allNiceFourDayThreeInsertPlank',
-                        className: 'four-day-three-table-info-column',
-                        align: 'center',
-                        width: 70
+                        width: 80
                       },
                       {
                         title: '成功率',
                         key: 'allFourDayThreeInsertPlankRate',
+                        className: 'four-day-three-table-info-column',
+                        align: 'center',
+                        width: 80
+                      },
+                      {
+                        title: '溢价',
+                        key: 'allFourDayThreeInsertPlankAvg',
                         className: 'four-day-three-table-info-column',
                         align: 'center',
                         width: 80
