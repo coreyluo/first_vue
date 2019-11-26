@@ -60,14 +60,14 @@
                     <MenuItem  name="1-11"><router-link to="/highStock/1"><font color="#fff">高位板</font></router-link></MenuItem>
                     <MenuItem  name="1-12"><router-link to="/dragonParam/1"><font color="#fff">龙头模式参数</font></router-link></MenuItem>
                     <MenuItem  name="1-13"><router-link to="/sellParam/1"><font color="#fff">卖出参数</font></router-link></MenuItem>
-                  <MenuItem  name="1-14"><router-link to="/hotBlockStock/1"><font color="#fff">热门板块</font></router-link></MenuItem>
-                  <MenuItem  name="1-15"><router-link to="/blockView/1"><font color="#fff">所有板块</font></router-link></MenuItem>
-                  <MenuItem  name="1-16"><router-link to="/openButton/1"><font color="#fff">开启策略按钮</font></router-link></MenuItem>
-                  <MenuItem  name="1-17"><router-link to="/insertQueue/1"><font color="#fff">插队池</font></router-link></MenuItem>
-                  <MenuItem  name="1-18"><router-link to="/connect/1"><font color="#fff">连接相关</font></router-link></MenuItem>
-                  <MenuItem  name="1-19"><router-link to="/areaBlockView/1"><font color="#fff">地区板块</font></router-link></MenuItem>
-                  <MenuItem  name="1-20"><router-link to="/statisticDaily/1"><font color="#fff">连板成功详情统计</font></router-link></MenuItem>
-                  <MenuItem  name="1-21"><router-link to="/statisticTotalDaily/1"><font color="#fff">连板成功率统计</font></router-link></MenuItem>
+                    <MenuItem  name="1-14"><router-link to="/hotBlockStock/1"><font color="#fff">热门板块</font></router-link></MenuItem>
+                    <MenuItem  name="1-15"><router-link to="/blockView/1"><font color="#fff">所有板块</font></router-link></MenuItem>
+                    <MenuItem  name="1-16"><router-link to="/openButton/1"><font color="#fff">开启策略按钮</font></router-link></MenuItem>
+                    <MenuItem  name="1-17"><router-link to="/insertQueue/1"><font color="#fff">插队池</font></router-link></MenuItem>
+                    <MenuItem  name="1-18"><router-link to="/connect/1"><font color="#fff">连接相关</font></router-link></MenuItem>
+                    <MenuItem  name="1-19"><router-link to="/areaBlockView/1"><font color="#fff">地区板块</font></router-link></MenuItem>
+                    <MenuItem  name="1-20"><router-link to="/statisticDaily/1"><font color="#fff">连板成功详情统计</font></router-link></MenuItem>
+                    <MenuItem  name="1-21"><router-link to="/statisticTotalDaily/1"><font color="#fff">连板成功率统计</font></router-link></MenuItem>
                 </Submenu>
             </Menu>
         </Sider>
@@ -109,14 +109,11 @@
               <Button v-if="!openOneLinePlankInsertOrder"  type="primary" @click="changeButton(5)">一字回封下单越过禁止下单按钮已关闭,请开启</Button>
               <Button v-if="openOneLinePlankInsertOrder"  type="error" @click="changeButton(5)">一字回封下单越过禁止下单按钮已开启,请关闭</Button>
 
-
-
               <Button v-if="!openUniteCirculateInfo"  type="primary" @click="changeButton(7)">按照3亿流通撤单已关闭,请开启</Button>
               <Button v-if="openUniteCirculateInfo"  type="error" @click="changeButton(7)">按照3亿流通撤单已开启,请关闭</Button>
 
               <Button v-if="!openYesterdayHot"  type="primary" @click="changeButton(8)">昨日打爆已经关闭,请开启</Button>
               <Button v-if="openYesterdayHot"  type="error" @click="changeButton(8)">昨日打爆已经开启,请关闭</Button>
-
 
             </div>
             <div class="blankRow">
@@ -201,6 +198,9 @@
 
               <Button v-if="!sellNineRate"  type="primary" @click="changeButton(24)">9个点不涨停卖出已关闭,请开启</Button>
               <Button v-if="sellNineRate"  type="error" @click="changeButton(24)">9个点不涨停卖出已开启,请关闭</Button>
+
+              <Button v-if="!overCirculatezDisable"  type="error" @click="changeButton(25)">5亿以上下单已开启,请关闭</Button>
+              <Button v-if="overCirculatezDisable"  type="primary" @click="changeButton(25)">5亿以上下单已关闭,请开启</Button>
 
 
             </div>
@@ -327,7 +327,8 @@
                this.carryManySInto = r.data.carryManySInto,
                this.sweepPlankCirculate = r.data.sweepPlankCirculate,
              this.dragonHeadSwitch = r.data.dragonHeadSwitch,
-               this.sellNineRate = r.data.sellNineRate
+               this.sellNineRate = r.data.sellNineRate,
+               this.overCirculatezDisable = r.data.overCirculatezDisable
            });
 
         },
@@ -366,6 +367,7 @@
              sweepPlankCirculate:0,
              dragonHeadSwitch:true,
              sellNineRate:false,
+             overCirculatezDisable:false,
              modal1: false,
              modal3: false,
              modal4: false,
@@ -454,6 +456,9 @@
             if(index==24){
                 this.sellNineRate=!(this.sellNineRate);
             }
+            if(index==25){
+                this.overCirculatezDisable = !(this.overCirculatezDisable);
+            }
               var openLongLegFlag = this.openLongLeg;
               var openJumpInQueueFlag = this.openJumpInQueue;
               var openNewPositionFlag = this.openNewPosition;
@@ -486,7 +491,8 @@
               var sweepPlankCirculateFlag = this.sweepPlankCirculate;
               var dragonHeadSwitchFlag = this.dragonHeadSwitch;
               var sellNineRateFlag = this.sellNineRate;
-              this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag,openUniteCirculateInfo:openUniteCirculateInfoFlag,openYesterdayHot:openYesterdayHotFlag,openNineSecond:openNineSecondFlag,openNewWeakPlank:openNewWeakPlankFlag,openZhuBiSuperSpeed:openZhuBiSuperSpeedFlag,openCancelSuperSpeed:openCancelSuperSpeedFlag,openBeforeBigEntrust:openBeforeBigEntrustFlag,openNearBigEntrust:openNearBigEntrustFlag,openCallMarketInvestorListen:openCallMarketInvestorListenFlag,open125MillionSpeed:open125MillionSpeedFlag,openBeforeQuantity:openBeforeQuantityFlag,openHighSellHelper:openHighSellHelperFlag,openCallMarketInsert:openCallMarketInsertFlag,openBigSunDetailOrder:openBigSunDetailOrderFlag,big2BMaxCirculate:big2BMaxCirculateFlag,generalPlankCount:generalPlankCountFlag,oneLinePlankCount:oneLinePlankCountFlag,jumpQueueCount:jumpQueueCountFlag,openBreakingOrder:openBreakingOrderFlag,disableOrderOverMinutes:disableOrderOverMinutesFlag,openTradesCompare:openTradesCompareFlag,carryManySInto:carryManySIntoFlag,sweepPlankCirculate:sweepPlankCirculateFlag,dragonHeadSwitch:dragonHeadSwitchFlag,sellNineRate:sellNineRateFlag}, r => {
+              var overCirculatezDisableFlag = this.overCirculatezDisable;
+              this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag,openUniteCirculateInfo:openUniteCirculateInfoFlag,openYesterdayHot:openYesterdayHotFlag,openNineSecond:openNineSecondFlag,openNewWeakPlank:openNewWeakPlankFlag,openZhuBiSuperSpeed:openZhuBiSuperSpeedFlag,openCancelSuperSpeed:openCancelSuperSpeedFlag,openBeforeBigEntrust:openBeforeBigEntrustFlag,openNearBigEntrust:openNearBigEntrustFlag,openCallMarketInvestorListen:openCallMarketInvestorListenFlag,open125MillionSpeed:open125MillionSpeedFlag,openBeforeQuantity:openBeforeQuantityFlag,openHighSellHelper:openHighSellHelperFlag,openCallMarketInsert:openCallMarketInsertFlag,openBigSunDetailOrder:openBigSunDetailOrderFlag,big2BMaxCirculate:big2BMaxCirculateFlag,generalPlankCount:generalPlankCountFlag,oneLinePlankCount:oneLinePlankCountFlag,jumpQueueCount:jumpQueueCountFlag,openBreakingOrder:openBreakingOrderFlag,disableOrderOverMinutes:disableOrderOverMinutesFlag,openTradesCompare:openTradesCompareFlag,carryManySInto:carryManySIntoFlag,sweepPlankCirculate:sweepPlankCirculateFlag,dragonHeadSwitch:dragonHeadSwitchFlag,sellNineRate:sellNineRateFlag,overCirculatezDisable:overCirculatezDisableFlag}, r => {
                 location.reload()
               })
 
