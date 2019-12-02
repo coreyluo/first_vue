@@ -208,9 +208,11 @@
             </div>
 
             <div>
-              <Button v-if="!openPeakSell"  type="primary" @click="changeButton(26)">5亿以上下单已关闭,请开启</Button>
-              <Button v-if="openPeakSell"  type="error" @click="changeButton(26)">5亿以上下单已开启,请关闭</Button>
+              <Button v-if="!openPeakSell"  type="primary" @click="changeButton(26)">峰值卖出已关闭,请开启</Button>
+              <Button v-if="openPeakSell"  type="error" @click="changeButton(26)">峰值卖出已开启,请关闭</Button>
 
+              <Button v-if="!clearPlankCount"  type="primary" @click="changeButton(27)">恢复下单清空数板已关闭,请开启</Button>
+              <Button v-if="clearPlankCount"  type="error" @click="changeButton(27)">恢复下单清空数板已开启,请关闭</Button>
             </div>
 
           </template>
@@ -337,7 +339,8 @@
                this.dragonHeadSwitch = r.data.dragonHeadSwitch,
                this.sellNineRate = r.data.sellNineRate,
                this.overCirculatezDisable = r.data.overCirculatezDisable,
-               this.openPeakSell = r.data.openPeakSell
+               this.openPeakSell = r.data.openPeakSell,
+               this.clearPlankCount = r.data.clearPlankCount
            });
 
         },
@@ -378,6 +381,7 @@
              sellNineRate:false,
              overCirculatezDisable:false,
              openPeakSell:false,
+             clearPlankCount:false,
              modal1: false,
              modal3: false,
              modal4: false,
@@ -472,6 +476,9 @@
             if(index==26){
               this.openPeakSell = !(this.openPeakSell);
             }
+            if(index==27){
+                this.clearPlankCount = !(this.clearPlankCount);
+            }
               var openLongLegFlag = this.openLongLeg;
               var openJumpInQueueFlag = this.openJumpInQueue;
               var openNewPositionFlag = this.openNewPosition;
@@ -506,7 +513,8 @@
               var sellNineRateFlag = this.sellNineRate;
               var overCirculatezDisableFlag = this.overCirculatezDisable;
               var openPeakSellFlag = this.openPeakSell;
-              this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag,openUniteCirculateInfo:openUniteCirculateInfoFlag,openYesterdayHot:openYesterdayHotFlag,openNineSecond:openNineSecondFlag,openNewWeakPlank:openNewWeakPlankFlag,openZhuBiSuperSpeed:openZhuBiSuperSpeedFlag,openCancelSuperSpeed:openCancelSuperSpeedFlag,openBeforeBigEntrust:openBeforeBigEntrustFlag,openNearBigEntrust:openNearBigEntrustFlag,openCallMarketInvestorListen:openCallMarketInvestorListenFlag,open125MillionSpeed:open125MillionSpeedFlag,openBeforeQuantity:openBeforeQuantityFlag,openHighSellHelper:openHighSellHelperFlag,openCallMarketInsert:openCallMarketInsertFlag,openBigSunDetailOrder:openBigSunDetailOrderFlag,big2BMaxCirculate:big2BMaxCirculateFlag,generalPlankCount:generalPlankCountFlag,oneLinePlankCount:oneLinePlankCountFlag,jumpQueueCount:jumpQueueCountFlag,openBreakingOrder:openBreakingOrderFlag,disableOrderOverMinutes:disableOrderOverMinutesFlag,openTradesCompare:openTradesCompareFlag,carryManySInto:carryManySIntoFlag,sweepPlankCirculate:sweepPlankCirculateFlag,dragonHeadSwitch:dragonHeadSwitchFlag,sellNineRate:sellNineRateFlag,overCirculatezDisable:overCirculatezDisableFlag,openPeakSell:openPeakSellFlag}, r => {
+              var clearPlankCountFlag = this.clearPlankCount;
+              this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag,openUniteCirculateInfo:openUniteCirculateInfoFlag,openYesterdayHot:openYesterdayHotFlag,openNineSecond:openNineSecondFlag,openNewWeakPlank:openNewWeakPlankFlag,openZhuBiSuperSpeed:openZhuBiSuperSpeedFlag,openCancelSuperSpeed:openCancelSuperSpeedFlag,openBeforeBigEntrust:openBeforeBigEntrustFlag,openNearBigEntrust:openNearBigEntrustFlag,openCallMarketInvestorListen:openCallMarketInvestorListenFlag,open125MillionSpeed:open125MillionSpeedFlag,openBeforeQuantity:openBeforeQuantityFlag,openHighSellHelper:openHighSellHelperFlag,openCallMarketInsert:openCallMarketInsertFlag,openBigSunDetailOrder:openBigSunDetailOrderFlag,big2BMaxCirculate:big2BMaxCirculateFlag,generalPlankCount:generalPlankCountFlag,oneLinePlankCount:oneLinePlankCountFlag,jumpQueueCount:jumpQueueCountFlag,openBreakingOrder:openBreakingOrderFlag,disableOrderOverMinutes:disableOrderOverMinutesFlag,openTradesCompare:openTradesCompareFlag,carryManySInto:carryManySIntoFlag,sweepPlankCirculate:sweepPlankCirculateFlag,dragonHeadSwitch:dragonHeadSwitchFlag,sellNineRate:sellNineRateFlag,overCirculatezDisable:overCirculatezDisableFlag,openPeakSell:openPeakSellFlag,clearPlankCount:clearPlankCountFlag}, r => {
                 location.reload()
               })
 
