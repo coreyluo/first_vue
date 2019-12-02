@@ -172,6 +172,12 @@
                           key: 'allInsertPlankAvg',
                           align: 'center',
                           width: 80
+                        },
+                        {
+                          title: '涨停溢价',
+                          key: 'allInsertPlankEndAvg',
+                          align: 'center',
+                          width: 80
                         }
                       ]
                     },
@@ -200,6 +206,13 @@
                           className: 'all-insert-first-table-info-column',
                           align: 'center',
                           width: 80
+                        },
+                        {
+                          title: '涨停溢价',
+                          key: 'allFirstInsertPlankEndAvg',
+                          className: 'all-insert-first-table-info-column',
+                          align: 'center',
+                          width: 80
                         }
                       ]
                     },
@@ -223,6 +236,12 @@
                         {
                           title: '溢价',
                           key: 'allSecondInsertPlankAvg',
+                          align: 'center',
+                          width: 80
+                        },
+                        {
+                          title: '涨停溢价',
+                          key: 'allSecondInsertPlankEndAvg',
                           align: 'center',
                           width: 80
                         }
@@ -253,6 +272,13 @@
                           align: 'center',
                           className: 'all-insert-third-table-info-column',
                           width: 80
+                        },
+                        {
+                          title: '涨停溢价',
+                          key: 'allThirdInsertPlankEndAvg',
+                          align: 'center',
+                          className: 'all-insert-third-table-info-column',
+                          width: 80
                         }
                       ]
                     },
@@ -276,6 +302,12 @@
                         {
                           title: '溢价',
                           key: 'allFourthInsertPlankAvg',
+                          align: 'center',
+                          width: 80
+                        },
+                        {
+                          title: '涨停溢价',
+                          key: 'allFourthInsertPlankEndAvg',
                           align: 'center',
                           width: 80
                         }
@@ -306,6 +338,13 @@
                         className: 'all-insert-fifth-table-info-column',
                         align: 'center',
                         width: 80
+                      },
+                      {
+                        title: '涨停溢价',
+                        key: 'allFifthInsertPlankEndAvg',
+                        className: 'all-insert-fifth-table-info-column',
+                        align: 'center',
+                        width: 80
                       }
                     ]
                   },
@@ -329,6 +368,12 @@
                       {
                         title: '溢价',
                         key: 'allThreeDayTwoInsertPlankAvg',
+                        align: 'center',
+                        width: 80
+                      },
+                      {
+                        title: '涨停溢价',
+                        key: 'allThreeDayTwoInsertPlankEndAvg',
                         align: 'center',
                         width: 80
                       }
@@ -359,7 +404,15 @@
                         className: 'four-day-three-table-info-column',
                         align: 'center',
                         width: 80
+                      },
+                      {
+                        title: '涨停溢价',
+                        key: 'allFourDayThreeInsertPlankEndAvg',
+                        className: 'four-day-three-table-info-column',
+                        align: 'center',
+                        width: 80
                       }
+
                     ]
                   },
                 ],
