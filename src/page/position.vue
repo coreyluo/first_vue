@@ -60,8 +60,11 @@
                 <template slot-scope="{ row, index }" slot="action">
                     <Button type="primary" size="small" style="margin-right: 5px" @click="modal1=true;show(index)">修改</Button>
 
-                    <Button v-if="row.accountStatus===1" style="float:right" type="warning" @click="changeAccountStatus(index,0)">已经禁止,请开启</Button>
-                    <Button v-if="row.accountStatus===0" style="float:right" type="primary" @click="changeAccountStatus(index,1)">已经开启,请禁用</Button>
+                    <Button v-if="row.accountStatus===1" style="float:right" type="warning" @click="changeAccountStatus(1,index,0)">已经禁止,请开启</Button>
+                    <Button v-if="row.accountStatus===0" style="float:right" type="primary" @click="changeAccountStatus(1,index,1)">已经开启,请禁用</Button>
+
+                    <Button v-if="row.twoPlankStatus===0" style="float:right" type="warning" @click="changeAccountStatus(2,index,1)">二板禁止,请开启</Button>
+                    <Button v-if="row.twoPlankStatus===1" style="float:right" type="primary" @click="changeAccountStatus(2,index,0)">二板开启,请禁用</Button>
                 </template>
 
             </Table>
@@ -107,7 +110,7 @@
                      {
                          title: '操作',
                          slot: 'action',
-                         width: 350,
+                         width: 450,
                          align: 'center'
                      }
                  ],
@@ -141,13 +144,20 @@
                   this.tradeStatus = r.data
                })
              },
-          changeAccountStatus (index,accountStatusStr){
-            var idVal=this.data7[index].id;
-              this.$api.post('singular/tradeAccount/changeAccountStatus', {id:idVal,accountStatus:accountStatusStr}, r => {
+          changeAccountStatus (buttonIndex,index,buttonValue){
+              var idVal=this.data7[index].id;
+              var accountStatusStr = this.data7[index].accountStatus;
+              var twoPlankStatusStr = this.data7[index].twoPlankStatus;
+              if(buttonIndex==1){
+                  accountStatusStr = buttonValue;
+              }else if(buttonIndex==2){
+                  twoPlankStatusStr = buttonValue;
+              }
+              this.$api.post('singular/tradeAccount/changeAccountStatus', {id:idVal,accountStatus:accountStatusStr,twoPlankStatus:twoPlankStatusStr}, r => {
                 location.reload();
               })
 
-            }
+          }
         }
    }
 </script>
