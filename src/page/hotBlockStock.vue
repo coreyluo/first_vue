@@ -60,7 +60,7 @@
             </div>
             <template>
                 <div>
-                  <Button style="float:right" type="info" @click="addAll(blockType1)">禁止当前热门板块所有</Button>
+                  <Button style="float:right" type="info" @click="addAll(1)">禁止封住一板</Button>
                 </div>
             </template>
             <Table border :columns="columns12" :data="data1">
@@ -70,8 +70,8 @@
                 </template>
 
                 <template slot-scope="{ row, index }"  slot="action">
-                    <Button v-if="row.disableInsertStatus ==0" type="primary" size="small" style="margin-right: 5px" @click="addOne(row.id)">禁止下单</Button>
-                    <Button v-if="row.disableInsertStatus ==1" type="primary" size="small" style="margin-right: 5px" @click="cancelOne(row.id)">取消禁止下单</Button>
+                    <Button v-if="row.disableInsertStatus ==0" type="primary" size="small" style="margin-right: 5px" @click="addOne(row.stockCode)">禁止下单</Button>
+                    <Button v-if="row.disableInsertStatus ==1" type="primary" size="small" style="margin-right: 5px" @click="cancelOne(row.stockCode)">取消禁止下单</Button>
                 </template>
 
             </Table>
@@ -80,7 +80,7 @@
           </div>
           <template>
             <div>
-              <Button style="float:right" type="info" @click="addAll(blockType2)">禁止当前热门板块所有</Button>
+              <Button style="float:right" type="info" @click="addAll(0)">禁止未封住一板</Button>
             </div>
           </template>
           <Table  border :columns="columns12" :data="data2">
@@ -90,114 +90,29 @@
             </template>
 
             <template slot-scope="{ row, index }" slot="action">
-              <Button v-if="row.disableInsertStatus ==0" type="primary" size="small" style="margin-right: 5px" @click="addOne(row.id)">禁止下单</Button>
-              <Button v-if="row.disableInsertStatus ==1" type="primary" size="small" style="margin-right: 5px" @click="cancelOne(row.id)">取消禁止下单</Button>
+              <Button v-if="row.disableInsertStatus ==0" type="primary" size="small" style="margin-right: 5px" @click="addOne(row.stockCode)">禁止下单</Button>
+              <Button v-if="row.disableInsertStatus ==1" type="primary" size="small" style="margin-right: 5px" @click="cancelOne(row.stockCode)">取消禁止下单</Button>
             </template>
 
           </Table>
 
-
-          <div style="height: 30px">
-          </div>
-          <template>
-            <div>
-              <Button style="float:right" type="info" @click="addAll(blockType3)">禁止当前热门板块所有</Button>
-            </div>
-          </template>
-          <Table  border :columns="columns12" :data="data3">
-
-            <template  slot-scope="{ row }" slot="tab">
-              <strong>{{ row.tab }}</strong>
-            </template>
-
-            <template slot-scope="{ row, index }" slot="action">
-              <Button v-if="row.disableInsertStatus ==0" type="primary" size="small" style="margin-right: 5px" @click="addOne(row.id)">禁止下单</Button>
-              <Button v-if="row.disableInsertStatus ==1"type="primary" size="small" style="margin-right: 5px" @click="cancelOne(row.id)">取消禁止下单</Button>
-            </template>
-
-          </Table>
-
-
-          <div style="height: 30px">
-          </div>
-          <template>
-            <div>
-              <Button style="float:right" type="info" @click="addAll(blockType4)">禁止当前热门板块所有</Button>
-            </div>
-          </template>
-          <Table  border :columns="columns12" :data="data4">
-
-            <template  slot-scope="{ row }" slot="tab">
-              <strong>{{ row.tab }}</strong>
-            </template>
-
-            <template slot-scope="{ row, index }" slot="action">
-              <Button v-if="row.disableInsertStatus ==0" type="primary" size="small" style="margin-right: 5px" @click="addOne(row.id)">禁止下单</Button>
-              <Button v-if="row.disableInsertStatus ==1" type="primary" size="small" style="margin-right: 5px" @click="cancelOne(row.id)">取消禁止下单</Button>
-            </template>
-
-          </Table>
-
-          <div style="height: 30px">
-          </div>
-          <template>
-            <div>
-              <Button style="float:right" type="info" @click="addAll(blockType5)">禁止当前热门板块所有</Button>
-            </div>
-          </template>
-          <Table  border :columns="columns12" :data="data5">
-
-            <template  slot-scope="{ row }" slot="tab">
-              <strong>{{ row.tab }}</strong>
-            </template>
-
-            <template slot-scope="{ row, index }" slot="action">
-              <Button v-if="row.disableInsertStatus ==0" type="primary" size="small" style="margin-right: 5px" @click="addOne(row.id)">禁止下单</Button>
-              <Button v-if="row.disableInsertStatus ==1" type="primary" size="small" style="margin-right: 5px" @click="cancelOne(row.id)">取消禁止下单</Button>
-            </template>
-
-          </Table>
         </Layout>
     </div>
 </template>
 <script>
     export default {
         created () {
-            this.$api.get('singular/hotBlock/dataList', null, r => {
+            this.$api.get('singular/hotBlock/dataListNew', null, r => {
               var infos = r.data;
               infos.forEach(item => {
-                if(item.plankEndStatus==0){
-                  item.plankEndStatusStr = "封住";
-                }
                 if(item.plankEndStatus==1){
-                  item.plankEndStatusStr = "未封住";
-                }
-                if(item.blockType==1){
+                  item.plankEndStatusStr = "封住";
                   this.data1.push(item)
-                  this.blockName1=item.blockName;
-                  this.blockType1=item.blockType;
                 }
-                if(item.blockType==2){
+                if(item.plankEndStatus==0){
+                  item.plankEndStatusStr = "未封住";
                   this.data2.push(item)
-                  this.blockName2=item.blockName;
-                  this.blockType2=item.blockType;
                 }
-                if(item.blockType==3){
-                  this.data3.push(item)
-                  this.blockName3=item.blockName;
-                  this.blockType3=item.blockType;
-                }
-                if(item.blockType==4){
-                  this.data4.push(item)
-                  this.blockName4=item.blockName;
-                  this.blockType4=item.blockType;
-                }
-                if(item.blockType==5){
-                  this.data5.push(item)
-                  this.blockName5=item.blockName;
-                  this.blockType5=item.blockType;
-                }
-
               })
 
             })
@@ -223,13 +138,7 @@
                     },
                     {
                         title: '连板次数',
-                        key: 'plankTime',
-                        width: 150,
-                        align: 'center'
-                    },
-                    {
-                        title: '开板次数',
-                        key: 'openTime',
+                        key: 'plankTimeContent',
                         width: 150,
                         align: 'center'
                     },
@@ -238,12 +147,6 @@
                         key: 'plankEndStatusStr',
                         width: 150,
                         align: 'center'
-                    },
-                    {
-                      title: '板块名称',
-                      key: 'blockName',
-                      width: 150,
-                      align: 'center'
                     },
                     {
                         title: 'Action',
@@ -257,42 +160,22 @@
                 ],
                 data2: [
 
-                ],
-
-                data3: [
-
-                ],
-                data4: [
-
-                ],
-                data5: [
-
-                ],
-                blockName1:'暂时无描述',
-                blockName3:'暂时无描述',
-                blockName2:'暂时无描述',
-                blockName4:'暂时无描述',
-                blockName5:'暂时无描述',
-                blockType1:100,
-                blockType2:100,
-                blockType3:100,
-                blockType4:100,
-                blockType5:100
+                ]
             }
         },
         methods: {
-          addAll(blockType) {
-            this.$api.get('singular/hotBlock/addAll', {blockType:blockType}, r => {
+          addAll(endStatus) {
+            this.$api.get('singular/hotBlock/addAllNew', {endStatus:endStatus}, r => {
             })
             location.reload()
           },
-          addOne(index) {
-            this.$api.get('singular/hotBlock/addOne', {id:index}, r => {
+          addOne(stockCode) {
+            this.$api.get('singular/hotBlock/addOneNew', {stockCode:stockCode}, r => {
             })
             location.reload()
           },
-          cancelOne(index) {
-            this.$api.get('singular/hotBlock/cancelOne', {id:index}, r => {
+          cancelOne(stockCode) {
+            this.$api.get('singular/hotBlock/cancelOneNew', {stockCode:stockCode}, r => {
             })
             location.reload()
           }

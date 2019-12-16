@@ -58,39 +58,63 @@
             </div>
             <template>
                 <div>
-                  <Button style="float:right" type="info" @click="addAll()">一键禁止所有</Button>
+                  <Button style="float:right" type="info" @click="addAll(1)">禁止所有高位封住</Button>
                 </div>
             </template>
-            <Table  border :columns="columns12" :data="data7">
+            <Table  border :columns="columns12" :data="data1">
 
                 <template  slot-scope="{ row }" slot="tab">
                     <strong>{{ row.tab }}</strong>
                 </template>
 
                 <template slot-scope="{ row, index }" slot="action">
-                    <Button v-if="row.disableInsertStatus ==0" type="primary" size="small" style="margin-right: 5px" @click="addOne(row.id)">禁止下单</Button>
-                    <Button v-if="row.disableInsertStatus ==1" type="primary" size="small" style="margin-right: 5px" @click="cancelOne(row.id)">取消禁止下单</Button>
+                    <Button v-if="row.disableInsertStatus ==0" type="primary" size="small" style="margin-right: 5px" @click="addOne(row.stockCode)">禁止下单</Button>
+                    <Button v-if="row.disableInsertStatus ==1" type="primary" size="small" style="margin-right: 5px" @click="cancelOne(row.stockCode)">取消禁止下单</Button>
                 </template>
 
             </Table>
+
+            <div style="height: 30px">
+            </div>
+            <template>
+              <div>
+                <Button style="float:right" type="info" @click="addAll(0)">禁止所有高位未封住</Button>
+              </div>
+            </template>
+            <Table  border :columns="columns12" :data="data2">
+
+              <template  slot-scope="{ row }" slot="tab">
+                <strong>{{ row.tab }}</strong>
+              </template>
+
+              <template slot-scope="{ row, index }" slot="action">
+                <Button v-if="row.disableInsertStatus ==0" type="primary" size="small" style="margin-right: 5px" @click="addOne(row.stockCode)">禁止下单</Button>
+                <Button v-if="row.disableInsertStatus ==1" type="primary" size="small" style="margin-right: 5px" @click="cancelOne(row.stockCode)">取消禁止下单</Button>
+              </template>
+
+            </Table>
         </Layout>
+
+
     </div>
 </template>
 <script>
     export default {
         created () {
-            this.$api.get('singular/highPlank/dataList', null, r => {
+            this.$api.get('singular/highPlank/dataListNew', null, r => {
               var infos = r.data;
               infos.forEach(item => {
-                if(item.plankEndStatus==0){
-                  item.plankEndStatusStr = "封住";
-                }
                 if(item.plankEndStatus==1){
+                  item.plankEndStatusStr = "封住";
+                  this.data1.push(item)
+                }
+                if(item.plankEndStatus==0){
                   item.plankEndStatusStr = "未封住";
+                  this.data2.push(item)
                 }
               })
-                this.data7 = infos;
             })
+
         },
         data () {
             return {
@@ -118,12 +142,6 @@
                         align: 'center'
                     },
                     {
-                        title: '开板次数',
-                        key: 'openTime',
-                        width: 150,
-                        align: 'center'
-                    },
-                    {
                         title: '最终是否封住',
                         key: 'plankEndStatusStr',
                         width: 150,
@@ -136,24 +154,27 @@
                         align: 'center'
                     }
                 ],
-                data7: [
+                data1: [
+
+                ],
+                data2:[
 
                 ]
             }
         },
         methods: {
-          addAll() {
-            this.$api.get('singular/highPlank/addAll', {}, r => {
+          addAll(endStatus) {
+            this.$api.get('singular/highPlank/addAllNew', {endStatus:endStatus}, r => {
             })
             location.reload()
           },
-          addOne(index) {
-            this.$api.get('singular/highPlank/addOne', {id:index}, r => {
+          addOne(stockCode) {
+            this.$api.get('singular/highPlank/addOneNew', {stockCode:stockCode}, r => {
             })
             location.reload()
           },
-          cancelOne(index) {
-            this.$api.get('singular/highPlank/cancelOne', {id:index}, r => {
+          cancelOne(stockCode) {
+            this.$api.get('singular/highPlank/cancelOneNew', {stockCode:stockCode}, r => {
             })
             location.reload()
           }
