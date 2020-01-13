@@ -10,11 +10,20 @@
         background: #fff;
         box-shadow: 0 1px 1px rgba(0,0,0,.1);
     }
+
+    .ivu-table .demo-table-info-row td{
+      background-color: #2db7f5;
+      color: #fff;
+    }
+    .ivu-table .demo-table-error-row td{
+      background-color: #ff6600;
+      color: #fff;
+    }
 </style>
 <template>
     <div class="layout">
         <Sider :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
-            <Menu active-name="1-18" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
+            <Menu active-name="1-11" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
                 <Submenu name="1">
                     <template slot="title">
                         <Icon type="ios-navigate"></Icon>
@@ -30,7 +39,7 @@
                    <MenuItem  name="1-8"><router-link to="/cancelLog/1"><font color="#fff">今日撤单日志</font></router-link></MenuItem>
                    <MenuItem  name="1-9"><router-link to="/dealOrder/1"><font color="#fff">今日成交</font></router-link></MenuItem>
                    <MenuItem  name="1-10"><router-link to="/sellOrder/1"><font color="#fff">今日可卖</font></router-link></MenuItem>
-                  <MenuItem  name="1-11"><router-link to="/highStock/1"><font color="#fff">高位板</font></router-link></MenuItem>
+                   <MenuItem  name="1-11"><router-link to="/highStock/1"><font color="#fff">高位板</font></router-link></MenuItem>
                   <MenuItem  name="1-12"><router-link to="/dragonParam/1"><font color="#fff">龙头模式参数</font></router-link></MenuItem>
                   <MenuItem  name="1-13"><router-link to="/sellParam/1"><font color="#fff">卖出参数</font></router-link></MenuItem>
                   <MenuItem  name="1-14"><router-link to="/hotBlockStock/1"><font color="#fff">热门板块</font></router-link></MenuItem>
@@ -49,77 +58,86 @@
         <Layout :style="{marginLeft: '200px'}">
             <div style="height: 30px">
             </div>
-            <Table border :columns="columns12" :data="data7">
-                <template slot-scope="{ row }" slot="tab">
+            <template>
+                <div>
+                  <Button style="float:right" type="info" @click="addAll()">禁止所有高涨幅股票</Button>
+                </div>
+            </template>
+            <Table  border :columns="columns12" :data="data1">
+
+                <template  slot-scope="{ row }" slot="tab">
                     <strong>{{ row.tab }}</strong>
                 </template>
+
                 <template slot-scope="{ row, index }" slot="action">
-                  <Button type="primary" size="small" @click="resumeConnect(index)">重连</Button>
+                    <Button v-if="row.disableInsertStatus ==0" type="primary" size="small" style="margin-right: 5px" @click="addOne(row.id)">禁止下单</Button>
+                    <Button v-if="row.disableInsertStatus ==1" type="primary" size="small" style="margin-right: 5px" @click="cancelOne(row.id)">取消禁止下单</Button>
                 </template>
+
             </Table>
         </Layout>
+
+
     </div>
 </template>
 <script>
     export default {
         created () {
-            this.$api.get('singular/connect/getDataList', null, r => {
-                r.data.forEach(item => {
-                  if(item.connectId==0){
-                    item.connectStatusStr = "没有连接"
-                  }else{
-                    item.connectStatusStr = "正常"
-                  }
-
-                  if(item.accountType==1){
-                    item.connectTypeStr = "L1连接"
-                  } else if(item.accountType==2){
-                    item.connectTypeStr = "L2连接"
-                    item.connectStatusStr = "正常"
-                  }else if(item.accountType==3){
-                    item.connectTypeStr = "交易连接"
-                  }
-                });
-                this.data7 = r.data;
+            this.$api.get('singular/highIncrease/dataList', null, r => {
+              var infos = r.data;
+              infos.forEach(item => {
+                  this.data1.push(item)
+              })
             })
+
         },
         data () {
             return {
                 columns12: [
                     {
-                      title: '账号id',
-                      key: 'accountId'
+                        title: '股票代码',
+                        key: 'stockCode',
+                        align: 'center'
                     },
                     {
-                        title: '账号连接类型',
-                        key: 'connectTypeStr'
+                        title: '股票名称',
+                        key: 'stockName',
+                        align: 'center'
                     },
                     {
-                      title: '连接状态',
-                      key: 'connectStatusStr'
+                        title: '涨幅',
+                        key: 'increaseRate',
+                        width: 150,
+                        align: 'center'
                     },
                     {
-                      title: 'Action',
-                      slot: 'action',
-                      width: 150,
-                      align: 'center'
+                        title: 'Action',
+                        slot: 'action',
+                        width: 200,
+                        align: 'center'
                     }
                 ],
-                data7: [
+                data1: [
 
                 ]
             }
         },
         methods: {
-          resumeConnect (index) {
-            var accountIdStr = this.data7[index].accountId;
-            var accountTypeStr = this.data7[index].accountType;
-            var connectIdStr = this.data7[index].connectId;
-            this.$api.post('singular/connect/resume', {accountId:accountIdStr,accountType:accountTypeStr,connectId:connectIdStr}, r => {
-              location.reload()
+          addAll(endStatus) {
+            this.$api.get('singular/highIncrease/addAll', {}, r => {
             })
+            location.reload()
+          },
+          addOne(id) {
+            this.$api.get('singular/highIncrease/addOne', {id:id}, r => {
+            })
+            location.reload()
+          },
+          cancelOne(id) {
+            this.$api.get('singular/highIncrease/cancelOne', {id:id}, r => {
+            })
+            location.reload()
           }
-        },
-
+        }
     }
 </script>

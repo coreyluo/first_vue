@@ -21,6 +21,8 @@ import ConnectList from '@/page/connectList'
 import AreaBlockView from '@/page/areaBlockView'
 import StatisticDaily from '@/page/statisticDaily'
 import StatisticTotalDaily from '@/page/statisticTotalDaily'
+import RadicalDragonPool from '@/page/radicalDragonPool'
+import HighIncreaseStock from '@/page/highIncreaseStock'
 
 
 Vue.use(Router)
@@ -90,6 +92,12 @@ export default new Router({
     }, {
       path: '/statisticTotalDaily/:id',
       component: StatisticTotalDaily
+    }, {
+      path: '/radicalDragonPool/:id',
+      component: RadicalDragonPool
+    }, {
+      path: '/highIncreaseStock/:id',
+      component: HighIncreaseStock
     }
 
   ]
