@@ -23,6 +23,7 @@ import StatisticDaily from '@/page/statisticDaily'
 import StatisticTotalDaily from '@/page/statisticTotalDaily'
 import RadicalDragonPool from '@/page/radicalDragonPool'
 import HighIncreaseStock from '@/page/highIncreaseStock'
+import SpecialNStock from '@/page/specialNStock'
 
 
 Vue.use(Router)
@@ -98,6 +99,9 @@ export default new Router({
     }, {
       path: '/highIncreaseStock/:id',
       component: HighIncreaseStock
+    }, {
+      path: '/specialNStock/:id',
+      component: SpecialNStock
     }
 
   ]
