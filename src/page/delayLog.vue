@@ -14,7 +14,7 @@
 <template>
     <div class="layout">
         <Sider :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
-            <Menu active-name="1-17" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
+            <Menu active-name="1-24" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
                 <Submenu name="1">
                     <template slot="title">
                         <Icon type="ios-navigate"></Icon>
@@ -51,115 +51,48 @@
             <div style="height: 30px">
             </div>
             <template>
-                <div>
-                    <font style="font-weight:bold;font-size:15px;">股票代码：</font><Input name= "param1" v-model="param1" placeholder="stockCode" style="width: 300px" />
-                    <Button type="primary" icon="ios-search" @click="search()">查询</Button>
-                     <Button style="float:right" type="success" @click="modal1=true;show()">添加</Button>
-                </div>
             </template>
-
             <Table border :columns="columns12" :data="data6">
                 <template slot-scope="{ row }" slot="tab">
                     <strong>{{ row.tab }}</strong>
                 </template>
                 <template slot-scope="{ row, index }" slot="action">
-                  <Button type="error" size="small"  @click="removeJumpQueue(row.stockCode)">移除</Button>
+                    <Button v-if="row.status==0" type="primary" size="small" @click="stopCancel(index)">停撤</Button>
+                    <Button v-if="row.status==2" type="error" size="small" @click="resume(index)">恢复</Button>
                 </template>
             </Table>
-
-            <template>
-                <Modal
-                    v-model="modal1"
-                    title="添加允许插队股票"
-                    @on-ok="ok"
-                    @on-cancel="cancel">
-                    <div>
-                        股票代码:<Input name= "param2" v-model="param2" placeholder="" style="width: 300px" />
-                    </div>
-                </Modal>
-            </template>
         </Layout>
     </div>
 </template>
 <script>
     export default {
         created () {
-            this.$api.get('singular/jumpQueue/listData', {}, r => {
-                var infos = r.data;
-                infos.forEach(item => {
-                  if(item.status==0){
-                    item.canInsert = "不允许";
-                  }
-                  if(item.status==1){
-                    item.canInsert = "允许";
-                  }
-                })
-                 this.data6=infos;
+            this.$api.get('singular/delayTime/dataList', {}, r => {
+              this.data6 = r.data;
             })
         },
         data () {
             return {
                 columns12: [
                     {
-                        title: '股票代码',
-                        key: 'stockCode'
+                      title: '股票代码',
+                      key: 'stockCode'
                     },
                     {
-                        title: '股票名称',
-                        key: 'stockName'
+                        title: '时间',
+                        key: 'time'
                     },
                     {
-                      title: '是否允许插队',
-                      key: 'canInsert'
-                    },
-                    {
-                      title: 'Action',
-                      slot: 'action',
-                      width: 150,
-                      align: 'center'
+                        title: '耗时',
+                        key: 'delayMill'
                     }
                 ],
                 data6: [
 
-                ],
-                 modal1: false
+                ]
             }
         },
         methods: {
-            search(){
-                var stockCode = this.param1;
-                if(stockCode){
-                  stockCode = stockCode;
-                }else{
-                  stockCode = null;
-                }
-                this.$api.get('singular/jumpQueue/listData', {stockCode:stockCode}, r => {
-                    var infos = r.data;
-                    infos.forEach(item => {
-                      if(item.status==0){
-                        item.canInsert = "不允许";
-                      }
-                      if(item.status==1){
-                        item.canInsert = "允许";
-                      }
-                    })
-                     this.data6=infos;
-                })
-            },
-            ok () {
-                var stockCodeAdd= this.param2
-                this.$api.get('singular/jumpQueue/addJumpQueue', {stockCode:stockCodeAdd}, r => {
-                })
-                location.reload()
-            },
-            cancel () {
-               this.$Message.info($("param1").value)
-            },
-            removeJumpQueue (stockCodeRemove) {
-              this.$api.get('singular/jumpQueue/removeJumpQueue', {stockCode:stockCodeRemove}, r => {
-              })
-              location.reload()
-            },
         }
     }
 </script>

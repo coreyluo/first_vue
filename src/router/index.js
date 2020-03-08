@@ -24,6 +24,7 @@ import StatisticTotalDaily from '@/page/statisticTotalDaily'
 import RadicalDragonPool from '@/page/radicalDragonPool'
 import HighIncreaseStock from '@/page/highIncreaseStock'
 import SpecialNStock from '@/page/specialNStock'
+import DelayLog from '@/page/delayLog'
 
 
 Vue.use(Router)
@@ -102,6 +103,9 @@ export default new Router({
     }, {
       path: '/specialNStock/:id',
       component: SpecialNStock
+    }, {
+      path: '/delayLog/:id',
+      component: DelayLog
     }
 
   ]
