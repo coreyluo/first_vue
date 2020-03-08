@@ -32,81 +32,9 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-        path: '/',
-        component: Index
-      }, {
-        path: '/content/:id',
-        component: Content
-      }, {
-        path: '/stockPool/:id',
-        component: StockPool
-      }, {
-       path: '/disableStockPool/:id',
-       component: DisableStockPool
-     }, {
-       path: '/aggressiveStockPool/:id',
-       component: AggressiveStockPool
-     }, {
        path: '/position/:id',
        component: Position
-     }, {
-      path: '/targetParam/:id',
-      component: TargetParam
-    }, {
-      path: '/cancelLog/:id',
-      component: CancelLog
-    }, {
-      path: '/dealOrder/:id',
-      component: DealOrder
-    }, {
-      path: '/sellOrder/:id',
-      component: SellOrder
-    }, {
-      path: '/highStock/:id',
-      component: HighStock
-    }, {
-      path: '/dragonParam/:id',
-      component: DragonParam
-    }, {
-      path: '/sellParam/:id',
-      component: SellParam
-    }, {
-      path: '/hotBlockStock/:id',
-      component: HotBlockStock
-    }, {
-      path: '/blockView/:id',
-      component: BlockView
-    }, {
-      path: '/openButton/:id',
-      component: OpenButton
-    }, {
-      path: '/insertQueue/:id',
-      component: InsertQueue
-    }, {
-      path: '/connect/:id',
-      component: ConnectList
-    }, {
-      path: '/areaBlockView/:id',
-      component: AreaBlockView
-    }, {
-      path: '/statisticDaily/:id',
-      component: StatisticDaily
-    }, {
-      path: '/statisticTotalDaily/:id',
-      component: StatisticTotalDaily
-    }, {
-      path: '/radicalDragonPool/:id',
-      component: RadicalDragonPool
-    }, {
-      path: '/highIncreaseStock/:id',
-      component: HighIncreaseStock
-    }, {
-      path: '/specialNStock/:id',
-      component: SpecialNStock
-    }, {
-      path: '/delayLog/:id',
-      component: DelayLog
-    }
+     }
 
   ]
 })

@@ -20,30 +20,7 @@
             <Icon type="ios-navigate"></Icon>
             股票管理
           </template>
-          <MenuItem  name="1-1"><router-link to="/"><font color="#fff">今日待撤</font></router-link></MenuItem>
-          <MenuItem  name="1-2"><router-link to="/content/1"><font color="#fff">参数调优</font></router-link></MenuItem>
-          <MenuItem  name="1-3"><router-link to="/stockPool/1"><font color="#fff">股票监听池</font></router-link></MenuItem>
-          <MenuItem  name="1-4"><router-link to="/disableStockPool/1"><font color="#fff">禁止下单股票池</font></router-link></MenuItem>
-          <MenuItem  name="1-22"><router-link to="/radicalDragonPool/1"><font color="#fff">激进龙头股票</font></router-link></MenuItem>
-          <MenuItem  name="1-6"><router-link to="/position/1"><font color="#fff">仓位</font></router-link></MenuItem>
-          <MenuItem  name="1-7"><router-link to="/targetParam/1"><font color="#fff">靶向参数</font></router-link></MenuItem>
-          <MenuItem  name="1-8"><router-link to="/cancelLog/1"><font color="#fff">今日撤单日志</font></router-link></MenuItem>
-          <MenuItem  name="1-9"><router-link to="/dealOrder/1"><font color="#fff">今日成交</font></router-link></MenuItem>
-          <MenuItem  name="1-10"><router-link to="/sellOrder/1"><font color="#fff">今日可卖</font></router-link></MenuItem>
-          <MenuItem  name="1-11"><router-link to="/highStock/1"><font color="#fff">高位板</font></router-link></MenuItem>
-          <MenuItem  name="1-5"><router-link to="/highIncreaseStock/1"><font color="#fff">涨幅过高股票</font></router-link></MenuItem>
-          <MenuItem  name="1-23"><router-link to="/specialNStock/1"><font color="#fff">特殊高位股票</font></router-link></MenuItem>
-          <MenuItem  name="1-12"><router-link to="/dragonParam/1"><font color="#fff">龙头模式参数</font></router-link></MenuItem>
-          <MenuItem  name="1-13"><router-link to="/sellParam/1"><font color="#fff">卖出参数</font></router-link></MenuItem>
-          <MenuItem  name="1-14"><router-link to="/hotBlockStock/1"><font color="#fff">热门板块</font></router-link></MenuItem>
-          <MenuItem  name="1-15"><router-link to="/blockView/1"><font color="#fff">所有板块</font></router-link></MenuItem>
-          <MenuItem  name="1-16"><router-link to="/openButton/1"><font color="#fff">开启策略按钮</font></router-link></MenuItem>
-          <MenuItem  name="1-24"><router-link to="/delayLog/1"><font color="#fff">延迟日志</font></router-link></MenuItem>
-          <MenuItem  name="1-17"><router-link to="/insertQueue/1"><font color="#fff">插队池</font></router-link></MenuItem>
-          <MenuItem  name="1-18"><router-link to="/connect/1"><font color="#fff">连接相关</font></router-link></MenuItem>
-          <MenuItem  name="1-19"><router-link to="/areaBlockView/1"><font color="#fff">地区板块</font></router-link></MenuItem>
-          <MenuItem  name="1-20"><router-link to="/statisticDaily/1"><font color="#fff">连板成功详情统计</font></router-link></MenuItem>
-          <MenuItem  name="1-21"><router-link to="/statisticTotalDaily/1"><font color="#fff">连板成功率统计</font></router-link></MenuItem>
+          <MenuItem  name="1-6"><router-link to="/position/1"><font color="#fff">账户</font></router-link></MenuItem>
         </Submenu>
       </Menu>
     </Sider>
@@ -52,8 +29,6 @@
       </div>
       <template>
         <div>
-          <Button v-if="tradeStatus" style="float:right" type="primary" @click="changeTradeStatus()">已经开启,请禁用</Button>
-          <Button v-if="!tradeStatus" style="float:right" type="warning" @click="changeTradeStatus()">已经禁止,请开启</Button>
         </div>
       </template>
       <Table border :columns="columns13" :data="data7">
@@ -65,12 +40,6 @@
 
           <Button v-if="row.accountStatus===1" style="float:right" type="warning" @click="changeAccountStatus(1,index,0)">已经禁止,请开启</Button>
           <Button v-if="row.accountStatus===0" style="float:right" type="primary" @click="changeAccountStatus(1,index,1)">已经开启,请禁用</Button>
-
-          <Button v-if="row.twoPlankStatus===0" style="float:right" type="warning" @click="changeAccountStatus(2,index,1)">二板禁止,请开启</Button>
-          <Button v-if="row.twoPlankStatus===1" style="float:right" type="primary" @click="changeAccountStatus(2,index,0)">二板开启,请禁用</Button>
-
-          <Button v-if="row.dragonRadicalStatus===0" style="float:right" type="warning" @click="changeAccountStatus(3,index,1)">超龙头已关闭,请开启</Button>
-          <Button v-if="row.dragonRadicalStatus===1" style="float:right" type="primary" @click="changeAccountStatus(3,index,0)">超龙头已开启,请禁用</Button>
         </template>
 
       </Table>
