@@ -511,7 +511,7 @@
         if(index==40){
           this.openDragonRadicalWeek = !(this.openDragonRadicalWeek);
         }
-        if(index=41){
+        if(index==41){
           this.openManyBigSun = !(this.openManyBigSun);
         }
         var openLongLegFlag = this.openLongLeg;
