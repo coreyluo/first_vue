@@ -55,7 +55,7 @@
                     <font style="font-weight:bold;font-size:15px;">股票代码：</font><Input name= "param1" v-model="param1" placeholder="stockCode" style="width: 300px" />
                     <Button type="primary" icon="ios-search" @click="search()">查询</Button>
                      <Button style="float:right" type="success" @click="modal1=true;show()">添加</Button>
-                     <Button style="float:right" type="primary" @click="removeAll()">全部删除</Button>
+                     <Button style="float:right" type="primary" @click="modal2=true;show()">全部删除</Button>
                 </div>
 
             </template>
@@ -80,6 +80,16 @@
                     </div>
                 </Modal>
             </template>
+
+          <template>
+            <Modal
+              v-model="modal2"
+              title="确定要清空禁止股票池吗"
+              @on-ok="okClear"
+              @on-cancel="cancelClear">
+            </Modal>
+          </template>
+
         </Layout>
     </div>
 </template>
@@ -127,7 +137,8 @@
                 data6: [
 
                 ],
-                 modal1: false
+                 modal1: false,
+                 modal2:false
             }
         },
         methods: {
@@ -160,6 +171,9 @@
             cancel () {
                this.$Message.info($("param1").value)
             },
+
+
+
             change(index) {
                 var stockCodeStr = this.data6[index].stockCode;
                 this.$api.get('singular/disablePool/changeOperateStatus', {stockCode:stockCodeStr}, r => {
@@ -177,8 +191,15 @@
                 this.$api.get('singular/disablePool/deleteAll', null, r => {
                 })
                 location.reload()
-            }
+            },
+            okClear () {
+              this.$api.get('singular/disablePool/deleteAll', null, r => {
+              })
+              location.reload()
+            },
 
+            cancelClear () {
+            },
         }
     }
 </script>
