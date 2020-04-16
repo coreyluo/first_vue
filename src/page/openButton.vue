@@ -235,7 +235,7 @@
           <Button v-if="prohibitCancelAll"  type="error" @click="changeButton(43)">已经禁止撤单,请允许</Button>
           <Button v-if="!prohibitCancelAll"  type="primary" @click="changeButton(43)">已经允许撤单,请禁止</Button>
 
-          <Button v-if="radicalPlankPoolCancelButton"  type="error" @click="changeButton(44)">小池子撤单已开启,请关闭</Button>
+          <Button v-if="radicalPlankPoolCancelButton"  type="error" @click="changeButton(44)">小池子防爆头撤单已开启,请关闭</Button>
           <Button v-if="!radicalPlankPoolCancelButton"  type="primary" @click="changeButton(44)">小池子防爆头撤单已关闭,请开启</Button>
         </div>
 
