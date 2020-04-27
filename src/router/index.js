@@ -25,6 +25,7 @@ import RadicalDragonPool from '@/page/radicalDragonPool'
 import HighIncreaseStock from '@/page/highIncreaseStock'
 import SpecialNStock from '@/page/specialNStock'
 import DelayLog from '@/page/delayLog'
+import MonsterIncreaseStock from '@/page/delayLog'
 
 
 Vue.use(Router)
@@ -106,6 +107,9 @@ export default new Router({
     }, {
       path: '/delayLog/:id',
       component: DelayLog
+    },{
+      path: '/monsterIncreaseStock/:id',
+      component: MonsterIncreaseStock
     }
 
   ]
