@@ -26,6 +26,7 @@ import HighIncreaseStock from '@/page/highIncreaseStock'
 import SpecialNStock from '@/page/specialNStock'
 import DelayLog from '@/page/delayLog'
 import MonsterIncreaseStock from '@/page/delayLog'
+import AbsortPool from '@/page/absortPool'
 
 
 Vue.use(Router)
@@ -110,6 +111,9 @@ export default new Router({
     },{
       path: '/monsterIncreaseStock/:id',
       component: MonsterIncreaseStock
+    },{
+      path: '/absortPool/:id',
+      component: AbsortPool
     }
 
   ]

@@ -25,6 +25,7 @@
           <MenuItem  name="1-3"><router-link to="/stockPool/1"><font color="#fff">股票监听池</font></router-link></MenuItem>
           <MenuItem  name="1-4"><router-link to="/disableStockPool/1"><font color="#fff">禁止下单股票池</font></router-link></MenuItem>
           <MenuItem  name="1-22"><router-link to="/radicalDragonPool/1"><font color="#fff">激进龙头股票</font></router-link></MenuItem>
+          <MenuItem  name="1-25"><router-link to="/absortPool/1"><font color="#fff">粽子</font></router-link></MenuItem>
           <MenuItem  name="1-6"><router-link to="/position/1"><font color="#fff">仓位</font></router-link></MenuItem>
           <MenuItem  name="1-7"><router-link to="/targetParam/1"><font color="#fff">靶向参数</font></router-link></MenuItem>
           <MenuItem  name="1-8"><router-link to="/cancelLog/1"><font color="#fff">今日撤单日志</font></router-link></MenuItem>
@@ -72,6 +73,9 @@
 
           <Button v-if="row.dragonRadicalStatus===0" style="float:right" type="warning" @click="changeAccountStatus(3,index,1)">超龙头已关闭,请开启</Button>
           <Button v-if="row.dragonRadicalStatus===1" style="float:right" type="primary" @click="changeAccountStatus(3,index,0)">超龙头已开启,请禁用</Button>
+
+          <Button v-if="row.absortStatus===0" style="float:right" type="warning" @click="changeAccountStatus(4,index,1)">粽子已关闭,请开启</Button>
+          <Button v-if="row.absortStatus===1" style="float:right" type="primary" @click="changeAccountStatus(4,index,0)">粽子已开启,请禁用</Button>
         </template>
 
       </Table>
@@ -156,14 +160,17 @@
         var accountStatusStr = this.data7[index].accountStatus;
         var twoPlankStatusStr = this.data7[index].twoPlankStatus;
         var dragonRadicalStatusStr = this.data7[index].dragonRadicalStatus;
+        var absortStatusStr = this.data7[index].absortStatus;
         if(buttonIndex==1){
           accountStatusStr = buttonValue;
         }else if(buttonIndex==2){
           twoPlankStatusStr = buttonValue;
         }else if(buttonIndex==3){
           dragonRadicalStatusStr = buttonValue;
+        }else if(buttonIndex == 4){
+          absortStatusStr = buttonValue;
         }
-        this.$api.post('singular/tradeAccount/changeAccountStatus', {id:idVal,accountStatus:accountStatusStr,twoPlankStatus:twoPlankStatusStr,dragonRadicalStatus:dragonRadicalStatusStr}, r => {
+        this.$api.post('singular/tradeAccount/changeAccountStatus', {id:idVal,accountStatus:accountStatusStr,twoPlankStatus:twoPlankStatusStr,dragonRadicalStatus:dragonRadicalStatusStr,absortStatus:absortStatusStr}, r => {
           location.reload();
         })
 
