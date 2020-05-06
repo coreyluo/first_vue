@@ -25,7 +25,7 @@ import RadicalDragonPool from '@/page/radicalDragonPool'
 import HighIncreaseStock from '@/page/highIncreaseStock'
 import SpecialNStock from '@/page/specialNStock'
 import DelayLog from '@/page/delayLog'
-import MonsterIncreaseStock from '@/page/delayLog'
+import MonsterIncreaseStock from '@/page/monsterIncreaseStock'
 import AbsortPool from '@/page/absortPool'
 
 
