@@ -23,7 +23,7 @@
 <template>
     <div class="layout">
         <Sider :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
-            <Menu active-name="1-24" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
+            <Menu active-name="1-26" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
                 <Submenu name="1">
                     <template slot="title">
                         <Icon type="ios-navigate"></Icon>
@@ -42,7 +42,7 @@
                    <MenuItem  name="1-10"><router-link to="/sellOrder/1"><font color="#fff">今日可卖</font></router-link></MenuItem>
                    <MenuItem  name="1-11"><router-link to="/highStock/1"><font color="#fff">高位板</font></router-link></MenuItem>
                   <MenuItem  name="1-5"><router-link to="/highIncreaseStock/1"><font color="#fff">涨幅过高股票</font></router-link></MenuItem>
-                  <MenuItem  name="1-24"><router-link to="/monsterIncreaseStock/1"><font color="#fff">近期妖股</font></router-link></MenuItem>
+                  <MenuItem  name="1-26"><router-link to="/monsterIncreaseStock/1"><font color="#fff">近期妖股</font></router-link></MenuItem>
                   <MenuItem  name="1-23"><router-link to="/specialNStock/1"><font color="#fff">特殊高位股票</font></router-link></MenuItem>
                   <MenuItem  name="1-12"><router-link to="/dragonParam/1"><font color="#fff">龙头模式参数</font></router-link></MenuItem>
                   <MenuItem  name="1-13"><router-link to="/sellParam/1"><font color="#fff">卖出参数</font></router-link></MenuItem>
