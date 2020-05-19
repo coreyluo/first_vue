@@ -27,6 +27,7 @@ import SpecialNStock from '@/page/specialNStock'
 import DelayLog from '@/page/delayLog'
 import MonsterIncreaseStock from '@/page/monsterIncreaseStock'
 import AbsortPool from '@/page/absortPool'
+import SevenSunPool from '@/page/sevenSunPool'
 
 
 Vue.use(Router)
@@ -114,6 +115,9 @@ export default new Router({
     },{
       path: '/absortPool/:id',
       component: AbsortPool
+    },{
+      path: '/sevenSunPool/:id',
+      component: SevenSunPool
     }
 
   ]

@@ -14,7 +14,7 @@
 <template>
     <div class="layout">
         <Sider :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
-            <Menu active-name="1-1" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
+            <Menu active-name="1-27" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
                 <Submenu name="1">
                     <template slot="title">
                         <Icon type="ios-navigate"></Icon>
@@ -55,18 +55,11 @@
             </div>
             <template>
                 <div>
-                    <font style="font-weight:bold;font-size:15px;">股票代码：</font><Input name= "param1" v-model="param1" placeholder="stockCode" style="width: 300px" />
-                    <Button type="primary" icon="ios-search" @click="search()">查询</Button>
                 </div>
             </template>
             <Table border :columns="columns12" :data="data6">
                 <template slot-scope="{ row }" slot="tab">
                     <strong>{{ row.tab }}</strong>
-                </template>
-                <template slot-scope="{ row, index }" slot="action">
-                    <Button v-if="row.status==0" type="primary" size="small" @click="stopCancel(index)">停撤</Button>
-                    <Button v-if="row.status==2" type="error" size="small" @click="resume(index)">恢复</Button>
-                    <Button v-if="row.status==0" type="error" size="small" @click="manHandleCancel(index)">执行撤单</Button>
                 </template>
             </Table>
         </Layout>
@@ -75,28 +68,8 @@
 <script>
     export default {
         created () {
-            this.$api.get('singular/orderCancel/dataList', null, r => {
+            this.$api.get('singular/sevenSun/list', null, r => {
                var infos = r.data;
-               infos.forEach(item => {
-                 if(item.status==0){
-                   item.statusStr = "等待撤单"
-                 }
-                 if(item.status==2){
-                   item.statusStr = "已经禁止撤单"
-                 }
-                 if(item.insertOrderType==0){
-                   item.insertTypeStr="L1行情下单"
-                 }
-                 if(item.insertOrderType==1&&item.entrustStatus==0){
-                   item.insertTypeStr="L2行情下单"
-                 }
-                 if(item.insertOrderType==1&&item.entrustStatus==1){
-                   item.insertTypeStr="逐笔下单"
-                 }
-                 if(item.orderStamp!=""&&item.beforeQuantity!=null){
-                   item.beforeQuantityStr = item.beforeQuantity/100
-                 }
-              })
               this.data6 = infos
             })
         },
@@ -104,36 +77,12 @@
             return {
                 columns12: [
                     {
-                      title: '账号id',
-                      key: 'accountId'
-                    },
-                    {
                         title: '股票代码',
                         key: 'stockCode'
                     },
                     {
                         title: '股票名称',
                         key: 'stockName'
-                    },
-                    {
-                        title: '委托编号',
-                        key: 'orderNo'
-                    },
-                    {
-                      title: '下单实际炮灰量',
-                      key: 'realCannonQuantity'
-                    },
-                    {
-                      title: '下单实际单前量',
-                      key: 'beforeQuantityStr'
-                    },
-                    {
-                      title: '下单方式',
-                      key: 'insertTypeStr'
-                    },
-                    {
-                        title: '状态',
-                        key: 'statusStr'
                     },
                     {
                         title: 'Action',
@@ -144,61 +93,11 @@
                 ],
                 data6: [
 
-                ]
+                ],
+                modal1:false
             }
         },
         methods: {
-            stopCancel (index) {
-                var idStr = this.data6[index].id;
-                this.$api.get('singular/orderCancel/stopCancel', {id:idStr}, r => {
-                     location.reload()
-                })
-            },
-            resume (index) {
-                var idStr = this.data6[index].id;
-                this.$api.get('singular/orderCancel/resume', {id:idStr}, r => {
-                     location.reload()
-                })
-            },
-            search(){
-                var stockCode = this.param1;
-                if(stockCode){
-                  stockCode = stockCode;
-                }else{
-                  stockCode = null;
-                }
-                this.$api.get('singular/orderCancel/dataList', {stockCode:stockCode}, r => {
-                    var infos = r.data;
-                    infos.forEach(item => {
-                       if(item.status==0){
-                         item.statusStr = "等待撤单"
-                       }
-                       if(item.status==2){
-                         item.statusStr = "已禁止撤单"
-                       }
-                        if(item.insertOrderType==0){
-                          item.insertTypeStr=="L1行情下单"
-                        }
-                        if(item.insertOrderType==1&&item.entrustStatus==0){
-                          item.insertTypeStr=="L2行情下单"
-                        }
-                        if(item.insertOrderType==1&&item.entrustStatus==1){
-                          item.insertTypeStr=="逐笔下单"
-                        }
-                        if(item.orderStamp!=null){
-                          item.beforeQuantityStr = item.beforeQuantity
-                        }
-                    })
-                    this.data6 = infos
-                })
-            },
-            manHandleCancel(index){
-                var idStr = this.data6[index].id;
-                this.$api.get('singular/orderCancel/manHandleCancel', {id:idStr}, r => {
-                  location.reload()
-                })
-            }
-
         }
     }
 </script>
