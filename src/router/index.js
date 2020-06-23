@@ -28,6 +28,8 @@ import DelayLog from '@/page/delayLog'
 import MonsterIncreaseStock from '@/page/monsterIncreaseStock'
 import AbsortPool from '@/page/absortPool'
 import SevenSunPool from '@/page/sevenSunPool'
+import DragonTigerStock from '@/page/dragonTigerStock'
+import FlowKbar from '@/page/flowKbar'
 
 
 Vue.use(Router)
@@ -118,6 +120,12 @@ export default new Router({
     },{
       path: '/sevenSunPool/:id',
       component: SevenSunPool
+    },{
+      path: '/dragonTigerStock/:id',
+      component: DragonTigerStock
+    },{
+      path: '/flowKbar/:id',
+      component: FlowKbar
     }
 
   ]

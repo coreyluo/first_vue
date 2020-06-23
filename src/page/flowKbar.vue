@@ -10,20 +10,11 @@
         background: #fff;
         box-shadow: 0 1px 1px rgba(0,0,0,.1);
     }
-
-    .ivu-table .demo-table-info-row td{
-      background-color: #2db7f5;
-      color: #fff;
-    }
-    .ivu-table .demo-table-error-row td{
-      background-color: #ff6600;
-      color: #fff;
-    }
 </style>
 <template>
     <div class="layout">
         <Sider :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
-            <Menu active-name="1-23" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
+            <Menu active-name="1-29" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
                 <Submenu name="1">
                     <template slot="title">
                         <Icon type="ios-navigate"></Icon>
@@ -39,8 +30,8 @@
                    <MenuItem  name="1-7"><router-link to="/targetParam/1"><font color="#fff">靶向参数</font></router-link></MenuItem>
                    <MenuItem  name="1-8"><router-link to="/cancelLog/1"><font color="#fff">今日撤单日志</font></router-link></MenuItem>
                    <MenuItem  name="1-9"><router-link to="/dealOrder/1"><font color="#fff">今日成交</font></router-link></MenuItem>
-                   <MenuItem  name="1-10"><router-link to="/sellOrder/1"><font color="#fff">今日可卖</font></router-link></MenuItem>
-                   <MenuItem  name="1-11"><router-link to="/highStock/1"><font color="#fff">高位板</font></router-link></MenuItem>
+                  <MenuItem  name="1-10"><router-link to="/sellOrder/1"><font color="#fff">今日可卖</font></router-link></MenuItem>
+                  <MenuItem  name="1-11"><router-link to="/highStock/1"><font color="#fff">高位板</font></router-link></MenuItem>
                   <MenuItem  name="1-5"><router-link to="/highIncreaseStock/1"><font color="#fff">涨幅过高股票</font></router-link></MenuItem>
                   <MenuItem  name="1-26"><router-link to="/monsterIncreaseStock/1"><font color="#fff">近期妖股</font></router-link></MenuItem>
                   <MenuItem  name="1-23"><router-link to="/specialNStock/1"><font color="#fff">特殊高位股票</font></router-link></MenuItem>
@@ -66,78 +57,86 @@
             </div>
             <template>
                 <div>
-                  <Button style="float:right" type="info" @click="addAll()">禁止所有</Button>
+                  <Button type="error" size="small">流动性数据</Button>
                 </div>
             </template>
-            <Table  border :columns="columns12" :data="data1">
-
-                <template  slot-scope="{ row }" slot="tab">
+            <Table border :columns="columns12" :data="data1">
+                <template slot-scope="{ row }" slot="tab">
                     <strong>{{ row.tab }}</strong>
                 </template>
-
-                <template slot-scope="{ row, index }" slot="action">
-                    <Button v-if="row.disableInsertStatus ==0" type="primary" size="small" style="margin-right: 5px" @click="addOne(row.stockCode)">禁止下单</Button>
-                    <Button v-if="row.disableInsertStatus ==1" type="primary" size="small" style="margin-right: 5px" @click="cancelOne(row.stockCode)">取消禁止下单</Button>
-                </template>
-
             </Table>
+
         </Layout>
-
-
     </div>
 </template>
 <script>
     export default {
         created () {
-            this.$api.get('singular/specialPlank/dataList', null, r => {
-              var infos = r.data;
-              infos.forEach(item => {
+            this.$api.get('singular/shortMood/list', null, r => {
+                var infos = r.data;
+                infos.forEach(item => {
                   this.data1.push(item)
-              })
+                })
             })
-
         },
         data () {
             return {
                 columns12: [
                     {
-                        title: '股票代码',
-                        key: 'stockCode',
-                        align: 'center'
+                      title: '时间',
+                      key: 'dateStr'
                     },
                     {
-                        title: '股票名称',
-                        key: 'name',
-                        align: 'center'
+                        title: '昨高换手-昨日',
+                        key: 'zghsAmountYesterday'
                     },
+                    {
+                        title: '昨高换手-当日',
+                        key: 'zghsAmount'
+                    },
+                    {
+                      title: '昨高换手-差值',
+                      key: 'zghsChange'
+                    },
+                    {
+                      title: '最近多板-昨日',
+                      key: 'zjdbAmountYesterday'
+                    },
+                    {
+                      title: '最近多板-当日',
+                      key: 'zjdbAmount'
+                    },
+                    {
+                      title: '最近多板-差值',
+                      key: 'zjdbChange'
+                    },
+                    {
+                      title: '近期强势-昨日',
+                      key: 'zjqsAmountYesterday'
+                    },
+                    {
+                      title: '近期强势-当日',
+                      key: 'zjqsAmount'
+                    },
+                    {
+                      title: '近期强势-差值',
+                      key: 'zjqsChange'
+                    },
+
                     {
                         title: 'Action',
                         slot: 'action',
-                        width: 200,
+                        width: 150,
                         align: 'center'
                     }
                 ],
                 data1: [
 
-                ]
+                ],
+                modal1:false
             }
         },
         methods: {
-          addAll(endStatus) {
-            this.$api.get('singular/specialPlank/addAll', {}, r => {
-            })
-            location.reload()
-          },
-          addOne(stockCode) {
-            this.$api.get('singular/specialPlank/addOne', {stockCode:stockCode}, r => {
-            })
-            location.reload()
-          },
-          cancelOne(stockCode) {
-            this.$api.get('singular/specialPlank/cancelOne', {stockCode:stockCode}, r => {
-            })
-            location.reload()
-          }
         }
     }
 </script>

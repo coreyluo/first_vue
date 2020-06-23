@@ -46,7 +46,9 @@
                   <MenuItem  name="1-19"><router-link to="/areaBlockView/1"><font color="#fff">地区板块</font></router-link></MenuItem>
                   <MenuItem  name="1-20"><router-link to="/statisticDaily/1"><font color="#fff">连板成功详情统计</font></router-link></MenuItem>
                   <MenuItem  name="1-21"><router-link to="/statisticTotalDaily/1"><font color="#fff">连板成功率统计</font></router-link></MenuItem>
-                  <MenuItem  name="1-27"><router-link to="/sevenSunPool/1"><font color="#fff">七连阳</font></router-link></MenuItem>
+                  <MenuItem  name="1-27"><router-link to="/sevenSunPool/1"><font color="#fff">低点买入策略</font></router-link></MenuItem>
+                  <MenuItem  name="1-28"><router-link to="/dragonTigerStock/1"><font color="#fff">龙虎榜</font></router-link></MenuItem>
+                  <MenuItem  name="1-29"><router-link to="/flowKbar/1"><font color="#fff">流动性数据</font></router-link></MenuItem>
                 </Submenu>
             </Menu>
         </Sider>
@@ -54,13 +56,39 @@
             <div style="height: 30px">
             </div>
             <template>
+              <div>
+                <Button type="error" size="small">金箱底4天</Button>
+              </div>
+            </template>
+            <Table border :columns="columns12" :data="data3">
+              <template slot-scope="{ row }" slot="tab">
+                <strong>{{ row.tab }}</strong>
+              </template>
+            </Table>
+
+            <div style="height: 30px">
+            </div>
+            <template>
                 <div>
+                  <Button type="error" size="small">金箱底5天</Button>
                 </div>
             </template>
-            <Table border :columns="columns12" :data="data6">
+            <Table border :columns="columns12" :data="data1">
                 <template slot-scope="{ row }" slot="tab">
                     <strong>{{ row.tab }}</strong>
                 </template>
+            </Table>
+
+            <div style="height: 30px"></div>
+            <template>
+              <div>
+                <Button type="error" size="small">七连阳</Button>
+              </div>
+            </template>
+            <Table border :columns="columns12" :data="data2">
+              <template slot-scope="{ row }" slot="tab">
+                <strong>{{ row.tab }}</strong>
+              </template>
             </Table>
         </Layout>
     </div>
@@ -69,8 +97,21 @@
     export default {
         created () {
             this.$api.get('singular/sevenSun/list', null, r => {
-               var infos = r.data;
-              this.data6 = infos
+                var infos = r.data;
+                infos.forEach(item => {
+                  if(item.buyType==1){
+                    item.buyTypeStr = "金箱底5天";
+                    this.data1.push(item)
+                  }
+                  if(item.buyType==2){
+                    item.buyTypeStr = "金箱底4天";
+                    this.data3.push(item)
+                  }
+                  if(item.buyType==0){
+                    item.buyTypeStr = "七连阳";
+                    this.data2.push(item)
+                  }
+                })
             })
         },
         data () {
@@ -85,13 +126,23 @@
                         key: 'stockName'
                     },
                     {
+                      title: '触发类型',
+                      key: 'buyTypeStr'
+                    },
+                    {
                         title: 'Action',
                         slot: 'action',
                         width: 150,
                         align: 'center'
                     }
                 ],
-                data6: [
+                data1: [
+
+                ],
+                data2: [
+
+                ],
+                data3: [
 
                 ],
                 modal1:false
