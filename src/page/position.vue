@@ -79,6 +79,9 @@
 
           <Button v-if="row.absortStatus===0" style="float:right" type="warning" @click="changeAccountStatus(4,index,1)">粽子已关闭,请开启</Button>
           <Button v-if="row.absortStatus===1" style="float:right" type="primary" @click="changeAccountStatus(4,index,0)">粽子已开启,请禁用</Button>
+
+          <Button v-if="row.pit===0" style="float:right" type="warning" @click="changeAccountStatus(5,index,1)">核按钮已关闭,请开启</Button>
+          <Button v-if="row.pit===1" style="float:right" type="primary" @click="changeAccountStatus(5,index,0)">核按钮已开启,请禁用</Button>
         </template>
 
       </Table>
@@ -164,6 +167,7 @@
         var twoPlankStatusStr = this.data7[index].twoPlankStatus;
         var dragonRadicalStatusStr = this.data7[index].dragonRadicalStatus;
         var absortStatusStr = this.data7[index].absortStatus;
+        var pitStr = this.data7[index].pit;
         if(buttonIndex==1){
           accountStatusStr = buttonValue;
         }else if(buttonIndex==2){
@@ -172,8 +176,10 @@
           dragonRadicalStatusStr = buttonValue;
         }else if(buttonIndex == 4){
           absortStatusStr = buttonValue;
+        }else if(buttonIndex == 5) {
+          pitStr = buttonValue;
         }
-        this.$api.post('singular/tradeAccount/changeAccountStatus', {id:idVal,accountStatus:accountStatusStr,twoPlankStatus:twoPlankStatusStr,dragonRadicalStatus:dragonRadicalStatusStr,absortStatus:absortStatusStr}, r => {
+          this.$api.post('singular/tradeAccount/changeAccountStatus', {id:idVal,accountStatus:accountStatusStr,twoPlankStatus:twoPlankStatusStr,dragonRadicalStatus:dragonRadicalStatusStr,absortStatus:absortStatusStr,pit:pitStr}, r => {
           location.reload();
         })
 
