@@ -80,8 +80,11 @@
           <Button v-if="row.absortStatus===0" style="float:right" type="warning" @click="changeAccountStatus(4,index,1)">粽子已关闭,请开启</Button>
           <Button v-if="row.absortStatus===1" style="float:right" type="primary" @click="changeAccountStatus(4,index,0)">粽子已开启,请禁用</Button>
 
-          <Button v-if="row.pit===0" style="float:right" type="warning" @click="changeAccountStatus(5,index,1)">核按钮已关闭,请开启</Button>
-          <Button v-if="row.pit===1" style="float:right" type="primary" @click="changeAccountStatus(5,index,0)">核按钮已开启,请禁用</Button>
+          <Button v-if="row.pit===0" style="float:right" type="warning" @click="changeAccountStatus(5,index,1)">集合核按钮已关闭,请开启</Button>
+          <Button v-if="row.pit===1" style="float:right" type="primary" @click="changeAccountStatus(5,index,0)">集合核按钮已开启,请禁用</Button>
+
+          <Button v-if="row.pitOpen===0" style="float:right" type="warning" @click="changeAccountStatus(6,index,1)">开盘核按钮已关闭,请开启</Button>
+          <Button v-if="row.pitOpen===1" style="float:right" type="primary" @click="changeAccountStatus(6,index,0)">开盘核按钮已开启,请禁用</Button>
         </template>
 
       </Table>
@@ -127,7 +130,7 @@
           {
             title: '操作',
             slot: 'action',
-            width: 650,
+            width: 1000,
             align: 'center'
           }
         ],
@@ -168,6 +171,7 @@
         var dragonRadicalStatusStr = this.data7[index].dragonRadicalStatus;
         var absortStatusStr = this.data7[index].absortStatus;
         var pitStr = this.data7[index].pit;
+        var pitOpenStr = this.data7[index].pitOpen;
         if(buttonIndex==1){
           accountStatusStr = buttonValue;
         }else if(buttonIndex==2){
@@ -178,8 +182,10 @@
           absortStatusStr = buttonValue;
         }else if(buttonIndex == 5) {
           pitStr = buttonValue;
+        }else if(buttonIndex==6){
+          pitOpenStr = buttonValue;
         }
-          this.$api.post('singular/tradeAccount/changeAccountStatus', {id:idVal,accountStatus:accountStatusStr,twoPlankStatus:twoPlankStatusStr,dragonRadicalStatus:dragonRadicalStatusStr,absortStatus:absortStatusStr,pit:pitStr}, r => {
+          this.$api.post('singular/tradeAccount/changeAccountStatus', {id:idVal,accountStatus:accountStatusStr,twoPlankStatus:twoPlankStatusStr,dragonRadicalStatus:dragonRadicalStatusStr,absortStatus:absortStatusStr,pit:pitStr,pitOpen:pitOpenStr}, r => {
           location.reload();
         })
 
