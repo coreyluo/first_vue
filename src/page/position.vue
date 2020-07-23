@@ -67,6 +67,7 @@
         </template>
         <template slot-scope="{ row, index }" slot="action">
           <Button type="primary" size="small" style="margin-right: 5px" @click="modal1=true;show(index)">修改</Button>
+          <Button type="primary" size="small" style="margin-right: 5px" @click="modal2=true;show(index)">修改卖出比例</Button>
 
           <Button v-if="row.accountStatus===1" style="float:right" type="warning" @click="changeAccountStatus(1,index,0)">已经禁止,请开启</Button>
           <Button v-if="row.accountStatus===0" style="float:right" type="primary" @click="changeAccountStatus(1,index,1)">已经开启,请禁用</Button>
@@ -99,6 +100,19 @@
           </div>
         </Modal>
       </template>
+
+      <template>
+        <Modal
+          v-model="modal2"
+          title="核按钮卖出比例"
+          @on-ok="ok2"
+          @on-cancel="cancel2">
+          <div>
+            比例:<Input name= "param2" v-model="param2" placeholder="" style="width: 300px" />
+          </div>
+        </Modal>
+      </template>
+
     </Layout>
   </div>
 </template>
@@ -128,9 +142,14 @@
             align: 'center'
           },
           {
+            title: '核按钮卖出比例',
+            key: 'sellRate',
+            align: 'center'
+          },
+          {
             title: '操作',
             slot: 'action',
-            width: 1000,
+            width: 1200,
             align: 'center'
           }
         ],
@@ -138,6 +157,7 @@
 
         ],
         modal1: false,
+        modal2:false,
         indexId:0,
         tradeStatus:true
       }
@@ -164,6 +184,20 @@
           this.tradeStatus = r.data
         })
       },
+
+      ok2 () {
+        var sellRate= this.param2;
+        var changerId = this.indexId;
+        this.$api.post('singular/tradeAccount/changeSellRate', {id:changerId,sellRate:sellRate}, r => {
+
+        })
+        location.reload();
+
+      },
+      cancel2 () {
+        this.$Message.info($("param2").value)
+      },
+
       changeAccountStatus (buttonIndex,index,buttonValue){
         var idVal=this.data7[index].id;
         var accountStatusStr = this.data7[index].accountStatus;
