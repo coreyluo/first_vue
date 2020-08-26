@@ -86,7 +86,7 @@
         <template>
           <div>
             <Button style="float:right"  type="primary" >超级龙头</Button>
-            <Button style="float:right" type="error" @click="modal1=true;showAdd(0,5,1)">添加</Button>
+            <Button style="float:right" type="error" @click="modal1=true;showAdd(0,5,1,30,1.10,1)">添加</Button>
           </div>
         </template>
         <Table border :columns="columns13" :data="data13">
@@ -106,7 +106,7 @@
         <template>
           <div>
             <Button style="float:right" type="primary">激进打板</Button>
-            <Button style="float:right" type="error" @click="modal1=true;showAdd(2,2,1)">添加</Button>
+            <Button style="float:right" type="error" @click="modal1=true;showAdd(2,2,1,30,1.10,1)">添加</Button>
           </div>
         </template>
         <Table border :columns="columns13" :data="data14">
@@ -141,6 +141,15 @@
               <option v-if="param4 ==0" value="1">开盘向上买入</option>
               <option v-if="param4 ==0" value="0">集合买入</option>
             </select>
+          </div>
+          <div>
+            时间限制:&nbsp&nbsp<Input name= "param5" v-model="param5" placeholder="" style="width: 100px" />
+          </div>
+          <div>
+            买入上限:&nbsp&nbsp<Input name= "param6" v-model="param6" placeholder="" style="width: 100px" />
+          </div>
+          <div>
+            买入次数:&nbsp&nbsp<Input name= "param7" v-model="param7" placeholder="" style="width: 100px" />
           </div>
           <div>
             <Input type="hidden" name= "param4" v-model="param4" placeholder="" style="width: 100px" />
@@ -210,6 +219,21 @@
             align: 'center'
           },
           {
+            title: '开盘后下单时间限制',
+            key: 'afterOpenSeconds',
+            align: 'center'
+          },
+          {
+            title: '买入上限',
+            key: 'highRate',
+            align: 'center'
+          },
+          {
+            title: '买入次数',
+            key: 'orderTimes',
+            align: 'center'
+          },
+          {
             title: '操作',
             slot: 'action',
             width: 150,
@@ -235,6 +259,9 @@
         this.param2=row.positionRatio;
         this.param3=row.sweepType;
         this.param4=row.radical;
+        this.param5 = row.afterOpenSeconds;
+        this.param6 = row.highRate;
+        this.param7 = row.orderTimes;
       },
       ok () {
         var primaryKey = this.indexId
@@ -242,7 +269,10 @@
         var positionRatio= this.param2
         var sweepType= this.param3
         var radical= this.param4
-        this.$api.post('singular/radicalDragonPool/addOne', {id:primaryKey,stockCode:stockCode,positionRatio:positionRatio,sweepType:sweepType,radical:radical}, r => {
+        var afterOpenSeconds = this.param5
+        var highRate = this.param6
+        var orderTimes = this.param7
+        this.$api.post('singular/radicalDragonPool/addOne', {id:primaryKey,stockCode:stockCode,positionRatio:positionRatio,sweepType:sweepType,radical:radical,afterOpenSeconds:afterOpenSeconds,highRate:highRate,orderTimes:orderTimes}, r => {
           location.reload()
         })
 
@@ -261,10 +291,13 @@
         })
       },
 
-      showAdd (radical,positionRatio,sweepType) {
+      showAdd (radical,positionRatio,sweepType,afterOpenSeconds,highRate,orderTimes) {
         this.param4=radical;
         this.param3=sweepType;
         this.param2=positionRatio;
+        this.param5=afterOpenSeconds;
+        this.param6 = highRate;
+        this.param7 = orderTimes;
       },
     }
   }
