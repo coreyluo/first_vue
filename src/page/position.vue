@@ -171,7 +171,7 @@
           {
             title: '操作',
             slot: 'action',
-            width: 1500,
+            width: 1100,
             align: 'center'
           }
         ],
