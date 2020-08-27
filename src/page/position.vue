@@ -66,37 +66,49 @@
           <strong>{{ row.tab }}</strong>
         </template>
         <template slot-scope="{ row, index }" slot="action">
-          <Button type="primary" size="small" style="margin-right: 5px" @click="modal1=true;show(index)">修改</Button>
+          <Button type="primary" size="small" style="margin-right: 5px" @click="modal1=true;show(index)">修改三大市场仓位</Button>
           <Button type="primary" size="small" style="margin-right: 5px" @click="modal2=true;show(index)">修改卖出比例</Button>
 
-          <Button v-if="row.accountStatus===1" style="float:right" type="warning" @click="changeAccountStatus(1,index,0)">已经禁止,请开启</Button>
-          <Button v-if="row.accountStatus===0" style="float:right" type="primary" @click="changeAccountStatus(1,index,1)">已经开启,请禁用</Button>
+          <Button v-if="row.twoPlankStatus===0" style="margin-right: 5px" type="warning" @click="changeAccountStatus(2,index,1)">二板禁止,请开启</Button>
+          <Button v-if="row.twoPlankStatus===1" style="margin-right: 5px" type="primary" @click="changeAccountStatus(2,index,0)">二板开启,请禁用</Button>
 
-          <Button v-if="row.twoPlankStatus===0" style="float:right" type="warning" @click="changeAccountStatus(2,index,1)">二板禁止,请开启</Button>
-          <Button v-if="row.twoPlankStatus===1" style="float:right" type="primary" @click="changeAccountStatus(2,index,0)">二板开启,请禁用</Button>
+          <Button v-if="row.dragonRadicalStatus===0" style="margin-right: 5px" type="warning" @click="changeAccountStatus(3,index,1)">超龙头已关闭,请开启</Button>
+          <Button v-if="row.dragonRadicalStatus===1" style="margin-right: 5px" type="primary" @click="changeAccountStatus(3,index,0)">超龙头已开启,请禁用</Button>
 
-          <Button v-if="row.dragonRadicalStatus===0" style="float:right" type="warning" @click="changeAccountStatus(3,index,1)">超龙头已关闭,请开启</Button>
-          <Button v-if="row.dragonRadicalStatus===1" style="float:right" type="primary" @click="changeAccountStatus(3,index,0)">超龙头已开启,请禁用</Button>
+          <Button v-if="row.absortStatus===0" style="margin-right: 5px" type="warning" @click="changeAccountStatus(4,index,1)">粽子已关闭,请开启</Button>
+          <Button v-if="row.absortStatus===1" style="margin-right: 5px" type="primary" @click="changeAccountStatus(4,index,0)">粽子已开启,请禁用</Button>
 
-          <Button v-if="row.absortStatus===0" style="float:right" type="warning" @click="changeAccountStatus(4,index,1)">粽子已关闭,请开启</Button>
-          <Button v-if="row.absortStatus===1" style="float:right" type="primary" @click="changeAccountStatus(4,index,0)">粽子已开启,请禁用</Button>
+          <Button v-if="row.pit===0" style="margin-right: 5px" type="warning" @click="changeAccountStatus(5,index,1)">集合核按钮已关闭,请开启</Button>
+          <Button v-if="row.pit===1" style="margin-right: 5px" type="primary" @click="changeAccountStatus(5,index,0)">集合核按钮已开启,请禁用</Button>
 
-          <Button v-if="row.pit===0" style="float:right" type="warning" @click="changeAccountStatus(5,index,1)">集合核按钮已关闭,请开启</Button>
-          <Button v-if="row.pit===1" style="float:right" type="primary" @click="changeAccountStatus(5,index,0)">集合核按钮已开启,请禁用</Button>
+          <Button v-if="row.pitOpen===0" style="margin-right: 5px" type="warning" @click="changeAccountStatus(6,index,1)">开盘核按钮已关闭,请开启</Button>
+          <Button v-if="row.pitOpen===1" style="margin-right: 5px" type="primary" @click="changeAccountStatus(6,index,0)">开盘核按钮已开启,请禁用</Button>
 
-          <Button v-if="row.pitOpen===0" style="float:right" type="warning" @click="changeAccountStatus(6,index,1)">开盘核按钮已关闭,请开启</Button>
-          <Button v-if="row.pitOpen===1" style="float:right" type="primary" @click="changeAccountStatus(6,index,0)">开盘核按钮已开启,请禁用</Button>
+          <Button v-if="row.accountStatus===1" style="margin-left: 5px" type="warning" @click="changeAccountStatus(1,index,0)">主板已经关闭,请开启</Button>
+          <Button v-if="row.accountStatus===0" style="margin-left: 5px" type="primary" @click="changeAccountStatus(1,index,1)">主板已经开启,请关闭</Button>
+
+          <Button v-if="row.accountStatus300===1" style="margin-left: 5px" type="warning" @click="changeAccountStatus(7,index,0)">创业板已经关闭,请开启</Button>
+          <Button v-if="row.accountStatus300===0" style="margin-left: 5px" type="primary" @click="changeAccountStatus(7,index,1)">创业板已经开启,请关闭</Button>
+
+          <Button v-if="row.accountStatus688===1" style="margin-left: 5px" type="warning" @click="changeAccountStatus(8,index,0)">科创板已经关闭,请开启</Button>
+          <Button v-if="row.accountStatus688===0" style="margin-left: 5px" type="primary" @click="changeAccountStatus(8,index,1)">科创板已经开启,请关闭</Button>
         </template>
 
       </Table>
       <template>
         <Modal
           v-model="modal1"
-          title="参数修改"
+          title="三大市场仓位修改"
           @on-ok="ok"
           @on-cancel="cancel">
           <div>
-            仓位:<Input name= "param1" v-model="param1" placeholder="" style="width: 300px" />
+            主板仓位:<Input name= "param1" v-model="param1" placeholder="" style="width: 300px" />
+          </div>
+          <div>
+            创业板仓位:<Input name= "param300" v-model="param300" placeholder="" style="width: 300px" />
+          </div>
+          <div>
+            科创板仓位:<Input name= "param688" v-model="param688" placeholder="" style="width: 300px" />
           </div>
         </Modal>
       </template>
@@ -137,8 +149,18 @@
             align: 'center'
           },
           {
-            title: '仓位',
+            title: '主板仓位',
             key: 'position',
+            align: 'center'
+          },
+          {
+            title: '创业板仓位',
+            key: 'position300',
+            align: 'center'
+          },
+          {
+            title: '科创板仓位',
+            key: 'position688',
             align: 'center'
           },
           {
@@ -149,7 +171,7 @@
           {
             title: '操作',
             slot: 'action',
-            width: 1200,
+            width: 1500,
             align: 'center'
           }
         ],
@@ -166,11 +188,15 @@
       show (index) {
         this.indexId=this.data7[index].id;
         this.param1=this.data7[index].position;
+        this.param300=this.data7[index].position300;
+        this.param688=this.data7[index].position688;
       },
       ok () {
         var position= this.param1;
         var changerId = this.indexId;
-        this.$api.post('singular/tradeAccount/changeOrderPrice', {id:changerId,position:position}, r => {
+        var position300 = this.param300;
+        var position688 = this.param688;
+        this.$api.post('singular/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688}, r => {
 
         })
         location.reload();
@@ -206,6 +232,8 @@
         var absortStatusStr = this.data7[index].absortStatus;
         var pitStr = this.data7[index].pit;
         var pitOpenStr = this.data7[index].pitOpen;
+        var accountStatus300Str = this.data7[index].accountStatus300Str;
+        var accountStatus688Str = this.data7[index].accountStatus688Str;
         if(buttonIndex==1){
           accountStatusStr = buttonValue;
         }else if(buttonIndex==2){
@@ -218,8 +246,12 @@
           pitStr = buttonValue;
         }else if(buttonIndex==6){
           pitOpenStr = buttonValue;
+        } else if(buttonIndex==7){
+          accountStatus300Str = buttonValue;
+        }else if(buttonIndex==8){
+          accountStatus688Str = buttonValue;
         }
-          this.$api.post('singular/tradeAccount/changeAccountStatus', {id:idVal,accountStatus:accountStatusStr,twoPlankStatus:twoPlankStatusStr,dragonRadicalStatus:dragonRadicalStatusStr,absortStatus:absortStatusStr,pit:pitStr,pitOpen:pitOpenStr}, r => {
+          this.$api.post('singular/tradeAccount/changeAccountStatus', {id:idVal,accountStatus:accountStatusStr,twoPlankStatus:twoPlankStatusStr,dragonRadicalStatus:dragonRadicalStatusStr,absortStatus:absortStatusStr,pit:pitStr,pitOpen:pitOpenStr,accountStatus300:accountStatus300Str,accountStatus688:accountStatus688Str}, r => {
           location.reload();
         })
 
