@@ -232,8 +232,8 @@
         var absortStatusStr = this.data7[index].absortStatus;
         var pitStr = this.data7[index].pit;
         var pitOpenStr = this.data7[index].pitOpen;
-        var accountStatus300Str = this.data7[index].accountStatus300Str;
-        var accountStatus688Str = this.data7[index].accountStatus688Str;
+        var accountStatus300Str = this.data7[index].accountStatus300;
+        var accountStatus688Str = this.data7[index].accountStatus688;
         if(buttonIndex==1){
           accountStatusStr = buttonValue;
         }else if(buttonIndex==2){
