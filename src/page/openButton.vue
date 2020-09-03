@@ -253,6 +253,8 @@
 
           <Button v-if="!cannonCalTwoTimesButton"  type="primary" @click="changeButton(46)">两次计算炮灰已关闭,请开启</Button>
           <Button v-if="cannonCalTwoTimesButton"  type="error" @click="changeButton(46)">两次计算炮灰已开启,请关闭</Button>
+
+          <Button v-if="percent369>0" type="error" @click="modal9=true;show9()">369撤单比例{{percent369}}倍</Button>
         </div>
 
       </template>
@@ -339,6 +341,18 @@
         </Modal>
       </template>
 
+      <template>
+        <Modal
+          v-model="modal9"
+          title="369撤单比例"
+          @on-ok="ok9"
+          @on-cancel="cancel9">
+          <div>
+            回封间隔时间:<Input name= "param9" v-model="param9" placeholder="" style="width: 300px" />
+          </div>
+        </Modal>
+      </template>
+
     </Layout>
   </div>
 </template>
@@ -389,7 +403,8 @@
           this.prohibitCancelAll = r.data.prohibitCancelAll,
           this.radicalPlankPoolCancelButton = r.data.radicalPlankPoolCancelButton,
           this.beautifulTwoPlankIntoRadicalPoolButton = r.data.beautifulTwoPlankIntoRadicalPoolButton,
-          this.cannonCalTwoTimesButton = r.data.cannonCalTwoTimesButton
+          this.cannonCalTwoTimesButton = r.data.cannonCalTwoTimesButton,
+          this.percent369 = r.data.percent369
       });
 
     },
@@ -440,13 +455,15 @@
         radicalPlankPoolCancelButton:false,
         beautifulTwoPlankIntoRadicalPoolButton:false,
         cannonCalTwoTimesButton:true,
+        percent369:1,
         modal1: false,
         modal3: false,
         modal4: false,
         modal5: false,
         modal6:false,
         modal7:false,
-        modal8:false
+        modal8:false,
+        modal9:false
       }
 
     },
@@ -608,7 +625,16 @@
         var radicalPlankPoolCancelButtonFlag = this.radicalPlankPoolCancelButton;
         var beautifulTwoPlankIntoRadicalPoolButtonFlag = this.beautifulTwoPlankIntoRadicalPoolButton;
         var cannonCalTwoTimesButtonFlag = this.cannonCalTwoTimesButton;
-        this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag,openUniteCirculateInfo:openUniteCirculateInfoFlag,openYesterdayHot:openYesterdayHotFlag,openNineSecond:openNineSecondFlag,openNewWeakPlank:openNewWeakPlankFlag,openZhuBiSuperSpeed:openZhuBiSuperSpeedFlag,openCancelSuperSpeed:openCancelSuperSpeedFlag,openBeforeBigEntrust:openBeforeBigEntrustFlag,openNearBigEntrust:openNearBigEntrustFlag,openCallMarketInvestorListen:openCallMarketInvestorListenFlag,open125MillionSpeed:open125MillionSpeedFlag,openBeforeQuantity:openBeforeQuantityFlag,openHighSellHelper:openHighSellHelperFlag,openCallMarketInsert:openCallMarketInsertFlag,openBigSunDetailOrder:openBigSunDetailOrderFlag,big2BMaxCirculate:big2BMaxCirculateFlag,generalPlankCount:generalPlankCountFlag,oneLinePlankCount:oneLinePlankCountFlag,jumpQueueCount:jumpQueueCountFlag,openBreakingOrder:openBreakingOrderFlag,disableOrderOverMinutes:disableOrderOverMinutesFlag,openTradesCompare:openTradesCompareFlag,carryManySInto:carryManySIntoFlag,sweepPlankCirculate:sweepPlankCirculateFlag,dragonHeadSwitch:dragonHeadSwitchFlag,sellNineRate:sellNineRateFlag,overCirculatezDisable:overCirculatezDisableFlag,openPeakSell:openPeakSellFlag,clearPlankCount:clearPlankCountFlag,sellOpenButton:sellOpenButtonFlag,dragon369SubOpen:dragon369SubOpenFlag,openDragonRadicalWeek:openDragonRadicalWeekFlag,openManyBigSun:openManyBigSunFlag,sealingProhibitDown:sealingProhibitDownFlag,prohibitCancelAll:prohibitCancelAllFlag,radicalPlankPoolCancelButton:radicalPlankPoolCancelButtonFlag,beautifulTwoPlankIntoRadicalPoolButton:beautifulTwoPlankIntoRadicalPoolButtonFlag,cannonCalTwoTimesButton:cannonCalTwoTimesButtonFlag}, r => {
+        var percent369Flag = this.percent369;
+        this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,
+          openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag,openUniteCirculateInfo:openUniteCirculateInfoFlag,openYesterdayHot:openYesterdayHotFlag,openNineSecond:openNineSecondFlag,
+          openNewWeakPlank:openNewWeakPlankFlag,openZhuBiSuperSpeed:openZhuBiSuperSpeedFlag,openCancelSuperSpeed:openCancelSuperSpeedFlag,openBeforeBigEntrust:openBeforeBigEntrustFlag,openNearBigEntrust:openNearBigEntrustFlag,
+          openCallMarketInvestorListen:openCallMarketInvestorListenFlag,open125MillionSpeed:open125MillionSpeedFlag,openBeforeQuantity:openBeforeQuantityFlag,openHighSellHelper:openHighSellHelperFlag,openCallMarketInsert:openCallMarketInsertFlag,
+          openBigSunDetailOrder:openBigSunDetailOrderFlag,big2BMaxCirculate:big2BMaxCirculateFlag,generalPlankCount:generalPlankCountFlag,oneLinePlankCount:oneLinePlankCountFlag,jumpQueueCount:jumpQueueCountFlag,openBreakingOrder:openBreakingOrderFlag,
+          disableOrderOverMinutes:disableOrderOverMinutesFlag,openTradesCompare:openTradesCompareFlag,carryManySInto:carryManySIntoFlag,sweepPlankCirculate:sweepPlankCirculateFlag,dragonHeadSwitch:dragonHeadSwitchFlag,sellNineRate:sellNineRateFlag,
+          overCirculatezDisable:overCirculatezDisableFlag,openPeakSell:openPeakSellFlag,clearPlankCount:clearPlankCountFlag,sellOpenButton:sellOpenButtonFlag,dragon369SubOpen:dragon369SubOpenFlag,openDragonRadicalWeek:openDragonRadicalWeekFlag,
+          openManyBigSun:openManyBigSunFlag,sealingProhibitDown:sealingProhibitDownFlag,prohibitCancelAll:prohibitCancelAllFlag,radicalPlankPoolCancelButton:radicalPlankPoolCancelButtonFlag,
+          beautifulTwoPlankIntoRadicalPoolButton:beautifulTwoPlankIntoRadicalPoolButtonFlag,cannonCalTwoTimesButton:cannonCalTwoTimesButtonFlag,percent369:percent369Flag}, r => {
           location.reload()
         })
 
@@ -717,6 +743,23 @@
       },
       cancel8 () {
         this.$Message.info($("param8").value)
+      },
+
+
+
+      show9 () {
+        this.param9=this.percent369;
+      },
+
+      ok9 () {
+        this.percent369 = this.param9
+        if(this.param===''){
+          this.percent369 = 1;
+        }
+        this.changeButton (47)
+      },
+      cancel9 () {
+        this.$Message.info($("param9").value)
       }
     }
   }
