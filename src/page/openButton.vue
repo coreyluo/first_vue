@@ -254,7 +254,7 @@
           <Button v-if="!cannonCalTwoTimesButton"  type="primary" @click="changeButton(46)">两次计算炮灰已关闭,请开启</Button>
           <Button v-if="cannonCalTwoTimesButton"  type="error" @click="changeButton(46)">两次计算炮灰已开启,请关闭</Button>
 
-          <Button v-if="percent369>0" type="error" @click="modal9=true;show9()">369撤单比例{{percent369}}倍</Button>
+          <Button v-if="percent369>0" type="error" @click="modal9=true;show9()">创业板369撤单比例{{percent369}}倍</Button>
         </div>
 
       </template>
@@ -344,7 +344,7 @@
       <template>
         <Modal
           v-model="modal9"
-          title="369撤单比例"
+          title="创业板369撤单比例"
           @on-ok="ok9"
           @on-cancel="cancel9">
           <div>

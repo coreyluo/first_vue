@@ -84,6 +84,8 @@
           <Button v-if="row.pitOpen===0" style="margin-right: 5px" type="warning" @click="changeAccountStatus(6,index,1)">开盘核按钮已关闭,请开启</Button>
           <Button v-if="row.pitOpen===1" style="margin-right: 5px" type="primary" @click="changeAccountStatus(6,index,0)">开盘核按钮已开启,请禁用</Button>
 
+          <Button v-if="1===1" style="margin-right: 5px" type="primary" @click="modal3=true;show(index)">通用砸盘按钮</Button>
+
           <Button v-if="row.accountStatus===1" style="margin-left: 5px" type="warning" @click="changeAccountStatus(1,index,0)">主板已经关闭,请开启</Button>
           <Button v-if="row.accountStatus===0" style="margin-left: 5px" type="primary" @click="changeAccountStatus(1,index,1)">主板已经开启,请关闭</Button>
 
@@ -122,6 +124,15 @@
           <div>
             比例:<Input name= "param2" v-model="param2" placeholder="" style="width: 300px" />
           </div>
+        </Modal>
+      </template>
+
+      <template>
+        <Modal
+          v-model="modal3"
+          title="确定要砸盘吗"
+          @on-ok="okSell"
+          @on-cancel="cancelSell">
         </Modal>
       </template>
 
@@ -180,6 +191,7 @@
         ],
         modal1: false,
         modal2:false,
+        modal3:false,
         indexId:0,
         tradeStatus:true
       }
@@ -210,6 +222,17 @@
           this.tradeStatus = r.data
         })
       },
+
+      okSell () {
+        var idVal=this.indexId;
+        this.$api.post('singular/tradeAccount/generalSell', {id:idVal}, r => {
+          location.reload();
+        })
+      },
+
+      cancelSell () {
+      },
+
 
       ok2 () {
         var sellRate= this.param2;
