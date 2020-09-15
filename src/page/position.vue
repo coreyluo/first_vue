@@ -66,17 +66,9 @@
           <strong>{{ row.tab }}</strong>
         </template>
         <template slot-scope="{ row, index }" slot="action">
-          <Button type="primary" size="small" style="margin-right: 5px" @click="modal1=true;show(index)">修改三大市场仓位</Button>
-          <Button type="primary" size="small" style="margin-right: 5px" @click="modal2=true;show(index)">修改卖出比例</Button>
+          <Button type="primary" style="margin-right: 5px" @click="modal1=true;show(index)">修改三大市场仓位</Button>
 
-          <Button v-if="row.twoPlankStatus===0" style="margin-right: 5px" type="warning" @click="changeAccountStatus(2,index,1)">二板禁止,请开启</Button>
-          <Button v-if="row.twoPlankStatus===1" style="margin-right: 5px" type="primary" @click="changeAccountStatus(2,index,0)">二板开启,请禁用</Button>
-
-          <Button v-if="row.dragonRadicalStatus===0" style="margin-right: 5px" type="warning" @click="changeAccountStatus(3,index,1)">超龙头已关闭,请开启</Button>
-          <Button v-if="row.dragonRadicalStatus===1" style="margin-right: 5px" type="primary" @click="changeAccountStatus(3,index,0)">超龙头已开启,请禁用</Button>
-
-          <Button v-if="row.absortStatus===0" style="margin-right: 5px" type="warning" @click="changeAccountStatus(4,index,1)">粽子已关闭,请开启</Button>
-          <Button v-if="row.absortStatus===1" style="margin-right: 5px" type="primary" @click="changeAccountStatus(4,index,0)">粽子已开启,请禁用</Button>
+          <Button type="primary" style="margin-right: 5px" @click="modal2=true;show(index)">修改卖出比例</Button>
 
           <Button v-if="row.pit===0" style="margin-right: 5px" type="warning" @click="changeAccountStatus(5,index,1)">集合核按钮已关闭,请开启</Button>
           <Button v-if="row.pit===1" style="margin-right: 5px" type="primary" @click="changeAccountStatus(5,index,0)">集合核按钮已开启,请禁用</Button>
@@ -85,6 +77,27 @@
           <Button v-if="row.pitOpen===1" style="margin-right: 5px" type="primary" @click="changeAccountStatus(6,index,0)">开盘核按钮已开启,请禁用</Button>
 
           <Button v-if="1===1" style="margin-right: 5px" type="primary" @click="modal3=true;show(index)">通用砸盘按钮</Button>
+
+          <div>nbsp</div>
+
+          <Button v-if="row.dumplingStatus===0" style="margin-right: 5px" type="warning" @click="changeAccountStatus(4,index,1)">粽子已关闭,请开启</Button>
+          <Button v-if="row.dumplingStatus===1" style="margin-right: 5px" type="primary" @click="changeAccountStatus(4,index,0)">粽子已开启,请禁用</Button>
+
+          <Button v-if="row.middleStatus1===0" style="margin-right: 5px" type="warning" @click="changeAccountStatus(9,index,1)">半路1已关闭,请开启</Button>
+          <Button v-if="row.middleStatus1===1" style="margin-right: 5px" type="primary" @click="changeAccountStatus(9,index,0)">半路1已开启,请禁用</Button>
+
+          <Button v-if="row.middleStatus2===0" style="margin-right: 5px" type="warning" @click="changeAccountStatus(10,index,1)">半路2已关闭,请开启</Button>
+          <Button v-if="row.middleStatus2===1" style="margin-right: 5px" type="primary" @click="changeAccountStatus(10,index,0)">半路2已开启,请禁用</Button>
+
+          <Button v-if="row.middleStatus3===0" style="margin-right: 5px" type="warning" @click="changeAccountStatus(11,index,1)">半路3已关闭,请开启</Button>
+          <Button v-if="row.middleStatus3===1" style="margin-right: 5px" type="primary" @click="changeAccountStatus(11,index,0)">半路3已开启,请禁用</Button>
+
+          <div>&nbsp</div>
+          <Button v-if="row.dragonRadicalStatus===0" style="margin-right: 5px" type="warning" @click="changeAccountStatus(3,index,1)">超龙头已关闭,请开启</Button>
+          <Button v-if="row.dragonRadicalStatus===1" style="margin-right: 5px" type="primary" @click="changeAccountStatus(3,index,0)">超龙头已开启,请禁用</Button>
+
+          <Button v-if="row.twoPlankStatus===0" style="margin-right: 5px" type="warning" @click="changeAccountStatus(2,index,1)">二板禁止,请开启</Button>
+          <Button v-if="row.twoPlankStatus===1" style="margin-right: 5px" type="primary" @click="changeAccountStatus(2,index,0)">二板开启,请禁用</Button>
 
           <Button v-if="row.accountStatus===1" style="margin-left: 5px" type="warning" @click="changeAccountStatus(1,index,0)">主板已经关闭,请开启</Button>
           <Button v-if="row.accountStatus===0" style="margin-left: 5px" type="primary" @click="changeAccountStatus(1,index,1)">主板已经开启,请关闭</Button>
@@ -111,6 +124,15 @@
           </div>
           <div>
             科创板仓位:<Input name= "param688" v-model="param688" placeholder="" style="width: 300px" />
+          </div>
+          <div>
+            半路1仓位:<Input name= "paramMiddle1" v-model="paramMiddle1" placeholder="" style="width: 300px" />
+          </div>
+          <div>
+            半路2仓位:<Input name= "paramMiddle2" v-model="paramMiddle2" placeholder="" style="width: 300px" />
+          </div>
+          <div>
+            半路3仓位:<Input name= "paramMiddle3" v-model="paramMiddle3" placeholder="" style="width: 300px" />
           </div>
         </Modal>
       </template>
@@ -175,6 +197,21 @@
             align: 'center'
           },
           {
+            title: '半路1仓位',
+            key: 'middlePosition1',
+            align: 'center'
+          },
+          {
+            title: '半路2仓位',
+            key: 'middlePosition2',
+            align: 'center'
+          },
+          {
+            title: '半路3仓位',
+            key: 'middlePosition3',
+            align: 'center'
+          },
+          {
             title: '核按钮卖出比例',
             key: 'sellRate',
             align: 'center'
@@ -202,13 +239,19 @@
         this.param1=this.data7[index].position;
         this.param300=this.data7[index].position300;
         this.param688=this.data7[index].position688;
+        this.paramMiddle1 = this.data7[index].middlePosition1;
+        this.paramMiddle2 = this.data7[index].middlePosition2;
+        this.paramMiddle3 = this.data7[index].middlePosition3;
       },
       ok () {
         var position= this.param1;
         var changerId = this.indexId;
         var position300 = this.param300;
         var position688 = this.param688;
-        this.$api.post('singular/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688}, r => {
+        var middlePosition1 = this.paramMiddle1;
+        var middlePosition2 = this.paramMiddle2;
+        var middlePosition3 = this.paramMiddle3;
+        this.$api.post('singular/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688,middlePosition1:middlePosition1,middlePosition2:middlePosition2,middlePosition3:middlePosition3}, r => {
 
         })
         location.reload();
@@ -252,7 +295,10 @@
         var accountStatusStr = this.data7[index].accountStatus;
         var twoPlankStatusStr = this.data7[index].twoPlankStatus;
         var dragonRadicalStatusStr = this.data7[index].dragonRadicalStatus;
-        var absortStatusStr = this.data7[index].absortStatus;
+        var dumplingStatusStr = this.data7[index].dumplingStatus;
+        var middleStatus1Str = this.data7[index].middleStatus1;
+        var middleStatus2Str = this.data7[index].middleStatus2;
+        var middleStatus3Str = this.data7[index].middleStatus3;
         var pitStr = this.data7[index].pit;
         var pitOpenStr = this.data7[index].pitOpen;
         var accountStatus300Str = this.data7[index].accountStatus300;
@@ -264,7 +310,13 @@
         }else if(buttonIndex==3){
           dragonRadicalStatusStr = buttonValue;
         }else if(buttonIndex == 4){
-          absortStatusStr = buttonValue;
+          dumplingStatusStr = buttonValue;
+        }else if(buttonIndex == 9){
+          middleStatus1Str = buttonValue;
+        }else if(buttonIndex == 10){
+          middleStatus2Str = buttonValue;
+        }else if(buttonIndex == 11){
+          middleStatus3Str = buttonValue;
         }else if(buttonIndex == 5) {
           pitStr = buttonValue;
         }else if(buttonIndex==6){
@@ -274,7 +326,8 @@
         }else if(buttonIndex==8){
           accountStatus688Str = buttonValue;
         }
-          this.$api.post('singular/tradeAccount/changeAccountStatus', {id:idVal,accountStatus:accountStatusStr,twoPlankStatus:twoPlankStatusStr,dragonRadicalStatus:dragonRadicalStatusStr,absortStatus:absortStatusStr,pit:pitStr,pitOpen:pitOpenStr,accountStatus300:accountStatus300Str,accountStatus688:accountStatus688Str}, r => {
+          this.$api.post('singular/tradeAccount/changeAccountStatus', {id:idVal,accountStatus:accountStatusStr,twoPlankStatus:twoPlankStatusStr,dragonRadicalStatus:dragonRadicalStatusStr,dumplingStatus:dumplingStatusStr,middleStatus1:middleStatus1Str,middleStatus2:middleStatus2Str,middleStatus3:middleStatus3Str,
+            pit:pitStr,pitOpen:pitOpenStr,accountStatus300:accountStatus300Str,accountStatus688:accountStatus688Str}, r => {
           location.reload();
         })
 
