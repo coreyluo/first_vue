@@ -78,7 +78,7 @@
 
           <Button v-if="1===1" style="margin-right: 5px" type="primary" @click="modal3=true;show(index)">通用砸盘按钮</Button>
 
-          <div>nbsp</div>
+          <div>&nbsp</div>
 
           <Button v-if="row.dumplingStatus===0" style="margin-right: 5px" type="warning" @click="changeAccountStatus(4,index,1)">粽子已关闭,请开启</Button>
           <Button v-if="row.dumplingStatus===1" style="margin-right: 5px" type="primary" @click="changeAccountStatus(4,index,0)">粽子已开启,请禁用</Button>
