@@ -14,7 +14,7 @@
 <template>
     <div class="layout">
         <Sider :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
-            <Menu active-name="1-100" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
+            <Menu active-name="1-30" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
                 <Submenu name="1">
                     <template slot="title">
                         <Icon type="ios-navigate"></Icon>
@@ -50,7 +50,6 @@
                   <MenuItem  name="1-28"><router-link to="/dragonTigerStock/1"><font color="#fff">龙虎榜</font></router-link></MenuItem>
                   <MenuItem  name="1-29"><router-link to="/flowKbar/1"><font color="#fff">流动性数据</font></router-link></MenuItem>
                   <MenuItem  name="1-30"><router-link to="/prohibitStockPool/1"><font color="#fff">股票池修改</font></router-link></MenuItem>
-
                 </Submenu>
             </Menu>
         </Sider>
@@ -59,7 +58,10 @@
             </div>
             <template>
                 <div>
-                    <Button style="float:right" type="success" @click="modal1=true;show()">添加</Button>
+                    <font style="font-weight:bold;font-size:15px;">股票代码：</font><Input name= "param1" v-model="param1" placeholder="stockCode" style="width: 300px" />
+                    <Button type="primary" icon="ios-search" @click="search()">查询</Button>
+                     <Button style="float:right" type="success" @click="modal1=true;show()">添加</Button>
+                     <Button style="float:right" type="primary" @click="modal2=true;show()">全部删除</Button>
                 </div>
 
             </template>
@@ -68,14 +70,14 @@
                     <strong>{{ row.tab }}</strong>
                 </template>
                 <template slot-scope="{ row, index }" slot="action">
-                    <Button type="primary" size="small" style="margin-right: 5px" @click="deleteInfo(index)">删除</Button>
+                    <Button type="primary" size="small"  @click="deleteInfo(index)">删除</Button>
                 </template>
             </Table>
 
             <template>
                 <Modal
                     v-model="modal1"
-                    title="添加监听股票"
+                    title="删除股票"
                     @on-ok="ok"
                     @on-cancel="cancel">
                     <div>
@@ -83,15 +85,25 @@
                     </div>
                 </Modal>
             </template>
+
+            <template>
+              <Modal
+                v-model="modal2"
+                title="确定要清空禁止股票吗"
+                @on-ok="okClear"
+                @on-cancel="cancelClear">
+              </Modal>
+            </template>
+
         </Layout>
     </div>
 </template>
 <script>
     export default {
         created () {
-            this.$api.get('singular/aggressiveListenPool/dataList', {pageNo:1,pageSize:100}, r => {
+            this.$api.get('singular/prohibitPool/dataList', {pageNo:1,pageSize:100}, r => {
                 var infos = r.data;
-                 this.data6=infos;
+                this.data6=infos;
             })
         },
         data () {
@@ -106,16 +118,17 @@
                         key: 'stockName'
                     },
                     {
-                       title: '操作',
-                       slot: 'action',
-                       width: 150,
-                       align: 'center'
+                        title: 'Action',
+                        slot: 'action',
+                        width: 150,
+                        align: 'center'
                     }
                 ],
                 data6: [
 
                 ],
-                 modal1: false
+                 modal1: false,
+                 modal2:false
             }
         },
         methods: {
@@ -126,29 +139,43 @@
                 }else{
                   stockCode = null;
                 }
-                this.$api.get('singular/aggressiveListenPool/dataList', {stockCode:stockCode,pageNo:1,pageSize:100}, r => {
-                    var infoos = r.data;
-                    this.data6=infoos;
+                this.$api.get('singular/prohibitPool/dataList', {stockCode:stockCode,pageNo:1,pageSize:100}, r => {
+                    var infos = r.data;
+                    this.data6=infos;
                 })
             },
             ok () {
                 var stockCodeAdd= this.param2
-                this.$api.get('singular/aggressiveListenPool/batchToPool', {stockCodeStr:stockCodeAdd}, r => {
-                    this.$Message.info("添加成功");
+                this.$api.get('singular/prohibitPool/oneToPool', {stockCode:stockCodeAdd}, r => {
                 })
                 location.reload()
             },
             cancel () {
                this.$Message.info($("param1").value)
             },
-            deleteInfo(index){
-                var stockCodeStr = this.data6[index].stockCode;
-                this.$api.get('singular/aggressiveListenPool/deleteStockCode', {stockCode:stockCodeStr}, r => {
-                    this.$Message.info("删除成功");
-                    location.reload()
-                })
-            }
 
+
+
+            deleteInfo(index){
+                var primaryKey = this.data6[index].stockCode;
+                this.$api.get('singular/prohibitPool/removeStockCode', {stockCode:primaryKey}, r => {
+
+                });
+                location.reload()
+            },
+            removeAll(){
+                this.$api.get('singular/prohibitPool/deleteAll', null, r => {
+                })
+                location.reload()
+            },
+            okClear () {
+              this.$api.get('singular/prohibitPool/deleteAll', null, r => {
+              })
+              location.reload()
+            },
+
+            cancelClear () {
+            },
         }
     }
 </script>

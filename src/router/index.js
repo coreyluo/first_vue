@@ -30,6 +30,7 @@ import AbsortPool from '@/page/absortPool'
 import SevenSunPool from '@/page/sevenSunPool'
 import DragonTigerStock from '@/page/dragonTigerStock'
 import FlowKbar from '@/page/flowKbar'
+import ProhibitStockPool from '@/page/prohibitStockPool'
 
 
 Vue.use(Router)
@@ -126,6 +127,9 @@ export default new Router({
     },{
       path: '/flowKbar/:id',
       component: FlowKbar
+    },{
+      path: '/prohibitStockPool/:id',
+      component: ProhibitStockPool
     }
 
   ]
