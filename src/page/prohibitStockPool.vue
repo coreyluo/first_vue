@@ -59,22 +59,26 @@
             <template>
                 <div>
                     <font style="font-weight:bold;font-size:15px;">股票代码：</font><Input name= "param1" v-model="param1" placeholder="stockCode" style="width: 300px" />
-                    <Button type="primary" icon="ios-search" @click="search()">查询</Button>
-                     <Button style="float:right" type="success" @click="modal1=true;show()">添加</Button>
-                     <Button style="float:right" type="primary" @click="modal2=true;show()">全部删除</Button>
+                    <Button type="primary" style="margin-left: 5px" icon="ios-search" @click="search()">查询</Button>
+                     <Button style="margin-right: 5px"type="primary" @click="sortChange()">日期排序</Button>
+                     <Button style="margin-right: 5px" type="success" @click="modal1=true;show()">添加</Button>
+                     <Button style="margin-right: 5px" type="primary" @click="modal2=true;show()">全部删除</Button>
                 </div>
 
             </template>
-            <Table border :columns="columns12" :data="data6">
+            <Table border :columns="columns12" :data="historyData">
                 <template slot-scope="{ row }" slot="tab">
                     <strong>{{ row.tab }}</strong>
                 </template>
                 <template slot-scope="{ row, index }" slot="action">
-                    <Button type="primary" size="small"  @click="deleteInfo(index)">删除</Button>
+                    <Button type="error" size="small"  @click="deleteInfo(index)">删除</Button>
                 </template>
             </Table>
 
-            <template>
+          <Page :total="dataCount" :page-size="pageSize" show-total class="paging" @on-change="changepage" @on-page-size-change="changepagesize"></Page>
+
+
+          <template>
                 <Modal
                     v-model="modal1"
                     title="删除股票"
@@ -101,10 +105,26 @@
 <script>
     export default {
         created () {
-            this.$api.get('singular/prohibitPool/dataList', {pageNo:1,pageSize:100}, r => {
+            this.$api.get('singular/prohibitPool/dataList', {sortType:this.sortType}, r => {
                 var infos = r.data;
+                infos.forEach(item => {
+                  if(item.stockCode.substring(0,1)=="6"){
+                    item.stockDetail = "http://quote.eastmoney.com/sh"+item.stockCode+".html";
+                  }else {
+                    item.stockDetail = "http://quote.eastmoney.com/sz" + item.stockCode + ".html";
+                  }
+                });
                 this.data6=infos;
-            })
+
+                this.ajaxHistoryData = this.data6;
+                this.dataCount = this.data6.length;
+                // 初始化显示，小于每页显示条数，全显，大于每页显示条数，取前每页条数显示
+                if(this.data6.length < this.pageSize){
+                  this.historyData = this.ajaxHistoryData;
+                }else{
+                  this.historyData = this.ajaxHistoryData.slice(0,this.pageSize);
+                }
+            });
         },
         data () {
             return {
@@ -118,6 +138,23 @@
                         key: 'stockName'
                     },
                     {
+                      title: '添加日期',
+                      key: 'createTime'
+                    },
+                    {
+                      title: '股票详情',
+                      key: 'stockDetail',
+                      render: (h, params) => {
+                        let url = params.row.stockDetail
+                        return h('a', {
+                          attrs: {
+                            href: url,
+                            target: '_black'
+                          }
+                        }, params.row.stockDetail)
+                      }
+                    },
+                    {
                         title: 'Action',
                         slot: 'action',
                         width: 150,
@@ -127,21 +164,71 @@
                 data6: [
 
                 ],
-                 modal1: false,
-                 modal2:false
+                historyData: [],
+                ajaxHistoryData:[],
+                page:{
+
+                },
+                dataCount:0,
+                // 每页显示多少条
+                pageSize:50,
+                sortType:1,
+                modal1: false,
+                modal2:false,
+
             }
         },
         methods: {
+
+            handleListApproveHistory(){
+                // 保存取到的所有数据
+                this.ajaxHistoryData = this.data6;
+                this.dataCount = this.data6.length;
+                // 初始化显示，小于每页显示条数，全显，大于每页显示条数，取前每页条数显示
+                if(this.data6.length < this.pageSize){
+                  this.historyData = this.ajaxHistoryData;
+                }else{
+                  this.historyData = this.ajaxHistoryData.slice(0,this.pageSize);
+                }
+            },
+
+            changepage(index){
+              var _start = ( index - 1 ) * this.pageSize;
+              var _end = index * this.pageSize;
+              this.historyData = this.ajaxHistoryData.slice(_start,_end);
+            },
+            changepagesize(pageSize){
+              this.pageSize = pageSize;
+              this.handleListApproveHistory()
+            },
+
             search(){
+              alert(100)
                 var stockCode = this.param1;
                 if(stockCode){
                   stockCode = stockCode;
                 }else{
                   stockCode = null;
                 }
-                this.$api.get('singular/prohibitPool/dataList', {stockCode:stockCode,pageNo:1,pageSize:100}, r => {
-                    var infos = r.data;
-                    this.data6=infos;
+                this.$api.get('singular/prohibitPool/dataList', {stockCode:stockCode,sortType:this.sortType}, r => {
+                  var infos = r.data;
+                  infos.forEach(item => {
+                    if(item.stockCode.substring(0,1)=="6"){
+                      item.stockDetail = "http://quote.eastmoney.com/sh"+item.stockCode+".html";
+                    }else {
+                      item.stockDetail = "http://quote.eastmoney.com/sz" + item.stockCode + ".html";
+                    }
+                  });
+                  this.data6=infos;
+
+                  this.ajaxHistoryData = this.data6;
+                  this.dataCount = this.data6.length;
+                  // 初始化显示，小于每页显示条数，全显，大于每页显示条数，取前每页条数显示
+                  if(this.data6.length < this.pageSize){
+                    this.historyData = this.ajaxHistoryData;
+                  }else{
+                    this.historyData = this.ajaxHistoryData.slice(0,this.pageSize);
+                  }
                 })
             },
             ok () {
@@ -175,6 +262,38 @@
             },
 
             cancelClear () {
+            },
+            sortChange(){
+              if(this.sortType==0){
+                this.sortType = 1;
+              }else{
+                this.sortType = 0;
+              }
+              var stockCode = this.param1;
+              if(stockCode){
+                stockCode = stockCode;
+              }else{
+                stockCode = null;
+              }
+              this.$api.get('singular/prohibitPool/dataList', {stockCode:stockCode,sortType:this.sortType}, r => {
+                var infos = r.data;
+                infos.forEach(item => {
+                  if(item.stockCode.substring(0,1)=="6"){
+                    item.stockDetail = "http://quote.eastmoney.com/sh"+item.stockCode+".html";
+                  }else {
+                    item.stockDetail = "http://quote.eastmoney.com/sz" + item.stockCode + ".html";
+                  }
+                });
+                this.data6=infos;
+                this.ajaxHistoryData = this.data6;
+                this.dataCount = this.data6.length;
+                // 初始化显示，小于每页显示条数，全显，大于每页显示条数，取前每页条数显示
+                if(this.data6.length < this.pageSize){
+                  this.historyData = this.ajaxHistoryData;
+                }else{
+                  this.historyData = this.ajaxHistoryData.slice(0,this.pageSize);
+                }
+              })
             },
         }
     }

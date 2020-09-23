@@ -109,6 +109,7 @@
           <Button v-if="row.accountStatus688===1" style="margin-left: 5px" type="warning" @click="changeAccountStatus(8,index,0)">科创板已经关闭,请开启</Button>
           <Button v-if="row.accountStatus688===0" style="margin-left: 5px" type="primary" @click="changeAccountStatus(8,index,1)">科创板已经开启,请关闭</Button>
           <div>&nbsp</div>
+          <div>&nbsp</div>
         </template>
 
       </Table>
