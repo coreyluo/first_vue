@@ -31,6 +31,7 @@ import SevenSunPool from '@/page/sevenSunPool'
 import DragonTigerStock from '@/page/dragonTigerStock'
 import FlowKbar from '@/page/flowKbar'
 import ProhibitStockPool from '@/page/prohibitStockPool'
+import StopTradeStock from '@/page/stopTradeStock'
 
 
 Vue.use(Router)
@@ -130,6 +131,9 @@ export default new Router({
     },{
       path: '/prohibitStockPool/:id',
       component: ProhibitStockPool
+    },{
+      path: '/stopTradeStock/:id',
+      component: StopTradeStock
     }
 
   ]
