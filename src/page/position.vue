@@ -27,6 +27,7 @@
           <MenuItem  name="1-22"><router-link to="/radicalDragonPool/1"><font color="#fff">激进龙头股票</font></router-link></MenuItem>
           <MenuItem  name="1-25"><router-link to="/absortPool/1"><font color="#fff">粽子</font></router-link></MenuItem>
           <MenuItem  name="1-6"><router-link to="/position/1"><font color="#fff">仓位</font></router-link></MenuItem>
+          <MenuItem  name="1-32"><router-link to="/positionRatio/1"><font color="#fff">低吸仓位系数</font></router-link></MenuItem>
           <MenuItem  name="1-7"><router-link to="/targetParam/1"><font color="#fff">靶向参数</font></router-link></MenuItem>
           <MenuItem  name="1-8"><router-link to="/cancelLog/1"><font color="#fff">今日撤单日志</font></router-link></MenuItem>
           <MenuItem  name="1-9"><router-link to="/dealOrder/1"><font color="#fff">今日成交</font></router-link></MenuItem>
@@ -138,6 +139,9 @@
           <div>
             半路3仓位:<Input name= "paramMiddle3" v-model="paramMiddle3" placeholder="" style="width: 300px" />
           </div>
+          <div>
+            通用仓位:<Input name= "generalPosition" v-model="generalPosition" placeholder="" style="width: 300px" />
+          </div>
         </Modal>
       </template>
 
@@ -216,6 +220,11 @@
             align: 'center'
           },
           {
+            title: '通用仓位',
+            key: 'generalPosition',
+            align: 'center'
+          },
+          {
             title: '核按钮卖出比例',
             key: 'sellRate',
             align: 'center'
@@ -246,6 +255,7 @@
         this.paramMiddle1 = this.data7[index].middlePosition1;
         this.paramMiddle2 = this.data7[index].middlePosition2;
         this.paramMiddle3 = this.data7[index].middlePosition3;
+        this.generalPosition = this.data7[index].generalPosition;
       },
       ok () {
         var position= this.param1;
@@ -255,7 +265,8 @@
         var middlePosition1 = this.paramMiddle1;
         var middlePosition2 = this.paramMiddle2;
         var middlePosition3 = this.paramMiddle3;
-        this.$api.post('singular/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688,middlePosition1:middlePosition1,middlePosition2:middlePosition2,middlePosition3:middlePosition3}, r => {
+        var generalPosition = this.generalPosition;
+        this.$api.post('singular/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688,middlePosition1:middlePosition1,middlePosition2:middlePosition2,middlePosition3:middlePosition3,generalPosition:generalPosition}, r => {
 
         })
         location.reload();

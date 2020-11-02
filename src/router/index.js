@@ -32,6 +32,7 @@ import DragonTigerStock from '@/page/dragonTigerStock'
 import FlowKbar from '@/page/flowKbar'
 import ProhibitStockPool from '@/page/prohibitStockPool'
 import StopTradeStock from '@/page/stopTradeStock'
+import PositionRatio from '@/page/positionRatio'
 
 
 Vue.use(Router)
@@ -134,6 +135,9 @@ export default new Router({
     },{
       path: '/stopTradeStock/:id',
       component: StopTradeStock
+    },{
+      path: '/positionRatio/:id',
+      component: PositionRatio
     }
 
   ]
