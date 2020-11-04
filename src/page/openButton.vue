@@ -259,8 +259,11 @@
 
           <Button v-if="percent369>0" type="error" @click="modal9=true;show9()">创业板369撤单比例{{percent369}}倍</Button>
 
-          <Button v-if="!indexQtyCompare"  type="primary" @click="changeButton(47)">半路量能已关闭,请开启</Button>
-          <Button v-if="indexQtyCompare"  type="error" @click="changeButton(47)">半路量能已开启,请关闭</Button>
+          <Button v-if="mainAutoStart>0" type="error" @click="modal10=true;show10()">主板自动开启{{mainAutoStart}}秒</Button>
+          <Button v-if="mainAutoStart===0" type="primary" @click="modal10=true;show10()">主板自动开启已关闭</Button>
+
+          <Button v-if="growthAutoStart>0" type="error" @click="modal11=true;show11()">创业板自动开启{{growthAutoStart}}秒</Button>
+          <Button v-if="growthAutoStart===0" type="primary" @click="modal11=true;show11()">创业板自动开启已关闭</Button>
         </div>
 
       </template>
@@ -359,6 +362,30 @@
         </Modal>
       </template>
 
+      <template>
+        <Modal
+          v-model="modal10"
+          title="主板延迟开启秒数"
+          @on-ok="ok10"
+          @on-cancel="cancel10">
+          <div>
+            回封间隔时间:<Input name= "param10" v-model="param10" placeholder="" style="width: 300px" />
+          </div>
+        </Modal>
+      </template>
+
+      <template>
+        <Modal
+          v-model="modal11"
+          title="主板延迟开启秒数"
+          @on-ok="ok11"
+          @on-cancel="cancel11">
+          <div>
+            回封间隔时间:<Input name= "param11" v-model="param11" placeholder="" style="width: 300px" />
+          </div>
+        </Modal>
+      </template>
+
     </Layout>
   </div>
 </template>
@@ -410,8 +437,9 @@
           this.radicalPlankPoolCancelButton = r.data.radicalPlankPoolCancelButton,
           this.beautifulTwoPlankIntoRadicalPoolButton = r.data.beautifulTwoPlankIntoRadicalPoolButton,
           this.cannonCalTwoTimesButton = r.data.cannonCalTwoTimesButton,
-          this.indexQtyCompare = r.data.indexQtyCompare,
-          this.percent369 = r.data.percent369
+          this.percent369 = r.data.percent369,
+          this.mainAutoStart= r.data.mainAutoStart,
+          this.growthAutoStart = r.data.growthAutoStart
       });
 
     },
@@ -462,8 +490,9 @@
         radicalPlankPoolCancelButton:false,
         beautifulTwoPlankIntoRadicalPoolButton:false,
         cannonCalTwoTimesButton:true,
-        indexQtyCompare:true,
         percent369:1,
+        mainAutoStart:0,
+        growthAutoStart:0,
         modal1: false,
         modal3: false,
         modal4: false,
@@ -471,7 +500,9 @@
         modal6:false,
         modal7:false,
         modal8:false,
-        modal9:false
+        modal9:false,
+        modal10:false,
+        modal11:false
       }
 
     },
@@ -589,9 +620,6 @@
         if(index == 46){
           this.cannonCalTwoTimesButton = !(this.cannonCalTwoTimesButton);
         }
-        if(index == 47){
-          this.indexQtyCompare = !(this.indexQtyCompare);
-        }
         var openLongLegFlag = this.openLongLeg;
         var openJumpInQueueFlag = this.openJumpInQueue;
         var openNewPositionFlag = this.openNewPosition;
@@ -636,8 +664,9 @@
         var radicalPlankPoolCancelButtonFlag = this.radicalPlankPoolCancelButton;
         var beautifulTwoPlankIntoRadicalPoolButtonFlag = this.beautifulTwoPlankIntoRadicalPoolButton;
         var cannonCalTwoTimesButtonFlag = this.cannonCalTwoTimesButton;
-        var indexQtyCompareFlag = this.indexQtyCompare;
         var percent369Flag = this.percent369;
+        var mainAutoStartFlag = this.mainAutoStart;
+        var growthAutoStartFlag = this.growthAutoStart;
         this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,
           openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag,openUniteCirculateInfo:openUniteCirculateInfoFlag,openYesterdayHot:openYesterdayHotFlag,openNineSecond:openNineSecondFlag,
           openNewWeakPlank:openNewWeakPlankFlag,openZhuBiSuperSpeed:openZhuBiSuperSpeedFlag,openCancelSuperSpeed:openCancelSuperSpeedFlag,openBeforeBigEntrust:openBeforeBigEntrustFlag,openNearBigEntrust:openNearBigEntrustFlag,
@@ -646,7 +675,7 @@
           disableOrderOverMinutes:disableOrderOverMinutesFlag,openTradesCompare:openTradesCompareFlag,carryManySInto:carryManySIntoFlag,sweepPlankCirculate:sweepPlankCirculateFlag,dragonHeadSwitch:dragonHeadSwitchFlag,sellNineRate:sellNineRateFlag,
           overCirculatezDisable:overCirculatezDisableFlag,openPeakSell:openPeakSellFlag,clearPlankCount:clearPlankCountFlag,sellOpenButton:sellOpenButtonFlag,dragon369SubOpen:dragon369SubOpenFlag,openDragonRadicalWeek:openDragonRadicalWeekFlag,
           openManyBigSun:openManyBigSunFlag,sealingProhibitDown:sealingProhibitDownFlag,prohibitCancelAll:prohibitCancelAllFlag,radicalPlankPoolCancelButton:radicalPlankPoolCancelButtonFlag,
-          beautifulTwoPlankIntoRadicalPoolButton:beautifulTwoPlankIntoRadicalPoolButtonFlag,cannonCalTwoTimesButton:cannonCalTwoTimesButtonFlag,percent369:percent369Flag,indexQtyCompare:indexQtyCompareFlag}, r => {
+          beautifulTwoPlankIntoRadicalPoolButton:beautifulTwoPlankIntoRadicalPoolButtonFlag,cannonCalTwoTimesButton:cannonCalTwoTimesButtonFlag,percent369:percent369Flag,mainAutoStart:mainAutoStartFlag,growthAutoStart:growthAutoStartFlag}, r => {
           location.reload()
         })
 
@@ -772,7 +801,41 @@
       },
       cancel9 () {
         this.$Message.info($("param9").value)
+      },
+
+
+      show10 () {
+        this.param10=this.mainAutoStart;
+      },
+
+      ok10 () {
+        this.mainAutoStart = this.param10
+        if(this.param10===''){
+          this.mainAutoStart = 0;
+        }
+        this.changeButton (50)
+      },
+      cancel10 () {
+        this.$Message.info($("param10").value)
+      },
+
+
+
+      show11 () {
+        this.param11=this.growthAutoStart;
+      },
+
+      ok11 () {
+        this.growthAutoStart = this.param11
+        if(this.param11===''){
+          this.growthAutoStart = 0;
+        }
+        this.changeButton (51)
+      },
+      cancel11 () {
+        this.$Message.info($("param11").value)
       }
+
     }
   }
 </script>
