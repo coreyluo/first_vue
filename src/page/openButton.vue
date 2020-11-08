@@ -264,6 +264,10 @@
 
           <Button v-if="growthAutoStart>0" type="error" @click="modal11=true;show11()">创业板自动开启{{growthAutoStart}}秒</Button>
           <Button v-if="growthAutoStart===0" type="primary" @click="modal11=true;show11()">创业板自动开启已关闭</Button>
+
+
+          <Button v-if="!indexQtyCompare"  type="primary" @click="changeButton(47)">半路量能已关闭,请开启</Button>
+          <Button v-if="indexQtyCompare"  type="error" @click="changeButton(47)">半路量能已开启,请关闭</Button>
         </div>
 
       </template>
@@ -438,6 +442,7 @@
           this.beautifulTwoPlankIntoRadicalPoolButton = r.data.beautifulTwoPlankIntoRadicalPoolButton,
           this.cannonCalTwoTimesButton = r.data.cannonCalTwoTimesButton,
           this.percent369 = r.data.percent369,
+          this.indexQtyCompare = r.data.indexQtyCompare,
           this.mainAutoStart= r.data.mainAutoStart,
           this.growthAutoStart = r.data.growthAutoStart
       });
@@ -491,6 +496,7 @@
         beautifulTwoPlankIntoRadicalPoolButton:false,
         cannonCalTwoTimesButton:true,
         percent369:1,
+        indexQtyCompare:true,
         mainAutoStart:0,
         growthAutoStart:0,
         modal1: false,
@@ -620,6 +626,9 @@
         if(index == 46){
           this.cannonCalTwoTimesButton = !(this.cannonCalTwoTimesButton);
         }
+        if(index==47){
+          this.indexQtyCompare = !(this.indexQtyCompare);
+        }
         var openLongLegFlag = this.openLongLeg;
         var openJumpInQueueFlag = this.openJumpInQueue;
         var openNewPositionFlag = this.openNewPosition;
@@ -665,6 +674,7 @@
         var beautifulTwoPlankIntoRadicalPoolButtonFlag = this.beautifulTwoPlankIntoRadicalPoolButton;
         var cannonCalTwoTimesButtonFlag = this.cannonCalTwoTimesButton;
         var percent369Flag = this.percent369;
+        var indexQtyCompareFlag = this.indexQtyCompare;
         var mainAutoStartFlag = this.mainAutoStart;
         var growthAutoStartFlag = this.growthAutoStart;
         this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,
@@ -675,7 +685,8 @@
           disableOrderOverMinutes:disableOrderOverMinutesFlag,openTradesCompare:openTradesCompareFlag,carryManySInto:carryManySIntoFlag,sweepPlankCirculate:sweepPlankCirculateFlag,dragonHeadSwitch:dragonHeadSwitchFlag,sellNineRate:sellNineRateFlag,
           overCirculatezDisable:overCirculatezDisableFlag,openPeakSell:openPeakSellFlag,clearPlankCount:clearPlankCountFlag,sellOpenButton:sellOpenButtonFlag,dragon369SubOpen:dragon369SubOpenFlag,openDragonRadicalWeek:openDragonRadicalWeekFlag,
           openManyBigSun:openManyBigSunFlag,sealingProhibitDown:sealingProhibitDownFlag,prohibitCancelAll:prohibitCancelAllFlag,radicalPlankPoolCancelButton:radicalPlankPoolCancelButtonFlag,
-          beautifulTwoPlankIntoRadicalPoolButton:beautifulTwoPlankIntoRadicalPoolButtonFlag,cannonCalTwoTimesButton:cannonCalTwoTimesButtonFlag,percent369:percent369Flag,mainAutoStart:mainAutoStartFlag,growthAutoStart:growthAutoStartFlag}, r => {
+          beautifulTwoPlankIntoRadicalPoolButton:beautifulTwoPlankIntoRadicalPoolButtonFlag,cannonCalTwoTimesButton:cannonCalTwoTimesButtonFlag,percent369:percent369Flag,indexQtyCompare:indexQtyCompareFlag,mainAutoStart:mainAutoStartFlag,
+          growthAutoStart:growthAutoStartFlag}, r => {
           location.reload()
         })
 
