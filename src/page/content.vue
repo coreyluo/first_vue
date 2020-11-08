@@ -89,12 +89,8 @@
               <template>
                 <div>
                   <i class="remark" >{{remark1}}</i><i>&nbsp&nbsp&nbsp&nbsp</i><Button type="success" @click="modal2=true;showRemark(remark1,1)">修改描述</Button>
-                  <tag v-if="inUse===1" class="in-use">正在使用</tag>
-                  <tag v-else class="no-use">未启用</tag>
-                  <Button style="float:right" v-if="open1===1" type="error" @click="closeAllStrategy(1)">所有策略启用,请关闭</Button>
-                  <Button style="float:right" v-if="open1===0" type="primary" @click="openAllStrategy(1)">已经关闭某某些策略,请启用</Button>
 
-                  <Button style="float:right" type="warning" @click="flushCache(1)">启用参数</Button>
+                  <Button style="float:right" type="warning" @click="flushCache(1)">刷新参数</Button>
                 </div>
               </template>
               <Table border :columns="columns13" :data="data13">
@@ -113,12 +109,7 @@
               <template>
                 <div>
                   <i class="remark" >{{remark2}}</i><i>&nbsp&nbsp&nbsp&nbsp</i><Button type="success" @click="modal2=true;showRemark(remark2,2)">修改描述</Button>
-                  <tag v-if="inUse===2" class="in-use">正在使用</tag>
-                  <tag class="no-use" v-else >未启用</tag>
-                  <Button style="float:right" v-if="open2===1" type="error" @click="closeAllStrategy(2)">所有策略启用,请关闭</Button>
-                  <Button style="float:right" v-if="open2===0" type="primary" @click="openAllStrategy(2)">已经关闭某某些策略,请启用</Button>
-
-                  <Button style="float:right" type="warning" @click="flushCache(2)">启用参数</Button>
+                  <Button style="float:right" type="warning" @click="flushCache(2)">刷新参数</Button>
                 </div>
               </template>
               <Table border :columns="columns13" :data="data14">
@@ -131,53 +122,8 @@
               </Table>
             </template>
 
-            <div class="blankRow">
-            </div>
-            <template>
-              <template>
-                <div>
-                  <i class="remark" >{{remark3}}</i><i>&nbsp&nbsp&nbsp&nbsp</i><Button type="success" @click="modal2=true;showRemark(remark3,3)">修改描述</Button>
-                  <tag v-if="inUse===3" class="in-use">正在使用</tag>
-                  <tag class="no-use" v-else >未启用</tag>
-                  <Button style="float:right" v-if="open3===1" type="error" @click="closeAllStrategy(3)">所有策略启用,请关闭</Button>
-                  <Button style="float:right" v-if="open3===0" type="primary" @click="openAllStrategy(3)">已经关闭某某些策略,请启用</Button>
 
-                  <Button style="float:right" type="warning" @click="flushCache(3)">启用参数</Button>
-                </div>
-              </template>
-              <Table border :columns="columns13" :data="data15">
-                <template slot-scope="{ row }" slot="tab">
-                  <strong>{{ row.tab }}</strong>
-                </template>
-                <template slot-scope="{ row, index }" slot="action">
-                  <Button type="primary" size="small" style="margin-right: 5px" @click="modal1=true;show(row)">修改</Button>
-                </template>
-              </Table>
-            </template>
 
-            <div class="blankRow">
-            </div>
-            <template>
-              <template>
-                <div>
-                  <i class="remark" >{{remark4}}</i><i>&nbsp&nbsp&nbsp&nbsp</i><Button type="success" @click="modal2=true;showRemark(remark4,4)">修改描述</Button>
-                  <tag v-if="inUse===4" class="in-use">正在使用</tag>
-                  <tag class="no-use" v-else >未启用</tag>
-                  <Button style="float:right" v-if="open4===1" type="error" @click="closeAllStrategy(4)">所有策略启用,请关闭</Button>
-                  <Button style="float:right" v-if="open4===0" type="primary" @click="openAllStrategy(4)">已经关闭某某些策略,请启用</Button>
-
-                  <Button style="float:right" type="warning" @click="flushCache(4)">启用参数</Button>
-                </div>
-              </template>
-              <Table border :columns="columns13" :data="data16">
-                <template slot-scope="{ row }" slot="tab">
-                  <strong>{{ row.tab }}</strong>
-                </template>
-                <template slot-scope="{ row, index }" slot="action">
-                  <Button type="primary" size="small" style="margin-right: 5px" @click="modal1=true;show(row)">修改</Button>
-                </template>
-              </Table>
-            </template>
 
             <template>
               <Modal
