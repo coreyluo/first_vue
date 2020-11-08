@@ -259,6 +259,9 @@
 
           <Button v-if="percent369>0" type="error" @click="modal9=true;show9()">创业板369撤单比例{{percent369}}倍</Button>
 
+          <Button v-if="!indexQtyCompare"  type="primary" @click="changeButton(47)">半路大盘量能已关闭,请开启</Button>
+          <Button v-if="indexQtyCompare"  type="error" @click="changeButton(47)">半路大盘量能已开启,请关闭</Button>
+
           <Button v-if="mainAutoStart>0" type="error" @click="modal10=true;show10()">主板自动开启{{mainAutoStart}}秒</Button>
           <Button v-if="mainAutoStart===0" type="primary" @click="modal10=true;show10()">主板自动开启已关闭</Button>
 
@@ -437,6 +440,7 @@
           this.radicalPlankPoolCancelButton = r.data.radicalPlankPoolCancelButton,
           this.beautifulTwoPlankIntoRadicalPoolButton = r.data.beautifulTwoPlankIntoRadicalPoolButton,
           this.cannonCalTwoTimesButton = r.data.cannonCalTwoTimesButton,
+          this.indexQtyCompare = r.data.indexQtyCompare,
           this.percent369 = r.data.percent369,
           this.mainAutoStart= r.data.mainAutoStart,
           this.growthAutoStart = r.data.growthAutoStart
@@ -490,6 +494,7 @@
         radicalPlankPoolCancelButton:false,
         beautifulTwoPlankIntoRadicalPoolButton:false,
         cannonCalTwoTimesButton:true,
+        indexQtyCompare:true,
         percent369:1,
         mainAutoStart:0,
         growthAutoStart:0,
@@ -620,6 +625,9 @@
         if(index == 46){
           this.cannonCalTwoTimesButton = !(this.cannonCalTwoTimesButton);
         }
+        if(index==47){
+          this.indexQtyCompare = !(this.indexQtyCompare)
+        }
         var openLongLegFlag = this.openLongLeg;
         var openJumpInQueueFlag = this.openJumpInQueue;
         var openNewPositionFlag = this.openNewPosition;
@@ -664,6 +672,7 @@
         var radicalPlankPoolCancelButtonFlag = this.radicalPlankPoolCancelButton;
         var beautifulTwoPlankIntoRadicalPoolButtonFlag = this.beautifulTwoPlankIntoRadicalPoolButton;
         var cannonCalTwoTimesButtonFlag = this.cannonCalTwoTimesButton;
+        var indexQtyCompareFlag = this.indexQtyCompare;
         var percent369Flag = this.percent369;
         var mainAutoStartFlag = this.mainAutoStart;
         var growthAutoStartFlag = this.growthAutoStart;
@@ -675,7 +684,7 @@
           disableOrderOverMinutes:disableOrderOverMinutesFlag,openTradesCompare:openTradesCompareFlag,carryManySInto:carryManySIntoFlag,sweepPlankCirculate:sweepPlankCirculateFlag,dragonHeadSwitch:dragonHeadSwitchFlag,sellNineRate:sellNineRateFlag,
           overCirculatezDisable:overCirculatezDisableFlag,openPeakSell:openPeakSellFlag,clearPlankCount:clearPlankCountFlag,sellOpenButton:sellOpenButtonFlag,dragon369SubOpen:dragon369SubOpenFlag,openDragonRadicalWeek:openDragonRadicalWeekFlag,
           openManyBigSun:openManyBigSunFlag,sealingProhibitDown:sealingProhibitDownFlag,prohibitCancelAll:prohibitCancelAllFlag,radicalPlankPoolCancelButton:radicalPlankPoolCancelButtonFlag,
-          beautifulTwoPlankIntoRadicalPoolButton:beautifulTwoPlankIntoRadicalPoolButtonFlag,cannonCalTwoTimesButton:cannonCalTwoTimesButtonFlag,percent369:percent369Flag,mainAutoStart:mainAutoStartFlag,growthAutoStart:growthAutoStartFlag}, r => {
+          beautifulTwoPlankIntoRadicalPoolButton:beautifulTwoPlankIntoRadicalPoolButtonFlag,cannonCalTwoTimesButton:cannonCalTwoTimesButtonFlag,indexQtyCompare:indexQtyCompareFlag,percent369:percent369Flag,mainAutoStart:mainAutoStartFlag,growthAutoStart:growthAutoStartFlag}, r => {
           location.reload()
         })
 
