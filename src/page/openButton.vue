@@ -369,7 +369,7 @@
           @on-ok="ok10"
           @on-cancel="cancel10">
           <div>
-            回封间隔时间:<Input name= "param10" v-model="param10" placeholder="" style="width: 300px" />
+            延迟时间:<Input name= "param10" v-model="param10" placeholder="" style="width: 300px" />
           </div>
         </Modal>
       </template>
@@ -381,7 +381,7 @@
           @on-ok="ok11"
           @on-cancel="cancel11">
           <div>
-            回封间隔时间:<Input name= "param11" v-model="param11" placeholder="" style="width: 300px" />
+            延迟时间:<Input name= "param11" v-model="param11" placeholder="" style="width: 300px" />
           </div>
         </Modal>
       </template>
