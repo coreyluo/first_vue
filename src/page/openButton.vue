@@ -270,6 +270,9 @@
 
           <Button v-if="cancelOrderSeconds>0" type="error" @click="modal12=true;show12()">快速成交撤单{{cancelOrderSeconds}}秒</Button>
           <Button v-if="cancelOrderSeconds===0" type="primary" @click="modal12=true;show12()">快速成交撤单已关闭</Button>
+
+
+          <Button type="error" @click="modal13=true;show13()">测试股票代码{{stockCode}}</Button>
         </div>
 
       </template>
@@ -404,6 +407,18 @@
         </Modal>
       </template>
 
+      <template>
+        <Modal
+          v-model="modal13"
+          title="快速成交撤单秒数"
+          @on-ok="ok13"
+          @on-cancel="cancel13">
+          <div>
+            延迟时间:<Input name= "param13" v-model="param13" placeholder="" style="width: 300px" />
+          </div>
+        </Modal>
+      </template>
+
     </Layout>
   </div>
 </template>
@@ -459,7 +474,8 @@
           this.percent369 = r.data.percent369,
           this.mainAutoStart= r.data.mainAutoStart,
           this.growthAutoStart = r.data.growthAutoStart,
-          this.cancelOrderSeconds = r.data.cancelOrderSeconds
+          this.cancelOrderSeconds = r.data.cancelOrderSeconds,
+          this.stockCode = r.data.stockCode
       });
 
     },
@@ -515,6 +531,7 @@
         mainAutoStart:0,
         growthAutoStart:0,
         cancelOrderSeconds:30,
+        stockCode:"000001",
         modal1: false,
         modal3: false,
         modal4: false,
@@ -525,7 +542,8 @@
         modal9:false,
         modal10:false,
         modal11:false,
-        modal12:false
+        modal12:false,
+        modal13:false
       }
 
     },
@@ -695,6 +713,7 @@
         var mainAutoStartFlag = this.mainAutoStart;
         var growthAutoStartFlag = this.growthAutoStart;
         var cancelOrderSecondsFlag = this.cancelOrderSeconds;
+        var stockCodeFlag = this.stockCode;
         this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,
           openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag,openUniteCirculateInfo:openUniteCirculateInfoFlag,openYesterdayHot:openYesterdayHotFlag,openNineSecond:openNineSecondFlag,
           openNewWeakPlank:openNewWeakPlankFlag,openZhuBiSuperSpeed:openZhuBiSuperSpeedFlag,openCancelSuperSpeed:openCancelSuperSpeedFlag,openBeforeBigEntrust:openBeforeBigEntrustFlag,openNearBigEntrust:openNearBigEntrustFlag,
@@ -704,7 +723,7 @@
           overCirculatezDisable:overCirculatezDisableFlag,openPeakSell:openPeakSellFlag,clearPlankCount:clearPlankCountFlag,sellOpenButton:sellOpenButtonFlag,dragon369SubOpen:dragon369SubOpenFlag,openDragonRadicalWeek:openDragonRadicalWeekFlag,
           openManyBigSun:openManyBigSunFlag,sealingProhibitDown:sealingProhibitDownFlag,prohibitCancelAll:prohibitCancelAllFlag,radicalPlankPoolCancelButton:radicalPlankPoolCancelButtonFlag,
           beautifulTwoPlankIntoRadicalPoolButton:beautifulTwoPlankIntoRadicalPoolButtonFlag,cannonCalTwoTimesButton:cannonCalTwoTimesButtonFlag,indexQtyCompare:indexQtyCompareFlag,percent369:percent369Flag,mainAutoStart:mainAutoStartFlag,
-          growthAutoStart:growthAutoStartFlag,cancelOrderSeconds:cancelOrderSecondsFlag}, r => {
+          growthAutoStart:growthAutoStartFlag,cancelOrderSeconds:cancelOrderSecondsFlag,stockCode:stockCodeFlag}, r => {
           location.reload()
         })
 
@@ -877,6 +896,22 @@
       },
       cancel12 () {
         this.$Message.info($("param12").value)
+      },
+
+
+      show13 () {
+        this.param13=this.stockCode;
+      },
+
+      ok13 () {
+        this.stockCode = this.param13
+        if(this.param13===''){
+          this.stockCode = 0;
+        }
+        this.changeButton (53)
+      },
+      cancel13 () {
+        this.$Message.info($("param13").value)
       }
 
     }
