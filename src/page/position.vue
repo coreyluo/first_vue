@@ -71,7 +71,7 @@
         <template slot-scope="{ row, index }" slot="action">
           <Button type="primary" style="margin-right: 5px" @click="modal1=true;show(index)">修改三大市场仓位</Button>
 
-          <Button type="primary" style="margin-right: 5px" @click="modal2=true;show(index)">修改卖出比例</Button>
+          <Button type="primary" style="margin-right: 5px" @click="modal2=true;show(index)">修改比例</Button>
 
           <Button v-if="row.pit===0" style="margin-right: 5px" type="warning" @click="changeAccountStatus(5,index,1)">集合核按钮已关闭,请开启</Button>
           <Button v-if="row.pit===1" style="margin-right: 5px" type="primary" @click="changeAccountStatus(5,index,0)">集合核按钮已开启,请禁用</Button>
@@ -148,11 +148,17 @@
       <template>
         <Modal
           v-model="modal2"
-          title="核按钮卖出比例"
+          title="比例修改"
           @on-ok="ok2"
           @on-cancel="cancel2">
           <div>
-            比例:<Input name= "param2" v-model="param2" placeholder="" style="width: 300px" />
+            卖出比例:<Input name= "param2" v-model="param2" placeholder="" style="width: 300px" />
+          </div>
+          <div>
+            二板仓位比例:<Input name= "paramTwoPlankRatio" v-model="paramTwoPlankRatio" placeholder="" style="width: 300px" />
+          </div>
+          <div>
+            高位板仓位比例:<Input name= "paramHighPlankRatio" v-model="paramHighPlankRatio" placeholder="" style="width: 300px" />
           </div>
         </Modal>
       </template>
@@ -225,6 +231,16 @@
             align: 'center'
           },
           {
+            title: '二板仓位',
+            key: 'twoPlankRatio',
+            align: 'center'
+          },
+          {
+            title: '高位仓位',
+            key: 'highPlankRatio',
+            align: 'center'
+          },
+          {
             title: '核按钮卖出比例',
             key: 'sellRate',
             align: 'center'
@@ -256,6 +272,9 @@
         this.paramMiddle2 = this.data7[index].middlePosition2;
         this.paramMiddle3 = this.data7[index].middlePosition3;
         this.generalPosition = this.data7[index].generalPosition;
+        this.param2 = this.data7[index].sellRate;
+        this.paramTwoPlankRatio = this.data7[index].twoPlankRatio;
+        this.paramHighPlankRatio = this.data7[index].highPlankRatio;
       },
       ok () {
         var position= this.param1;
@@ -295,7 +314,9 @@
       ok2 () {
         var sellRate= this.param2;
         var changerId = this.indexId;
-        this.$api.post('singular/tradeAccount/changeSellRate', {id:changerId,sellRate:sellRate}, r => {
+        var twoPlankRatio = this.paramTwoPlankRatio;
+        var highPlankRatio = this.paramHighPlankRatio;
+        this.$api.post('singular/tradeAccount/changeSellRate', {id:changerId,sellRate:sellRate,twoPlankRatio:twoPlankRatio,highPlankRatio:highPlankRatio}, r => {
 
         })
         location.reload();
