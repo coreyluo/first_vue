@@ -91,8 +91,6 @@
                   <i class="remark" >{{remark1}}</i>
                   <tag v-if="inUse===1" class="in-use">正在使用</tag>
                   <tag v-else class="no-use">未启用</tag>
-                  <Button style="float:right" v-if="open1===1" type="error" @click="closeAllStrategy(1)">所有策略启用,请关闭</Button>
-                  <Button style="float:right" v-if="open1===0" type="primary" @click="openAllStrategy(1)">已经关闭某某些策略,请启用</Button>
 
                   <Button style="float:right" type="warning" @click="flushCache(1)">启用参数</Button>
                 </div>
@@ -112,6 +110,43 @@
                 </div>
               </template>
               <Table border :columns="columns13" :data="data14">
+                <template slot-scope="{ row }" slot="tab">
+                  <strong>{{ row.tab }}</strong>
+                </template>
+                <template slot-scope="{ row, index }" slot="action">
+                  <Button type="primary" size="small" style="margin-right: 5px" @click="modal1=true;show(row)">修改</Button>
+                </template>
+              </Table>
+            </template>
+
+          <div class="blankRow">
+          </div>
+
+            <template>
+              <template>
+                <div>
+                  <i class="remark" >{{remark1}}</i>
+                  <tag v-if="inUse===2" class="in-use">正在使用</tag>
+                  <tag v-else class="no-use">未启用</tag>
+
+                  <Button style="float:right" type="warning" @click="flushCache(2)">启用参数</Button>
+                </div>
+              </template>
+              <Table border :columns="columns13" :data="data15">
+                <template slot-scope="{ row }" slot="tab">
+                  <strong>{{ row.tab }}</strong>
+                </template>
+                <template slot-scope="{ row, index }" slot="action">
+                  <Button type="primary" size="small" style="margin-right: 5px" @click="modal1=true;show(row)">修改</Button>
+                </template>
+              </Table>
+
+              <template>
+                <div>
+                  <i class="remark" >{{remark2}}</i><i>&nbsp&nbsp&nbsp&nbsp</i>
+                </div>
+              </template>
+              <Table border :columns="columns13" :data="data16">
                 <template slot-scope="{ row }" slot="tab">
                   <strong>{{ row.tab }}</strong>
                 </template>
@@ -232,16 +267,26 @@
                    })
 
                   infos.forEach(item =>{
-                    if(item.sign ==1){
-                      this.data13.push(item)
-                    }
-                    if(item.sign ==2){
-                      this.data14.push(item)
-                    }
-                    if(item.used==1){
-                      if(item.sign==1||item.sign==2){
-                        this.inUse = 1
+                    if(item.memberType==1) {
+                      if (item.sign == 1) {
+                        this.data13.push(item)
                       }
+                      if (item.sign == 2) {
+                        this.data14.push(item)
+                      }
+                    }
+
+                    if(item.memberType==2) {
+                      if (item.sign == 1) {
+                        this.data15.push(item)
+                      }
+                      if (item.sign == 2) {
+                        this.data16.push(item)
+                      }
+                    }
+
+                    if(item.used==1){
+                        this.inUse = item.memberType;
                     }
                     if(item.sign==1){
                       this.remark1=item.remark;
@@ -362,11 +407,19 @@
                  data14: [
 
                  ],
+               data15: [
+
+               ],
+               data16: [
+
+               ],
                  modal1: false,
                  modal2: false,
                  inUse:0,
                  remark1:'暂时无描述',
                  remark2:'暂时无描述',
+                 remark3:'暂时无描述',
+                 remark4:'暂时无描述',
                  open1:0,
                  open2:0,
                  indexId:0
@@ -418,8 +471,8 @@
                   })
 
              },
-             flushCache(signIndex){
-                 this.$api.post('singular/paramConfig/publish', {sign:signIndex}, r => {
+             flushCache(memberType){
+                 this.$api.post('singular/paramConfig/publish', {memberType:memberType}, r => {
                      this.$Message.info("刷新成功");
                      location.reload()
                  })
