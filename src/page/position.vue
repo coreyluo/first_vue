@@ -231,12 +231,12 @@
             align: 'center'
           },
           {
-            title: '二板仓位',
+            title: '二板仓位系数',
             key: 'twoPlankRatio',
             align: 'center'
           },
           {
-            title: '高位仓位',
+            title: '高位仓位系数',
             key: 'highPlankRatio',
             align: 'center'
           },
