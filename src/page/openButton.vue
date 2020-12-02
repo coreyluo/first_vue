@@ -102,20 +102,8 @@
 
       <template>
         <div>
-          <Button v-if="!openLongLeg"  type="primary" @click="changeButton(0)">大长腿已关闭,请开启</Button>
-          <Button v-if="openLongLeg"  type="error" @click="changeButton(0)">大长腿已开启,请关闭</Button>
-
           <Button v-if="!openJumpInQueue"  type="primary" @click="changeButton(1)">插队已关闭,请开启</Button>
           <Button v-if="openJumpInQueue"  type="error" @click="changeButton(1)">插队已开启,请关闭</Button>
-
-          <Button v-if="!openNewPosition"  type="primary" @click="changeButton(2)">高位仓位已关闭,请开启</Button>
-          <Button v-if="openNewPosition"  type="error" @click="changeButton(2)">高位仓位已开启,请关闭</Button>
-
-          <Button v-if="!openTwoBigEntrust"  type="primary" @click="changeButton(3)">下单两个大单已关闭,请开启</Button>
-          <Button v-if="openTwoBigEntrust"  type="error" @click="changeButton(3)">下单两个大单已开启,请关闭</Button>
-
-          <Button v-if="!openScareOpen"  type="primary" @click="changeButton(4)">恐慌开板已关闭,请开启</Button>
-          <Button v-if="openScareOpen"  type="error" @click="changeButton(4)">恐慌开板已开启,请关闭</Button>
 
           <Button v-if="!openOneLinePlankInsertOrder"  type="primary" @click="changeButton(5)">一字回封下单越过禁止下单按钮已关闭,请开启</Button>
           <Button v-if="openOneLinePlankInsertOrder"  type="error" @click="changeButton(5)">一字回封下单越过禁止下单按钮已开启,请关闭</Button>
@@ -123,29 +111,40 @@
           <Button v-if="!openUniteCirculateInfo"  type="primary" @click="changeButton(7)">按照3亿流通撤单已关闭,请开启</Button>
           <Button v-if="openUniteCirculateInfo"  type="error" @click="changeButton(7)">按照3亿流通撤单已开启,请关闭</Button>
 
-          <Button v-if="!openYesterdayHot"  type="primary" @click="changeButton(8)">昨日打爆已经关闭,请开启</Button>
-          <Button v-if="openYesterdayHot"  type="error" @click="changeButton(8)">昨日打爆已经开启,请关闭</Button>
+
+          <Button v-if="!openCancelSuperSpeed"  type="primary" @click="changeButton(12)">撤单0.5s已关闭,请开启</Button>
+          <Button v-if="openCancelSuperSpeed"  type="error" @click="changeButton(12)">撤单0.5s已开启,请关闭</Button>
+
+          <Button v-if="!openBreakingOrder"  type="primary" @click="changeButton(21)">拆单已关闭,请开启</Button>
+          <Button v-if="openBreakingOrder"  type="error" @click="changeButton(21)">拆单已开启,请关闭</Button>
+
+          <Button v-if="!overCirculatezDisable"  type="error" @click="changeButton(25)">5亿以上下单已开启,请关闭</Button>
+          <Button v-if="overCirculatezDisable"  type="primary" @click="changeButton(25)">5亿以上下单已关闭,请开启</Button>
+
+          <Button v-if="!dragon369SubOpen"  type="primary" @click="changeButton(29)">超龙头369优惠已关闭,请开启</Button>
+          <Button v-if="dragon369SubOpen"  type="error" @click="changeButton(29)">超龙头369优惠已开启,请关闭</Button>
+
+          <Button v-if="!openDragonRadicalWeek"  type="primary" @click="changeButton(40)">超龙卖一弱板已关闭,请开启</Button>
+          <Button v-if="openDragonRadicalWeek"  type="error" @click="changeButton(40)">超龙卖一弱板已开启,请关闭</Button>
+
+          <Button v-if="!cannonCalTwoTimesButton"  type="primary" @click="changeButton(46)">两次计算炮灰已关闭,请开启</Button>
+          <Button v-if="cannonCalTwoTimesButton"  type="error" @click="changeButton(46)">两次计算炮灰已开启,请关闭</Button>
+
+          <Button v-if="!openManyBigSun"  type="primary" @click="changeButton(41)">普涨大阳按钮已关闭,请开启</Button>
+          <Button v-if="openManyBigSun"  type="error" @click="changeButton(41)">普涨大阳按钮已开启,请关闭</Button>
 
         </div>
         <div class="blankRow">
         </div>
         <div>
-
+          <Button v-if="!openYesterdayHot"  type="primary" @click="changeButton(8)">昨日打爆已经关闭,请开启</Button>
+          <Button v-if="openYesterdayHot"  type="error" @click="changeButton(8)">昨日打爆已经开启,请关闭</Button>
 
           <Button v-if="!openNineSecond"  type="primary" @click="changeButton(9)">单前量9s防爆头已关闭,请开启</Button>
           <Button v-if="openNineSecond"  type="error" @click="changeButton(9)">单前量9s防爆头已开启,请关闭</Button>
 
           <Button v-if="openNewWeakPlank"  type="primary" @click="changeButton(10)">卖一弱板3次已开启,请切换4次</Button>
           <Button v-if="!openNewWeakPlank"  type="error" @click="changeButton(10)">卖一弱板4次已开启,请切换3次</Button>
-
-          <Button v-if="!openSuperSpeed"  type="primary" @click="changeButton(6)">上午L1超级加速已关闭,请开启</Button>
-          <Button v-if="openSuperSpeed"  type="error" @click="changeButton(6)">上午L1超级加速已开启,请关闭</Button>
-
-          <Button v-if="!openZhuBiSuperSpeed"  type="primary" @click="changeButton(11)">全天逐笔超级加速已关闭,请开启</Button>
-          <Button v-if="openZhuBiSuperSpeed"  type="error" @click="changeButton(11)">全天逐笔超级加速已开启,请关闭</Button>
-
-          <Button v-if="!openCancelSuperSpeed"  type="primary" @click="changeButton(12)">撤单0.5s已关闭,请开启</Button>
-          <Button v-if="openCancelSuperSpeed"  type="error" @click="changeButton(12)">撤单0.5s已开启,请关闭</Button>
 
           <Button v-if="!openBeforeBigEntrust"  type="primary" @click="changeButton(13)">靶前大单撤单策略已关闭,请开启</Button>
           <Button v-if="openBeforeBigEntrust"  type="error" @click="changeButton(13)">靶前大单撤单策略已开启,请关闭</Button>
@@ -156,14 +155,6 @@
           <Button v-if="!openCallMarketInvestorListen"  type="primary" @click="changeButton(15)">集合庄股检测已关闭,请开启</Button>
           <Button v-if="openCallMarketInvestorListen"  type="error" @click="changeButton(15)">集合庄股检测已开启,请关闭</Button>
 
-        </div>
-
-        <div class="blankRow">
-        </div>
-        <div>
-          <Button v-if="!open125MillionSpeed"  type="primary" @click="changeButton(16)">125ms加速已关闭,请开启</Button>
-          <Button v-if="open125MillionSpeed"  type="error" @click="changeButton(16)">125ms加速已开启,请关闭</Button>
-
           <Button v-if="!openBeforeQuantity"  type="primary" @click="changeButton(17)">单前量5万策略已关闭,请开启</Button>
           <Button v-if="openBeforeQuantity"  type="error" @click="changeButton(17)">单前量5万策略已已开启,请关闭</Button>
 
@@ -173,17 +164,9 @@
           <Button v-if="!openCallMarketInsert"  type="primary" @click="changeButton(19)">集合竞价下单已关闭,请开启</Button>
           <Button v-if="openCallMarketInsert"  type="error" @click="changeButton(19)">集合竞价下单已开启,请关闭</Button>
 
-          <Button v-if="!openBigSunDetailOrder"  type="primary" @click="changeButton(20)">大阳线逐笔介入已关闭,请开启</Button>
-          <Button v-if="openBigSunDetailOrder"  type="error" @click="changeButton(20)">大阳线逐笔介入下单已开启,请关闭</Button>
-
-          <Button v-if="!openBreakingOrder"  type="primary" @click="changeButton(21)">拆单已关闭,请开启</Button>
-          <Button v-if="openBreakingOrder"  type="error" @click="changeButton(21)">拆单已开启,请关闭</Button>
-
-          <Button v-if="!openTradesCompare"  type="primary" @click="changeButton(22)">分时成交放量已关闭,请开启</Button>
-          <Button v-if="openTradesCompare"  type="error" @click="changeButton(22)">分时成交放量已开启,请关闭</Button>
-
           <Button v-if="!dragonHeadSwitch"  type="primary" @click="changeButton(23)">打爆当日跟风已关闭,请开启</Button>
           <Button v-if="dragonHeadSwitch"  type="error" @click="changeButton(23)">打爆当日跟风已开启,请关闭</Button>
+
         </div>
 
         <div class="blankRow">
@@ -210,9 +193,6 @@
           <Button v-if="!sellNineRate"  type="primary" @click="changeButton(24)">9个点不涨停卖出已关闭,请开启</Button>
           <Button v-if="sellNineRate"  type="error" @click="changeButton(24)">9个点不涨停卖出已开启,请关闭</Button>
 
-          <Button v-if="!overCirculatezDisable"  type="error" @click="changeButton(25)">5亿以上下单已开启,请关闭</Button>
-          <Button v-if="overCirculatezDisable"  type="primary" @click="changeButton(25)">5亿以上下单已关闭,请开启</Button>
-
         </div>
 
         <div class="blankRow">
@@ -228,15 +208,6 @@
           <Button v-if="!clearPlankCount"  type="primary" @click="changeButton(27)">恢复下单清空数板已关闭,请开启</Button>
           <Button v-if="clearPlankCount"  type="error" @click="changeButton(27)">恢复下单清空数板已开启,请关闭</Button>
 
-          <Button v-if="!dragon369SubOpen"  type="primary" @click="changeButton(29)">超龙头369优惠已关闭,请开启</Button>
-          <Button v-if="dragon369SubOpen"  type="error" @click="changeButton(29)">超龙头369优惠已开启,请关闭</Button>
-
-          <Button v-if="!openDragonRadicalWeek"  type="primary" @click="changeButton(40)">超龙卖一弱板已关闭,请开启</Button>
-          <Button v-if="openDragonRadicalWeek"  type="error" @click="changeButton(40)">超龙卖一弱板已开启,请关闭</Button>
-
-          <Button v-if="!openManyBigSun"  type="primary" @click="changeButton(41)">普涨大阳按钮已关闭,请开启</Button>
-          <Button v-if="openManyBigSun"  type="error" @click="changeButton(41)">普涨大阳按钮已开启,请关闭</Button>
-
           <Button v-if="!sealingProhibitDown"  type="primary" @click="changeButton(42)">封单三跳不允许下降已关闭,请开启</Button>
           <Button v-if="sealingProhibitDown"  type="error" @click="changeButton(42)">封单三跳不允许下降已开启,请关闭</Button>
 
@@ -245,19 +216,20 @@
 
           <Button v-if="radicalPlankPoolCancelButton"  type="error" @click="changeButton(44)">小池子防爆头撤单已开启,请关闭</Button>
           <Button v-if="!radicalPlankPoolCancelButton"  type="primary" @click="changeButton(44)">小池子防爆头撤单已关闭,请开启</Button>
+
+          <Button v-if="!beautifulTwoPlankIntoRadicalPoolButton"  type="primary" @click="changeButton(45)">二板一字拉股票池已关闭,请开启</Button>
+          <Button v-if="beautifulTwoPlankIntoRadicalPoolButton"  type="error" @click="changeButton(45)">二板一字拉股票池已开启,请关闭</Button>
         </div>
 
         <div class="blankRow">
         </div>
 
         <div>
-          <Button v-if="!beautifulTwoPlankIntoRadicalPoolButton"  type="primary" @click="changeButton(45)">二板一字拉股票池已关闭,请开启</Button>
-          <Button v-if="beautifulTwoPlankIntoRadicalPoolButton"  type="error" @click="changeButton(45)">二板一字拉股票池已开启,请关闭</Button>
-
-          <Button v-if="!cannonCalTwoTimesButton"  type="primary" @click="changeButton(46)">两次计算炮灰已关闭,请开启</Button>
-          <Button v-if="cannonCalTwoTimesButton"  type="error" @click="changeButton(46)">两次计算炮灰已开启,请关闭</Button>
 
           <Button v-if="percent369>0" type="error" @click="modal9=true;show9()">创业板369撤单比例{{percent369}}倍</Button>
+
+          <Button v-if="cancelOrderSeconds>0"  type="error" @click="modal12=true;show12()">快速成交撤单秒数{{cancelOrderSeconds}}</Button>
+          <Button v-if="cancelOrderSeconds===0"  type="primary" @click="modal12=true;show12()">快速成交撤单已关闭,请开启</Button>
 
           <Button v-if="mainAutoStart>0" type="error" @click="modal10=true;show10()">主板自动开启{{mainAutoStart}}秒</Button>
           <Button v-if="mainAutoStart===0" type="primary" @click="modal10=true;show10()">主板自动开启已关闭</Button>
@@ -265,10 +237,40 @@
           <Button v-if="growthAutoStart>0" type="error" @click="modal11=true;show11()">创业板自动开启{{growthAutoStart}}秒</Button>
           <Button v-if="growthAutoStart===0" type="primary" @click="modal11=true;show11()">创业板自动开启已关闭</Button>
 
-
-          <Button v-if="!indexQtyCompare"  type="primary" @click="changeButton(47)">半路量能已关闭,请开启</Button>
-          <Button v-if="indexQtyCompare"  type="error" @click="changeButton(47)">半路量能已开启,请关闭</Button>
         </div>
+
+
+          <!--<Button v-if="!openLongLeg"  type="primary" @click="changeButton(0)">大长腿已关闭,请开启</Button>
+          <Button v-if="openLongLeg"  type="error" @click="changeButton(0)">大长腿已开启,请关闭</Button>-->
+
+          <!--<Button v-if="!openNewPosition"  type="primary" @click="changeButton(2)">高位仓位已关闭,请开启</Button>
+          <Button v-if="openNewPosition"  type="error" @click="changeButton(2)">高位仓位已开启,请关闭</Button>-->
+
+          <!--<Button v-if="!openTwoBigEntrust"  type="primary" @click="changeButton(3)">下单两个大单已关闭,请开启</Button>
+          <Button v-if="openTwoBigEntrust"  type="error" @click="changeButton(3)">下单两个大单已开启,请关闭</Button>
+
+          <Button v-if="!openScareOpen"  type="primary" @click="changeButton(4)">恐慌开板已关闭,请开启</Button>
+          <Button v-if="openScareOpen"  type="error" @click="changeButton(4)">恐慌开板已开启,请关闭</Button>-->
+
+        <!--<Button v-if="!openSuperSpeed"  type="primary" @click="changeButton(6)">上午L1超级加速已关闭,请开启</Button>
+         <Button v-if="openSuperSpeed"  type="error" @click="changeButton(6)">上午L1超级加速已开启,请关闭</Button>
+
+         <Button v-if="!openZhuBiSuperSpeed"  type="primary" @click="changeButton(11)">全天逐笔超级加速已关闭,请开启</Button>
+         <Button v-if="openZhuBiSuperSpeed"  type="error" @click="changeButton(11)">全天逐笔超级加速已开启,请关闭</Button>-->
+
+        <!--<Button v-if="!open125MillionSpeed"  type="primary" @click="changeButton(16)">125ms加速已关闭,请开启</Button>
+         <Button v-if="open125MillionSpeed"  type="error" @click="changeButton(16)">125ms加速已开启,请关闭</Button>-->
+
+        <!-- <Button v-if="!openBigSunDetailOrder"  type="primary" @click="changeButton(20)">大阳线逐笔介入已关闭,请开启</Button>
+         <Button v-if="openBigSunDetailOrder"  type="error" @click="changeButton(20)">大阳线逐笔介入下单已开启,请关闭</Button>-->
+
+
+        <!--<Button v-if="!openTradesCompare"  type="primary" @click="changeButton(22)">分时成交放量已关闭,请开启</Button>
+        <Button v-if="openTradesCompare"  type="error" @click="changeButton(22)">分时成交放量已开启,请关闭</Button>-->
+
+        <!--<Button v-if="!indexQtyCompare"  type="primary" @click="changeButton(47)">半路量能已关闭,请开启</Button>
+          <Button v-if="indexQtyCompare"  type="error" @click="changeButton(47)">半路量能已开启,请关闭</Button>-->
+
 
       </template>
 
@@ -390,6 +392,18 @@
         </Modal>
       </template>
 
+      <template>
+        <Modal
+          v-model="modal12"
+          title="快速成交撤单秒数"
+          @on-ok="ok12"
+          @on-cancel="cancel12">
+          <div>
+            快速成交撤单秒数:<Input name= "param12" v-model="param12" placeholder="" style="width: 300px" />
+          </div>
+        </Modal>
+      </template>
+
     </Layout>
   </div>
 </template>
@@ -444,7 +458,8 @@
           this.percent369 = r.data.percent369,
           this.indexQtyCompare = r.data.indexQtyCompare,
           this.mainAutoStart= r.data.mainAutoStart,
-          this.growthAutoStart = r.data.growthAutoStart
+          this.growthAutoStart = r.data.growthAutoStart,
+          this.cancelOrderSeconds = r.data.cancelOrderSeconds
       });
 
     },
@@ -481,7 +496,7 @@
         disableOrderOverMinutes:360,
         carryManySInto:0,
         sweepPlankCirculate:0,
-        dragonHeadSwitch:true,
+        dragonHeadSwitch:false,
         sellNineRate:false,
         overCirculatezDisable:false,
         openPeakSell:false,
@@ -496,9 +511,10 @@
         beautifulTwoPlankIntoRadicalPoolButton:false,
         cannonCalTwoTimesButton:true,
         percent369:1,
-        indexQtyCompare:true,
+        indexQtyCompare:false,
         mainAutoStart:0,
         growthAutoStart:0,
+        cancelOrderSeconds:0,
         modal1: false,
         modal3: false,
         modal4: false,
@@ -508,7 +524,8 @@
         modal8:false,
         modal9:false,
         modal10:false,
-        modal11:false
+        modal11:false,
+        modal12:false
       }
 
     },
@@ -629,6 +646,7 @@
         if(index==47){
           this.indexQtyCompare = !(this.indexQtyCompare);
         }
+
         var openLongLegFlag = this.openLongLeg;
         var openJumpInQueueFlag = this.openJumpInQueue;
         var openNewPositionFlag = this.openNewPosition;
@@ -677,6 +695,7 @@
         var indexQtyCompareFlag = this.indexQtyCompare;
         var mainAutoStartFlag = this.mainAutoStart;
         var growthAutoStartFlag = this.growthAutoStart;
+        var cancelOrderSecondsFlag = this.cancelOrderSeconds;
         this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,
           openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag,openUniteCirculateInfo:openUniteCirculateInfoFlag,openYesterdayHot:openYesterdayHotFlag,openNineSecond:openNineSecondFlag,
           openNewWeakPlank:openNewWeakPlankFlag,openZhuBiSuperSpeed:openZhuBiSuperSpeedFlag,openCancelSuperSpeed:openCancelSuperSpeedFlag,openBeforeBigEntrust:openBeforeBigEntrustFlag,openNearBigEntrust:openNearBigEntrustFlag,
@@ -686,7 +705,7 @@
           overCirculatezDisable:overCirculatezDisableFlag,openPeakSell:openPeakSellFlag,clearPlankCount:clearPlankCountFlag,sellOpenButton:sellOpenButtonFlag,dragon369SubOpen:dragon369SubOpenFlag,openDragonRadicalWeek:openDragonRadicalWeekFlag,
           openManyBigSun:openManyBigSunFlag,sealingProhibitDown:sealingProhibitDownFlag,prohibitCancelAll:prohibitCancelAllFlag,radicalPlankPoolCancelButton:radicalPlankPoolCancelButtonFlag,
           beautifulTwoPlankIntoRadicalPoolButton:beautifulTwoPlankIntoRadicalPoolButtonFlag,cannonCalTwoTimesButton:cannonCalTwoTimesButtonFlag,percent369:percent369Flag,indexQtyCompare:indexQtyCompareFlag,mainAutoStart:mainAutoStartFlag,
-          growthAutoStart:growthAutoStartFlag}, r => {
+          growthAutoStart:growthAutoStartFlag,cancelOrderSeconds:cancelOrderSecondsFlag}, r => {
           location.reload()
         })
 
@@ -845,6 +864,21 @@
       },
       cancel11 () {
         this.$Message.info($("param11").value)
+      },
+
+
+      show12 () {
+        this.param12=this.cancelOrderSeconds;
+      },
+      ok12 () {
+        this.cancelOrderSeconds = this.param12
+        if(this.param12===''){
+          this.cancelOrderSeconds = 0;
+        }
+        this.changeButton (60)
+      },
+      cancel12 () {
+        this.$Message.info($("param12").value)
       }
 
     }
