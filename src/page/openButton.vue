@@ -102,41 +102,6 @@
 
       <template>
         <div>
-          <Button v-if="!openJumpInQueue"  type="primary" @click="changeButton(1)">插队已关闭,请开启</Button>
-          <Button v-if="openJumpInQueue"  type="error" @click="changeButton(1)">插队已开启,请关闭</Button>
-
-          <Button v-if="!openOneLinePlankInsertOrder"  type="primary" @click="changeButton(5)">一字回封下单越过禁止下单按钮已关闭,请开启</Button>
-          <Button v-if="openOneLinePlankInsertOrder"  type="error" @click="changeButton(5)">一字回封下单越过禁止下单按钮已开启,请关闭</Button>
-
-          <Button v-if="!openUniteCirculateInfo"  type="primary" @click="changeButton(7)">按照3亿流通撤单已关闭,请开启</Button>
-          <Button v-if="openUniteCirculateInfo"  type="error" @click="changeButton(7)">按照3亿流通撤单已开启,请关闭</Button>
-
-
-          <Button v-if="!openCancelSuperSpeed"  type="primary" @click="changeButton(12)">撤单0.5s已关闭,请开启</Button>
-          <Button v-if="openCancelSuperSpeed"  type="error" @click="changeButton(12)">撤单0.5s已开启,请关闭</Button>
-
-          <Button v-if="!openBreakingOrder"  type="primary" @click="changeButton(21)">拆单已关闭,请开启</Button>
-          <Button v-if="openBreakingOrder"  type="error" @click="changeButton(21)">拆单已开启,请关闭</Button>
-
-          <Button v-if="!overCirculatezDisable"  type="error" @click="changeButton(25)">5亿以上下单已开启,请关闭</Button>
-          <Button v-if="overCirculatezDisable"  type="primary" @click="changeButton(25)">5亿以上下单已关闭,请开启</Button>
-
-          <Button v-if="!dragon369SubOpen"  type="primary" @click="changeButton(29)">超龙头369优惠已关闭,请开启</Button>
-          <Button v-if="dragon369SubOpen"  type="error" @click="changeButton(29)">超龙头369优惠已开启,请关闭</Button>
-
-          <Button v-if="!openDragonRadicalWeek"  type="primary" @click="changeButton(40)">超龙卖一弱板已关闭,请开启</Button>
-          <Button v-if="openDragonRadicalWeek"  type="error" @click="changeButton(40)">超龙卖一弱板已开启,请关闭</Button>
-
-          <Button v-if="!cannonCalTwoTimesButton"  type="primary" @click="changeButton(46)">两次计算炮灰已关闭,请开启</Button>
-          <Button v-if="cannonCalTwoTimesButton"  type="error" @click="changeButton(46)">两次计算炮灰已开启,请关闭</Button>
-
-          <Button v-if="!openManyBigSun"  type="primary" @click="changeButton(41)">普涨大阳按钮已关闭,请开启</Button>
-          <Button v-if="openManyBigSun"  type="error" @click="changeButton(41)">普涨大阳按钮已开启,请关闭</Button>
-
-        </div>
-        <div class="blankRow">
-        </div>
-        <div>
           <Button v-if="!openYesterdayHot"  type="primary" @click="changeButton(8)">昨日打爆已经关闭,请开启</Button>
           <Button v-if="openYesterdayHot"  type="error" @click="changeButton(8)">昨日打爆已经开启,请关闭</Button>
 
@@ -161,11 +126,6 @@
           <Button v-if="!openHighSellHelper"  type="primary" @click="changeButton(18)">33分前高点卖出小助手已关闭,请开启</Button>
           <Button v-if="openHighSellHelper"  type="error" @click="changeButton(18)">33分前高点卖出小助手已开启,请关闭</Button>
 
-          <Button v-if="!openCallMarketInsert"  type="primary" @click="changeButton(19)">集合竞价下单已关闭,请开启</Button>
-          <Button v-if="openCallMarketInsert"  type="error" @click="changeButton(19)">集合竞价下单已开启,请关闭</Button>
-
-          <Button v-if="!dragonHeadSwitch"  type="primary" @click="changeButton(23)">打爆当日跟风已关闭,请开启</Button>
-          <Button v-if="dragonHeadSwitch"  type="error" @click="changeButton(23)">打爆当日跟风已开启,请关闭</Button>
 
         </div>
 
@@ -193,6 +153,10 @@
           <Button v-if="!sellNineRate"  type="primary" @click="changeButton(24)">9个点不涨停卖出已关闭,请开启</Button>
           <Button v-if="sellNineRate"  type="error" @click="changeButton(24)">9个点不涨停卖出已开启,请关闭</Button>
 
+          <Button v-if="!openCallMarketInsert"  type="primary" @click="changeButton(19)">集合竞价下单已关闭,请开启</Button>
+          <Button v-if="openCallMarketInsert"  type="error" @click="changeButton(19)">集合竞价下单已开启,请关闭</Button>
+
+
         </div>
 
         <div class="blankRow">
@@ -219,12 +183,50 @@
 
           <Button v-if="!beautifulTwoPlankIntoRadicalPoolButton"  type="primary" @click="changeButton(45)">二板一字拉股票池已关闭,请开启</Button>
           <Button v-if="beautifulTwoPlankIntoRadicalPoolButton"  type="error" @click="changeButton(45)">二板一字拉股票池已开启,请关闭</Button>
+
+          <Button v-if="!dragonHeadSwitch"  type="primary" @click="changeButton(23)">打爆当日跟风已关闭,请开启</Button>
+          <Button v-if="dragonHeadSwitch"  type="error" @click="changeButton(23)">打爆当日跟风已开启,请关闭</Button>
         </div>
 
         <div class="blankRow">
         </div>
 
         <div>
+          <Button v-if="!openJumpInQueue"  type="primary" @click="changeButton(1)">插队已关闭,请开启</Button>
+          <Button v-if="openJumpInQueue"  type="error" @click="changeButton(1)">插队已开启,请关闭</Button>
+
+          <Button v-if="!openOneLinePlankInsertOrder"  type="primary" @click="changeButton(5)">一字回封下单越过禁止下单按钮已关闭,请开启</Button>
+          <Button v-if="openOneLinePlankInsertOrder"  type="error" @click="changeButton(5)">一字回封下单越过禁止下单按钮已开启,请关闭</Button>
+
+          <Button v-if="!openUniteCirculateInfo"  type="primary" @click="changeButton(7)">按照3亿流通撤单已关闭,请开启</Button>
+          <Button v-if="openUniteCirculateInfo"  type="error" @click="changeButton(7)">按照3亿流通撤单已开启,请关闭</Button>
+
+          <Button v-if="!openBreakingOrder"  type="primary" @click="changeButton(21)">拆单已关闭,请开启</Button>
+          <Button v-if="openBreakingOrder"  type="error" @click="changeButton(21)">拆单已开启,请关闭</Button>
+
+          <Button v-if="!overCirculatezDisable"  type="error" @click="changeButton(25)">5亿以上下单已开启,请关闭</Button>
+          <Button v-if="overCirculatezDisable"  type="primary" @click="changeButton(25)">5亿以上下单已关闭,请开启</Button>
+
+          <Button v-if="!dragon369SubOpen"  type="primary" @click="changeButton(29)">超龙头369优惠已关闭,请开启</Button>
+          <Button v-if="dragon369SubOpen"  type="error" @click="changeButton(29)">超龙头369优惠已开启,请关闭</Button>
+
+          <Button v-if="!openDragonRadicalWeek"  type="primary" @click="changeButton(40)">超龙卖一弱板已关闭,请开启</Button>
+          <Button v-if="openDragonRadicalWeek"  type="error" @click="changeButton(40)">超龙卖一弱板已开启,请关闭</Button>
+
+          <Button v-if="!cannonCalTwoTimesButton"  type="primary" @click="changeButton(46)">两次计算炮灰已关闭,请开启</Button>
+          <Button v-if="cannonCalTwoTimesButton"  type="error" @click="changeButton(46)">两次计算炮灰已开启,请关闭</Button>
+
+        </div>
+
+        <div class="blankRow">
+        </div>
+
+        <div>
+          <Button v-if="!openManyBigSun"  type="primary" @click="changeButton(41)">普涨大阳按钮已关闭,请开启</Button>
+          <Button v-if="openManyBigSun"  type="error" @click="changeButton(41)">普涨大阳按钮已开启,请关闭</Button>
+
+          <Button v-if="!openCancelSuperSpeed"  type="primary" @click="changeButton(12)">撤单0.5s已关闭,请开启</Button>
+          <Button v-if="openCancelSuperSpeed"  type="error" @click="changeButton(12)">撤单0.5s已开启,请关闭</Button>
 
           <Button v-if="percent369>0" type="error" @click="modal9=true;show9()">创业板369撤单比例{{percent369}}倍</Button>
 
