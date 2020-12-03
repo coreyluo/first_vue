@@ -230,9 +230,6 @@
 
           <Button v-if="percent369>0" type="error" @click="modal9=true;show9()">创业板369撤单比例{{percent369}}倍</Button>
 
-          <Button v-if="cancelOrderSeconds>0"  type="error" @click="modal12=true;show12()">快速成交撤单秒数{{cancelOrderSeconds}}</Button>
-          <Button v-if="cancelOrderSeconds===0"  type="primary" @click="modal12=true;show12()">快速成交撤单已关闭,请开启</Button>
-
           <Button v-if="mainAutoStart>0" type="error" @click="modal10=true;show10()">主板自动开启{{mainAutoStart}}秒</Button>
           <Button v-if="mainAutoStart===0" type="primary" @click="modal10=true;show10()">主板自动开启已关闭</Button>
 
@@ -240,8 +237,9 @@
           <Button v-if="growthAutoStart===0" type="primary" @click="modal11=true;show11()">创业板自动开启已关闭</Button>
 
         </div>
-
-
+       <!--   <Button v-if="cancelOrderSeconds>0"  type="error" @click="modal12=true;show12()">快速成交撤单秒数{{cancelOrderSeconds}}</Button>
+          <Button v-if="cancelOrderSeconds===0"  type="primary" @click="modal12=true;show12()">快速成交撤单已关闭,请开启</Button>
+-->
           <!--<Button v-if="!openLongLeg"  type="primary" @click="changeButton(0)">大长腿已关闭,请开启</Button>
           <Button v-if="openLongLeg"  type="error" @click="changeButton(0)">大长腿已开启,请关闭</Button>-->
 
