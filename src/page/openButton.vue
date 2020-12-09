@@ -230,6 +230,11 @@
 
           <Button v-if="percent369>0" type="error" @click="modal9=true;show9()">创业板369撤单比例{{percent369}}倍</Button>
 
+          <Button v-if="delayMillion>0" type="error" @click="modal13=true;show13()">下单延迟{{delayMillion}}毫秒</Button>
+          <Button v-if="delayMillion===0" type="primary" @click="modal13=true;show13()">下单延迟已关闭</Button>
+
+          <Button v-if="0===0" type="error" @click="modal14=true;show14()">下单延迟开启{{tradeSweepCirculate}}亿流通Z</Button>
+
           <Button v-if="mainAutoStart>0" type="error" @click="modal10=true;show10()">主板自动开启{{mainAutoStart}}秒</Button>
           <Button v-if="mainAutoStart===0" type="primary" @click="modal10=true;show10()">主板自动开启已关闭</Button>
 
@@ -404,6 +409,30 @@
         </Modal>
       </template>
 
+      <template>
+        <Modal
+          v-model="modal13"
+          title="下单延迟毫秒数"
+          @on-ok="ok13"
+          @on-cancel="cancel13">
+          <div>
+            下单延迟毫秒数:<Input name= "param13" v-model="param13" placeholder="" style="width: 300px" />
+          </div>
+        </Modal>
+      </template>
+
+      <template>
+        <Modal
+          v-model="modal14"
+          title="下单延迟流通Z"
+          @on-ok="ok14"
+          @on-cancel="cancel14">
+          <div>
+            下单延迟流通Z:<Input name= "param14" v-model="param14" placeholder="" style="width: 300px" />
+          </div>
+        </Modal>
+      </template>
+
     </Layout>
   </div>
 </template>
@@ -459,7 +488,9 @@
           this.indexQtyCompare = r.data.indexQtyCompare,
           this.mainAutoStart= r.data.mainAutoStart,
           this.growthAutoStart = r.data.growthAutoStart,
-          this.cancelOrderSeconds = r.data.cancelOrderSeconds
+          this.cancelOrderSeconds = r.data.cancelOrderSeconds,
+          this.delayMillion = r.data.delayMillion,
+          this.tradeSweepCirculate = r.data.tradeSweepCirculate
       });
 
     },
@@ -515,6 +546,8 @@
         mainAutoStart:0,
         growthAutoStart:0,
         cancelOrderSeconds:0,
+        delayMillion:50,
+        tradeSweepCirculate:5.0,
         modal1: false,
         modal3: false,
         modal4: false,
@@ -525,7 +558,9 @@
         modal9:false,
         modal10:false,
         modal11:false,
-        modal12:false
+        modal12:false,
+        modal13:false,
+        modal14:false
       }
 
     },
@@ -696,6 +731,8 @@
         var mainAutoStartFlag = this.mainAutoStart;
         var growthAutoStartFlag = this.growthAutoStart;
         var cancelOrderSecondsFlag = this.cancelOrderSeconds;
+        var delayMillionFlag = this.delayMillion;
+        var tradeSweepCirculateFlag = this.tradeSweepCirculate;
         this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,
           openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag,openUniteCirculateInfo:openUniteCirculateInfoFlag,openYesterdayHot:openYesterdayHotFlag,openNineSecond:openNineSecondFlag,
           openNewWeakPlank:openNewWeakPlankFlag,openZhuBiSuperSpeed:openZhuBiSuperSpeedFlag,openCancelSuperSpeed:openCancelSuperSpeedFlag,openBeforeBigEntrust:openBeforeBigEntrustFlag,openNearBigEntrust:openNearBigEntrustFlag,
@@ -705,7 +742,7 @@
           overCirculatezDisable:overCirculatezDisableFlag,openPeakSell:openPeakSellFlag,clearPlankCount:clearPlankCountFlag,sellOpenButton:sellOpenButtonFlag,dragon369SubOpen:dragon369SubOpenFlag,openDragonRadicalWeek:openDragonRadicalWeekFlag,
           openManyBigSun:openManyBigSunFlag,sealingProhibitDown:sealingProhibitDownFlag,prohibitCancelAll:prohibitCancelAllFlag,radicalPlankPoolCancelButton:radicalPlankPoolCancelButtonFlag,
           beautifulTwoPlankIntoRadicalPoolButton:beautifulTwoPlankIntoRadicalPoolButtonFlag,cannonCalTwoTimesButton:cannonCalTwoTimesButtonFlag,percent369:percent369Flag,indexQtyCompare:indexQtyCompareFlag,mainAutoStart:mainAutoStartFlag,
-          growthAutoStart:growthAutoStartFlag,cancelOrderSeconds:cancelOrderSecondsFlag}, r => {
+          growthAutoStart:growthAutoStartFlag,cancelOrderSeconds:cancelOrderSecondsFlag,delayMillion:delayMillionFlag,tradeSweepCirculate:tradeSweepCirculateFlag}, r => {
           location.reload()
         })
 
@@ -879,6 +916,36 @@
       },
       cancel12 () {
         this.$Message.info($("param12").value)
+      },
+
+
+
+      show13 () {
+        this.param13=this.delayMillion;
+      },
+      ok13 () {
+        this.delayMillion = this.param13
+        if(this.param13===''){
+          this.delayMillion = 0;
+        }
+        this.changeButton (61)
+      },
+      cancel13 () {
+        this.$Message.info($("param13").value)
+      },
+
+      show14 () {
+        this.param14=this.tradeSweepCirculate;
+      },
+      ok14 () {
+        this.tradeSweepCirculate = this.param14
+        if(this.param14===''){
+          this.tradeSweepCirculate = 0;
+        }
+        this.changeButton (62)
+      },
+      cancel14 () {
+        this.$Message.info($("param14").value)
       }
 
     }
