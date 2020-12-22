@@ -133,8 +133,6 @@
         </div>
 
         <div>
-          <Button v-if="big2BMaxCirculate===0" type="primary" @click="modal1=true;show()">扫版流通z设置</Button>
-          <Button v-if="big2BMaxCirculate>0" type="error" @click="modal1=true;show()">扫版流通z设置</Button>
 
           <Button  type="primary" @click="modal6=true;show6()">{{disableOrderOverMinutes}}分钟后回封不打</Button>
 
@@ -146,9 +144,6 @@
 
           <Button v-if="carryManySInto===0" type="primary" @click="modal7=true;show7()">抬轿大于多少流通z已关闭</Button>
           <Button v-if="carryManySInto>0" type="error" @click="modal7=true;show7()"> 抬轿大于多少流通z已开启</Button>
-
-          <Button v-if="sweepPlankCirculate===0" type="primary" @click="modal8=true;show8()">新版扫版已关闭,请开启</Button>
-          <Button v-if="sweepPlankCirculate>0" type="error" @click="modal8=true;show8()"> 新版扫版已开启,请关闭</Button>
 
           <Button v-if="!sellNineRate"  type="primary" @click="changeButton(24)">9个点不涨停卖出已关闭,请开启</Button>
           <Button v-if="sellNineRate"  type="error" @click="changeButton(24)">9个点不涨停卖出已开启,请关闭</Button>
@@ -165,9 +160,6 @@
         <div>
           <Button v-if="!openPeakSell"  type="primary" @click="changeButton(26)">峰值卖出已关闭,请开启</Button>
           <Button v-if="openPeakSell"  type="error" @click="changeButton(26)">峰值卖出已开启,请关闭</Button>
-
-          <Button v-if="!sellOpenButton"  type="primary" @click="changeButton(28)">卖出已关闭,请开启</Button>
-          <Button v-if="sellOpenButton"  type="error" @click="changeButton(28)">卖出已开启,请关闭</Button>
 
           <Button v-if="!clearPlankCount"  type="primary" @click="changeButton(27)">恢复下单清空数板已关闭,请开启</Button>
           <Button v-if="clearPlankCount"  type="error" @click="changeButton(27)">恢复下单清空数板已开启,请关闭</Button>
@@ -215,6 +207,27 @@
 
           <Button v-if="!cannonCalTwoTimesButton"  type="primary" @click="changeButton(46)">两次计算炮灰已关闭,请开启</Button>
           <Button v-if="cannonCalTwoTimesButton"  type="error" @click="changeButton(46)">两次计算炮灰已开启,请关闭</Button>
+
+        </div>
+
+        <div class="blankRow">
+        </div>
+
+        <div>
+          <Button v-if="!sellOpenButton"  type="primary" @click="changeButton(28)">卖出已关闭,请开启</Button>
+          <Button v-if="sellOpenButton"  type="error" @click="changeButton(28)">卖出已开启,请关闭</Button>
+
+          <Button v-if="big2BMaxCirculate===0" type="primary" @click="modal1=true;show()">扫版流通z设置</Button>
+          <Button v-if="big2BMaxCirculate>0" type="error" @click="modal1=true;show()">扫版流通z设置</Button>
+
+          <Button v-if="sweepPlankCirculate===0" type="primary" @click="modal8=true;show8()">新版扫版已关闭,请开启</Button>
+          <Button v-if="sweepPlankCirculate>0" type="error" @click="modal8=true;show8()"> 新版扫版{{sweepPlankCirculate}}已开启,请关闭</Button>
+
+          <Button v-if="lowTradeSweepCirculateZ===0" type="primary" @click="modal15=true;show15()">逐笔成交扫版已关闭,请开启</Button>
+          <Button v-if="lowTradeSweepCirculateZ>0" type="error" @click="modal15=true;show15()"> 逐笔成交扫版{{lowTradeSweepCirculateZ}}亿已开启,请关闭</Button>
+
+          <Button v-if="!brokerSweepFlag"  type="primary" @click="changeButton(64)">券商逐笔成交扫板已关闭,请开启</Button>
+          <Button v-if="brokerSweepFlag"  type="error" @click="changeButton(64)">券商逐笔成交扫板已开启,请关闭</Button>
 
         </div>
 
@@ -433,6 +446,18 @@
         </Modal>
       </template>
 
+      <template>
+        <Modal
+          v-model="modal15"
+          title="逐笔成交扫版流通Z"
+          @on-ok="ok15"
+          @on-cancel="cancel15">
+          <div>
+            逐笔成交扫版流通Z:<Input name= "param15" v-model="param15" placeholder="" style="width: 300px" />
+          </div>
+        </Modal>
+      </template>
+
     </Layout>
   </div>
 </template>
@@ -490,7 +515,9 @@
           this.growthAutoStart = r.data.growthAutoStart,
           this.cancelOrderSeconds = r.data.cancelOrderSeconds,
           this.delayMillion = r.data.delayMillion,
-          this.tradeSweepCirculate = r.data.tradeSweepCirculate
+          this.tradeSweepCirculate = r.data.tradeSweepCirculate,
+          this.lowTradeSweepCirculateZ = r.data.lowTradeSweepCirculateZ,
+          this.brokerSweepFlag = r.data.brokerSweepFlag
       });
 
     },
@@ -548,6 +575,8 @@
         cancelOrderSeconds:0,
         delayMillion:50,
         tradeSweepCirculate:5.0,
+        lowTradeSweepCirculateZ:0,
+        brokerSweepFlag:false,
         modal1: false,
         modal3: false,
         modal4: false,
@@ -560,7 +589,8 @@
         modal11:false,
         modal12:false,
         modal13:false,
-        modal14:false
+        modal14:false,
+        modal15:false
       }
 
     },
@@ -681,6 +711,9 @@
         if(index==47){
           this.indexQtyCompare = !(this.indexQtyCompare);
         }
+        if(index==64){
+          this.brokerSweepFlag = !(this.brokerSweepFlag);
+        }
 
         var openLongLegFlag = this.openLongLeg;
         var openJumpInQueueFlag = this.openJumpInQueue;
@@ -733,6 +766,8 @@
         var cancelOrderSecondsFlag = this.cancelOrderSeconds;
         var delayMillionFlag = this.delayMillion;
         var tradeSweepCirculateFlag = this.tradeSweepCirculate;
+        var lowTradeSweepCirculateZFlag = this.lowTradeSweepCirculateZ;
+        var brokerSweepFlagFlag = this.brokerSweepFlag;
         this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,
           openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag,openUniteCirculateInfo:openUniteCirculateInfoFlag,openYesterdayHot:openYesterdayHotFlag,openNineSecond:openNineSecondFlag,
           openNewWeakPlank:openNewWeakPlankFlag,openZhuBiSuperSpeed:openZhuBiSuperSpeedFlag,openCancelSuperSpeed:openCancelSuperSpeedFlag,openBeforeBigEntrust:openBeforeBigEntrustFlag,openNearBigEntrust:openNearBigEntrustFlag,
@@ -742,7 +777,7 @@
           overCirculatezDisable:overCirculatezDisableFlag,openPeakSell:openPeakSellFlag,clearPlankCount:clearPlankCountFlag,sellOpenButton:sellOpenButtonFlag,dragon369SubOpen:dragon369SubOpenFlag,openDragonRadicalWeek:openDragonRadicalWeekFlag,
           openManyBigSun:openManyBigSunFlag,sealingProhibitDown:sealingProhibitDownFlag,prohibitCancelAll:prohibitCancelAllFlag,radicalPlankPoolCancelButton:radicalPlankPoolCancelButtonFlag,
           beautifulTwoPlankIntoRadicalPoolButton:beautifulTwoPlankIntoRadicalPoolButtonFlag,cannonCalTwoTimesButton:cannonCalTwoTimesButtonFlag,percent369:percent369Flag,indexQtyCompare:indexQtyCompareFlag,mainAutoStart:mainAutoStartFlag,
-          growthAutoStart:growthAutoStartFlag,cancelOrderSeconds:cancelOrderSecondsFlag,delayMillion:delayMillionFlag,tradeSweepCirculate:tradeSweepCirculateFlag}, r => {
+          growthAutoStart:growthAutoStartFlag,cancelOrderSeconds:cancelOrderSecondsFlag,delayMillion:delayMillionFlag,tradeSweepCirculate:tradeSweepCirculateFlag,lowTradeSweepCirculateZ:lowTradeSweepCirculateZFlag,brokerSweepFlag:brokerSweepFlagFlag}, r => {
           location.reload()
         })
 
@@ -946,6 +981,20 @@
       },
       cancel14 () {
         this.$Message.info($("param14").value)
+      },
+
+      show15 () {
+        this.param15=this.lowTradeSweepCirculateZ;
+      },
+      ok15 () {
+        this.lowTradeSweepCirculateZ = this.param15
+        if(this.param15===''){
+          this.lowTradeSweepCirculateZ = 0;
+        }
+        this.changeButton (63)
+      },
+      cancel15 () {
+        this.$Message.info($("param15").value)
       }
 
     }
