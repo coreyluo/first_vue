@@ -229,6 +229,9 @@
           <Button v-if="!brokerSweepFlag"  type="primary" @click="changeButton(64)">券商逐笔成交扫板已关闭,请开启</Button>
           <Button v-if="brokerSweepFlag"  type="error" @click="changeButton(64)">券商逐笔成交扫板已开启,请关闭</Button>
 
+          <Button v-if="sealingDropMinute===0" type="error" @click="modal16=true;show16()">封单下降抛压一直开启,请设置</Button>
+          <Button v-if="sealingDropMinute>0" type="error" @click="modal16=true;show16()"> 封单下降抛压{{sealingDropMinute}}分钟后开启,请关闭</Button>
+
         </div>
 
         <div class="blankRow">
@@ -458,6 +461,18 @@
         </Modal>
       </template>
 
+      <template>
+        <Modal
+          v-model="modal16"
+          title="封单减小抛压开启时间"
+          @on-ok="ok16"
+          @on-cancel="cancel16">
+          <div>
+            封单减小抛压开启时间:<Input name= "param16" v-model="param16" placeholder="" style="width: 300px" />
+          </div>
+        </Modal>
+      </template>
+
     </Layout>
   </div>
 </template>
@@ -517,7 +532,8 @@
           this.delayMillion = r.data.delayMillion,
           this.tradeSweepCirculate = r.data.tradeSweepCirculate,
           this.lowTradeSweepCirculateZ = r.data.lowTradeSweepCirculateZ,
-          this.brokerSweepFlag = r.data.brokerSweepFlag
+          this.brokerSweepFlag = r.data.brokerSweepFlag,
+          this.sealingDropMinute = r.data.sealingDropMinute
       });
 
     },
@@ -577,6 +593,7 @@
         tradeSweepCirculate:5.0,
         lowTradeSweepCirculateZ:0,
         brokerSweepFlag:false,
+        sealingDropMinute:10,
         modal1: false,
         modal3: false,
         modal4: false,
@@ -590,7 +607,8 @@
         modal12:false,
         modal13:false,
         modal14:false,
-        modal15:false
+        modal15:false,
+        modal16:false
       }
 
     },
@@ -768,6 +786,7 @@
         var tradeSweepCirculateFlag = this.tradeSweepCirculate;
         var lowTradeSweepCirculateZFlag = this.lowTradeSweepCirculateZ;
         var brokerSweepFlagFlag = this.brokerSweepFlag;
+        var sealingDropMinuteFlag = this.sealingDropMinute;
         this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,
           openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag,openUniteCirculateInfo:openUniteCirculateInfoFlag,openYesterdayHot:openYesterdayHotFlag,openNineSecond:openNineSecondFlag,
           openNewWeakPlank:openNewWeakPlankFlag,openZhuBiSuperSpeed:openZhuBiSuperSpeedFlag,openCancelSuperSpeed:openCancelSuperSpeedFlag,openBeforeBigEntrust:openBeforeBigEntrustFlag,openNearBigEntrust:openNearBigEntrustFlag,
@@ -777,7 +796,8 @@
           overCirculatezDisable:overCirculatezDisableFlag,openPeakSell:openPeakSellFlag,clearPlankCount:clearPlankCountFlag,sellOpenButton:sellOpenButtonFlag,dragon369SubOpen:dragon369SubOpenFlag,openDragonRadicalWeek:openDragonRadicalWeekFlag,
           openManyBigSun:openManyBigSunFlag,sealingProhibitDown:sealingProhibitDownFlag,prohibitCancelAll:prohibitCancelAllFlag,radicalPlankPoolCancelButton:radicalPlankPoolCancelButtonFlag,
           beautifulTwoPlankIntoRadicalPoolButton:beautifulTwoPlankIntoRadicalPoolButtonFlag,cannonCalTwoTimesButton:cannonCalTwoTimesButtonFlag,percent369:percent369Flag,indexQtyCompare:indexQtyCompareFlag,mainAutoStart:mainAutoStartFlag,
-          growthAutoStart:growthAutoStartFlag,cancelOrderSeconds:cancelOrderSecondsFlag,delayMillion:delayMillionFlag,tradeSweepCirculate:tradeSweepCirculateFlag,lowTradeSweepCirculateZ:lowTradeSweepCirculateZFlag,brokerSweepFlag:brokerSweepFlagFlag}, r => {
+          growthAutoStart:growthAutoStartFlag,cancelOrderSeconds:cancelOrderSecondsFlag,delayMillion:delayMillionFlag,tradeSweepCirculate:tradeSweepCirculateFlag,lowTradeSweepCirculateZ:lowTradeSweepCirculateZFlag,brokerSweepFlag:brokerSweepFlagFlag,
+          sealingDropMinute:sealingDropMinuteFlag}, r => {
           location.reload()
         })
 
@@ -995,6 +1015,21 @@
       },
       cancel15 () {
         this.$Message.info($("param15").value)
+      },
+
+
+      show16 () {
+        this.param16=this.sealingDropMinute;
+      },
+      ok16 () {
+        this.sealingDropMinute = this.param16
+        if(this.param16===''){
+          this.sealingDropMinute = 0;
+        }
+        this.changeButton (65)
+      },
+      cancel16 () {
+        this.$Message.info($("param16").value)
       }
 
     }
