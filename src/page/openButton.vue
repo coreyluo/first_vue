@@ -232,6 +232,11 @@
           <Button v-if="sealingDropMinute===0" type="error" @click="modal16=true;show16()">封单下降抛压一直开启,请设置</Button>
           <Button v-if="sealingDropMinute>0" type="error" @click="modal16=true;show16()"> 封单下降抛压{{sealingDropMinute}}分钟后开启,请关闭</Button>
 
+          <Button v-if="true" type="error" @click="modal17=true;show17()"> 行情下单369 翻倍系数{{quoteCancelRatio}}</Button>
+
+          <Button v-if="!shRateSweep"  type="primary" @click="changeButton(67)">上海票涨速扫板已关闭,请开启</Button>
+          <Button v-if="shRateSweep"  type="error" @click="changeButton(67)">上海票涨速扫板已开启,请关闭</Button>
+
         </div>
 
         <div class="blankRow">
@@ -473,6 +478,18 @@
         </Modal>
       </template>
 
+      <template>
+        <Modal
+          v-model="modal17"
+          title="行情下单369翻倍系数"
+          @on-ok="ok17"
+          @on-cancel="cancel17">
+          <div>
+            行情下单369翻倍系数:<Input name= "param17" v-model="param17" placeholder="" style="width: 300px" />
+          </div>
+        </Modal>
+      </template>
+
     </Layout>
   </div>
 </template>
@@ -533,15 +550,17 @@
           this.tradeSweepCirculate = r.data.tradeSweepCirculate,
           this.lowTradeSweepCirculateZ = r.data.lowTradeSweepCirculateZ,
           this.brokerSweepFlag = r.data.brokerSweepFlag,
-          this.sealingDropMinute = r.data.sealingDropMinute
+          this.sealingDropMinute = r.data.sealingDropMinute,
+          this.quoteCancelRatio = r.data.quoteCancelRatio,
+          this.shRateSweep = r.data.shRateSweep
       });
 
     },
 
-    data () {
+    data: function () {
       return {
-        openLongLeg:false,
-        openJumpInQueue:false,
+        openLongLeg: false,
+        openJumpInQueue: false,
         openNewPosition: false,
         openTwoBigEntrust:false,
         openScareOpen:false,
@@ -594,21 +613,24 @@
         lowTradeSweepCirculateZ:0,
         brokerSweepFlag:false,
         sealingDropMinute:10,
+        quoteCancelRatio:1.25,
+        shRateSweep:false,
         modal1: false,
         modal3: false,
         modal4: false,
         modal5: false,
-        modal6:false,
-        modal7:false,
-        modal8:false,
-        modal9:false,
-        modal10:false,
-        modal11:false,
-        modal12:false,
-        modal13:false,
-        modal14:false,
-        modal15:false,
-        modal16:false
+        modal6: false,
+        modal7: false,
+        modal8: false,
+        modal9: false,
+        modal10: false,
+        modal11: false,
+        modal12: false,
+        modal13: false,
+        modal14: false,
+        modal15: false,
+        modal16: false,
+        modal17:false,
       }
 
     },
@@ -732,6 +754,9 @@
         if(index==64){
           this.brokerSweepFlag = !(this.brokerSweepFlag);
         }
+        if(index==67){
+          this.shRateSweep = !(this.shRateSweep);
+        }
 
         var openLongLegFlag = this.openLongLeg;
         var openJumpInQueueFlag = this.openJumpInQueue;
@@ -787,6 +812,8 @@
         var lowTradeSweepCirculateZFlag = this.lowTradeSweepCirculateZ;
         var brokerSweepFlagFlag = this.brokerSweepFlag;
         var sealingDropMinuteFlag = this.sealingDropMinute;
+        var quoteCancelRatioFlag = this.quoteCancelRatio;
+        var shRateSweepFlag = this.shRateSweep;
         this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,
           openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag,openUniteCirculateInfo:openUniteCirculateInfoFlag,openYesterdayHot:openYesterdayHotFlag,openNineSecond:openNineSecondFlag,
           openNewWeakPlank:openNewWeakPlankFlag,openZhuBiSuperSpeed:openZhuBiSuperSpeedFlag,openCancelSuperSpeed:openCancelSuperSpeedFlag,openBeforeBigEntrust:openBeforeBigEntrustFlag,openNearBigEntrust:openNearBigEntrustFlag,
@@ -797,7 +824,7 @@
           openManyBigSun:openManyBigSunFlag,sealingProhibitDown:sealingProhibitDownFlag,prohibitCancelAll:prohibitCancelAllFlag,radicalPlankPoolCancelButton:radicalPlankPoolCancelButtonFlag,
           beautifulTwoPlankIntoRadicalPoolButton:beautifulTwoPlankIntoRadicalPoolButtonFlag,cannonCalTwoTimesButton:cannonCalTwoTimesButtonFlag,percent369:percent369Flag,indexQtyCompare:indexQtyCompareFlag,mainAutoStart:mainAutoStartFlag,
           growthAutoStart:growthAutoStartFlag,cancelOrderSeconds:cancelOrderSecondsFlag,delayMillion:delayMillionFlag,tradeSweepCirculate:tradeSweepCirculateFlag,lowTradeSweepCirculateZ:lowTradeSweepCirculateZFlag,brokerSweepFlag:brokerSweepFlagFlag,
-          sealingDropMinute:sealingDropMinuteFlag}, r => {
+          sealingDropMinute:sealingDropMinuteFlag,quoteCancelRatio:quoteCancelRatioFlag,shRateSweep:shRateSweepFlag}, r => {
           location.reload()
         })
 
@@ -1030,6 +1057,21 @@
       },
       cancel16 () {
         this.$Message.info($("param16").value)
+      },
+
+
+      show17 () {
+        this.param17=this.quoteCancelRatio;
+      },
+      ok17 () {
+        this.quoteCancelRatio = this.param17
+        if(this.param17===''){
+          this.quoteCancelRatio = 0;
+        }
+        this.changeButton (66)
+      },
+      cancel17 () {
+        this.$Message.info($("param17").value)
       }
 
     }
