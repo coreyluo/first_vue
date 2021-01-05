@@ -140,6 +140,8 @@
             <select id="sex" name = param3  v-model="param3">
               <option v-if="param4 ==2" value="1">扫版</option>
               <option v-if="param4 ==2" value="0">不扫版</option>
+              <option v-if="param4 ==2" value="2">强要</option>
+
 
               <option v-if="param4 ==0" value="1">开盘向上买入</option>
               <option v-if="param4 ==0" value="0">集合买入</option>
@@ -182,6 +184,9 @@
             }
             if (item.sweepType == 1) {
               item.sweepTypeStr = "扫版"
+            }
+            if (item.sweepType == 2) {
+              item.sweepTypeStr = "强要"
             }
           }
         })
