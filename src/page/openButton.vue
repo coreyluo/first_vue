@@ -108,9 +108,6 @@
           <Button v-if="!openNineSecond"  type="primary" @click="changeButton(9)">单前量9s防爆头已关闭,请开启</Button>
           <Button v-if="openNineSecond"  type="error" @click="changeButton(9)">单前量9s防爆头已开启,请关闭</Button>
 
-          <Button v-if="openNewWeakPlank"  type="primary" @click="changeButton(10)">卖一弱板3次已开启,请切换4次</Button>
-          <Button v-if="!openNewWeakPlank"  type="error" @click="changeButton(10)">卖一弱板4次已开启,请切换3次</Button>
-
           <Button v-if="!openBeforeBigEntrust"  type="primary" @click="changeButton(13)">靶前大单撤单策略已关闭,请开启</Button>
           <Button v-if="openBeforeBigEntrust"  type="error" @click="changeButton(13)">靶前大单撤单策略已开启,请关闭</Button>
 
@@ -207,6 +204,9 @@
 
           <Button v-if="!cannonCalTwoTimesButton"  type="primary" @click="changeButton(46)">两次计算炮灰已关闭,请开启</Button>
           <Button v-if="cannonCalTwoTimesButton"  type="error" @click="changeButton(46)">两次计算炮灰已开启,请关闭</Button>
+
+          <Button v-if="openNewWeakPlank===0"  type="primary" @click="modal18=true;show18()">卖一弱板已关闭,请开启</Button>
+          <Button v-if="openNewWeakPlank>0"  type="error" @click="modal18=true;show18()">卖一弱板已开启{{openNewWeakPlank}}次</Button>
 
         </div>
 
@@ -490,6 +490,18 @@
         </Modal>
       </template>
 
+      <template>
+        <Modal
+          v-model="modal18"
+          title="卖一弱板次数"
+          @on-ok="ok18"
+          @on-cancel="cancel18">
+          <div>
+            卖一弱板次数:<Input name= "param18" v-model="param18" placeholder="" style="width: 300px" />
+          </div>
+        </Modal>
+      </template>
+
     </Layout>
   </div>
 </template>
@@ -569,7 +581,7 @@
         openUniteCirculateInfo:false,
         openYesterdayHot:false,
         openNineSecond:false,
-        openNewWeakPlank:false,
+        openNewWeakPlank:3,
         openZhuBiSuperSpeed:false,
         openCancelSuperSpeed:false,
         openBeforeBigEntrust:false,
@@ -631,6 +643,7 @@
         modal15: false,
         modal16: false,
         modal17:false,
+        modal18:false,
       }
 
     },
@@ -666,9 +679,6 @@
         }
         if(index ==9){
           this.openNineSecond = !(this.openNineSecond);
-        }
-        if(index ==10){
-          this.openNewWeakPlank = !(this.openNewWeakPlank);
         }
         if(index ==11){
           this.openZhuBiSuperSpeed = !(this.openZhuBiSuperSpeed);
@@ -1072,6 +1082,20 @@
       },
       cancel17 () {
         this.$Message.info($("param17").value)
+      },
+
+      show18 () {
+        this.param18=this.openNewWeakPlank;
+      },
+      ok18 () {
+        this.openNewWeakPlank = this.param18
+        if(this.param18===''){
+          this.openNewWeakPlank = 0;
+        }
+        this.changeButton (10)
+      },
+      cancel18 () {
+        this.$Message.info($("param18").value)
       }
 
     }
