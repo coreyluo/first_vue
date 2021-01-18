@@ -109,7 +109,10 @@
         <template>
           <div>
             <Button style="float:right" type="primary">激进打板</Button>
+            <Button v-if="insertIgnore" style="float:right" type="error" @click="insertIgnoreChange()">无限打板已开启，请关闭</Button>
+            <Button v-if="!insertIgnore" style="float:right" type="primary" @click="insertIgnoreChange()">无限打板已关闭，请开启</Button>
             <Button style="float:right" type="error" @click="modal1=true;showAdd(2,2,1,30,1.10,1)">添加</Button>
+
           </div>
         </template>
         <Table border :columns="columns13" :data="data14">
@@ -169,7 +172,8 @@
   export default {
     created () {
       this.$api.post('singular/radicalDragonPool/dataList', {}, r => {
-        var infos = r.data;
+        var infos = r.data.radicalDragonPools;
+        this.insertIgnore = r.data.radicalDragonPoolInsertIgnore;
         infos.forEach(item => {
           if(item.radical==0){
             if(item.sweepType==0){
@@ -257,7 +261,8 @@
 
         ],
         modal1: false,
-        indexId:0
+        indexId:0,
+        insertIgnore:false,
       }
     },
     methods: {
@@ -307,6 +312,11 @@
         this.param6 = highRate;
         this.param7 = orderTimes;
       },
+      insertIgnoreChange(){
+        this.$api.get('singular/radicalDragonPool/insertIgnore', {}, r => {
+          location.reload()
+        })
+      }
     }
   }
 </script>
