@@ -108,6 +108,13 @@
       <template>
         <template>
           <div>
+          </div>
+          <div>
+            <font style="font-weight:bold;font-size:15px;">股票代码：</font><Input name= "paramStock" v-model="paramStock" placeholder="stockCode" style="width: 300px" />
+            <Button type="primary" icon="ios-search" @click="searchStock()">查询</Button>
+
+            <Button style="float:right" type="error" @click="viewBuyRate()">开盘涨幅排序</Button>
+            <Button style="float:right" type="error" @click="modal2=true">删除全部</Button>
             <Button style="float:right" type="primary">激进打板</Button>
             <Button v-if="insertIgnore" style="float:right" type="error" @click="insertIgnoreChange()">无限打板已开启，请关闭</Button>
             <Button v-if="!insertIgnore" style="float:right" type="primary" @click="insertIgnoreChange()">无限打板已关闭，请开启</Button>
@@ -162,6 +169,15 @@
           <div>
             <Input type="hidden" name= "param4" v-model="param4" placeholder="" style="width: 100px" />
           </div>
+        </Modal>
+      </template>
+
+      <template>
+        <Modal
+          v-model="modal2"
+          title="确定要删除所有吗"
+          @on-ok="okClear"
+          @on-cancel="cancelClear">
         </Modal>
       </template>
 
@@ -246,6 +262,11 @@
             align: 'center'
           },
           {
+            title: '开盘涨幅',
+            key: 'startRate',
+            align: 'center'
+          },
+          {
             title: '操作',
             slot: 'action',
             width: 150,
@@ -261,11 +282,52 @@
 
         ],
         modal1: false,
+        modal2: false,
         indexId:0,
         insertIgnore:false,
       }
     },
     methods: {
+      searchStock(){
+        var stockCode = this.paramStock;
+        this.$api.post('singular/radicalDragonPool/dataList', {stockCode:stockCode}, r => {
+          var infos = r.data.radicalDragonPools;
+          this.insertIgnore = r.data.radicalDragonPoolInsertIgnore;
+          infos.forEach(item => {
+            if(item.radical==0){
+              if(item.sweepType==0){
+                item.sweepTypeStr = "集合买入"
+              }
+              if(item.sweepType==1){
+                item.sweepTypeStr = "开盘向上买入"
+              }
+            }else {
+              if (item.sweepType == 0) {
+                item.sweepTypeStr = "不扫版"
+              }
+              if (item.sweepType == 1) {
+                item.sweepTypeStr = "扫版"
+              }
+              if (item.sweepType == 2) {
+                item.sweepTypeStr = "强要"
+              }
+            }
+          })
+          this.data13=[],
+            this.data14=[],
+            infos.forEach(item =>{
+              if(item.radical ==0){
+                this.data13.push(item)
+              }
+              if(item.radical ==2){
+                this.data14.push(item)
+              }
+            })
+
+        })
+      },
+
+
       show (row) {
         this.indexId=row.id;
         this.param1=row.stockCode;
@@ -315,6 +377,52 @@
       insertIgnoreChange(){
         this.$api.get('singular/radicalDragonPool/insertIgnore', {}, r => {
           location.reload()
+        })
+      },
+      okClear () {
+        this.$api.get('singular/radicalDragonPool/deleteAll', null, r => {
+        })
+        location.reload()
+      },
+
+      cancelClear () {
+      },
+
+      viewBuyRate(){
+        this.$api.post('singular/radicalDragonPool/dataList', {sortByStartRateType:1}, r => {
+          var infos = r.data.radicalDragonPools;
+          this.insertIgnore = r.data.radicalDragonPoolInsertIgnore;
+          infos.forEach(item => {
+            if(item.radical==0){
+              if(item.sweepType==0){
+                item.sweepTypeStr = "集合买入"
+              }
+              if(item.sweepType==1){
+                item.sweepTypeStr = "开盘向上买入"
+              }
+            }else {
+              if (item.sweepType == 0) {
+                item.sweepTypeStr = "不扫版"
+              }
+              if (item.sweepType == 1) {
+                item.sweepTypeStr = "扫版"
+              }
+              if (item.sweepType == 2) {
+                item.sweepTypeStr = "强要"
+              }
+            }
+          })
+          this.data13=[],
+            this.data14=[],
+          infos.forEach(item =>{
+            if(item.radical ==0){
+              this.data13.push(item)
+            }
+            if(item.radical ==2){
+              this.data14.push(item)
+            }
+          })
+
         })
       }
     }
