@@ -237,12 +237,16 @@
           <Button v-if="!shRateSweep"  type="primary" @click="changeButton(67)">上海票涨速扫板已关闭,请开启</Button>
           <Button v-if="shRateSweep"  type="error" @click="changeButton(67)">上海票涨速扫板已开启,请关闭</Button>
 
+          <Button v-if="!insertHotBlock"  type="primary" @click="changeButton(68)">只打热门题材股已关闭,请开启</Button>
+          <Button v-if="insertHotBlock"  type="error" @click="changeButton(68)">只打热门题材股已开启,请关闭</Button>
+
         </div>
 
         <div class="blankRow">
         </div>
 
         <div>
+
           <Button v-if="!openManyBigSun"  type="primary" @click="changeButton(41)">普涨大阳按钮已关闭,请开启</Button>
           <Button v-if="openManyBigSun"  type="error" @click="changeButton(41)">普涨大阳按钮已开启,请关闭</Button>
 
@@ -564,7 +568,8 @@
           this.brokerSweepFlag = r.data.brokerSweepFlag,
           this.sealingDropMinute = r.data.sealingDropMinute,
           this.quoteCancelRatio = r.data.quoteCancelRatio,
-          this.shRateSweep = r.data.shRateSweep
+          this.shRateSweep = r.data.shRateSweep,
+          this.insertHotBlock = r.data.insertHotBlock
       });
 
     },
@@ -627,6 +632,7 @@
         sealingDropMinute:10,
         quoteCancelRatio:1.25,
         shRateSweep:false,
+        insertHotBlock:true,
         modal1: false,
         modal3: false,
         modal4: false,
@@ -767,6 +773,9 @@
         if(index==67){
           this.shRateSweep = !(this.shRateSweep);
         }
+        if(index==68){
+          this.insertHotBlock = !(this.insertHotBlock);
+        }
 
         var openLongLegFlag = this.openLongLeg;
         var openJumpInQueueFlag = this.openJumpInQueue;
@@ -824,6 +833,7 @@
         var sealingDropMinuteFlag = this.sealingDropMinute;
         var quoteCancelRatioFlag = this.quoteCancelRatio;
         var shRateSweepFlag = this.shRateSweep;
+        var insertHotBlockFlag= this.insertHotBlock;
         this.$api.post('singular/button/changeButton', {openLongLeg:openLongLegFlag,openJumpInQueue:openJumpInQueueFlag,openNewPosition:openNewPositionFlag,openTwoBigEntrust:openTwoBigEntrustFlag,openScareOpen:openScareOpenFlag,
           openOneLinePlankInsertOrder:openOneLinePlankInsertOrderFlag,openSuperSpeed:openSuperSpeedFlag,openUniteCirculateInfo:openUniteCirculateInfoFlag,openYesterdayHot:openYesterdayHotFlag,openNineSecond:openNineSecondFlag,
           openNewWeakPlank:openNewWeakPlankFlag,openZhuBiSuperSpeed:openZhuBiSuperSpeedFlag,openCancelSuperSpeed:openCancelSuperSpeedFlag,openBeforeBigEntrust:openBeforeBigEntrustFlag,openNearBigEntrust:openNearBigEntrustFlag,
@@ -834,7 +844,7 @@
           openManyBigSun:openManyBigSunFlag,sealingProhibitDown:sealingProhibitDownFlag,prohibitCancelAll:prohibitCancelAllFlag,radicalPlankPoolCancelButton:radicalPlankPoolCancelButtonFlag,
           beautifulTwoPlankIntoRadicalPoolButton:beautifulTwoPlankIntoRadicalPoolButtonFlag,cannonCalTwoTimesButton:cannonCalTwoTimesButtonFlag,percent369:percent369Flag,indexQtyCompare:indexQtyCompareFlag,mainAutoStart:mainAutoStartFlag,
           growthAutoStart:growthAutoStartFlag,cancelOrderSeconds:cancelOrderSecondsFlag,delayMillion:delayMillionFlag,tradeSweepCirculate:tradeSweepCirculateFlag,lowTradeSweepCirculateZ:lowTradeSweepCirculateZFlag,brokerSweepFlag:brokerSweepFlagFlag,
-          sealingDropMinute:sealingDropMinuteFlag,quoteCancelRatio:quoteCancelRatioFlag,shRateSweep:shRateSweepFlag}, r => {
+          sealingDropMinute:sealingDropMinuteFlag,quoteCancelRatio:quoteCancelRatioFlag,shRateSweep:shRateSweepFlag,insertHotBlock:insertHotBlockFlag}, r => {
           location.reload()
         })
 
