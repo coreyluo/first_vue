@@ -33,6 +33,7 @@ import FlowKbar from '@/page/flowKbar'
 import ProhibitStockPool from '@/page/prohibitStockPool'
 import StopTradeStock from '@/page/stopTradeStock'
 import PositionRatio from '@/page/positionRatio'
+import ShortMood from '@/page/shortMood'
 
 
 Vue.use(Router)
@@ -138,6 +139,9 @@ export default new Router({
     },{
       path: '/positionRatio/:id',
       component: PositionRatio
+    },{
+      path: '/shortMood/:id',
+      component: ShortMood
     }
 
   ]

@@ -10,11 +10,12 @@
     background: #fff;
     box-shadow: 0 1px 1px rgba(0,0,0,.1);
   }
+
 </style>
 <template>
   <div class="layout">
     <Sider :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
-      <Menu active-name="1-32" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
+      <Menu active-name="1-33" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
         <Submenu name="1">
           <template slot="title">
             <Icon type="ios-navigate"></Icon>
@@ -56,98 +57,169 @@
         </Submenu>
       </Menu>
     </Sider>
-    <Layout :style="{marginLeft: '200px'}">
-      <div style="height: 30px">
-      </div>
-      <template>
-        <div>
-        </div>
-      </template>
-      <Table border :columns="columns13" :data="data7">
-        <template slot-scope="{ row }" slot="tab">
-          <strong>{{ row.tab }}</strong>
-        </template>
-        <template slot-scope="{ row, index }" slot="action">
-            <Button type="primary" style="margin-right: 5px" @click="modal2=true;show(index)">修改系数</Button>
-        </template>
-
-      </Table>
-      <template>
-        <Modal
-          v-model="modal2"
-          title="系数"
-          @on-ok="ok2"
-          @on-cancel="cancel2">
-          <div>
-            比例:<Input name= "param2" v-model="param2" placeholder="" style="width: 300px" />
-          </div>
-        </Modal>
-      </template>
+    <Layout :style="{marginLeft: '300px'}">
+      <div id="myChart" :style="{width: '1500px', height: '400px'}"></div>
+      <div id="myChart1" :style="{width: '1500px', height: '400px'}"></div>
+      <div id="myChart2" :style="{width: '1500px', height: '400px'}"></div>
     </Layout>
+
+
   </div>
 </template>
 <script>
+  // 引入基本模板
+  let echarts = require('echarts/lib/echarts')
+  // 引入柱状图组件
+  require('echarts/lib/chart/line')
+  // 引入提示框和title组件
+  require('echarts/lib/component/tooltip')
+  require('echarts/lib/component/title')
   export default {
     created () {
-      this.$api.get('singular/positionRatio/list', null, r => {
-        var infos = r.data;
-        this.data7 = infos
-      })
-    },
-
-    data () {
-      return {
-        columns13: [
-          {
-            title: '券商交易账号',
-            key: 'accountId',
-            align: 'center'
-          },
-          {
-            title: '策略类型',
-            key: 'insertTypeStr',
-            align: 'center'
-          },
-          {
-            title: '仓位系数',
-            key: 'positionRatio',
-            align: 'center'
-          },
-          {
-            title: '操作',
-            slot: 'action',
-            width: 1100,
-            align: 'center'
-          }
-        ],
-        data7: [
-
-        ],
-        modal1: false,
-        modal2:false,
-        modal3:false,
-        indexId:0,
-        tradeStatus:true
-      }
-    },
-
-    methods: {
-      show (index) {
-        this.indexId=this.data7[index].id;
-      },
-      ok2 () {
-        var positionRatio= this.param2;
-        var changerId = this.indexId;
-        this.$api.post('singular/positionRatio/changeRatio', {id:changerId,positionRatio:positionRatio}, r => {
-
+      this.$api.post('singular/shortMoodCondition/listData', {}, r => {
+        var profits = r.data.profits;
+        var suddens = r.data.suddenPlanks;
+        var uppers = r.data.upperPlanks;
+        profits.forEach(item => {
+          var profitSons = [];
+          profitSons.push(item.key);
+          profitSons.push(item.value)
+          this.profitList.push(profitSons)
         })
-        location.reload();
+        uppers.forEach(item => {
+          var upperSons = [];
+          upperSons.push(item.key);
+          upperSons.push(item.value)
+          this.upperPlankCountList.push(upperSons)
+        })
+        suddens.forEach(item => {
+          var suddenSons = [];
+          suddenSons.push(item.key);
+          suddenSons.push(item.value)
+          this.suddenPlankCountList.push(suddenSons)
+        })
 
-      },
-      cancel2 () {
-        this.$Message.info($("param2").value)
+        this.drawLine();
+      })
+
+
+    },
+    name: 'hello',
+    data() {
+      return {
+        msg: 'Welcome to Your Vue.js App',
+        profitList: [],
+        upperPlankCountList:[],
+        suddenPlankCountList:[]
       }
+    },
+    methods: {
 
+      drawLine() {
+        // 基于准备好的dom，初始化echarts实例
+        let myChart1 = echarts.init(document.getElementById('myChart1'))
+        let myChart = echarts.init(document.getElementById('myChart'))
+        let myChart2 = echarts.init(document.getElementById('myChart2'))
+       var profitXList = this.profitList.map(function (item) {
+          return item[0];
+        });
+        var profitYList = this.profitList.map(function (item) {
+          return item[1];
+        });
+
+        var upperXList = this.upperPlankCountList.map(function (item) {
+          return item[0];
+        });
+        var upperYList = this.upperPlankCountList.map(function (item) {
+          return item[1];
+        });
+
+        var suddenXList = this.suddenPlankCountList.map(function (item) {
+          return item[0];
+        });
+        var suddenYList = this.suddenPlankCountList.map(function (item) {
+          return item[1];
+        });
+        myChart.setOption({
+          title: {
+            text: '情绪'
+          },
+          tooltip: {
+            trigger: 'axis'
+          },
+          xAxis: {
+            type: 'category',
+            data: profitXList
+          },
+          yAxis: {
+            type: 'value'
+          },
+          series: [{
+            data: profitYList,
+            type: 'line'
+          }]
+        });
+
+
+        // 绘制图表
+        myChart1.setOption({
+          title: {
+            text: '涨停数量'
+          },
+          tooltip: {
+            trigger: 'axis'
+          },
+          lineStyle:{
+            color:'#FF2D2D'
+          },
+          itemStyle : {
+            normal : {
+              color:'#FF2D2D'
+            }
+          },
+          xAxis: {
+            type: 'category',
+            data: upperXList
+          },
+          yAxis: {
+            type: 'value'
+          },
+          series: [{
+            data: upperYList,
+            type: 'line'
+          }]
+        });
+
+        myChart2.setOption({
+          title: {
+            text: '跌停数量'
+          },
+          tooltip: {
+            trigger: 'axis'
+          },
+          lineStyle:{
+            color:'#007500'
+          },
+          itemStyle : {
+            normal : {
+              color:'#007500'
+            }
+          },
+          xAxis: {
+            type: 'category',
+            data: suddenXList
+          },
+          yAxis: {
+            type: 'value'
+          },
+          series: [{
+            data: suddenYList,
+            type: 'line'
+          }]
+        });
+
+
+      }
     }
   }
-</script>
+ </script>
