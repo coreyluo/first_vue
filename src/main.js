@@ -3,14 +3,13 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import iView from 'iview';
+import iView from 'iview'
 import 'iview/dist/styles/iview.css'
-
-Vue.use(iView);
-
 
 // 引用API文件
 import api from './api/index.js'
+
+Vue.use(iView)
 // 将API方法绑定到全局
 Vue.prototype.$api = api
 
