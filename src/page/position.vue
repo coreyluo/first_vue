@@ -14,13 +14,14 @@
 <template>
   <div class="layout">
     <Sider :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
-      <Menu active-name="1-6" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
+      <Menu active-name="1-1" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
         <Submenu name="1">
           <template slot="title">
             <Icon type="ios-navigate"></Icon>
             股票管理
           </template>
-          <MenuItem  name="1-6"><router-link to="/position/1"><font color="#fff">仓位</font></router-link></MenuItem>
+          <MenuItem  name="1-1"><router-link to="/position/1"><font color="#fff">账户信息</font></router-link></MenuItem>
+          <MenuItem  name="1-2"><router-link to="/disableStockPool/1"><font color="#fff">禁止下单股票池</font></router-link></MenuItem>
         </Submenu>
       </Menu>
     </Sider>
