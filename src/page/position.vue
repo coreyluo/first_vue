@@ -20,8 +20,10 @@
             <Icon type="ios-navigate"></Icon>
             股票管理
           </template>
-          <MenuItem  name="1-1"><router-link to="/position/1"><font color="#fff">账户信息</font></router-link></MenuItem>
+          <MenuItem  name="1-1"><router-link to="/"><font color="#fff">账户信息</font></router-link></MenuItem>
           <MenuItem  name="1-2"><router-link to="/disableStockPool/1"><font color="#fff">禁止下单股票池</font></router-link></MenuItem>
+          <MenuItem  name="1-3"><router-link to="/radicalDragonPool/1"><font color="#fff">小池子</font></router-link></MenuItem>
+          <MenuItem  name="1-4"><router-link to="/orderCancelPool/1"><font color="#fff">等待撤单</font></router-link></MenuItem>
         </Submenu>
       </Menu>
     </Sider>
