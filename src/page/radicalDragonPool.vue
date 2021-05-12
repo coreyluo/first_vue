@@ -51,6 +51,9 @@
           <MenuItem  name="1-2"><router-link to="/disableStockPool/1"><font color="#fff">禁止下单股票池</font></router-link></MenuItem>
           <MenuItem  name="1-3"><router-link to="/radicalDragonPool/1"><font color="#fff">小池子</font></router-link></MenuItem>
           <MenuItem  name="1-4"><router-link to="/orderCancelPool/1"><font color="#fff">等待撤单</font></router-link></MenuItem>
+          <MenuItem  name="1-5"><router-link to="/cancelLog/1"><font color="#fff">撤单日志</font></router-link></MenuItem>
+          <MenuItem  name="1-6"><router-link to="/content/1"><font color="#fff">参数</font></router-link></MenuItem>
+          <MenuItem  name="1-7"><router-link to="/sellOrder/1"><font color="#fff">卖出</font></router-link></MenuItem>
         </Submenu>
       </Menu>
     </Sider>
@@ -118,8 +121,8 @@
             是否扫版:&nbsp&nbsp
             <select id="sex" name = param3  v-model="param3">
               <option v-if="param4 ==2" value="1">扫版</option>
-              <option v-if="param4 ==2" value="0">不扫版</option>
-              <option v-if="param4 ==2" value="2">强要</option>
+<!--              <option v-if="param4 ==2" value="0">不扫版</option>
+              <option v-if="param4 ==2" value="2">强要</option>-->
 
 
               <option v-if="param4 ==0" value="1">开盘向上买入</option>
