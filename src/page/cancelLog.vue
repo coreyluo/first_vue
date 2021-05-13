@@ -117,7 +117,7 @@
                 }else{
                   stockCode = null;
                 }
-                this.$api.get('singular/cancelLog/dataList', {stockCode:stockCode,pageNo:1,pageSize:50}, r => {
+                this.$api.get('dragon/cancelLog/dataList', {stockCode:stockCode,pageNo:1,pageSize:50}, r => {
                   r.data.forEach(item => {
                     if(item.success==0){
                       item.successStr = "失败"
@@ -125,18 +125,6 @@
                     if(item.success==1){
                       item.successStr = "成功"
                     }
-                    if(item.strategyCode=="delay_circulatez_percent"){
-                      item.strategyCodeStr = "延迟流通z百分比策略"
-                    }else if(item.strategyCode=="second_trade_quantity"){
-                      item.strategyCodeStr = "一秒成交量策略"
-                    }else if(item.strategyCode=="compare_by_last_sealing"){
-                      item.strategyCodeStr = "封单量大于下降至上次的一定比例撤单策略"
-                    }else if(item.strategyCode="target_four"){
-                      item.strategyCodeStr = "靶向四"
-                    }else if(item.strategyCode="detail_order_summary"){
-                      item.strategyCodeStr = "逐笔委托统计策略"
-                    }
-
                   });
                   this.data6 = r.data;
                 })
