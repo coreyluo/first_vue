@@ -42,9 +42,6 @@
 
           <Button type="primary" style="margin-right: 5px" @click="modal2=true;show2(index)">修改比例</Button>
 
-          <Button v-if="row.dragonRadicalStatus===0" style="margin-right: 5px" type="warning" @click="changeAccountStatus(4,index,1)">超龙头已关闭,请开启</Button>
-          <Button v-if="row.dragonRadicalStatus===1" style="margin-right: 5px" type="primary" @click="changeAccountStatus(4,index,0)">超龙头已开启,请禁用</Button>
-
           <Button v-if="row.accountStatus===0" style="margin-left: 5px" type="warning" @click="changeAccountStatus(1,index,1)">主板已经关闭,请开启</Button>
           <Button v-if="row.accountStatus===1" style="margin-left: 5px" type="primary" @click="changeAccountStatus(1,index,0)">主板已经开启,请关闭</Button>
 
@@ -53,6 +50,19 @@
 
           <Button v-if="row.accountStatus688===0" style="margin-left: 5px" type="warning" @click="changeAccountStatus(3,index,1)">科创板已经关闭,请开启</Button>
           <Button v-if="row.accountStatus688===1" style="margin-left: 5px" type="primary" @click="changeAccountStatus(3,index,0)">科创板已经开启,请关闭</Button>
+
+          <div>&nbsp</div>
+
+          <Button v-if="row.dragonRadicalStatus===0" style="margin-right: 5px" type="warning" @click="changeAccountStatus(4,index,1)">超龙头已关闭,请开启</Button>
+          <Button v-if="row.dragonRadicalStatus===1" style="margin-right: 5px" type="primary" @click="changeAccountStatus(4,index,0)">超龙头已开启,请禁用</Button>
+
+          <Button v-if="row.twoPlankStatus===0" style="margin-left: 5px" type="warning" @click="changeAccountStatus(5,index,1)">二板已经关闭,请开启</Button>
+          <Button v-if="row.twoPlankStatus===1" style="margin-left: 5px" type="primary" @click="changeAccountStatus(5,index,0)">二板已经开启,请关闭</Button>
+
+          <Button v-if="row.highPlankStatus===0" style="margin-left: 5px" type="warning" @click="changeAccountStatus(6,index,1)">高位板已经关闭,请开启</Button>
+          <Button v-if="row.highPlankStatus===1" style="margin-left: 5px" type="primary" @click="changeAccountStatus(6,index,0)">高位板已经开启,请关闭</Button>
+
+
 
         </template>
 
@@ -207,6 +217,8 @@
         var accountStatus300Str = this.data7[index].accountStatus300;
         var accountStatus688Str = this.data7[index].accountStatus688;
         var dragonRadicalStatusStr = this.data7[index].dragonRadicalStatus;
+        var twoPlankStatusStr    = this.data7[index].twoPlankStatus;
+        var highPlankStatusStr    = this.data7[index].highPlankStatus;
 
         if(buttonIndex==1){
           accountStatusStr = buttonValue;
@@ -216,9 +228,13 @@
           accountStatus688Str = buttonValue;
         }else if(buttonIndex==4){
           dragonRadicalStatusStr = buttonValue;
+        }else if(buttonIndex==5){
+          twoPlankStatusStr = buttonValue;
+        }else if(buttonIndex==6){
+          highPlankStatusStr = buttonValue;
         }
         this.$api.post('dragon/tradeAccount/changeAccountStatus', {id:idVal,accountStatus:accountStatusStr,accountStatus300:accountStatus300Str,accountStatus688:accountStatus688Str,
-          dragonRadicalStatus:dragonRadicalStatusStr
+          dragonRadicalStatus:dragonRadicalStatusStr,twoPlankStatus:twoPlankStatusStr,highPlankStatus:highPlankStatusStr
           }, r => {
           location.reload();
         })
