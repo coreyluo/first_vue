@@ -31,8 +31,11 @@
             </Menu>
         </Sider>
         <Layout :style="{marginLeft: '200px'}">
-            <div style="height: 30px">
-            </div>
+            <template>
+              <div>
+                <Button style="float:right" type="success" @click="modal1=true;show()">节点卖出设置</Button>
+              </div>
+            </template>
             <Table border :columns="columns12" :data="data7">
                 <template slot-scope="{ row }" slot="tab">
                     <strong>{{ row.tab }}</strong>
@@ -42,6 +45,22 @@
                   <Button v-if="row.status ==1" type="error" size="small"  @click="changeStatus(row.id)">继续卖出</Button>
                 </template>
             </Table>
+
+            <template>
+              <Modal
+                v-model="modal1"
+                title="节点卖出参数"
+                @on-ok="ok"
+                @on-cancel="cancel">
+                <div>
+                  卖出次数:<Input name= "param1" v-model="param1" placeholder="" style="width: 300px" />
+                </div>
+                <div>
+                  时间间隔:<Input name= "param2" v-model="param2" placeholder="" style="width: 300px" />
+                </div>
+              </Modal>
+            </template>
+
         </Layout>
     </div>
 </template>
@@ -49,7 +68,9 @@
     export default {
         created () {
             this.$api.get('dragon/sellAvailable/listData', null, r => {
-                this.data7 = r.data;
+                this.data7 = r.data.vos;
+                this.frequency = r.data.frequency;
+                this.sellMinute = r.data.sellMinute;
             })
         },
         data () {
@@ -81,8 +102,9 @@
                 data7: [
 
                 ],
-                modal1: false,
-                modal2: false
+                frequency:0,
+                sellMinute:0,
+                modal1: false
             }
         },
         methods: {
@@ -91,7 +113,22 @@
 
             })
             location.reload()
-          }
+          },
+
+          show(){
+            this.param1 = this.frequency;
+            this.param2 = this.sellMinute;
+          },
+          ok () {
+            var frequencyStr= this.param1;
+            var minuteSellStr = this.param2;
+            this.$api.get('dragon/sellAvailable/changeDotSell', {frequency:frequencyStr,sellMinute:minuteSellStr}, r => {
+            })
+            location.reload()
+          },
+
+          cancel () {
+          },
         },
 
     }
