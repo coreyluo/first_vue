@@ -33,7 +33,8 @@
         <Layout :style="{marginLeft: '200px'}">
             <template>
               <div>
-                <Button style="float:right" type="success" @click="modal1=true;show()">节点卖出设置</Button>
+                <Button style="float:right" type="success" @click="modal1=true;show()">卖出比例设置</Button>
+                <Button style="float:right" type="success" @click="modal2=true;show2()">执行核按钮</Button>
               </div>
             </template>
             <Table border :columns="columns12" :data="data7">
@@ -58,8 +59,20 @@
                 <div>
                   时间间隔:<Input name= "param2" v-model="param2" placeholder="" style="width: 300px" />
                 </div>
+                <div>
+                  核按钮比例:<Input name= "param3" v-model="param3" placeholder="" style="width: 300px" />
+                </div>
               </Modal>
             </template>
+
+          <template>
+            <Modal
+              v-model="modal2"
+              title="确定执行核按钮吗"
+              @on-ok="okClear"
+              @on-cancel="cancelClear">
+            </Modal>
+          </template>
 
         </Layout>
     </div>
@@ -71,6 +84,7 @@
                 this.data7 = r.data.vos;
                 this.frequency = r.data.frequency;
                 this.sellMinute = r.data.sellMinute;
+                this.pitSellPercent = r.data.pitSellPercent;
             })
         },
         data () {
@@ -104,7 +118,9 @@
                 ],
                 frequency:0,
                 sellMinute:0,
-                modal1: false
+                pitSellPercent:0,
+                modal1: false,
+                modal2:false
             }
         },
         methods: {
@@ -118,17 +134,29 @@
           show(){
             this.param1 = this.frequency;
             this.param2 = this.sellMinute;
+            this.param3 = this.pitSellPercent;
           },
           ok () {
             var frequencyStr= this.param1;
             var minuteSellStr = this.param2;
-            this.$api.get('dragon/sellAvailable/changeDotSell', {frequency:frequencyStr,sellMinute:minuteSellStr}, r => {
+            var pitSellPercentStr = this.param3;
+            this.$api.get('dragon/sellAvailable/changeDotSell', {frequency:frequencyStr,sellMinute:minuteSellStr,pitSellPercent:pitSellPercentStr}, r => {
             })
             location.reload()
           },
 
           cancel () {
           },
+
+          okClear () {
+            this.$api.get('dragon/sellAvailable/pitSell', null, r => {
+            })
+            location.reload()
+          },
+
+          cancelClear () {
+          },
+
         },
 
     }

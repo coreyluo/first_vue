@@ -8,6 +8,7 @@ import OrderCancelPool from '@/page/orderCancelPool'
 import CancelLog from '@/page/cancelLog'
 import Content from '@/page/content'
 import SellOrder from '@/page/sellOrder'
+import UserLogin from '@/page/userLogin'
 Vue.use(Router)
 
 export default new Router({
@@ -33,6 +34,9 @@ export default new Router({
     },{
       path: '/sellOrder/:id',
       component: SellOrder
+    },{
+      path: '/userLogin/:id',
+      component: UserLogin
     }
 
   ]
