@@ -9,6 +9,7 @@ import CancelLog from '@/page/cancelLog'
 import Content from '@/page/content'
 import SellOrder from '@/page/sellOrder'
 import UserLogin from '@/page/userLogin'
+import OpenButton from '@/page/openButton'
 Vue.use(Router)
 
 export default new Router({
@@ -37,6 +38,9 @@ export default new Router({
     },{
       path: '/userLogin/:id',
       component: UserLogin
+    },{
+      path: '/openButton/:id',
+      component: OpenButton
     }
 
   ]
