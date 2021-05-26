@@ -128,9 +128,8 @@
         methods: {
           changeStatus(id){
             this.$api.get('dragon/sellAvailable/changeStatus', {id:id}, r => {
-
+              location.reload()
             })
-            location.reload()
           },
 
           show(){
@@ -143,8 +142,9 @@
             var minuteSellStr = this.param2;
             var pitSellPercentStr = this.param3;
             this.$api.get('dragon/sellAvailable/changeDotSell', {frequency:frequencyStr,sellMinute:minuteSellStr,pitSellPercent:pitSellPercentStr}, r => {
+                location.reload()
             })
-            location.reload()
+
           },
 
           cancel () {
@@ -152,8 +152,9 @@
 
           okClear () {
             this.$api.get('dragon/sellAvailable/pitSell', null, r => {
+              location.reload()
             })
-            location.reload()
+
           },
 
           cancelClear () {

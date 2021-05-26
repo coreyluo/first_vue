@@ -339,8 +339,9 @@
       },
       okClear () {
         this.$api.get('dragon/radicalDragonPool/deleteAll', null, r => {
+          location.reload()
         })
-        location.reload()
+
       },
 
       cancelClear () {

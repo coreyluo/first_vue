@@ -154,8 +154,9 @@
             ok () {
                 var stockCodeAdd= this.param2
                 this.$api.get('dragon/disablePool/oneToPool', {stockCode:stockCodeAdd}, r => {
+                  location.reload()
                 })
-                location.reload()
+
             },
             cancel () {
                this.$Message.info($("param1").value)
@@ -172,14 +173,15 @@
             deleteInfo(index){
                 var primaryKey = this.data6[index].stockCode;
                 this.$api.get('dragon/disablePool/removeStockCode', {stockCode:primaryKey}, r => {
-
+                  location.reload()
                 });
-                location.reload()
+
             },
             okClear () {
               this.$api.get('dragon/disablePool/deleteAll', null, r => {
+                location.reload()
               })
-              location.reload()
+
             },
 
             cancelClear () {
