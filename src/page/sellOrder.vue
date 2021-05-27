@@ -91,7 +91,7 @@
     export default {
         created () {
             this.$api.get('dragon/sellAvailable/listData', null, r => {
-                this.data7 = r.data.sellButtonDTO.vos;
+                this.data7 = r.data.vos;
                 this.frequency = r.data.sellButtonDTO.frequency;
                 this.sellMinute = r.data.sellButtonDTO.sellMinute;
                 this.pitSellPercent = r.data.sellButtonDTO.pitSellPercent;
