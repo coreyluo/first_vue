@@ -36,7 +36,15 @@
             <template>
               <div>
                 <Button style="float:right" type="success" @click="modal1=true;show()">卖出比例设置</Button>
-                <Button style="float:right" type="success" @click="modal2=true;show2()">执行核按钮</Button>
+                <Button style="float:right" type="error" @click="modal2=true;show2()">执行核按钮</Button>
+
+                <Button v-if="!dotSell"  type="primary" @click="changeDotSellStatus()">点位卖出已关闭,请开启</Button>
+                <Button v-if="dotSell"  type="error" @click="changeDotSellStatus()">点位卖出已开启,请关闭</Button>
+
+                <Button v-if="!gatherSell"  type="primary" @click="changeGatherSellStatus()">集合卖出已关闭,请开启</Button>
+                <Button v-if="gatherSell"  type="error" @click="changeGatherSellStatus()">集合卖出已开启,请关闭</Button>
+
+
               </div>
             </template>
             <Table border :columns="columns12" :data="data7">
@@ -83,10 +91,12 @@
     export default {
         created () {
             this.$api.get('dragon/sellAvailable/listData', null, r => {
-                this.data7 = r.data.vos;
-                this.frequency = r.data.frequency;
-                this.sellMinute = r.data.sellMinute;
-                this.pitSellPercent = r.data.pitSellPercent;
+                this.data7 = r.data.sellButtonDTO.vos;
+                this.frequency = r.data.sellButtonDTO.frequency;
+                this.sellMinute = r.data.sellButtonDTO.sellMinute;
+                this.pitSellPercent = r.data.sellButtonDTO.pitSellPercent;
+                this.gatherSell = r.data.sellButtonDTO.gatherSell;
+                this.dotSell = r.data.sellButtonDTO.dotSell;
             })
         },
         data () {
@@ -121,11 +131,24 @@
                 frequency:0,
                 sellMinute:0,
                 pitSellPercent:0,
+                gatherSell:true,
+                dotSell:true,
                 modal1: false,
                 modal2:false
             }
         },
         methods: {
+          changeGatherSellStatus(){
+            this.$api.get('dragon/sellAvailable/changeGatherSellFlag', {}, r => {
+              location.reload()
+            })
+          },
+          changeDotSellStatus(){
+            this.$api.get('dragon/sellAvailable/changeDotSellFlag', {}, r => {
+              location.reload()
+            })
+          },
+
           changeStatus(id){
             this.$api.get('dragon/sellAvailable/changeStatus', {id:id}, r => {
               location.reload()
