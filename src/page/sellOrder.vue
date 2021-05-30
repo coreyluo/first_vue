@@ -38,11 +38,11 @@
                 <Button style="float:right" type="success" @click="modal1=true;show()">卖出比例设置</Button>
                 <Button style="float:right" type="error" @click="modal2=true;show2()">执行核按钮</Button>
 
-                <Button v-if="!dotSell"  type="primary" @click="changeDotSellStatus()">点位卖出已关闭,请开启</Button>
-                <Button v-if="dotSell"  type="error" @click="changeDotSellStatus()">点位卖出已开启,请关闭</Button>
+                <Button v-if="!dotSell"  type="error" @click="changeDotSellStatus()">点位卖出已关闭,请开启</Button>
+                <Button v-if="dotSell"  type="primary" @click="changeDotSellStatus()">点位卖出已开启,请关闭</Button>
 
-                <Button v-if="!gatherSell"  type="primary" @click="changeGatherSellStatus()">集合卖出已关闭,请开启</Button>
-                <Button v-if="gatherSell"  type="error" @click="changeGatherSellStatus()">集合卖出已开启,请关闭</Button>
+                <Button v-if="!gatherSell"  type="error" @click="changeGatherSellStatus()">集合卖出已关闭,请开启</Button>
+                <Button v-if="gatherSell"  type="primary" @click="changeGatherSellStatus()">集合卖出已开启,请关闭</Button>
 
 
               </div>
@@ -54,6 +54,12 @@
                 <template slot-scope="{ row, index }" slot="action">
                   <Button v-if="row.status ==0" type="primary" size="small"  @click="changeStatus(row.id)">停卖</Button>
                   <Button v-if="row.status ==1" type="error" size="small"  @click="changeStatus(row.id)">继续卖出</Button>
+
+                  <Button v-if="!row.buttonDTO.highSell" type="error" size="small"  @click="changeHighSellStatus(row.id)">高点卖出已关闭</Button>
+                  <Button v-if="row.buttonDTO.highSell" type="primary" size="small"  @click="changeHighSellStatus(row.id)">高点卖出已开启</Button>
+
+                  <Button v-if="!row.buttonDTO.increaseSell" type="error" size="small"  @click="changeIncreaseSellStatus(row.id)">涨速卖出已关闭</Button>
+                  <Button v-if="row.buttonDTO.increaseSell" type="primary" size="small"  @click="changeIncreaseSellStatus(row.id)">涨速卖出已开启</Button>
                 </template>
             </Table>
 
@@ -151,6 +157,17 @@
 
           changeStatus(id){
             this.$api.get('dragon/sellAvailable/changeStatus', {id:id}, r => {
+              location.reload()
+            })
+          },
+
+          changeIncreaseSellStatus(id){
+            this.$api.get('dragon/sellAvailable/changeIncreaseSellStatus', {id:id}, r => {
+              location.reload()
+            })
+          },
+          changeHighSellStatus(id){
+            this.$api.get('dragon/sellAvailable/changeHighSellStatus', {id:id}, r => {
               location.reload()
             })
           },
