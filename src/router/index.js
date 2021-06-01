@@ -10,6 +10,7 @@ import Content from '@/page/content'
 import SellOrder from '@/page/sellOrder'
 import UserLogin from '@/page/userLogin'
 import OpenButton from '@/page/openButton'
+import BlockView from '@/page/blockView'
 Vue.use(Router)
 
 export default new Router({
@@ -41,6 +42,9 @@ export default new Router({
     },{
       path: '/openButton/:id',
       component: OpenButton
+    },{
+      path: '/blockView/:id',
+      component: BlockView
     }
 
   ]

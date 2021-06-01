@@ -14,7 +14,7 @@
 <template>
     <div class="layout">
         <Sider :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
-            <Menu active-name="1-5" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
+            <Menu active-name="1-10" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
                 <Submenu name="1">
                     <template slot="title">
                         <Icon type="ios-navigate"></Icon>
@@ -38,100 +38,105 @@
             </div>
             <template>
                 <div>
-                    <font style="font-weight:bold;font-size:15px;">股票代码：</font><Input name= "param1" v-model="param1" placeholder="stockCode" style="width: 300px" />
+                    <font style="font-weight:bold;font-size:15px;">板块代码或名称：</font><Input name= "param1" v-model="param1" placeholder="stockCode" style="width: 300px" />
                     <Button type="primary" icon="ios-search" @click="search()">查询</Button>
+                     <Button style="float:right" type="primary" @click="prohibitAll()">禁止所有板块</Button>
                 </div>
+
             </template>
             <Table border :columns="columns12" :data="data6">
                 <template slot-scope="{ row }" slot="tab">
                     <strong>{{ row.tab }}</strong>
                 </template>
                 <template slot-scope="{ row, index }" slot="action">
-                    <Button v-if="row.status==0" type="primary" size="small" @click="stopCancel(index)">停撤</Button>
-                    <Button v-if="row.status==2" type="error" size="small" @click="resume(index)">恢复</Button>
+                    <Button  type="primary" size="small"  @click="prohibitBlock(row.id)">禁止下单</Button>
+                    <Button  type="error" size="small"  @click="allowBlock(row.id)">允许下单</Button>
                 </template>
             </Table>
+
+            <template>
+                <Modal
+                    v-model="modal1"
+                    title="添加人工干预股票"
+                    @on-ok="ok"
+                    @on-cancel="cancel">
+                    <div>
+                        股票代码:<Input name= "param2" v-model="param2" placeholder="" style="width: 300px" />
+                    </div>
+                </Modal>
+            </template>
         </Layout>
     </div>
 </template>
 <script>
     export default {
         created () {
-            this.$api.get('dragon/cancelLog/dataList', {pageNo:1,pageSize:50}, r => {
-               r.data.forEach(item => {
-                 if(item.success==0){
-                   item.successStr = "失败"
-                 }
-                 if(item.success==1){
-                   item.successStr = "成功"
-                 }
-              });
-              this.data6 = r.data;
+            this.$api.get('dragon/blockView/listData', {blockCode:null}, r => {
+                var infos = r.data;
+                this.data6=infos;
             })
         },
         data () {
             return {
                 columns12: [
-
                     {
-                        title: '股票代码',
-                        key: 'stockCode'
+                        title: '板块代码',
+                        key: 'blockCode'
                     },
                     {
-                        title: '股票名称',
-                        key: 'ticketName'
+                        title: '板块名称',
+                        key: 'blockName'
                     },
                     {
-                        title: '撤单策略类型',
-                        key: 'strategyDescribe'
+                        title: '包含股票数量',
+                        key: 'totalCount'
                     },
                     {
-                        title: '撤单参数',
-                        key: 'strategyContent'
-                    },
-                    {
-                        title: '委托编号',
-                        key: 'orderNo'
-                    },
-                    {
-                        title: '是否成功',
-                        key: 'successStr'
-                    },
-                    {
-                        title: '撤单时间',
-                        key: 'createTime'
-                    },
-                    {
-                        title: '描述',
-                        key: 'message'
+                        title: 'Action',
+                        slot: 'action',
+                        width: 300,
+                        align: 'center'
                     }
                 ],
                 data6: [
 
-                ]
+                ],
+                 modal1: false
             }
         },
         methods: {
-
             search(){
-                var stockCode = this.param1;
-                if(stockCode){
-                  stockCode = stockCode;
+                var blockCode = this.param1;
+                if(blockCode){
+                  blockCode = blockCode;
                 }else{
-                  stockCode = null;
+                  blockCode = null;
                 }
-                this.$api.get('dragon/cancelLog/dataList', {stockCode:stockCode,pageNo:1,pageSize:50}, r => {
-                  r.data.forEach(item => {
-                    if(item.success==0){
-                      item.successStr = "失败"
-                    }
-                    if(item.success==1){
-                      item.successStr = "成功"
-                    }
-                  });
-                  this.data6 = r.data;
+                this.$api.get('dragon/blockView/listData', {blockCode:blockCode}, r => {
+                    var infos = r.data;
+                    this.data6=infos;
                 })
+            },
+
+            prohibitAll(){
+                this.$api.get('dragon/blockView/prohibitAll', null, r => {
+                  location.reload()
+                })
+
+            },
+            prohibitBlock(index){
+              this.$api.get('dragon/blockView/prohibitBlock', {id:index}, r => {
+                location.reload()
+              })
+
+            },
+            allowBlock(index){
+              this.$api.get('dragon/blockView/allowBlock', {id:index}, r => {
+                location.reload()
+              })
+
             }
+
         }
     }
 </script>
