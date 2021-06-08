@@ -123,8 +123,8 @@
           <div>
             是否扫版:&nbsp&nbsp
             <select id="sex" name = param3  v-model="param3">
-              <option v-if="param4 ==2" value="1">扫版</option>
-             <option v-if="param4 ==2" value="0">不扫版</option>
+              <option v-if="param4 ==2" value="1">涨停s</option>
+             <option v-if="param4 ==2" value="0">排队</option>
 <!--              <option v-if="param4 ==2" value="2">强要</option>-->
 
 
@@ -174,10 +174,10 @@
             }
           }else {
             if (item.sweepType == 0) {
-              item.sweepTypeStr = "不扫版"
+              item.sweepTypeStr = "排队"
             }
             if (item.sweepType == 1) {
-              item.sweepTypeStr = "扫版"
+              item.sweepTypeStr = "涨停s"
             }
             if (item.sweepType == 2) {
               item.sweepTypeStr = "强要"
@@ -211,7 +211,7 @@
             align: 'center'
           },
           {
-            title: '是否扫版',
+            title: '下单方式',
             key: 'sweepTypeStr',
             align: 'center'
           },
@@ -270,10 +270,10 @@
               }
             }else {
               if (item.sweepType == 0) {
-                item.sweepTypeStr = "不扫版"
+                item.sweepTypeStr = "排队"
               }
               if (item.sweepType == 1) {
-                item.sweepTypeStr = "扫版"
+                item.sweepTypeStr = "涨停s"
               }
               if (item.sweepType == 2) {
                 item.sweepTypeStr = "强要"
