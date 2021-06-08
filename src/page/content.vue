@@ -104,10 +104,7 @@
               <template>
                 <div>
                   <i class="remark" >{{remark1}}</i>
-                  <tag v-if="inUse===2" class="in-use">正在使用</tag>
-                  <tag v-else class="no-use">未启用</tag>
-
-                  <Button style="float:right" type="warning" @click="flushCache(2)">启用参数</Button>
+                  <tag class="no-use">小池子</tag>
                 </div>
               </template>
               <Table border :columns="columns13" :data="data15">
