@@ -125,7 +125,8 @@
             <select id="sex" name = param3  v-model="param3">
               <option v-if="param4 ==2" value="1">涨停s</option>
              <option v-if="param4 ==2" value="0">排队</option>
-<!--              <option v-if="param4 ==2" value="2">强要</option>-->
+              <option v-if="param4 ==2" value="2">涨停价有成交</option>
+              <option v-if="param4 ==2" value="3">低于一分钱有成交</option>
 
 
               <option v-if="param4 ==0" value="1">开盘向上买入</option>
@@ -180,7 +181,10 @@
               item.sweepTypeStr = "涨停s"
             }
             if (item.sweepType == 2) {
-              item.sweepTypeStr = "强要"
+              item.sweepTypeStr = "涨停价有成交"
+            }
+            if (item.sweepType == 3) {
+              item.sweepTypeStr = "低于一分钱有成交"
             }
           }
         })
@@ -276,7 +280,10 @@
                 item.sweepTypeStr = "涨停s"
               }
               if (item.sweepType == 2) {
-                item.sweepTypeStr = "强要"
+                item.sweepTypeStr = "涨停价有成交"
+              }
+              if (item.sweepType == 3) {
+                item.sweepTypeStr = "低于一分钱有成交"
               }
             }
           })
