@@ -79,6 +79,12 @@
                 <div>
                   核按钮比例:<Input name= "param3" v-model="param3" placeholder="" style="width: 300px" />
                 </div>
+                <div>
+                  高点卖出比例:<Input name= "param4" v-model="param4" placeholder="" style="width: 300px" />
+                </div>
+                <div>
+                  涨速卖出比例:<Input name= "param5" v-model="param5" placeholder="" style="width: 300px" />
+                </div>
               </Modal>
             </template>
 
@@ -102,6 +108,8 @@
                 this.frequency = r.data.sellButtonDTO.frequency;
                 this.sellMinute = r.data.sellButtonDTO.sellMinute;
                 this.pitSellPercent = r.data.sellButtonDTO.pitSellPercent;
+                this.highSellPercent = r.data.sellButtonDTO.highSellPercent;
+                this.increaseSellPercent = r.data.sellButtonDTO.increaseSellPercent;
                 this.gatherSell = r.data.sellButtonDTO.gatherSell;
                 this.dotSell = r.data.sellButtonDTO.dotSell;
             })
@@ -138,6 +146,8 @@
                 frequency:0,
                 sellMinute:0,
                 pitSellPercent:0,
+                increaseSellPercent:10,
+                highSellPercent:20,
                 gatherSell:true,
                 dotSell:true,
                 modal1: false,
@@ -177,12 +187,16 @@
             this.param1 = this.frequency;
             this.param2 = this.sellMinute;
             this.param3 = this.pitSellPercent;
+            this.param4 = this.highSellPercent;
+            this.param5 = this.increaseSellPercent;
           },
           ok () {
             var frequencyStr= this.param1;
             var minuteSellStr = this.param2;
             var pitSellPercentStr = this.param3;
-            this.$api.get('dragon/sellAvailable/changeDotSell', {frequency:frequencyStr,sellMinute:minuteSellStr,pitSellPercent:pitSellPercentStr}, r => {
+            var highSellPercentStr = this.param4;
+            var increaseSellPercentStr = this.param5;
+            this.$api.get('dragon/sellAvailable/changeDotSell', {frequency:frequencyStr,sellMinute:minuteSellStr,pitSellPercent:pitSellPercentStr,highSellPercent:highSellPercentStr,increaseSellPercent:increaseSellPercentStr}, r => {
                 location.reload()
             })
 
