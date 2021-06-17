@@ -11,6 +11,7 @@ import SellOrder from '@/page/sellOrder'
 import UserLogin from '@/page/userLogin'
 import OpenButton from '@/page/openButton'
 import BlockView from '@/page/blockView'
+import CirculateInfo from "@/page/circulateInfo"
 Vue.use(Router)
 
 export default new Router({
@@ -45,6 +46,9 @@ export default new Router({
     },{
       path: '/blockView/:id',
       component: BlockView
+    },{
+      path: '/circulateInfo/:id',
+      component: CirculateInfo
     }
 
   ]
