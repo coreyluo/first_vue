@@ -52,6 +52,8 @@
                 <template slot-scope="{ row, index }" slot="action">
                     <Button  type="primary" size="small"  @click="prohibitBlock(row.id)">禁止下单</Button>
                     <Button  type="error" size="small"  @click="allowBlock(row.id)">允许下单</Button>
+                    <Button  type="error" size="small"  @click="blockToDragonPool(row.id)">添加小池子</Button>
+                    <Button  type="error" size="small"  @click="blockRemoveDragonPool(row.id)">移出小池子</Button>
                 </template>
             </Table>
 
@@ -95,7 +97,7 @@
                     {
                         title: 'Action',
                         slot: 'action',
-                        width: 300,
+                        width: 500,
                         align: 'center'
                     }
                 ],
@@ -136,7 +138,18 @@
                 location.reload()
               })
 
-            }
+            },
+          blockToDragonPool(index){
+            this.$api.get('dragon/blockView/blockToDragonPool', {id:index}, r => {
+              location.reload()
+            })
+
+          },
+          blockRemoveDragonPool(index){
+            this.$api.get('dragon/blockView/blockRemoveDragonPool', {id:index}, r => {
+              location.reload()
+            })
+          }
 
         }
     }
