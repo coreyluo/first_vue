@@ -187,9 +187,9 @@
         var position688 = this.param688;
         var generalPosition = this.generalPosition;
         this.$api.post('dragon/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition}, r => {
-
+          location.reload();
         })
-        location.reload();
+
       },
       cancel () {
         this.$Message.info($("param1").value)
@@ -206,9 +206,9 @@
         var twoPlankRatio = this.paramTwoPlankRatio;
         var highPlankRatio = this.paramHighPlankRatio;
         this.$api.post('dragon/tradeAccount/changeRate', {id:changerId,twoPlankRatio:twoPlankRatio,highPlankRatio:highPlankRatio}, r => {
-
+          location.reload();
         })
-        location.reload();
+
 
       },
       cancel2 () {
