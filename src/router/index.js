@@ -12,6 +12,7 @@ import UserLogin from '@/page/userLogin'
 import OpenButton from '@/page/openButton'
 import BlockView from '@/page/blockView'
 import CirculateInfo from "@/page/circulateInfo"
+import BlockDiy from "@/page/blockDiy"
 Vue.use(Router)
 
 export default new Router({
@@ -49,6 +50,9 @@ export default new Router({
     },{
       path: '/circulateInfo/:id',
       component: CirculateInfo
+    },{
+      path: '/blockDiy/:id',
+      component: BlockDiy
     }
 
   ]

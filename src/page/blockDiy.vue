@@ -14,7 +14,7 @@
 <template>
     <div class="layout">
         <Sider :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
-            <Menu active-name="1-11" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
+            <Menu active-name="1-12" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
                 <Submenu name="1">
                     <template slot="title">
                         <Icon type="ios-navigate"></Icon>
@@ -40,9 +40,9 @@
             </div>
             <template>
                 <div>
-                    <font style="font-weight:bold;font-size:15px;">股票代码：</font><Input name= "param1" v-model="param1" placeholder="stockCode" style="width: 300px" />
-                    <Button type="primary" icon="ios-search" @click="search()">查询</Button>
-                     <Button style="float:right" type="success" @click="modal1=true;show()">添加</Button>
+                  <font style="font-weight:bold;font-size:15px;">板块代码：999000：</font>
+                  <Button style="float:right" type="error" @click="modal2=true;show()">全部删除</Button>
+                  <Button style="float:right" type="success" @click="modal1=true;show()">添加</Button>
                 </div>
 
             </template>
@@ -58,19 +58,22 @@
             <template>
                 <Modal
                     v-model="modal1"
-                    title="添加股票"
+                    title="添加自定义板块股票"
                     @on-ok="ok"
                     @on-cancel="cancel">
                     <div>
                         股票代码:<Input name= "param2" v-model="param2" placeholder="" style="width: 300px" />
                     </div>
-                    <div>
-                      股票名称:<Input name= "param3" v-model="param3" placeholder="" style="width: 300px" />
-                    </div>
-                    <div>
-                      流通z（股）:<Input name= "param4" v-model="param4" placeholder="" style="width: 300px" />
-                    </div>
                 </Modal>
+            </template>
+
+            <template>
+              <Modal
+                v-model="modal2"
+                title="确定全部删除吗"
+                @on-ok="okDeleteAll"
+                @on-cancel="cancelDeleteAll">
+              </Modal>
             </template>
 
         </Layout>
@@ -79,7 +82,7 @@
 <script>
     export default {
         created () {
-            this.$api.get('dragon/circulate/dataList', {}, r => {
+            this.$api.get('dragon/blockDiy/listData', {}, r => {
                 var infos = r.data;
                  this.data6=infos;
             })
@@ -96,10 +99,6 @@
                         key: 'stockName'
                     },
                     {
-                        title: '流通z',
-                        key: 'circulateZ'
-                    },
-                    {
                         title: 'Action',
                         slot: 'action',
                         width: 150,
@@ -109,45 +108,42 @@
                 data6: [
 
                 ],
-                 modal1: false
+                 modal1: false,
+                 modal2: false
             }
         },
         methods: {
-            search(){
-                var stockCode = this.param1;
-                if(stockCode){
-                  stockCode = stockCode;
-                }else{
-                  stockCode = null;
-                }
-                this.$api.get('dragon/circulate/dataList', {stockCode:stockCode}, r => {
-                    var infos = r.data;
-                     this.data6=infos;
-                })
-            },
 
             ok () {
                 var stockCodeAdd= this.param2;
-                var stockNameAdd = this.param3;
-                var circulateZAdd = this.param4;
-                this.$api.get('dragon/circulate/oneToPool', {stockCode:stockCodeAdd,stockName:stockNameAdd,circulateZ:circulateZAdd}, r => {
+                this.$api.get('dragon/blockDiy/addStock', {stockCode:stockCodeAdd}, r => {
                   location.reload()
                 })
 
             },
+
             cancel () {
                this.$Message.info($("param1").value)
             },
 
-
-
-            deleteInfo(index){
-                var primaryKey = this.data6[index].stockCode;
-                this.$api.get('dragon/circulate/removeStockCode', {stockCode:primaryKey}, r => {
-                  location.reload()
-                });
+          okDeleteAll () {
+              this.$api.get('dragon/blockDiy/deleteAll', {}, r => {
+                location.reload()
+              })
 
             },
+
+            cancelDeleteAll () {
+            },
+
+            deleteInfo(index){
+                var primaryKey = this.data6[index].id;
+                this.$api.get('dragon/blockDiy/deleteOne', {id:primaryKey}, r => {
+                  location.reload()
+                });
+            },
+
+
 
         }
     }
