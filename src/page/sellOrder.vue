@@ -47,6 +47,9 @@
                 <Button v-if="!gatherSell"  type="error" @click="changeGatherSellStatus()">集合卖出已关闭,请开启</Button>
                 <Button v-if="gatherSell"  type="primary" @click="changeGatherSellStatus()">集合卖出已开启,请关闭</Button>
 
+                <Button v-if="!slowSellStartHighAndIncrease"  type="error" @click="changeSlowSellStatus()">慢卖启动高点涨速卖出已关闭,请开启</Button>
+                <Button v-if="slowSellStartHighAndIncrease"  type="primary" @click="changeSlowSellStatus()">慢卖启动高点涨速卖出已开启,请关闭</Button>
+
 
               </div>
             </template>
@@ -114,6 +117,7 @@
                 this.increaseSellPercent = r.data.sellButtonDTO.increaseSellPercent;
                 this.gatherSell = r.data.sellButtonDTO.gatherSell;
                 this.dotSell = r.data.sellButtonDTO.dotSell;
+                this.slowSellStartHighAndIncrease = r.data.sellButtonDTO.slowSellStartHighAndIncrease;
             })
         },
         data () {
@@ -152,6 +156,7 @@
                 highSellPercent:20,
                 gatherSell:true,
                 dotSell:true,
+                slowSellStartHighAndIncrease:false,
                 modal1: false,
                 modal2:false
             }
@@ -167,6 +172,12 @@
               location.reload()
             })
           },
+          changeSlowSellStatus(){
+            this.$api.get('dragon/sellAvailable/changeSlowSellFlag', {}, r => {
+              location.reload()
+            })
+          },
+
 
           changeStatus(id){
             this.$api.get('dragon/sellAvailable/changeStatus', {id:id}, r => {
