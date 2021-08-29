@@ -64,8 +64,14 @@
                   <Button v-if="!row.buttonDTO.highSell" type="error" size="small"  @click="changeHighSellStatus(row.id)">高点卖出已关闭</Button>
                   <Button v-if="row.buttonDTO.highSell" type="primary" size="small"  @click="changeHighSellStatus(row.id)">高点卖出已开启</Button>
 
-                  <Button v-if="!row.buttonDTO.increaseSell" type="error" size="small"  @click="changeIncreaseSellStatus(row.id)">涨速卖出已关闭</Button>
-                  <Button v-if="row.buttonDTO.increaseSell" type="primary" size="small"  @click="changeIncreaseSellStatus(row.id)">涨速卖出已开启</Button>
+                  <Button v-if="!row.buttonDTO.increaseSellNew" type="error" size="small"  @click="changeIncreaseSellNewStatus(row.id)">涨速卖出出已关闭</Button>
+                  <Button v-if="row.buttonDTO.increaseSellNew" type="primary" size="small"  @click="changeIncreaseSellNewStatus(row.id)">涨速卖出已开启</Button>
+
+                  <Button v-if="!row.buttonDTO.dropSellNew" type="error" size="small"  @click="changeDropSellNewStatus(row.id)">跌速卖出已关闭</Button>
+                  <Button v-if="row.buttonDTO.dropSellNew" type="primary" size="small"  @click="changeDropSellNewStatus(row.id)">跌速卖出已开启</Button>
+
+                  <Button v-if="!row.buttonDTO.scaleSell" type="error" size="small"  @click="changeScaleSellStatus(row.id)">涨速卖出已关闭</Button>
+                  <Button v-if="row.buttonDTO.scaleSell" type="primary" size="small"  @click="changeScaleSellStatus(row.id)">涨速卖出已开启</Button>
                 </template>
             </Table>
 
@@ -192,6 +198,21 @@
           },
           changeHighSellStatus(id){
             this.$api.get('dragon/sellAvailable/changeHighSellStatus', {id:id}, r => {
+              location.reload()
+            })
+          },
+          changeIncreaseSellNewStatus(id){
+            this.$api.get('dragon/sellAvailable/changeIncreaseSellNewStatus', {id:id}, r => {
+              location.reload()
+            })
+          },
+          changeDropSellNewStatus(id){
+            this.$api.get('dragon/sellAvailable/changeDropSellNewStatus', {id:id}, r => {
+              location.reload()
+            })
+          },
+          changeScaleSellStatus(id){
+            this.$api.get('dragon/sellAvailable/changeScaleSellStatus', {id:id}, r => {
               location.reload()
             })
           },
