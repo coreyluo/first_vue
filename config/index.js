@@ -14,8 +14,12 @@ module.exports = {
         '/**/**': {
             target: 'http://localhost:8080', // 你接口的域名
             secure: false,
-            changeOrigin: false,
+            changeOrigin: true,
+            pathRewrite:{
+              '^/api':'/'
+            }
         }
+
     },
 
     // Various Dev Server settings
