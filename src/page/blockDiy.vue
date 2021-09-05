@@ -41,6 +41,8 @@
             <template>
                 <div>
                   <font style="font-weight:bold;font-size:15px;">板块代码：999000：</font>
+                  <font style="font-weight:bold;font-size:15px;">股票代码：</font><Input name= "param1" v-model="param1" placeholder="stockCode" style="width: 300px" />
+                  <Button type="primary" icon="ios-search" @click="search()">查询</Button>
                   <Button style="float:right" type="error" @click="modal2=true;show()">全部删除</Button>
                   <Button style="float:right" type="success" @click="modal1=true;show()">添加</Button>
                 </div>
@@ -82,7 +84,7 @@
 <script>
     export default {
         created () {
-            this.$api.get('dragon/blockDiy/listData', {}, r => {
+            this.$api.post('dragon/blockDiy/listData', {}, r => {
                 var infos = r.data;
                  this.data6=infos;
             })
@@ -113,6 +115,27 @@
             }
         },
         methods: {
+
+          search(){
+            var stockCode = this.param1;
+            if(stockCode){
+              stockCode = stockCode;
+            }else{
+              stockCode = null;
+            }
+            this.$api.post('dragon/blockDiy/listData', {stockCode:stockCode}, r => {
+              r.data.forEach(item => {
+                if(item.success==0){
+                  item.successStr = "失败"
+                }
+                if(item.success==1){
+                  item.successStr = "成功"
+                }
+              });
+              this.data6 = r.data;
+            })
+          },
+
 
             ok () {
                 var stockCodeAdd= this.param2;
