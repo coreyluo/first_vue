@@ -70,8 +70,8 @@
                   <Button v-if="!row.buttonDTO.dropSellNew" type="error" size="small"  @click="changeDropSellNewStatus(row.id)">跌速卖出已关闭</Button>
                   <Button v-if="row.buttonDTO.dropSellNew" type="primary" size="small"  @click="changeDropSellNewStatus(row.id)">跌速卖出已开启</Button>
 
-                  <Button v-if="!row.buttonDTO.scaleSell" type="error" size="small"  @click="changeScaleSellStatus(row.id)">涨速卖出已关闭</Button>
-                  <Button v-if="row.buttonDTO.scaleSell" type="primary" size="small"  @click="changeScaleSellStatus(row.id)">涨速卖出已开启</Button>
+                  <Button v-if="!row.buttonDTO.scaleSell" type="error" size="small"  @click="changeScaleSellStatus(row.id)">比例卖出已关闭</Button>
+                  <Button v-if="row.buttonDTO.scaleSell" type="primary" size="small"  @click="changeScaleSellStatus(row.id)">比例卖出已开启</Button>
                 </template>
             </Table>
 
