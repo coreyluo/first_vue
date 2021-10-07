@@ -164,6 +164,9 @@
                         买入（炮灰量 单位:手）:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp   <Input name= "param3" v-model="param3" placeholder="" style="width: 100px" />
                     </div>
                     <div>
+                        上海买入（炮灰量 单位:手）:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp   <Input name= "param7" v-model="param7" placeholder="" style="width: 100px" />
+                    </div>
+                    <div>
                         撤单（369比例(万分)）:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<Input name= "param4" v-model="param4" placeholder="" style="width: 100px" />
                     </div>
                     <div>
@@ -276,6 +279,11 @@
                          align: 'center'
                      },
                      {
+                        title: '上海买入（炮灰量 单位:手）',
+                        key: 'buyOneQuantitySh',
+                        align: 'center'
+                     },
+                     {
                          title: '撤单（封板多少秒后封单小于流通z的比例(万分)）',
                          key: 'cancelCirculatezPercent',
                          align: 'center'
@@ -330,6 +338,7 @@
                  this.param1=row.insertCirculatezPercent;
                  this.param2=row.soldOneQuantity;
                  this.param3=row.buyOneQuantity;
+                 this.param7 = row.buyOneQuantitySh;
                  this.param4=row.cancelCirculatezPercent;
                  this.param5=row.sealDelaySecond;
                  this.param6=row.percentLastSealing;
@@ -339,11 +348,12 @@
                   var insertCirculatezPercent= this.param1
                   var soldOneQuantity= this.param2
                   var buyOneQuantity= this.param3
+                  var buyOneQuantitySh= this.param7
                   var cancelCirculatezPercent= this.param4
                   var sealDelaySecond= this.param5
                   var percentLastSealing = this.param6;
 
-                  this.$api.post('dragon/paramConfig/updateConfig', {id:primaryKey,insertCirculatezPercent:insertCirculatezPercent,soldOneQuantity:soldOneQuantity,buyOneQuantity:buyOneQuantity,
+                  this.$api.post('dragon/paramConfig/updateConfig', {id:primaryKey,insertCirculatezPercent:insertCirculatezPercent,soldOneQuantity:soldOneQuantity,buyOneQuantity:buyOneQuantity,buyOneQuantitySh:buyOneQuantitySh,
                     cancelCirculatezPercent:cancelCirculatezPercent,sealDelaySecond:sealDelaySecond, percentLastSealing:percentLastSealing}, r => {
                     location.reload()
                   })
