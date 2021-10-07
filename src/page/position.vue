@@ -88,6 +88,9 @@
             科创板仓位:<Input name= "param688" v-model="param688" placeholder="" style="width: 300px" />
           </div>
           <div>
+            大流通市值仓位:<Input name= "paramBig" v-model="paramBig" placeholder="" style="width: 300px" />
+          </div>
+          <div>
             通用仓位:<Input name= "generalPosition" v-model="generalPosition" placeholder="" style="width: 300px" />
           </div>
         </Modal>
@@ -144,6 +147,11 @@
             align: 'center'
           },
           {
+            title: '大流通市值仓位',
+            key: 'positionBigAmount',
+            align: 'center'
+          },
+          {
             title: '通用仓位',
             key: 'generalPosition',
             align: 'center'
@@ -179,6 +187,7 @@
         this.param1=this.data7[index].position;
         this.param300=this.data7[index].position300;
         this.param688=this.data7[index].position688;
+        this.paramBig = this.data7[index].positionBigAmount;
         this.generalPosition = this.data7[index].generalPosition;
       },
       ok () {
@@ -186,8 +195,9 @@
         var changerId = this.indexId;
         var position300 = this.param300;
         var position688 = this.param688;
+        var positionBigAmount = this.paramBig;
         var generalPosition = this.generalPosition;
-        this.$api.post('dragon/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition}, r => {
+        this.$api.post('dragon/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition,positionBigAmount:positionBigAmount}, r => {
           location.reload();
         })
 
