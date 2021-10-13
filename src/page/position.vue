@@ -88,7 +88,7 @@
             科创板仓位:<Input name= "param688" v-model="param688" placeholder="" style="width: 300px" />
           </div>
           <div>
-            大流通市值仓位:<Input name= "paramBig" v-model="paramBig" placeholder="" style="width: 300px" />
+            大流通市值仓位系数:<Input name= "paramBig" v-model="paramBig" placeholder="" style="width: 300px" />
           </div>
           <div>
             通用仓位:<Input name= "generalPosition" v-model="generalPosition" placeholder="" style="width: 300px" />
@@ -147,7 +147,7 @@
             align: 'center'
           },
           {
-            title: '大流通市值仓位',
+            title: '大流通市值仓位系数',
             key: 'positionBigAmount',
             align: 'center'
           },
