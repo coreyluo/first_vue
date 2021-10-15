@@ -106,7 +106,7 @@
             高位板仓位比例:<Input name= "paramHighPlankRatio" v-model="paramHighPlankRatio" placeholder="" style="width: 300px" />
           </div>
           <div>
-            高位板仓位比例:<Input name= "paramBig" v-model="paramBig" placeholder="" style="width: 300px" />
+            大市值仓位比例:<Input name= "paramBig" v-model="paramBig" placeholder="" style="width: 300px" />
           </div>
         </Modal>
       </template>
