@@ -70,6 +70,9 @@
         <div>
           <Button v-if="!uppersButton"  type="primary" @click="changeButton(1)">逐笔成交下单已关闭,请开启</Button>
           <Button v-if="uppersButton"  type="error" @click="changeButton(1)">逐笔成交下单已开启,请关闭</Button>
+
+          <Button v-if="!shButton"  type="primary" @click="changeShButton()">上证已关闭,请开启</Button>
+          <Button v-if="shButton"  type="error" @click="changeShButton()">上证已开启,请关闭</Button>
         </div>
       </template>
 
@@ -80,14 +83,15 @@
   export default {
     created () {
       this.$api.post('dragon/buttonConfig/list', {}, r => {
-        this.uppersButton=r.data.uppersButton
+        this.uppersButton=r.data.uppersButton;
+        this.shButton = r.data.shButton
       });
-
     },
 
     data: function () {
       return {
         uppersButton: false,
+        shButton:false
       }
 
     },
@@ -99,6 +103,12 @@
           buttonCodestr = "upperS_button";
         }
         this.$api.get('dragon/buttonConfig/changeButton', {buttonCode:buttonCodestr}, r => {
+          location.reload()
+        })
+      },
+
+      changeShButton () {
+        this.$api.get('dragon/buttonConfig/changeShButton', {}, r => {
           location.reload()
         })
       },
