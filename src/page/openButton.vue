@@ -73,6 +73,8 @@
 
           <Button v-if="!shButton"  type="primary" @click="changeShButton()">上证已关闭,请开启</Button>
           <Button v-if="shButton"  type="error" @click="changeShButton()">上证已开启,请关闭</Button>
+
+          <Button v-if="true"  type="error" @click="changeShButton()">创业板延迟{delay300Mill}下单</Button>
         </div>
       </template>
 
@@ -109,6 +111,12 @@
 
       changeShButton () {
         this.$api.get('dragon/buttonConfig/changeShButton', {}, r => {
+          location.reload()
+        })
+      },
+
+      changeInsertDelayButton (mill) {
+        this.$api.get('dragon/buttonConfig/changeShButton', {mill:mill}, r => {
           location.reload()
         })
       },
