@@ -74,8 +74,20 @@
           <Button v-if="!shButton"  type="primary" @click="changeShButton()">上证已关闭,请开启</Button>
           <Button v-if="shButton"  type="error" @click="changeShButton()">上证已开启,请关闭</Button>
 
-          <Button v-if="true"  type="error" @click="changeShButton()">创业板延迟{delay300Mill}下单</Button>
+          <Button  type="primary" @click="modal1=true;show1()">创业板延迟{{delay300Mill}}下单</Button>
         </div>
+      </template>
+
+      <template>
+        <Modal
+          v-model="modal1"
+          title="回封间隔时间"
+          @on-ok="ok1"
+          @on-cancel="cancel1">
+          <div>
+            回封间隔时间:<Input name= "param1" v-model="param1" placeholder="" style="width: 300px" />
+          </div>
+        </Modal>
       </template>
 
     </Layout>
@@ -86,14 +98,17 @@
     created () {
       this.$api.post('dragon/buttonConfig/list', {}, r => {
         this.uppersButton=r.data.uppersButton;
-        this.shButton = r.data.shButton
+        this.shButton = r.data.shButton;
+        this.delay300Mill = r.data.delay300Mill
       });
     },
 
     data: function () {
       return {
         uppersButton: false,
-        shButton:false
+        shButton:false,
+        modal1: false,
+        delay300Mill:0
       }
 
     },
@@ -116,9 +131,24 @@
       },
 
       changeInsertDelayButton (mill) {
-        this.$api.get('dragon/buttonConfig/changeShButton', {mill:mill}, r => {
+        this.$api.get('dragon/buttonConfig/changeInsertDelayButton', {mill:mill}, r => {
           location.reload()
         })
+      },
+
+      show1 () {
+        this.param1=this.delay300Mill;
+      },
+
+      ok1 () {
+        this.delay300Mill = this.param1
+        if(this.param1===''){
+          this.delay300Mill = 0;
+        }
+        this.changeInsertDelayButton (this.delay300Mill)
+      },
+      cancel1 () {
+        this.$Message.info($("param1").value)
       },
 
     }
