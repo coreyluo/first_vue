@@ -64,6 +64,9 @@
                   <Button v-if="!row.buttonDTO.highSell" type="error" size="small"  @click="changeHighSellStatus(row.id)">高点卖出已关闭</Button>
                   <Button v-if="row.buttonDTO.highSell" type="primary" size="small"  @click="changeHighSellStatus(row.id)">高点卖出已开启</Button>
 
+                  <Button v-if="!row.buttonDTO.generalSell" type="error" size="small"  @click="changeGeneralSellStatus(row.id)">通用卖出已关闭</Button>
+                  <Button v-if="row.buttonDTO.generalSell" type="primary" size="small"  @click="changeGeneralSellStatus(row.id)">通用卖出已开启</Button>
+
                   <Button v-if="!row.buttonDTO.increaseSellNew" type="error" size="small"  @click="changeIncreaseSellNewStatus(row.id)">涨速卖出出已关闭</Button>
                   <Button v-if="row.buttonDTO.increaseSellNew" type="primary" size="small"  @click="changeIncreaseSellNewStatus(row.id)">涨速卖出已开启</Button>
 
@@ -148,7 +151,7 @@
                     {
                       title: '操作',
                       slot: 'action',
-                      width: 550,
+                      width: 650,
                       align: 'center'
                     }
                 ],
@@ -198,6 +201,11 @@
           },
           changeHighSellStatus(id){
             this.$api.get('dragon/sellAvailable/changeHighSellStatus', {id:id}, r => {
+              location.reload()
+            })
+          },
+          changeGeneralSellStatus(id){
+            this.$api.get('dragon/sellAvailable/changeGeneralSellStatus', {id:id}, r => {
               location.reload()
             })
           },
