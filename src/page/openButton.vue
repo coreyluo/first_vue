@@ -75,6 +75,9 @@
           <Button v-if="shButton"  type="error" @click="changeShButton()">上证已开启,请关闭</Button>
 
           <Button  type="primary" @click="modal1=true;show1()">创业板延迟{{delay300Mill}}下单</Button>
+
+          <Button v-if="!riskControlButton"  type="primary" @click="changeRiskControlButton()">低市值股票监管已关闭,请开启</Button>
+          <Button v-if="riskControlButton"  type="error" @click="changeRiskControlButton()">低市值股票监管已开启,请关闭</Button>
         </div>
       </template>
 
@@ -99,6 +102,7 @@
       this.$api.post('dragon/buttonConfig/list', {}, r => {
         this.uppersButton=r.data.uppersButton;
         this.shButton = r.data.shButton;
+        this.riskControlButton = r.data().riskControlButton;
         this.delay300Mill = r.data.delay300Mill
       });
     },
@@ -107,6 +111,7 @@
       return {
         uppersButton: false,
         shButton:false,
+        riskControlButton:true,
         modal1: false,
         delay300Mill:0
       }
@@ -126,6 +131,12 @@
 
       changeShButton () {
         this.$api.get('dragon/buttonConfig/changeShButton', {}, r => {
+          location.reload()
+        })
+      },
+
+      changeRiskControlButton () {
+        this.$api.get('dragon/buttonConfig/riskControlButton', {}, r => {
           location.reload()
         })
       },

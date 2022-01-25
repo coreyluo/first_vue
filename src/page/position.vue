@@ -111,6 +111,15 @@
         </Modal>
       </template>
 
+      <template>
+        <Modal
+          v-model="modal3"
+          title="有仓位超过300万了，确定吗？"
+          @on-ok="okClear"
+          @on-cancel="cancelClear">
+        </Modal>
+      </template>
+
     </Layout>
   </div>
 </template>
@@ -178,7 +187,14 @@
         ],
         modal1: false,
         modal2:false,
-        indexId:0
+        modal3:false,
+
+        indexId:0,
+        currentPosition:0,
+        currentPosition300:0,
+        currentPosition688:0,
+        currentGeneralPosition:0
+
       }
     },
     methods: {
@@ -195,9 +211,18 @@
         var position300 = this.param300;
         var position688 = this.param688;
         var generalPosition = this.generalPosition;
-        this.$api.post('dragon/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition}, r => {
-          location.reload();
-        })
+
+        if(position>=3000000||position300>=3000000||position688>=3000000||generalPosition>=3000000){
+          this.currentPosition = position;
+          this.currentPosition300 = position300;
+          this.currentPosition688 = position688;
+          this.currentGeneralPosition = generalPosition;
+          this.modal3 = true;
+        }else{
+          this.$api.post('dragon/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition}, r => {
+            location.reload();
+          })
+        }
 
       },
       cancel () {
@@ -253,7 +278,22 @@
           }, r => {
           location.reload();
         })
-      }
+      },
+
+      okClear () {
+        var changerId = this.indexId;
+        var position = this.currentPosition;
+        var position300 = this.currentPosition300;
+        var position688 = this.currentPosition688;
+        var generalPosition= this.currentGeneralPosition;
+        this.$api.post('dragon/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition}, r => {
+          location.reload();
+        })
+
+      },
+
+      cancelClear () {
+      },
 
 
 
