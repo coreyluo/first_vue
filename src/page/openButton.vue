@@ -102,7 +102,7 @@
       this.$api.post('dragon/buttonConfig/list', {}, r => {
         this.uppersButton=r.data.uppersButton;
         this.shButton = r.data.shButton;
-        this.riskControlButton = r.data().riskControlButton;
+        this.riskControlButton = r.data.riskControlButton;
         this.delay300Mill = r.data.delay300Mill
       });
     },
