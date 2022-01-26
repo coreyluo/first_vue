@@ -78,6 +78,9 @@
 
           <Button v-if="!riskControlButton"  type="primary" @click="changeRiskControlButton()">低市值股票监管已关闭,请开启</Button>
           <Button v-if="riskControlButton"  type="error" @click="changeRiskControlButton()">低市值股票监管已开启,请关闭</Button>
+
+          <Button v-if="!cancelButton"  type="primary" @click="changeRadicalCancelButton()">激进池禁止撤单已开启,请开启撤单</Button>
+          <Button v-if="cancelButton"  type="error" @click="changeRadicalCancelButton()">激进池允许撤单已开启,请关闭撤单</Button>
         </div>
       </template>
 
@@ -101,6 +104,7 @@
     created () {
       this.$api.post('dragon/buttonConfig/list', {}, r => {
         this.uppersButton=r.data.uppersButton;
+        this.cancelButton=r.data.cancelButton;
         this.shButton = r.data.shButton;
         this.riskControlButton = r.data.riskControlButton;
         this.delay300Mill = r.data.delay300Mill
@@ -111,6 +115,7 @@
       return {
         uppersButton: false,
         shButton:false,
+        cancelButton:false,
         riskControlButton:true,
         modal1: false,
         delay300Mill:0
@@ -141,11 +146,19 @@
         })
       },
 
+      changeRadicalCancelButton () {
+        this.$api.get('dragon/buttonConfig/radicalCancelButton', {}, r => {
+          location.reload()
+        })
+      },
+
       changeInsertDelayButton (mill) {
         this.$api.get('dragon/buttonConfig/changeInsertDelayButton', {mill:mill}, r => {
           location.reload()
         })
       },
+
+
 
       show1 () {
         this.param1=this.delay300Mill;
