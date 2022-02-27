@@ -26,10 +26,17 @@
             </Menu>
         </Sider>
         <Layout :style="{marginLeft: '200px'}">
+            <div style="height: 30px">
+            </div>
             <template>
               <div>
+                <font style="font-weight:bold;font-size:15px;">股票代码：</font><Input name= "param1" v-model="param1" placeholder="stockCode" style="width: 300px" />
+                <Button type="primary" icon="ios-search" @click="search()">查询</Button>
+
                 <Button style="float:right" type="success" @click="modal1=true;show()">卖出比例设置</Button>
                 <Button style="float:right" type="error" @click="modal2=true;show2()">执行核按钮</Button>
+                <Button style="float:right" type="success"  @click="batchStopSell()">一键停卖</Button>
+                <Button style="float:right" type="warning"  @click="batchOpenSell()">一键开启</Button>
 
 <!--                <Button v-if="!dotSell"  type="error" @click="changeDotSellStatus()">点位卖出已关闭,请开启</Button>
                 <Button v-if="dotSell"  type="primary" @click="changeDotSellStatus()">点位卖出已开启,请关闭</Button>-->
@@ -40,8 +47,8 @@
                     <strong>{{ row.tab }}</strong>
                 </template>
                 <template slot-scope="{ row, index }" slot="action">
-                  <Button v-if="row.status ==0" type="primary" size="small"  @click="changeStatus(row.id)">停卖</Button>
-                  <Button v-if="row.status ==1" type="error" size="small"  @click="changeStatus(row.id)">继续卖出</Button>
+                  <Button v-if="row.status ==0" type="primary" size="small"  @click="changeStatus(row.id)">已开启，请停卖</Button>
+                  <Button v-if="row.status ==1" type="error" size="small"  @click="changeStatus(row.id)">已停卖，继续卖出</Button>
                 </template>
             </Table>
 
@@ -91,9 +98,6 @@
                 this.pitSellPercent = r.data.sellButtonDTO.pitSellPercent;
                 this.highSellPercent = r.data.sellButtonDTO.highSellPercent;
                 this.increaseSellPercent = r.data.sellButtonDTO.increaseSellPercent;
-                this.gatherSell = r.data.sellButtonDTO.gatherSell;
-                this.dotSell = r.data.sellButtonDTO.dotSell;
-                this.slowSellStartHighAndIncrease = r.data.sellButtonDTO.slowSellStartHighAndIncrease;
             })
         },
         data () {
@@ -110,6 +114,10 @@
                     {
                         title: '股票名称',
                         key: 'stockName'
+                    },
+                    {
+                      title: '账户信息',
+                      key: 'accountId'
                     },
                     {
                       title: '可卖数量(股数)',
@@ -137,8 +145,32 @@
         },
         methods: {
 
-          changeDotSellStatus(){
-            this.$api.get('tiger/sellAvailable/changeDotSellFlag', {}, r => {
+          search(){
+            var stockCode = this.param1;
+            if(stockCode){
+              stockCode = stockCode;
+            }else{
+              stockCode = null;
+            }
+            this.$api.get('tiger/sellAvailable/listData', {stockCode:stockCode,pageNo:1,pageSize:50}, r => {
+              this.data7 = r.data.vos;
+              this.frequency = r.data.sellButtonDTO.frequency;
+              this.sellMinute = r.data.sellButtonDTO.sellMinute;
+              this.pitSellPercent = r.data.sellButtonDTO.pitSellPercent;
+              this.highSellPercent = r.data.sellButtonDTO.highSellPercent;
+              this.increaseSellPercent = r.data.sellButtonDTO.increaseSellPercent;
+            })
+          },
+
+
+          batchStopSell(){
+            this.$api.get('tiger/sellAvailable/batchStopSell', {}, r => {
+              location.reload()
+            })
+          },
+
+          batchOpenSell(){
+            this.$api.get('tiger/sellAvailable/batchOpenSell', {}, r => {
               location.reload()
             })
           },
