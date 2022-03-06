@@ -33,7 +33,7 @@
                 <font style="font-weight:bold;font-size:15px;">股票代码：</font><Input name= "param1" v-model="param1" placeholder="stockCode" style="width: 300px" />
                 <Button type="primary" icon="ios-search" @click="search()">查询</Button>
 
-                <Button style="float:right" type="success" @click="modal1=true;show()">卖出比例设置</Button>
+<!--                <Button style="float:right" type="success" @click="modal1=true;show()">卖出比例设置</Button>-->
                 <Button style="float:right" type="error" @click="modal2=true;show2()">执行核按钮</Button>
                 <Button style="float:right" type="success"  @click="batchStopSell()">一键停卖</Button>
                 <Button style="float:right" type="warning"  @click="batchOpenSell()">一键开启</Button>
