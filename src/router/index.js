@@ -13,6 +13,7 @@ import OpenButton from '@/page/openButton'
 import BlockView from '@/page/blockView'
 import CirculateInfo from "@/page/circulateInfo"
 import BlockDiy from "@/page/blockDiy"
+import ScareBuy from "@/page/scareBuy"
 Vue.use(Router)
 
 export default new Router({
@@ -53,6 +54,9 @@ export default new Router({
     },{
       path: '/blockDiy/:id',
       component: BlockDiy
+    },{
+      path: '/scareBuy/:id',
+      component: ScareBuy
     }
 
   ]
