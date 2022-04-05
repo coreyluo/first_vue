@@ -41,7 +41,7 @@
 <template>
   <div class="layout">
     <Sider :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
-      <Menu active-name="1-9" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
+      <Menu active-name="1-13" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
         <Submenu name="1">
           <template slot="title">
             <Icon type="ios-navigate"></Icon>
@@ -98,7 +98,7 @@
     },
     methods: {
       okClear () {
-        this.$api.get('dragon/scareBuy/scareBuyStock', null, r => {
+        this.$api.post('dragon/scareBuy/scareBuyStock', null, r => {
           location.reload()
         })
 
