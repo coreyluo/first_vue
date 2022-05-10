@@ -35,6 +35,9 @@
         <template slot-scope="{ row, index }" slot="action">
           <Button type="primary" style="margin-right: 5px" @click="modal1=true;show(index)">修改仓位</Button>
           <Button type="primary" style="margin-right: 5px" @click="modal1=true;show(index)">修改仓位</Button>
+
+          <Button v-if="row.accountStatus===0" style="margin-left: 5px" type="warning" @click="changeAccountStatus(1,index,1)">主板已经关闭,请开启</Button>
+          <Button v-if="row.accountStatus===1" style="margin-left: 5px" type="primary" @click="changeAccountStatus(1,index,0)">主板已经开启,请关闭</Button>
           <div>&nbsp</div>
         </template>
 
@@ -130,28 +133,11 @@
       changeAccountStatus (buttonIndex,index,buttonValue){
         var idVal=this.data7[index].id;
         var accountStatusStr = this.data7[index].accountStatus;
-        var accountStatus300Str = this.data7[index].accountStatus300;
-        var accountStatus688Str = this.data7[index].accountStatus688;
-        var dragonRadicalStatusStr = this.data7[index].dragonRadicalStatus;
-        var twoPlankStatusStr    = this.data7[index].twoPlankStatus;
-        var highPlankStatusStr    = this.data7[index].highPlankStatus;
 
         if(buttonIndex==1){
           accountStatusStr = buttonValue;
-        } else if(buttonIndex==2){
-          accountStatus300Str = buttonValue;
-        }else if(buttonIndex==3){
-          accountStatus688Str = buttonValue;
-        }else if(buttonIndex==4){
-          dragonRadicalStatusStr = buttonValue;
-        }else if(buttonIndex==5){
-          twoPlankStatusStr = buttonValue;
-        }else if(buttonIndex==6){
-          highPlankStatusStr = buttonValue;
         }
-        this.$api.post('tiger/tradeAccount/changeAccountStatus', {id:idVal,accountStatus:accountStatusStr,accountStatus300:accountStatus300Str,accountStatus688:accountStatus688Str,
-          dragonRadicalStatus:dragonRadicalStatusStr,twoPlankStatus:twoPlankStatusStr,highPlankStatus:highPlankStatusStr
-          }, r => {
+        this.$api.post('tiger/tradeAccount/changeAccountStatus', {id:idVal,accountStatus:accountStatusStr}, r => {
           location.reload();
         })
       },
