@@ -95,7 +95,7 @@
 
             <Button style="float:right" type="error" @click="modal2=true">删除全部</Button>
             <Button style="float:right" type="primary">激进打板</Button>
-            <Button style="float:right" type="error" @click="modal1=true;showAdd(2,2,1,30,1.10,1)">添加</Button>
+            <Button style="float:right" type="error" @click="modal1=true;showAdd(2,2,2,30,1.10,1)">添加</Button>
 
           </div>
         </template>

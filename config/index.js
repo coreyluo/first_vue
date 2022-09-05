@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
         '/**/**': {
-            target: 'http://125.93.72.195:5368', // 你接口的域名
+            target: 'http://125.93.72.194:5299', // 你接口的域名
             secure: false,
             changeOrigin: true,
             pathRewrite:{
@@ -24,7 +24,7 @@ module.exports = {
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
-    port: 1111, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    port: 8886, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,
     notifyOnErrors: true,
