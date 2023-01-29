@@ -69,7 +69,8 @@
 
       <template>
         <div>
-          <Button style="float:right" type="error" @click="modal2=true;show()">恐慌买入</Button>
+          <Button style="float:right" type="error" @click="modal2=true;">恐慌买入</Button>
+          <Button style="float:right" type="error" @click="modal3=true;">沪深300买入</Button>
         </div>
       </template>
 
@@ -82,6 +83,16 @@
         </Modal>
       </template>
 
+      <template>
+        <Modal
+          v-model="modal3"
+          title="确定要沪深300买入吗？"
+          @on-ok="okClear3"
+          @on-cancel="cancelClear3">
+        </Modal>
+      </template>
+
+
     </Layout>
   </div>
 </template>
@@ -92,7 +103,8 @@
 
     data: function () {
       return {
-        modal2:false
+        modal2:false,
+        modal3:false
       }
 
     },
@@ -104,6 +116,15 @@
 
       },
       cancelClear () {
+      },
+
+      okClear3 () {
+        this.$api.post('dragon/scareBuy/huShen300Buy', null, r => {
+          location.reload()
+        })
+
+      },
+      cancelClear3 () {
       },
 
     }

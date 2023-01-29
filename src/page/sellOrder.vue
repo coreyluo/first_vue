@@ -41,6 +41,7 @@
               <div>
                 <Button style="float:right" type="success" @click="modal1=true;show()">卖出比例设置</Button>
                 <Button style="float:right" type="error" @click="modal2=true;show2()">执行核按钮</Button>
+                <Button style="float:right" type="error" @click="modal3=true;show3()">沪深300卖出</Button>
 
                 <Button v-if="!dotSell"  type="error" @click="changeDotSellStatus()">点位卖出已关闭,请开启</Button>
                 <Button v-if="dotSell"  type="primary" @click="changeDotSellStatus()">点位卖出已开启,请关闭</Button>
@@ -112,6 +113,15 @@
             </Modal>
           </template>
 
+          <template>
+            <Modal
+              v-model="modal3"
+              title="确定执行沪深300卖出吗"
+              @on-ok="okClear3"
+              @on-cancel="cancelClear3">
+            </Modal>
+          </template>
+
         </Layout>
     </div>
 </template>
@@ -168,7 +178,8 @@
                 dotSell:true,
                 slowSellStartHighAndIncrease:false,
                 modal1: false,
-                modal2:false
+                modal2:false,
+                modal3:false
             }
         },
         methods: {
@@ -256,6 +267,16 @@
           },
 
           cancelClear () {
+          },
+
+          okClear3 () {
+            this.$api.get('dragon/sellAvailable/huShen300Sell', null, r => {
+              location.reload()
+            })
+
+          },
+
+          cancelClear3 () {
           },
 
         },
