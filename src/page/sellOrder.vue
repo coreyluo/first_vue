@@ -39,7 +39,7 @@
         <Layout :style="{marginLeft: '200px'}">
             <template>
               <div>
-                <font style="font-weight:bold;font-size:15px;">股票代码：</font><Input name= "param19" v-model="param1" placeholder="stockCode" style="width: 300px" />
+                <font style="font-weight:bold;font-size:15px;">股票代码：</font><Input name= "param19" v-model="param19" placeholder="stockCode" style="width: 300px" />
                 <Button type="primary" icon="ios-search" @click="search()">查询</Button>
 
                 <Button style="float:right" type="success" @click="modal1=true;show()">卖出比例设置</Button>
