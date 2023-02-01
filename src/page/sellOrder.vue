@@ -39,6 +39,9 @@
         <Layout :style="{marginLeft: '200px'}">
             <template>
               <div>
+                <font style="font-weight:bold;font-size:15px;">股票代码：</font><Input name= "param19" v-model="param1" placeholder="stockCode" style="width: 300px" />
+                <Button type="primary" icon="ios-search" @click="search()">查询</Button>
+
                 <Button style="float:right" type="success" @click="modal1=true;show()">卖出比例设置</Button>
                 <Button style="float:right" type="error" @click="modal2=true;show2()">执行核按钮</Button>
                 <Button style="float:right" type="error" @click="modal3=true;show3()">沪深300卖出</Button>
@@ -183,6 +186,26 @@
             }
         },
         methods: {
+          search(){
+            var stockCode = this.param19;
+            if(stockCode){
+              stockCode = stockCode;
+            }else{
+              stockCode = null;
+            }
+            this.$api.get('dragon/sellAvailable/listData', {stockCode:stockCode}, r => {
+              this.data7 = r.data.vos;
+              this.frequency = r.data.sellButtonDTO.frequency;
+              this.sellMinute = r.data.sellButtonDTO.sellMinute;
+              this.pitSellPercent = r.data.sellButtonDTO.pitSellPercent;
+              this.highSellPercent = r.data.sellButtonDTO.highSellPercent;
+              this.increaseSellPercent = r.data.sellButtonDTO.increaseSellPercent;
+              this.gatherSell = r.data.sellButtonDTO.gatherSell;
+              this.dotSell = r.data.sellButtonDTO.dotSell;
+              this.slowSellStartHighAndIncrease = r.data.sellButtonDTO.slowSellStartHighAndIncrease;
+            })
+          },
+
           changeGatherSellStatus(){
             this.$api.get('dragon/sellAvailable/changeGatherSellFlag', {}, r => {
               location.reload()
