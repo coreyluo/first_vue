@@ -22,6 +22,7 @@
           </template>
           <MenuItem  name="1-1"><router-link to="/"><font color="#fff">账户信息</font></router-link></MenuItem>
           <MenuItem  name="1-7"><router-link to="/sellOrder/1"><font color="#fff">卖出</font></router-link></MenuItem>
+          <MenuItem  name="1-8"><router-link to="/openButton/1"><font color="#fff">按钮</font></router-link></MenuItem>
         </Submenu>
       </Menu>
     </Sider>

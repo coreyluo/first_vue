@@ -3,6 +3,7 @@ import Router from 'vue-router'
 
 import Position from '@/page/position'
 import SellOrder from '@/page/sellOrder'
+import OpenButton from '@/page/openButton'
 Vue.use(Router)
 
 export default new Router({
@@ -13,6 +14,9 @@ export default new Router({
      },{
       path: '/sellOrder/:id',
       component: SellOrder
+    },{
+      path: '/openButton/:id',
+      component: OpenButton
     }
   ]
 })
