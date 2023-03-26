@@ -45,6 +45,7 @@
                 <Button style="float:right" type="success" @click="modal1=true;show()">卖出比例设置</Button>
                 <Button style="float:right" type="error" @click="modal2=true;show2()">执行核按钮</Button>
                 <Button style="float:right" type="error" @click="modal3=true;show3()">沪深300卖出</Button>
+                <Button style="float:right" type="error" @click="modal4=true;show4()">板块执行核按钮</Button>
 
                 <Button v-if="!dotSell"  type="error" @click="changeDotSellStatus()">点位卖出已关闭,请开启</Button>
                 <Button v-if="dotSell"  type="primary" @click="changeDotSellStatus()">点位卖出已开启,请关闭</Button>
@@ -125,6 +126,15 @@
             </Modal>
           </template>
 
+          <template>
+            <Modal
+              v-model="modal4"
+              title="确定执行板块核按钮吗"
+              @on-ok="okClear4"
+              @on-cancel="cancelClear4">
+            </Modal>
+          </template>
+
         </Layout>
     </div>
 </template>
@@ -182,7 +192,8 @@
                 slowSellStartHighAndIncrease:false,
                 modal1: false,
                 modal2:false,
-                modal3:false
+                modal3:false,
+                modal4:false
             }
         },
         methods: {
@@ -300,6 +311,16 @@
           },
 
           cancelClear3 () {
+          },
+
+          okClear4 () {
+            this.$api.get('dragon/sellAvailable/blockPitSell', null, r => {
+              location.reload()
+            })
+
+          },
+
+          cancelClear4 () {
           },
 
         },
