@@ -43,8 +43,9 @@
                 <font style="font-weight:bold;font-size:15px;">股票代码：</font><Input name= "param19" v-model="param19" placeholder="stockCode" style="width: 300px" />
                 <Button type="primary" icon="ios-search" @click="search()">查询</Button>
 
-                <Button style="float:right" type="success" @click="modal1=true;show()">卖出比例设置</Button>
-                <Button style="float:right" type="success" @click="modal2=true;show()">卖出比例设置</Button>
+                <Button style="float:right" type="success" @click="modal1=true;show1()">买入涨幅</Button>
+                <Button style="float:right" type="success" @click="modal2=true;show2()">添加股票</Button>
+                <Button style="float:right" type="error" @click="modal4=true;show4()">执行买入</Button>
               </div>
             </template>
             <Table border :columns="columns12" :data="data7">
@@ -52,8 +53,7 @@
                     <strong>{{ row.tab }}</strong>
                 </template>
                 <template slot-scope="{ row, index }" slot="action">
-                  <Button style="float:right" type="success" @click="modal3=true;show1()">卖出比例设置</Button>
-                  <Button style="float:right" type="success" @click="modal4=true;show2()">卖出比例设置</Button>
+                  <Button style="float:right" type="success" @click="modal3=true;show3(row)">买入权重修改</Button>
                 </template>
             </Table>
 
@@ -85,16 +85,19 @@
           <template>
             <Modal
               v-model="modal3"
-              title="确定执行沪深300卖出吗"
+              title="买入权重"
               @on-ok="okClear3"
               @on-cancel="cancelClear3">
+              <div>
+                买入权重:<Input name= "param11" v-model="param11" placeholder="" style="width: 300px" />
+              </div>
             </Modal>
           </template>
 
           <template>
             <Modal
               v-model="modal4"
-              title="确定执行板块核按钮吗"
+              title="确定执行批量买入？"
               @on-ok="okClear4"
               @on-cancel="cancelClear4">
             </Modal>
@@ -142,7 +145,8 @@
                 modal1: false,
                 modal2:false,
                 modal3:false,
-                modal4:false
+                modal4:false,
+                currentStockCode:0
             }
         },
         methods: {
@@ -160,7 +164,7 @@
 
           ok () {
             var buyRate = this.param3;
-            this.$api.get('dragon/blockBatchBuy/batchChangeBuyRate', {buyRate:buyRate}, r => {
+            this.$api.get('dragon/blockBatchBuy/batchChangeBuyRate', {rate:buyRate}, r => {
                 location.reload()
             })
 
@@ -177,6 +181,29 @@
           },
 
           cancelClear () {
+          },
+          show3 (row) {
+            this.currentStockCode = row.stockCode;
+            this.param11=row.positionRatio;
+          },
+          okClear3 () {
+            var positionRatio = this.param11;
+            var currentStockCode = this.currentStockCode;
+            this.$api.get('dragon/blockBatchBuy/changeRatio', {stockCode:currentStockCode,positionRatio:positionRatio}, r => {
+              location.reload()
+            })
+          },
+
+          cancelClear3 () {
+          },
+
+          okClear4 () {
+            this.$api.get('dragon/blockBatchBuy/batchBuy', {}, r => {
+              location.reload()
+            })
+          },
+
+          cancelClear4 () {
           },
 
         },
