@@ -43,7 +43,7 @@
                 <font style="font-weight:bold;font-size:15px;">股票代码：</font><Input name= "param19" v-model="param19" placeholder="stockCode" style="width: 300px" />
                 <Button type="primary" icon="ios-search" @click="search()">查询</Button>
 
-                <Button style="float:right" type="success" @click="modal1=true;show1()">买入涨幅</Button>
+                <Button style="float:right" type="error" @click="modal1=true;show1()">买入涨幅</Button>
                 <Button style="float:right" type="success" @click="modal2=true;show2()">添加股票</Button>
                 <Button style="float:right" type="error" @click="modal4=true;show4()">执行买入</Button>
               </div>
@@ -53,7 +53,7 @@
                     <strong>{{ row.tab }}</strong>
                 </template>
                 <template slot-scope="{ row, index }" slot="action">
-                  <Button style="float:right" type="success" @click="modal3=true;show3(row)">买入权重修改</Button>
+                  <Button style="float:right" type="error" @click="modal3=true;show3(row)">买入权重修改</Button>
                 </template>
             </Table>
 
