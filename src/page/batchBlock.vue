@@ -53,7 +53,8 @@
                     <strong>{{ row.tab }}</strong>
                 </template>
                 <template slot-scope="{ row, index }" slot="action">
-                  <Button style="float:right" type="error" @click="modal3=true;show3(row)">买入权重修改</Button>
+                  <Button style="float:right" type="primary" @click="modal3=true;show3(row)">买入权重修改</Button>
+                  <Button style="float:right" type="error" @click="deleteStock(row)">删除</Button>
                 </template>
             </Table>
 
@@ -160,6 +161,12 @@
             this.$api.get('dragon/blockBatchBuy/listData', {stockCode:stockCode}, r => {
               this.data7 = r.data;
             })
+          },
+          deleteStock(row){
+              var rowStockCode = row.stockCode;
+              this.$api.get('dragon/blockBatchBuy/deleteStock', {stockCode:rowStockCode}, r => {
+                location.reload()
+              })
           },
 
           ok () {
