@@ -32,6 +32,8 @@
           <MenuItem  name="1-10"><router-link to="/blockView/1"><font color="#fff">板块信息</font></router-link></MenuItem>
           <MenuItem  name="1-12"><router-link to="/blockDiy/1"><font color="#fff">自定义板块</font></router-link></MenuItem>
           <MenuItem  name="1-11"><router-link to="/circulateInfo/1"><font color="#fff">股票信息</font></router-link></MenuItem>
+          <MenuItem  name="1-13"><router-link to="/scareBuy/1"><font color="#fff">恐慌买入</font></router-link></MenuItem>
+          <MenuItem  name="1-14"><router-link to="/batchBlock/1"><font color="#fff">批量买入</font></router-link></MenuItem>
         </Submenu>
       </Menu>
     </Sider>
@@ -90,6 +92,9 @@
           <div>
             通用仓位:<Input name= "generalPosition" v-model="generalPosition" placeholder="" style="width: 300px" />
           </div>
+          <div>
+            ai仓位:<Input name= "aiPosition" v-model="aiPosition" placeholder="" style="width: 300px" />
+          </div>
         </Modal>
       </template>
 
@@ -115,6 +120,15 @@
         <Modal
           v-model="modal3"
           title="有仓位超过300万了，确定吗？"
+          @on-ok="okClear"
+          @on-cancel="cancelClear">
+        </Modal>
+      </template>
+
+      <template>
+        <Modal
+          v-model="modal4"
+          title="ai仓位超过1000万了，确定吗？"
           @on-ok="okClear"
           @on-cancel="cancelClear">
         </Modal>
@@ -166,6 +180,11 @@
             align: 'center'
           },
           {
+            title: 'ai仓位',
+            key: 'aiPosition',
+            align: 'center'
+          },
+          {
             title: '二板仓位系数',
             key: 'twoPlankRatio',
             align: 'center'
@@ -188,12 +207,14 @@
         modal1: false,
         modal2:false,
         modal3:false,
+        modal4:false,
 
         indexId:0,
         currentPosition:0,
         currentPosition300:0,
         currentPosition688:0,
-        currentGeneralPosition:0
+        currentGeneralPosition:0,
+        currentAiPosition:0
 
       }
     },
@@ -204,6 +225,7 @@
         this.param300=this.data7[index].position300;
         this.param688=this.data7[index].position688;
         this.generalPosition = this.data7[index].generalPosition;
+        this.aiPosition = this.data7[index].aiPosition
       },
       ok () {
         var position= this.param1;
@@ -211,15 +233,24 @@
         var position300 = this.param300;
         var position688 = this.param688;
         var generalPosition = this.generalPosition;
+        var aiPosition = this.aiPosition;
 
         if(position>=3000000||position300>=3000000||position688>=3000000||generalPosition>=3000000){
           this.currentPosition = position;
           this.currentPosition300 = position300;
           this.currentPosition688 = position688;
           this.currentGeneralPosition = generalPosition;
+          this.currentAiPosition = aiPosition;
           this.modal3 = true;
+        }else if(aiPosition>=10000000){
+          this.currentPosition = position;
+          this.currentPosition300 = position300;
+          this.currentPosition688 = position688;
+          this.currentGeneralPosition = generalPosition;
+          this.currentAiPosition = aiPosition;
+          this.modal4 = true;
         }else{
-          this.$api.post('dragon/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition}, r => {
+          this.$api.post('dragon/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition,aiPosition:aiPosition}, r => {
             location.reload();
           })
         }
@@ -286,7 +317,8 @@
         var position300 = this.currentPosition300;
         var position688 = this.currentPosition688;
         var generalPosition= this.currentGeneralPosition;
-        this.$api.post('dragon/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition}, r => {
+        var aiPosition = this.currentAiPosition;
+        this.$api.post('dragon/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition,aiPosition:aiPosition}, r => {
           location.reload();
         })
 

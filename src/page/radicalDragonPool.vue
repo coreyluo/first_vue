@@ -59,6 +59,8 @@
           <MenuItem  name="1-10"><router-link to="/blockView/1"><font color="#fff">板块信息</font></router-link></MenuItem>
           <MenuItem  name="1-12"><router-link to="/blockDiy/1"><font color="#fff">自定义板块</font></router-link></MenuItem>
           <MenuItem  name="1-11"><router-link to="/circulateInfo/1"><font color="#fff">股票信息</font></router-link></MenuItem>
+          <MenuItem  name="1-13"><router-link to="/scareBuy/1"><font color="#fff">恐慌买入</font></router-link></MenuItem>
+          <MenuItem  name="1-14"><router-link to="/batchBlock/1"><font color="#fff">批量买入</font></router-link></MenuItem>
         </Submenu>
       </Menu>
     </Sider>
@@ -95,7 +97,7 @@
 
             <Button style="float:right" type="error" @click="modal2=true">删除全部</Button>
             <Button style="float:right" type="primary">激进打板</Button>
-            <Button style="float:right" type="error" @click="modal1=true;showAdd(2,2,1,30,1.10,1)">添加</Button>
+            <Button style="float:right" type="error" @click="modal1=true;showAdd(2,3,1,30,1.10,1)">添加</Button>
 
           </div>
         </template>

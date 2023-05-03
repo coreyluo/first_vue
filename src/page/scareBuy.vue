@@ -41,7 +41,7 @@
 <template>
   <div class="layout">
     <Sider :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
-      <Menu active-name="1-9" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
+      <Menu active-name="1-13" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
         <Submenu name="1">
           <template slot="title">
             <Icon type="ios-navigate"></Icon>
@@ -70,33 +70,29 @@
 
       <template>
         <div>
-          <Button v-if="!uppersButton"  type="primary" @click="changeButton(1)">逐笔成交下单已关闭,请开启</Button>
-          <Button v-if="uppersButton"  type="error" @click="changeButton(1)">逐笔成交下单已开启,请关闭</Button>
-
-          <Button v-if="!shButton"  type="primary" @click="changeShButton()">上证已关闭,请开启</Button>
-          <Button v-if="shButton"  type="error" @click="changeShButton()">上证已开启,请关闭</Button>
-
-          <Button  type="primary" @click="modal1=true;show1()">创业板延迟{{delay300Mill}}下单</Button>
-
-          <Button v-if="!riskControlButton"  type="primary" @click="changeRiskControlButton()">低市值股票监管已关闭,请开启</Button>
-          <Button v-if="riskControlButton"  type="error" @click="changeRiskControlButton()">低市值股票监管已开启,请关闭</Button>
-
-          <Button v-if="!cancelButton"  type="primary" @click="changeRadicalCancelButton()">激进池禁止撤单已开启,请开启撤单</Button>
-          <Button v-if="cancelButton"  type="error" @click="changeRadicalCancelButton()">激进池允许撤单已开启,请关闭撤单</Button>
+          <Button style="float:right" type="error" @click="modal2=true;">恐慌买入</Button>
+          <Button style="float:right" type="error" @click="modal3=true;">沪深300买入</Button>
         </div>
       </template>
 
       <template>
         <Modal
-          v-model="modal1"
-          title="回封间隔时间"
-          @on-ok="ok1"
-          @on-cancel="cancel1">
-          <div>
-            回封间隔时间:<Input name= "param1" v-model="param1" placeholder="" style="width: 300px" />
-          </div>
+          v-model="modal2"
+          title="确定要恐慌买入吗？"
+          @on-ok="okClear"
+          @on-cancel="cancelClear">
         </Modal>
       </template>
+
+      <template>
+        <Modal
+          v-model="modal3"
+          title="确定要沪深300买入吗？"
+          @on-ok="okClear3"
+          @on-cancel="cancelClear3">
+        </Modal>
+      </template>
+
 
     </Layout>
   </div>
@@ -104,77 +100,32 @@
 <script>
   export default {
     created () {
-      this.$api.post('dragon/buttonConfig/list', {}, r => {
-        this.uppersButton=r.data.uppersButton;
-        this.cancelButton=r.data.cancelButton;
-        this.shButton = r.data.shButton;
-        this.riskControlButton = r.data.riskControlButton;
-        this.delay300Mill = r.data.delay300Mill
-      });
     },
 
     data: function () {
       return {
-        uppersButton: false,
-        shButton:false,
-        cancelButton:false,
-        riskControlButton:true,
-        modal1: false,
-        delay300Mill:0
+        modal2:false,
+        modal3:false
       }
 
     },
     methods: {
-
-      changeButton (index) {
-        var buttonCodestr = "";
-        if(index ==1){
-          buttonCodestr = "upperS_button";
-        }
-        this.$api.get('dragon/buttonConfig/changeButton', {buttonCode:buttonCodestr}, r => {
+      okClear () {
+        this.$api.post('dragon/scareBuy/scareBuyStock', null, r => {
           location.reload()
         })
+
+      },
+      cancelClear () {
       },
 
-      changeShButton () {
-        this.$api.get('dragon/buttonConfig/changeShButton', {}, r => {
+      okClear3 () {
+        this.$api.post('dragon/scareBuy/huShen300Buy', null, r => {
           location.reload()
         })
+
       },
-
-      changeRiskControlButton () {
-        this.$api.get('dragon/buttonConfig/riskControlButton', {}, r => {
-          location.reload()
-        })
-      },
-
-      changeRadicalCancelButton () {
-        this.$api.get('dragon/buttonConfig/radicalCancelButton', {}, r => {
-          location.reload()
-        })
-      },
-
-      changeInsertDelayButton (mill) {
-        this.$api.get('dragon/buttonConfig/changeInsertDelayButton', {mill:mill}, r => {
-          location.reload()
-        })
-      },
-
-
-
-      show1 () {
-        this.param1=this.delay300Mill;
-      },
-
-      ok1 () {
-        this.delay300Mill = this.param1
-        if(this.param1===''){
-          this.delay300Mill = 0;
-        }
-        this.changeInsertDelayButton (this.delay300Mill)
-      },
-      cancel1 () {
-        this.$Message.info($("param1").value)
+      cancelClear3 () {
       },
 
     }

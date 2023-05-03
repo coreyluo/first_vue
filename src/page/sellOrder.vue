@@ -32,14 +32,21 @@
                   <MenuItem  name="1-10"><router-link to="/blockView/1"><font color="#fff">板块信息</font></router-link></MenuItem>
                   <MenuItem  name="1-12"><router-link to="/blockDiy/1"><font color="#fff">自定义板块</font></router-link></MenuItem>
                   <MenuItem  name="1-11"><router-link to="/circulateInfo/1"><font color="#fff">股票信息</font></router-link></MenuItem>
+                  <MenuItem  name="1-13"><router-link to="/scareBuy/1"><font color="#fff">恐慌买入</font></router-link></MenuItem>
+                  <MenuItem  name="1-14"><router-link to="/batchBlock/1"><font color="#fff">批量买入</font></router-link></MenuItem>
                 </Submenu>
             </Menu>
         </Sider>
         <Layout :style="{marginLeft: '200px'}">
             <template>
               <div>
+                <font style="font-weight:bold;font-size:15px;">股票代码：</font><Input name= "param19" v-model="param19" placeholder="stockCode" style="width: 300px" />
+                <Button type="primary" icon="ios-search" @click="search()">查询</Button>
+
                 <Button style="float:right" type="success" @click="modal1=true;show()">卖出比例设置</Button>
                 <Button style="float:right" type="error" @click="modal2=true;show2()">执行核按钮</Button>
+                <Button style="float:right" type="error" @click="modal3=true;show3()">沪深300卖出</Button>
+                <Button style="float:right" type="error" @click="modal4=true;show4()">板块执行核按钮</Button>
 
                 <Button v-if="!dotSell"  type="error" @click="changeDotSellStatus()">点位卖出已关闭,请开启</Button>
                 <Button v-if="dotSell"  type="primary" @click="changeDotSellStatus()">点位卖出已开启,请关闭</Button>
@@ -111,6 +118,24 @@
             </Modal>
           </template>
 
+          <template>
+            <Modal
+              v-model="modal3"
+              title="确定执行沪深300卖出吗"
+              @on-ok="okClear3"
+              @on-cancel="cancelClear3">
+            </Modal>
+          </template>
+
+          <template>
+            <Modal
+              v-model="modal4"
+              title="确定执行板块核按钮吗"
+              @on-ok="okClear4"
+              @on-cancel="cancelClear4">
+            </Modal>
+          </template>
+
         </Layout>
     </div>
 </template>
@@ -167,10 +192,32 @@
                 dotSell:true,
                 slowSellStartHighAndIncrease:false,
                 modal1: false,
-                modal2:false
+                modal2:false,
+                modal3:false,
+                modal4:false
             }
         },
         methods: {
+          search(){
+            var stockCode = this.param19;
+            if(stockCode){
+              stockCode = stockCode;
+            }else{
+              stockCode = null;
+            }
+            this.$api.get('dragon/sellAvailable/listData', {stockCode:stockCode}, r => {
+              this.data7 = r.data.vos;
+              this.frequency = r.data.sellButtonDTO.frequency;
+              this.sellMinute = r.data.sellButtonDTO.sellMinute;
+              this.pitSellPercent = r.data.sellButtonDTO.pitSellPercent;
+              this.highSellPercent = r.data.sellButtonDTO.highSellPercent;
+              this.increaseSellPercent = r.data.sellButtonDTO.increaseSellPercent;
+              this.gatherSell = r.data.sellButtonDTO.gatherSell;
+              this.dotSell = r.data.sellButtonDTO.dotSell;
+              this.slowSellStartHighAndIncrease = r.data.sellButtonDTO.slowSellStartHighAndIncrease;
+            })
+          },
+
           changeGatherSellStatus(){
             this.$api.get('dragon/sellAvailable/changeGatherSellFlag', {}, r => {
               location.reload()
@@ -255,6 +302,26 @@
           },
 
           cancelClear () {
+          },
+
+          okClear3 () {
+            this.$api.get('dragon/sellAvailable/huShen300Sell', null, r => {
+              location.reload()
+            })
+
+          },
+
+          cancelClear3 () {
+          },
+
+          okClear4 () {
+            this.$api.get('dragon/sellAvailable/blockPitSell', null, r => {
+              location.reload()
+            })
+
+          },
+
+          cancelClear4 () {
           },
 
         },
