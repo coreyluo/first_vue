@@ -113,6 +113,9 @@
           <div>
             大市值仓位比例:<Input name= "paramBig" v-model="paramBig" placeholder="" style="width: 300px" />
           </div>
+          <div>
+            跟随比例:<Input name= "paramFollowDaLaoRatio" v-model="paramFollowDaLaoRatio" placeholder="" style="width: 300px" />
+          </div>
         </Modal>
       </template>
 
@@ -195,6 +198,11 @@
             align: 'center'
           },
           {
+            title: '跟随仓位系数分母',
+            key: 'followDaLaoRatio',
+            align: 'center'
+          },
+          {
             title: '操作',
             slot: 'action',
             width: 1100,
@@ -266,13 +274,15 @@
         this.paramTwoPlankRatio = this.data7[index].twoPlankRatio;
         this.paramHighPlankRatio = this.data7[index].highPlankRatio;
         this.paramBig = this.data7[index].positionBigAmount;
+        this.paramFollowDaLaoRatio = this.data7[index].followDaLaoRatio;
       },
       ok2 () {
         var changerId = this.indexId;
         var twoPlankRatio = this.paramTwoPlankRatio;
         var highPlankRatio = this.paramHighPlankRatio;
         var positionBigAmount = this.paramBig;
-        this.$api.post('dragon/tradeAccount/changeRate', {id:changerId,twoPlankRatio:twoPlankRatio,highPlankRatio:highPlankRatio,positionBigAmount:positionBigAmount}, r => {
+        var followDaLaoRatio = this.paramFollowDaLaoRatio;
+        this.$api.post('dragon/tradeAccount/changeRate', {id:changerId,twoPlankRatio:twoPlankRatio,highPlankRatio:highPlankRatio,positionBigAmount:positionBigAmount,followDaLaoRatio:followDaLaoRatio}, r => {
           location.reload();
         })
 
