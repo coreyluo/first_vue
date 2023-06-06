@@ -15,6 +15,7 @@ import CirculateInfo from "@/page/circulateInfo"
 import BlockDiy from "@/page/blockDiy"
 import ScareBuy from "@/page/scareBuy"
 import BatchBlock from "@/page/batchBlock"
+import DisableUnmatch from "@/page/disableUnmatch"
 Vue.use(Router)
 
 export default new Router({
@@ -61,6 +62,9 @@ export default new Router({
     },{
       path: '/batchBlock/:id',
       component: BatchBlock
+    },{
+      path: '/disableUnmatch/:id',
+      component: DisableUnmatch
     }
 
   ]

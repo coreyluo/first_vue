@@ -61,6 +61,7 @@
           <MenuItem  name="1-11"><router-link to="/circulateInfo/1"><font color="#fff">股票信息</font></router-link></MenuItem>
           <MenuItem  name="1-13"><router-link to="/scareBuy/1"><font color="#fff">恐慌买入</font></router-link></MenuItem>
           <MenuItem  name="1-14"><router-link to="/batchBlock/1"><font color="#fff">批量买入</font></router-link></MenuItem>
+          <MenuItem  name="1-15"><router-link to="/disableUnmatch/1"><font color="#fff">禁止未匹配量买入</font></router-link></MenuItem>
         </Submenu>
       </Menu>
     </Sider>
@@ -83,6 +84,8 @@
 
           <Button v-if="!cancelButton"  type="primary" @click="changeRadicalCancelButton()">激进池禁止撤单已开启,请开启撤单</Button>
           <Button v-if="cancelButton"  type="error" @click="changeRadicalCancelButton()">激进池允许撤单已开启,请关闭撤单</Button>
+
+          <Button  type="primary" @click="modal2=true;show2()">未匹配量流通z系数{{unmatchPercentRatio}}</Button>
         </div>
       </template>
 
@@ -98,6 +101,18 @@
         </Modal>
       </template>
 
+      <template>
+        <Modal
+          v-model="modal2"
+          title="未匹配量流通z系数"
+          @on-ok="ok2"
+          @on-cancel="cancel2">
+          <div>
+            未匹配量流通z系数:<Input name= "param2" v-model="param2" placeholder="" style="width: 300px" />
+          </div>
+        </Modal>
+      </template>
+
     </Layout>
   </div>
 </template>
@@ -109,7 +124,8 @@
         this.cancelButton=r.data.cancelButton;
         this.shButton = r.data.shButton;
         this.riskControlButton = r.data.riskControlButton;
-        this.delay300Mill = r.data.delay300Mill
+        this.delay300Mill = r.data.delay300Mill;
+        this.unmatchPercentRatio =  r.data.unmatchPercentRatio
       });
     },
 
@@ -120,7 +136,9 @@
         cancelButton:false,
         riskControlButton:true,
         modal1: false,
-        delay300Mill:0
+        modal2: false,
+        delay300Mill:0,
+        unmatchPercentRatio:0
       }
 
     },
@@ -160,6 +178,12 @@
         })
       },
 
+      changePercentRatioButton (ratio) {
+        this.$api.get('dragon/buttonConfig/changePercentRatio', {percentRatio:ratio}, r => {
+          location.reload()
+        })
+      },
+
 
 
       show1 () {
@@ -175,6 +199,17 @@
       },
       cancel1 () {
         this.$Message.info($("param1").value)
+      },
+
+      show2 () {
+        this.param2=this.unmatchPercentRatio;
+      },
+      ok2 () {
+        this.unmatchPercentRatio = this.param2
+        this.changePercentRatioButton (this.unmatchPercentRatio)
+      },
+      cancel2 () {
+        this.$Message.info($("param2").value)
       },
 
     }
