@@ -68,7 +68,6 @@
           <Button v-if="row.highPlankStatus===1" style="margin-left: 5px" type="primary" @click="changeAccountStatus(6,index,0)">高位板已经开启,请关闭</Button>
 
 
-
         </template>
 
       </Table>
@@ -110,6 +109,7 @@
           </div>
         </Modal>
       </template>
+
 
     </Layout>
   </div>

@@ -75,6 +75,8 @@
           <Button v-if="shButton"  type="error" @click="changeShButton()">上证已开启,请关闭</Button>
 
           <Button  type="primary" @click="modal1=true;show1()">创业板延迟{{delay300Mill}}下单</Button>
+
+          <Button type="primary"  @click="modal3=true;show3()">涨幅过高系数</Button>
         </div>
       </template>
 
@@ -86,6 +88,39 @@
           @on-cancel="cancel1">
           <div>
             回封间隔时间:<Input name= "param1" v-model="param1" placeholder="" style="width: 300px" />
+          </div>
+        </Modal>
+      </template>
+
+      <template>
+        <Modal
+          v-model="modal3"
+          title="涨幅过高系数"
+          @on-ok="ok3"
+          @on-cancel="cancel3">
+          <div>
+            涨幅过高股票仓位系数:<Input name= "positionRatioParam" v-model="positionRatioParam" placeholder="" style="width: 300px" />
+          </div>
+          <div>
+            3日涨幅:<Input name= "rateDay3RatioParam" v-model="rateDay3RatioParam" placeholder="" style="width: 300px" />
+          </div>
+          <div>
+            5日涨幅:<Input name= "rateDay5RatioParam" v-model="rateDay5RatioParam" placeholder="" style="width: 300px" />
+          </div>
+          <div>
+            10日涨幅:<Input name= "rateDay10RatioParam" v-model="rateDay10RatioParam" placeholder="" style="width: 300px" />
+          </div>
+          <div>
+            20日涨幅:<Input name= "rateDay20RatioParam" v-model="rateDay20RatioParam" placeholder="" style="width: 300px" />
+          </div>
+          <div>
+            30日涨幅:<Input name= "rateDay30RatioParam" v-model="rateDay30RatioParam" placeholder="" style="width: 300px" />
+          </div>
+          <div>
+            40日涨幅:<Input name= "rateDay40RatioParam" v-model="rateDay40RatioParam" placeholder="" style="width: 300px" />
+          </div>
+          <div>
+            60日涨幅:<Input name= "rateDay60RatioParam" v-model="rateDay60RatioParam" placeholder="" style="width: 300px" />
           </div>
         </Modal>
       </template>
@@ -108,7 +143,16 @@
         uppersButton: false,
         shButton:false,
         modal1: false,
-        delay300Mill:0
+        modal2: false,
+        delay300Mill:0,
+        positionRatio:1,
+        rateDay3Ratio:10000,
+        rateDay5Ratio:10000,
+        rateDay10Ratio:10000,
+        rateDay20Ratio:10000,
+        rateDay30Ratio:10000,
+        rateDay40Ratio:10000,
+        rateDay60Ratio:10000
       }
 
     },
@@ -136,6 +180,12 @@
         })
       },
 
+      changeStockBeforeRateRatioButton (positionRatio,rateDay3Ratio,rateDay5Ratio,rateDay10Ratio,rateDay20Ratio,rateDay30Ratio,rateDay40Ratio,rateDay60Ratio) {
+        this.$api.get('dragon/buttonConfig/changeStockBeforeRateRatio', {positionRatio:positionRatio,rateDay3Ratio:rateDay3Ratio,rateDay5Ratio:rateDay5Ratio,rateDay10Ratio:rateDay10Ratio,rateDay20Ratio:rateDay20Ratio,rateDay30Ratio:rateDay30Ratio,rateDay40Ratio:rateDay40Ratio,rateDay60Ratio:rateDay60Ratio}, r => {
+          location.reload()
+        })
+      },
+
       show1 () {
         this.param1=this.delay300Mill;
       },
@@ -150,6 +200,35 @@
       cancel1 () {
         this.$Message.info($("param1").value)
       },
+
+
+      show3 () {
+        this.positionRatioParam=this.positionRatio;
+        this.rateDay3RatioParam=this.rateDay3Ratio;
+        this.rateDay5RatioParam=this.rateDay5Ratio;
+        this.rateDay10RatioParam=this.rateDay10Ratio;
+        this.rateDay20RatioParam=this.rateDay20Ratio;
+        this.rateDay30RatioParam=this.rateDay30Ratio;
+        this.rateDay40RatioParam=this.rateDay40Ratio;
+        this.rateDay60RatioParam=this.rateDay60Ratio;
+      },
+      ok3 () {
+        this.positionRatio = this.positionRatioParam;
+        this.rateDay3Ratio = this.rateDay3RatioParam;
+        this.rateDay5Ratio = this.rateDay5RatioParam;
+        this.rateDay10Ratio = this.rateDay10RatioParam;
+        this.rateDay20Ratio = this.rateDay20RatioParam;
+        this.rateDay30Ratio = this.rateDay30RatioParam;
+        this.rateDay40Ratio = this.rateDay40RatioParam;
+        this.rateDay60Ratio = this.rateDay60RatioParam;
+        if(this.positionRatioParam===''){
+          this.positionRatio = 1;
+        }
+        this.changeStockBeforeRateRatioButton (this.positionRatio,this.rateDay3Ratio,this.rateDay5Ratio,this.rateDay10Ratio,this.rateDay20Ratio,this.rateDay30Ratio,this.rateDay40Ratio,this.rateDay60Ratio)
+      },
+      cancel3 () {
+        this.$Message.info()
+      }
 
     }
   }
