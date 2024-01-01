@@ -86,6 +86,8 @@
           <Button v-if="cancelButton"  type="error" @click="changeRadicalCancelButton()">激进池允许撤单已开启,请关闭撤单</Button>
 
           <Button  type="primary" @click="modal2=true;show2()">未匹配量流通z系数{{unmatchPercentRatio}}</Button>
+
+          <Button type="primary"  @click="modal3=true;show3()">涨幅过高系数</Button>
         </div>
       </template>
 
@@ -113,6 +115,39 @@
         </Modal>
       </template>
 
+      <template>
+        <Modal
+          v-model="modal3"
+          title="涨幅过高系数"
+          @on-ok="ok3"
+          @on-cancel="cancel3">
+          <div>
+            涨幅过高股票仓位系数:<Input name= "positionRatioParam" v-model="positionRatioParam" placeholder="" style="width: 300px" />
+          </div>
+          <div>
+            3日涨幅:<Input name= "rateDay3RatioParam" v-model="rateDay3RatioParam" placeholder="" style="width: 300px" />
+          </div>
+          <div>
+            5日涨幅:<Input name= "rateDay5RatioParam" v-model="rateDay5RatioParam" placeholder="" style="width: 300px" />
+          </div>
+          <div>
+            10日涨幅:<Input name= "rateDay10RatioParam" v-model="rateDay10RatioParam" placeholder="" style="width: 300px" />
+          </div>
+          <div>
+            20日涨幅:<Input name= "rateDay20RatioParam" v-model="rateDay20RatioParam" placeholder="" style="width: 300px" />
+          </div>
+          <div>
+            30日涨幅:<Input name= "rateDay30RatioParam" v-model="rateDay30RatioParam" placeholder="" style="width: 300px" />
+          </div>
+          <div>
+            40日涨幅:<Input name= "rateDay40RatioParam" v-model="rateDay40RatioParam" placeholder="" style="width: 300px" />
+          </div>
+          <div>
+            60日涨幅:<Input name= "rateDay60RatioParam" v-model="rateDay60RatioParam" placeholder="" style="width: 300px" />
+          </div>
+        </Modal>
+      </template>
+
     </Layout>
   </div>
 </template>
@@ -126,6 +161,14 @@
         this.riskControlButton = r.data.riskControlButton;
         this.delay300Mill = r.data.delay300Mill;
         this.unmatchPercentRatio =  r.data.unmatchPercentRatio
+        this.positionRatio = r.data.positionRatio;
+        this.rateDay3Ratio = r.data.rateDay3Ratio;
+        this.rateDay5Ratio = r.data.rateDay5Ratio;
+        this.rateDay10Ratio = r.data.rateDay10Ratio;
+        this.rateDay20Ratio = r.data.rateDay20Ratio;
+        this.rateDay30Ratio = r.data.rateDay30Ratio;
+        this.rateDay40Ratio = r.data.rateDay40Ratio;
+        this.rateDay60Ratio = r.data.rateDay60Ratio;
       });
     },
 
@@ -137,8 +180,17 @@
         riskControlButton:true,
         modal1: false,
         modal2: false,
+        modal3: false,
         delay300Mill:0,
-        unmatchPercentRatio:0
+        unmatchPercentRatio:0,
+        positionRatio:1,
+        rateDay3Ratio:10000,
+        rateDay5Ratio:10000,
+        rateDay10Ratio:10000,
+        rateDay20Ratio:10000,
+        rateDay30Ratio:10000,
+        rateDay40Ratio:10000,
+        rateDay60Ratio:10000
       }
 
     },
@@ -184,7 +236,11 @@
         })
       },
 
-
+      changeStockBeforeRateRatioButton (positionRatio,rateDay3Ratio,rateDay5Ratio,rateDay10Ratio,rateDay20Ratio,rateDay30Ratio,rateDay40Ratio,rateDay60Ratio) {
+        this.$api.get('dragon/buttonConfig/changeStockBeforeRateRatio', {positionRation:positionRatio,rateDay3Ratio:rateDay3Ratio,rateDay5Ratio:rateDay5Ratio,rateDay10Ratio:rateDay10Ratio,rateDay20Ratio:rateDay20Ratio,rateDay30Ratio:rateDay30Ratio,rateDay40Ratio:rateDay40Ratio,rateDay60Ratio:rateDay60Ratio}, r => {
+          location.reload()
+        })
+      },
 
       show1 () {
         this.param1=this.delay300Mill;
@@ -210,6 +266,34 @@
       },
       cancel2 () {
         this.$Message.info($("param2").value)
+      },
+
+      show3 () {
+        this.positionRatioParam=this.positionRatio;
+        this.rateDay3RatioParam=this.rateDay3Ratio;
+        this.rateDay5RatioParam=this.rateDay5Ratio;
+        this.rateDay10RatioParam=this.rateDay10Ratio;
+        this.rateDay20RatioParam=this.rateDay20Ratio;
+        this.rateDay30RatioParam=this.rateDay30Ratio;
+        this.rateDay40RatioParam=this.rateDay40Ratio;
+        this.rateDay60RatioParam=this.rateDay60Ratio;
+      },
+      ok3 () {
+        this.positionRatio = this.positionRatioParam;
+        this.rateDay3Ratio = this.rateDay3RatioParam;
+        this.rateDay5Ratio = this.rateDay5RatioParam;
+        this.rateDay10Ratio = this.rateDay10RatioParam;
+        this.rateDay20Ratio = this.rateDay20RatioParam;
+        this.rateDay30Ratio = this.rateDay30RatioParam;
+        this.rateDay40Ratio = this.rateDay40RatioParam;
+        this.rateDay60Ratio = this.rateDay60RatioParam;
+        if(this.positionRatioParam===''){
+          this.positionRatio = 1;
+        }
+        this.changeStockBeforeRateRatioButton (this.positionRatio,this.rateDay3Ratio,this.rateDay5Ratio,this.rateDay10Ratio,this.rateDay20Ratio,this.rateDay30Ratio,this.rateDay40Ratio,this.rateDay60Ratio)
+      },
+      cancel3 () {
+        this.$Message.info()
       },
 
     }
