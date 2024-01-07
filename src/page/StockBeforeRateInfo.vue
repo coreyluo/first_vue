@@ -14,7 +14,7 @@
 <template>
     <div class="layout">
         <Sider :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
-            <Menu active-name="1-5" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
+            <Menu active-name="1-16" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
                 <Submenu name="1">
                     <template slot="title">
                         <Icon type="ios-navigate"></Icon>
@@ -40,104 +40,89 @@
             </Menu>
         </Sider>
         <Layout :style="{marginLeft: '200px'}">
-            <div style="height: 30px">
-            </div>
             <template>
-                <div>
-                    <font style="font-weight:bold;font-size:15px;">股票代码：</font><Input name= "param1" v-model="param1" placeholder="stockCode" style="width: 300px" />
-                    <Button type="primary" icon="ios-search" @click="search()">查询</Button>
-                </div>
+              <div>
+                <font style="font-weight:bold;font-size:15px;">股票代码：</font><Input name= "param19" v-model="param19" placeholder="stockCode" style="width: 300px" />
+                <Button type="primary" icon="ios-search" @click="search()">查询</Button>
+
+              </div>
             </template>
-            <Table border :columns="columns12" :data="data6">
+            <Table border :columns="columns12" :data="data7">
                 <template slot-scope="{ row }" slot="tab">
                     <strong>{{ row.tab }}</strong>
                 </template>
-                <template slot-scope="{ row, index }" slot="action">
-                    <Button v-if="row.status==0" type="primary" size="small" @click="stopCancel(index)">停撤</Button>
-                    <Button v-if="row.status==2" type="error" size="small" @click="resume(index)">恢复</Button>
-                </template>
             </Table>
+
         </Layout>
     </div>
 </template>
 <script>
     export default {
         created () {
-            this.$api.get('dragon/cancelLog/dataList', {pageNo:1,pageSize:50}, r => {
-               r.data.forEach(item => {
-                 if(item.success==0){
-                   item.successStr = "失败"
-                 }
-                 if(item.success==1){
-                   item.successStr = "成功"
-                 }
-              });
-              this.data6 = r.data;
+            this.$api.get('dragon/StockBeforeRateRatio/listData', null, r => {
+                this.data7 = r.data;
             })
         },
         data () {
             return {
                 columns12: [
-
                     {
                         title: '股票代码',
                         key: 'stockCode'
                     },
                     {
                         title: '股票名称',
-                        key: 'ticketName'
+                        key: 'stockName'
                     },
                     {
-                        title: '撤单策略类型',
-                        key: 'strategyDescribe'
+                      title: '3日涨幅',
+                      key: 'rateDay3'
                     },
                     {
-                        title: '撤单参数',
-                        key: 'strategyContent'
+                      title: '5日涨幅',
+                      key: 'rateDay5'
                     },
                     {
-                        title: '委托编号',
-                        key: 'orderNo'
+                      title: '10日涨幅',
+                      key: 'rateDay10'
                     },
                     {
-                        title: '是否成功',
-                        key: 'successStr'
+                      title: '20日涨幅',
+                      key: 'rateDay20'
                     },
                     {
-                        title: '撤单时间',
-                        key: 'createTime'
+                      title: '30日涨幅',
+                      key: 'rateDay30'
                     },
                     {
-                        title: '描述',
-                        key: 'message'
+                      title: '40日涨幅',
+                      key: 'rateDay40'
+                    },
+                    {
+                      title: '60日涨幅',
+                      key: 'rateDay60'
                     }
                 ],
-                data6: [
+                data7: [
 
-                ]
+                ],
+                currentStockCode:0
             }
         },
         methods: {
-
-            search(){
-                var stockCode = this.param1;
-                if(stockCode){
-                  stockCode = stockCode;
-                }else{
-                  stockCode = null;
-                }
-                this.$api.get('dragon/cancelLog/dataList', {stockCode:stockCode,pageNo:1,pageSize:50}, r => {
-                  r.data.forEach(item => {
-                    if(item.success==0){
-                      item.successStr = "失败"
-                    }
-                    if(item.success==1){
-                      item.successStr = "成功"
-                    }
-                  });
-                  this.data6 = r.data;
-                })
+          search(){
+            var stockCode = this.param19;
+            if(stockCode){
+              stockCode = stockCode;
+            }else{
+              stockCode = null;
             }
-        }
+            this.$api.get('dragon/stockBeforeRateRatio/listData', {stockCode:stockCode}, r => {
+              this.data7 = r.data;
+            })
+          }
+
+        },
+
     }
 </script>
