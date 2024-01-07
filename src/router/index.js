@@ -16,6 +16,7 @@ import BlockDiy from "@/page/blockDiy"
 import ScareBuy from "@/page/scareBuy"
 import BatchBlock from "@/page/batchBlock"
 import DisableUnmatch from "@/page/disableUnmatch"
+import StockBeforeRateInfo from "@/page/stockBeforeRateInfo"
 Vue.use(Router)
 
 export default new Router({
@@ -65,6 +66,9 @@ export default new Router({
     },{
       path: '/disableUnmatch/:id',
       component: DisableUnmatch
+    },{
+      path: '/stockBeforeRateInfo/:id',
+      component: StockBeforeRateInfo
     }
 
   ]
