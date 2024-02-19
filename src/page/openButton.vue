@@ -89,6 +89,10 @@
           <Button  type="primary" @click="modal2=true;show2()">未匹配量流通z系数{{unmatchPercentRatio}}</Button>
 
           <Button type="primary"  @click="modal3=true;show3()">涨幅过高系数</Button>
+
+          <Button v-if="!dragonPlankBuyV1Button"  type="primary" @click="dragonPlankBuyV1ButtonSend()">龙年打板1号已关闭,请开启</Button>
+          <Button v-if="dragonPlankBuyV1Button"  type="error" @click="dragonPlankBuyV1ButtonSend()">龙年打板1号已开启,请关闭</Button>
+
         </div>
       </template>
 
@@ -170,6 +174,7 @@
         this.rateDay30Ratio = r.data.rateDay30Ratio;
         this.rateDay40Ratio = r.data.rateDay40Ratio;
         this.rateDay60Ratio = r.data.rateDay60Ratio;
+        this.dragonPlankBuyV1Button = r.data.dragonPlankBuyV1;
       });
     },
 
@@ -179,6 +184,7 @@
         shButton:false,
         cancelButton:false,
         riskControlButton:true,
+        dragonPlankBuyV1Button:false,
         modal1: false,
         modal2: false,
         modal3: false,
@@ -239,6 +245,12 @@
 
       changeStockBeforeRateRatioButton (positionRatio,rateDay3Ratio,rateDay5Ratio,rateDay10Ratio,rateDay20Ratio,rateDay30Ratio,rateDay40Ratio,rateDay60Ratio) {
         this.$api.get('dragon/buttonConfig/changeStockBeforeRateRatio', {positionRation:positionRatio,rateDay3Ratio:rateDay3Ratio,rateDay5Ratio:rateDay5Ratio,rateDay10Ratio:rateDay10Ratio,rateDay20Ratio:rateDay20Ratio,rateDay30Ratio:rateDay30Ratio,rateDay40Ratio:rateDay40Ratio,rateDay60Ratio:rateDay60Ratio}, r => {
+          location.reload()
+        })
+      },
+
+      dragonPlankBuyV1ButtonSend () {
+        this.$api.get('dragon/buttonConfig/dragonPlankBuyV1', {}, r => {
           location.reload()
         })
       },
