@@ -59,7 +59,7 @@
 <script>
     export default {
         created () {
-            this.$api.get('dragon/StockBeforeRateRatio/listData', null, r => {
+            this.$api.get('dragon/stockBeforeRateRatio/listData', null, r => {
                 this.data7 = r.data;
             })
         },
