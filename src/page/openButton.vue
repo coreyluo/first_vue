@@ -60,9 +60,9 @@
           <MenuItem  name="1-12"><router-link to="/blockDiy/1"><font color="#fff">自定义板块</font></router-link></MenuItem>
           <MenuItem  name="1-11"><router-link to="/circulateInfo/1"><font color="#fff">股票信息</font></router-link></MenuItem>
           <MenuItem  name="1-13"><router-link to="/scareBuy/1"><font color="#fff">恐慌买入</font></router-link></MenuItem>
-          <MenuItem  name="1-14"><router-link to="/batchBlock/1"><font color="#fff">批量买入</font></router-link></MenuItem>
-          <MenuItem  name="1-15"><router-link to="/disableUnmatch/1"><font color="#fff">禁止未匹配量买入</font></router-link></MenuItem>
-          <MenuItem  name="1-16"><router-link to="/stockBeforeRateInfo/1"><font color="#fff">涨幅过高股票信息</font></router-link></MenuItem>
+<!--          <MenuItem  name="1-14"><router-link to="/batchBlock/1"><font color="#fff">批量买入</font></router-link></MenuItem>-->
+<!--          <MenuItem  name="1-15"><router-link to="/disableUnmatch/1"><font color="#fff">禁止未匹配量买入</font></router-link></MenuItem>-->
+<!--          <MenuItem  name="1-16"><router-link to="/stockBeforeRateInfo/1"><font color="#fff">涨幅过高股票信息</font></router-link></MenuItem>-->
         </Submenu>
       </Menu>
     </Sider>
@@ -83,12 +83,12 @@
           <Button v-if="!riskControlButton"  type="primary" @click="changeRiskControlButton()">低市值股票监管已关闭,请开启</Button>
           <Button v-if="riskControlButton"  type="error" @click="changeRiskControlButton()">低市值股票监管已开启,请关闭</Button>
 
-          <Button v-if="!cancelButton"  type="primary" @click="changeRadicalCancelButton()">激进池禁止撤单已开启,请开启撤单</Button>
-          <Button v-if="cancelButton"  type="error" @click="changeRadicalCancelButton()">激进池允许撤单已开启,请关闭撤单</Button>
+<!--          <Button v-if="!cancelButton"  type="primary" @click="changeRadicalCancelButton()">激进池禁止撤单已开启,请开启撤单</Button>
+          <Button v-if="cancelButton"  type="error" @click="changeRadicalCancelButton()">激进池允许撤单已开启,请关闭撤单</Button>-->
 
-          <Button  type="primary" @click="modal2=true;show2()">未匹配量流通z系数{{unmatchPercentRatio}}</Button>
+<!--          <Button  type="primary" @click="modal2=true;show2()">未匹配量流通z系数{{unmatchPercentRatio}}</Button>-->
 
-          <Button type="primary"  @click="modal3=true;show3()">涨幅过高系数</Button>
+<!--          <Button type="primary"  @click="modal3=true;show3()">涨幅过高系数</Button>-->
 
           <Button v-if="!dragonPlankBuyV1Button"  type="primary" @click="dragonPlankBuyV1ButtonSend()">龙年打板1号已关闭,请开启</Button>
           <Button v-if="dragonPlankBuyV1Button"  type="error" @click="dragonPlankBuyV1ButtonSend()">龙年打板1号已开启,请关闭</Button>
@@ -161,19 +161,19 @@
     created () {
       this.$api.post('dragon/buttonConfig/list', {}, r => {
         this.uppersButton=r.data.uppersButton;
-        this.cancelButton=r.data.cancelButton;
+        //this.cancelButton=r.data.cancelButton;
         this.shButton = r.data.shButton;
         this.riskControlButton = r.data.riskControlButton;
         this.delay300Mill = r.data.delay300Mill;
-        this.unmatchPercentRatio =  r.data.unmatchPercentRatio
+        //this.unmatchPercentRatio =  r.data.unmatchPercentRatio
         this.positionRatio = r.data.positionRatio;
-        this.rateDay3Ratio = r.data.rateDay3Ratio;
+        /*this.rateDay3Ratio = r.data.rateDay3Ratio;
         this.rateDay5Ratio = r.data.rateDay5Ratio;
         this.rateDay10Ratio = r.data.rateDay10Ratio;
         this.rateDay20Ratio = r.data.rateDay20Ratio;
         this.rateDay30Ratio = r.data.rateDay30Ratio;
         this.rateDay40Ratio = r.data.rateDay40Ratio;
-        this.rateDay60Ratio = r.data.rateDay60Ratio;
+        this.rateDay60Ratio = r.data.rateDay60Ratio;*/
         this.dragonPlankBuyV1Button = r.data.dragonPlankBuyV1;
       });
     },
@@ -270,7 +270,7 @@
         this.$Message.info($("param1").value)
       },
 
-      show2 () {
+      /*show2 () {
         this.param2=this.unmatchPercentRatio;
       },
       ok2 () {
@@ -279,9 +279,9 @@
       },
       cancel2 () {
         this.$Message.info($("param2").value)
-      },
+      },*/
 
-      show3 () {
+      /*show3 () {
         this.positionRatioParam=this.positionRatio;
         this.rateDay3RatioParam=this.rateDay3Ratio;
         this.rateDay5RatioParam=this.rateDay5Ratio;
@@ -307,7 +307,7 @@
       },
       cancel3 () {
         this.$Message.info()
-      },
+      },*/
 
     }
   }

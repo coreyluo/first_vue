@@ -34,8 +34,8 @@
           <MenuItem  name="1-11"><router-link to="/circulateInfo/1"><font color="#fff">股票信息</font></router-link></MenuItem>
           <MenuItem  name="1-13"><router-link to="/scareBuy/1"><font color="#fff">恐慌买入</font></router-link></MenuItem>
           <MenuItem  name="1-14"><router-link to="/batchBlock/1"><font color="#fff">批量买入</font></router-link></MenuItem>
-          <MenuItem  name="1-15"><router-link to="/disableUnmatch/1"><font color="#fff">禁止未匹配量买入</font></router-link></MenuItem>
-          <MenuItem  name="1-16"><router-link to="/stockBeforeRateInfo/1"><font color="#fff">涨幅过高股票信息</font></router-link></MenuItem>
+<!--          <MenuItem  name="1-15"><router-link to="/disableUnmatch/1"><font color="#fff">禁止未匹配量买入</font></router-link></MenuItem>
+          <MenuItem  name="1-16"><router-link to="/stockBeforeRateInfo/1"><font color="#fff">涨幅过高股票信息</font></router-link></MenuItem>-->
         </Submenu>
       </Menu>
     </Sider>
@@ -188,11 +188,6 @@
             align: 'center'
           },
           {
-            title: 'ai仓位',
-            key: 'aiPosition',
-            align: 'center'
-          },
-          {
             title: '二板仓位系数',
             key: 'twoPlankRatio',
             align: 'center'
@@ -200,16 +195,6 @@
           {
             title: '高位仓位系数',
             key: 'highPlankRatio',
-            align: 'center'
-          },
-          {
-            title: '未匹配仓位',
-            key: 'unmatchPosition',
-            align: 'center'
-          },
-          {
-            title: '跟随仓位系数分母',
-            key: 'followDaLaoRatio',
             align: 'center'
           },
           {
@@ -244,8 +229,8 @@
         this.param300=this.data7[index].position300;
         this.param688=this.data7[index].position688;
         this.generalPosition = this.data7[index].generalPosition;
-        this.aiPosition = this.data7[index].aiPosition
-        this.unmatchPosition = this.data7[index].unmatchPosition
+        /*this.aiPosition = this.data7[index].aiPosition
+        this.unmatchPosition = this.data7[index].unmatchPosition*/
       },
       ok () {
         var position= this.param1;
@@ -253,24 +238,24 @@
         var position300 = this.param300;
         var position688 = this.param688;
         var generalPosition = this.generalPosition;
-        var aiPosition = this.aiPosition;
-        var unmatchPosition = this.unmatchPosition;
+       /* var aiPosition = this.aiPosition;
+        var unmatchPosition = this.unmatchPosition;*/
 
         if(position>=3000000||position300>=3000000||position688>=3000000||generalPosition>=3000000){
           this.currentPosition = position;
           this.currentPosition300 = position300;
           this.currentPosition688 = position688;
           this.currentGeneralPosition = generalPosition;
-          this.currentAiPosition = aiPosition;
-          this.currentUnmatchPosition = unmatchPosition;
+          /*this.currentAiPosition = aiPosition;
+          this.currentUnmatchPosition = unmatchPosition;*/
           this.modal3 = true;
         }else if(aiPosition>=10000000){
           this.currentPosition = position;
           this.currentPosition300 = position300;
           this.currentPosition688 = position688;
           this.currentGeneralPosition = generalPosition;
-          this.currentAiPosition = aiPosition;
-          this.currentUnmatchPosition = unmatchPosition;
+          /*this.currentAiPosition = aiPosition;
+          this.currentUnmatchPosition = unmatchPosition;*/
           this.modal4 = true;
         }else{
           this.$api.post('dragon/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition,aiPosition:aiPosition,unmatchPosition:unmatchPosition}, r => {
