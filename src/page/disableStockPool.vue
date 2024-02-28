@@ -88,7 +88,7 @@
 <script>
     export default {
         created () {
-            this.$api.get('dragon/disablePool/dataList', {pageNo:1,pageSize:100}, r => {
+            this.$api.get('bull/disablePool/dataList', {pageNo:1,pageSize:100}, r => {
                 var infos = r.data;
                  infos.forEach(item => {
                     if(item.operateStatus==0){
@@ -141,7 +141,7 @@
                 }else{
                   stockCode = null;
                 }
-                this.$api.get('dragon/disablePool/dataList', {stockCode:stockCode,pageNo:1,pageSize:100}, r => {
+                this.$api.get('bull/disablePool/dataList', {stockCode:stockCode,pageNo:1,pageSize:100}, r => {
                     var infos = r.data;
                      infos.forEach(item => {
                        if(item.operateStatus==0){
@@ -160,7 +160,7 @@
 
             ok () {
                 var stockCodeAdd= this.param2
-                this.$api.get('dragon/disablePool/oneToPool', {stockCode:stockCodeAdd}, r => {
+                this.$api.get('bull/disablePool/oneToPool', {stockCode:stockCodeAdd}, r => {
                   location.reload()
                 })
 
@@ -173,19 +173,19 @@
 
             change(index) {
                 var stockCodeStr = this.data6[index].stockCode;
-                this.$api.get('dragon/disablePool/changeOperateStatus', {stockCode:stockCodeStr}, r => {
+                this.$api.get('bull/disablePool/changeOperateStatus', {stockCode:stockCodeStr}, r => {
                 })
                 location.reload()
             },
             deleteInfo(index){
                 var primaryKey = this.data6[index].stockCode;
-                this.$api.get('dragon/disablePool/removeStockCode', {stockCode:primaryKey}, r => {
+                this.$api.get('bull/disablePool/removeStockCode', {stockCode:primaryKey}, r => {
                   location.reload()
                 });
 
             },
             okClear () {
-              this.$api.get('dragon/disablePool/deleteAll', null, r => {
+              this.$api.get('bull/disablePool/deleteAll', null, r => {
                 location.reload()
               })
 

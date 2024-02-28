@@ -89,7 +89,7 @@
 <script>
     export default {
         created () {
-            this.$api.get('dragon/blockView/listData', {blockCode:null}, r => {
+            this.$api.get('bull/blockView/listData', {blockCode:null}, r => {
                 var infos = r.data;
                 this.data6=infos;
             })
@@ -135,31 +135,31 @@
                 }else{
                   blockCode = null;
                 }
-                this.$api.get('dragon/blockView/listData', {blockCode:blockCode}, r => {
+                this.$api.get('bull/blockView/listData', {blockCode:blockCode}, r => {
                     var infos = r.data;
                     this.data6=infos;
                 })
             },
             prohibitAll(){
-                this.$api.get('dragon/blockView/prohibitAll', null, r => {
+                this.$api.get('bull/blockView/prohibitAll', null, r => {
                   location.reload()
                 })
 
             },
             prohibitBlock(index){
-              this.$api.get('dragon/blockView/prohibitBlock', {id:index}, r => {
+              this.$api.get('bull/blockView/prohibitBlock', {id:index}, r => {
                 location.reload()
               })
 
             },
             allowBlock(index){
-              this.$api.get('dragon/blockView/allowBlock', {id:index}, r => {
+              this.$api.get('bull/blockView/allowBlock', {id:index}, r => {
                 location.reload()
               })
 
             },
           blockRemoveDragonPool(index){
-            this.$api.get('dragon/blockView/blockRemoveDragonPool', {id:index}, r => {
+            this.$api.get('bull/blockView/blockRemoveDragonPool', {id:index}, r => {
               location.reload()
             })
           },
@@ -168,7 +168,7 @@
             var positionRatio= this.param2
             var sweepType= this.param3
             var idVar = this.blockCodeInDragon
-            this.$api.get('dragon/blockView/blockToDragonPool', {id:idVar,positionRatio:positionRatio,sweepType:sweepType}, r => {
+            this.$api.get('bull/blockView/blockToDragonPool', {id:idVar,positionRatio:positionRatio,sweepType:sweepType}, r => {
               location.reload()
             })
           },

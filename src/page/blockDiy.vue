@@ -88,7 +88,7 @@
 <script>
     export default {
         created () {
-            this.$api.post('dragon/blockDiy/listData', {}, r => {
+            this.$api.post('bull/blockDiy/listData', {}, r => {
                 var infos = r.data;
                  this.data6=infos;
             })
@@ -127,7 +127,7 @@
             }else{
               stockCode = null;
             }
-            this.$api.post('dragon/blockDiy/listData', {stockCode:stockCode}, r => {
+            this.$api.post('bull/blockDiy/listData', {stockCode:stockCode}, r => {
               r.data.forEach(item => {
                 if(item.success==0){
                   item.successStr = "失败"
@@ -143,7 +143,7 @@
 
             ok () {
                 var stockCodeAdd= this.param2;
-                this.$api.get('dragon/blockDiy/addStock', {stockCode:stockCodeAdd}, r => {
+                this.$api.get('bull/blockDiy/addStock', {stockCode:stockCodeAdd}, r => {
                   location.reload()
                 })
 
@@ -154,7 +154,7 @@
             },
 
           okDeleteAll () {
-              this.$api.get('dragon/blockDiy/deleteAll', {}, r => {
+              this.$api.get('bull/blockDiy/deleteAll', {}, r => {
                 location.reload()
               })
 
@@ -165,7 +165,7 @@
 
             deleteInfo(index){
                 var primaryKey = this.data6[index].id;
-                this.$api.get('dragon/blockDiy/deleteOne', {id:primaryKey}, r => {
+                this.$api.get('bull/blockDiy/deleteOne', {id:primaryKey}, r => {
                   location.reload()
                 });
             },

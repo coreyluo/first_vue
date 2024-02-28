@@ -144,7 +144,7 @@
 <script>
     export default {
         created () {
-            this.$api.get('dragon/sellAvailable/listData', null, r => {
+            this.$api.get('bull/sellAvailable/listData', null, r => {
                 this.data7 = r.data.vos;
                 this.frequency = r.data.sellButtonDTO.frequency;
                 this.sellMinute = r.data.sellButtonDTO.sellMinute;
@@ -207,7 +207,7 @@
             }else{
               stockCode = null;
             }
-            this.$api.get('dragon/sellAvailable/listData', {stockCode:stockCode}, r => {
+            this.$api.get('bull/sellAvailable/listData', {stockCode:stockCode}, r => {
               this.data7 = r.data.vos;
               this.frequency = r.data.sellButtonDTO.frequency;
               this.sellMinute = r.data.sellButtonDTO.sellMinute;
@@ -221,55 +221,55 @@
           },
 
           changeGatherSellStatus(){
-            this.$api.get('dragon/sellAvailable/changeGatherSellFlag', {}, r => {
+            this.$api.get('bull/sellAvailable/changeGatherSellFlag', {}, r => {
               location.reload()
             })
           },
           changeDotSellStatus(){
-            this.$api.get('dragon/sellAvailable/changeDotSellFlag', {}, r => {
+            this.$api.get('bull/sellAvailable/changeDotSellFlag', {}, r => {
               location.reload()
             })
           },
           changeSlowSellStatus(){
-            this.$api.get('dragon/sellAvailable/changeSlowSellFlag', {}, r => {
+            this.$api.get('bull/sellAvailable/changeSlowSellFlag', {}, r => {
               location.reload()
             })
           },
 
 
           changeStatus(id){
-            this.$api.get('dragon/sellAvailable/changeStatus', {id:id}, r => {
+            this.$api.get('bull/sellAvailable/changeStatus', {id:id}, r => {
               location.reload()
             })
           },
 
           changeIncreaseSellStatus(id){
-            this.$api.get('dragon/sellAvailable/changeIncreaseSellStatus', {id:id}, r => {
+            this.$api.get('bull/sellAvailable/changeIncreaseSellStatus', {id:id}, r => {
               location.reload()
             })
           },
           changeHighSellStatus(id){
-            this.$api.get('dragon/sellAvailable/changeHighSellStatus', {id:id}, r => {
+            this.$api.get('bull/sellAvailable/changeHighSellStatus', {id:id}, r => {
               location.reload()
             })
           },
           changeGeneralSellStatus(id){
-            this.$api.get('dragon/sellAvailable/changeGeneralSellStatus', {id:id}, r => {
+            this.$api.get('bull/sellAvailable/changeGeneralSellStatus', {id:id}, r => {
               location.reload()
             })
           },
           changeIncreaseSellNewStatus(id){
-            this.$api.get('dragon/sellAvailable/changeIncreaseSellNewStatus', {id:id}, r => {
+            this.$api.get('bull/sellAvailable/changeIncreaseSellNewStatus', {id:id}, r => {
               location.reload()
             })
           },
           changeDropSellNewStatus(id){
-            this.$api.get('dragon/sellAvailable/changeDropSellNewStatus', {id:id}, r => {
+            this.$api.get('bull/sellAvailable/changeDropSellNewStatus', {id:id}, r => {
               location.reload()
             })
           },
           changeScaleSellStatus(id){
-            this.$api.get('dragon/sellAvailable/changeScaleSellStatus', {id:id}, r => {
+            this.$api.get('bull/sellAvailable/changeScaleSellStatus', {id:id}, r => {
               location.reload()
             })
           },
@@ -287,7 +287,7 @@
             var pitSellPercentStr = this.param3;
             var highSellPercentStr = this.param4;
             var increaseSellPercentStr = this.param5;
-            this.$api.get('dragon/sellAvailable/changeDotSell', {frequency:frequencyStr,sellMinute:minuteSellStr,pitSellPercent:pitSellPercentStr,highSellPercent:highSellPercentStr,increaseSellPercent:increaseSellPercentStr}, r => {
+            this.$api.get('bull/sellAvailable/changeDotSell', {frequency:frequencyStr,sellMinute:minuteSellStr,pitSellPercent:pitSellPercentStr,highSellPercent:highSellPercentStr,increaseSellPercent:increaseSellPercentStr}, r => {
                 location.reload()
             })
 
@@ -297,7 +297,7 @@
           },
 
           okClear () {
-            this.$api.get('dragon/sellAvailable/pitSell', null, r => {
+            this.$api.get('bull/sellAvailable/pitSell', null, r => {
               location.reload()
             })
 
@@ -307,7 +307,7 @@
           },
 
           okClear3 () {
-            this.$api.get('dragon/sellAvailable/huShen300Sell', null, r => {
+            this.$api.get('bull/sellAvailable/huShen300Sell', null, r => {
               location.reload()
             })
 
@@ -317,7 +317,7 @@
           },
 
           okClear4 () {
-            this.$api.get('dragon/sellAvailable/blockPitSell', null, r => {
+            this.$api.get('bull/sellAvailable/blockPitSell', null, r => {
               location.reload()
             })
 

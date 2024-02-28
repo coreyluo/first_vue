@@ -71,7 +71,7 @@
             login(){
                 var userName = this.param1;
                 var password = this.param2;
-                this.$api.get('dragon/userInfo/login', {userName:userName,password:password}, r => {
+                this.$api.get('bull/userInfo/login', {userName:userName,password:password}, r => {
                    if(r.data.loginSuccess==true){
                       this.$router.push({path: "/"})
                    }

@@ -112,7 +112,7 @@
 <script>
     export default {
         created () {
-            this.$api.get('dragon/blockBatchBuy/listData', null, r => {
+            this.$api.get('bull/blockBatchBuy/listData', null, r => {
                 this.data7 = r.data;
             })
         },
@@ -160,20 +160,20 @@
             }else{
               stockCode = null;
             }
-            this.$api.get('dragon/blockBatchBuy/listData', {stockCode:stockCode}, r => {
+            this.$api.get('bull/blockBatchBuy/listData', {stockCode:stockCode}, r => {
               this.data7 = r.data;
             })
           },
           deleteStock(row){
               var rowStockCode = row.stockCode;
-              this.$api.get('dragon/blockBatchBuy/deleteStock', {stockCode:rowStockCode}, r => {
+              this.$api.get('bull/blockBatchBuy/deleteStock', {stockCode:rowStockCode}, r => {
                 location.reload()
               })
           },
 
           ok () {
             var buyRate = this.param3;
-            this.$api.get('dragon/blockBatchBuy/batchChangeBuyRate', {rate:buyRate}, r => {
+            this.$api.get('bull/blockBatchBuy/batchChangeBuyRate', {rate:buyRate}, r => {
                 location.reload()
             })
 
@@ -184,7 +184,7 @@
 
           okClear () {
             var stockCode = this.param10;
-            this.$api.get('dragon/blockBatchBuy/addStock', {stockCode:stockCode}, r => {
+            this.$api.get('bull/blockBatchBuy/addStock', {stockCode:stockCode}, r => {
               location.reload()
             })
           },
@@ -198,7 +198,7 @@
           okClear3 () {
             var positionRatio = this.param11;
             var currentStockCode = this.currentStockCode;
-            this.$api.get('dragon/blockBatchBuy/changeRatio', {stockCode:currentStockCode,positionRatio:positionRatio}, r => {
+            this.$api.get('bull/blockBatchBuy/changeRatio', {stockCode:currentStockCode,positionRatio:positionRatio}, r => {
               location.reload()
             })
           },
@@ -207,7 +207,7 @@
           },
 
           okClear4 () {
-            this.$api.get('dragon/blockBatchBuy/batchBuy', {}, r => {
+            this.$api.get('bull/blockBatchBuy/batchBuy', {}, r => {
               location.reload()
             })
           },

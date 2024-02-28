@@ -188,7 +188,7 @@
 <script>
    export default {
         created () {
-             this.$api.post('dragon/paramConfig/dataList', {}, r => {
+             this.$api.post('bull/paramConfig/dataList', {}, r => {
                   var infos = r.data;
                   infos.forEach(item => {
                       item.insertCirculatezPercentStr=item.insertCirculatezPercent;
@@ -357,14 +357,14 @@
                   var sealDelaySecond= this.param5
                   var percentLastSealing = this.param6;
 
-                  this.$api.post('dragon/paramConfig/updateConfig', {id:primaryKey,insertCirculatezPercent:insertCirculatezPercent,soldOneQuantity:soldOneQuantity,buyOneQuantity:buyOneQuantity,buyOneQuantitySh:buyOneQuantitySh,
+                  this.$api.post('bull/paramConfig/updateConfig', {id:primaryKey,insertCirculatezPercent:insertCirculatezPercent,soldOneQuantity:soldOneQuantity,buyOneQuantity:buyOneQuantity,buyOneQuantitySh:buyOneQuantitySh,
                     cancelCirculatezPercent:cancelCirculatezPercent,sealDelaySecond:sealDelaySecond, percentLastSealing:percentLastSealing}, r => {
                     location.reload()
                   })
 
              },
              flushCache(memberType){
-                 this.$api.post('dragon/paramConfig/publish', {memberType:memberType}, r => {
+                 this.$api.post('bull/paramConfig/publish', {memberType:memberType}, r => {
                      this.$Message.info("刷新成功");
                      location.reload()
                  })
@@ -377,7 +377,7 @@
             okRemark () {
               var signIndex = this.param100;
               var remarkStr= this.param0;
-              this.$api.post('dragon/paramConfig/updateRemark', {sign:signIndex,remark:remarkStr}, r => {
+              this.$api.post('bull/paramConfig/updateRemark', {sign:signIndex,remark:remarkStr}, r => {
                 this.$Message.info("刷新成功");
                 location.reload()
               })

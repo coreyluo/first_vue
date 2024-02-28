@@ -159,7 +159,7 @@
 <script>
   export default {
     created () {
-      this.$api.post('dragon/buttonConfig/list', {}, r => {
+      this.$api.post('bull/buttonConfig/list', {}, r => {
         this.uppersButton=r.data.uppersButton;
         //this.cancelButton=r.data.cancelButton;
         this.shButton = r.data.shButton;
@@ -208,49 +208,49 @@
         if(index ==1){
           buttonCodestr = "upperS_button";
         }
-        this.$api.get('dragon/buttonConfig/changeButton', {buttonCode:buttonCodestr}, r => {
+        this.$api.get('bull/buttonConfig/changeButton', {buttonCode:buttonCodestr}, r => {
           location.reload()
         })
       },
 
       changeShButton () {
-        this.$api.get('dragon/buttonConfig/changeShButton', {}, r => {
+        this.$api.get('bull/buttonConfig/changeShButton', {}, r => {
           location.reload()
         })
       },
 
       changeRiskControlButton () {
-        this.$api.get('dragon/buttonConfig/riskControlButton', {}, r => {
+        this.$api.get('bull/buttonConfig/riskControlButton', {}, r => {
           location.reload()
         })
       },
 
       changeRadicalCancelButton () {
-        this.$api.get('dragon/buttonConfig/radicalCancelButton', {}, r => {
+        this.$api.get('bull/buttonConfig/radicalCancelButton', {}, r => {
           location.reload()
         })
       },
 
       changeInsertDelayButton (mill) {
-        this.$api.get('dragon/buttonConfig/changeInsertDelayButton', {mill:mill}, r => {
+        this.$api.get('bull/buttonConfig/changeInsertDelayButton', {mill:mill}, r => {
           location.reload()
         })
       },
 
       changePercentRatioButton (ratio) {
-        this.$api.get('dragon/buttonConfig/changePercentRatio', {percentRatio:ratio}, r => {
+        this.$api.get('bull/buttonConfig/changePercentRatio', {percentRatio:ratio}, r => {
           location.reload()
         })
       },
 
       changeStockBeforeRateRatioButton (positionRatio,rateDay3Ratio,rateDay5Ratio,rateDay10Ratio,rateDay20Ratio,rateDay30Ratio,rateDay40Ratio,rateDay60Ratio) {
-        this.$api.get('dragon/buttonConfig/changeStockBeforeRateRatio', {positionRation:positionRatio,rateDay3Ratio:rateDay3Ratio,rateDay5Ratio:rateDay5Ratio,rateDay10Ratio:rateDay10Ratio,rateDay20Ratio:rateDay20Ratio,rateDay30Ratio:rateDay30Ratio,rateDay40Ratio:rateDay40Ratio,rateDay60Ratio:rateDay60Ratio}, r => {
+        this.$api.get('bull/buttonConfig/changeStockBeforeRateRatio', {positionRation:positionRatio,rateDay3Ratio:rateDay3Ratio,rateDay5Ratio:rateDay5Ratio,rateDay10Ratio:rateDay10Ratio,rateDay20Ratio:rateDay20Ratio,rateDay30Ratio:rateDay30Ratio,rateDay40Ratio:rateDay40Ratio,rateDay60Ratio:rateDay60Ratio}, r => {
           location.reload()
         })
       },
 
       dragonPlankBuyV1ButtonSend () {
-        this.$api.get('dragon/buttonConfig/dragonPlankBuyV1', {}, r => {
+        this.$api.get('bull/buttonConfig/dragonPlankBuyV1', {}, r => {
           location.reload()
         })
       },

@@ -73,7 +73,7 @@
 <script>
     export default {
         created () {
-            this.$api.get('dragon/disableUnmatchPool/dataList', null, r => {
+            this.$api.get('bull/disableUnmatchPool/dataList', null, r => {
                 this.data7 = r.data;
             })
         },
@@ -104,20 +104,20 @@
         },
         methods: {
           search(){
-              this.$api.get('dragon/disableUnmatchPool/dataList', {}, r => {
+              this.$api.get('bull/disableUnmatchPool/dataList', {}, r => {
                 this.data7 = r.data;
               })
           },
           deleteStock(row){
               var rowStockCode = row.stockCode;
-              this.$api.get('dragon/disableUnmatchPool/removeStockCode', {stockCode:rowStockCode}, r => {
+              this.$api.get('bull/disableUnmatchPool/removeStockCode', {stockCode:rowStockCode}, r => {
                 location.reload()
               })
           },
 
           okClear () {
             var stockCode = this.param10;
-            this.$api.get('dragon/disableUnmatchPool/oneToPool', {stockCode:stockCode}, r => {
+            this.$api.get('bull/disableUnmatchPool/oneToPool', {stockCode:stockCode}, r => {
               location.reload()
             })
           },

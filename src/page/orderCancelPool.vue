@@ -63,7 +63,7 @@
 <script>
     export default {
         created () {
-            this.$api.get('dragon/orderCancel/dataList', null, r => {
+            this.$api.get('bull/orderCancel/dataList', null, r => {
                var infos = r.data;
                infos.forEach(item => {
                  if(item.status==0){
@@ -141,13 +141,13 @@
         methods: {
             stopCancel (index) {
                 var idStr = this.data6[index].id;
-                this.$api.get('dragon/orderCancel/stopCancel', {id:idStr}, r => {
+                this.$api.get('bull/orderCancel/stopCancel', {id:idStr}, r => {
                      location.reload()
                 })
             },
             resume (index) {
                 var idStr = this.data6[index].id;
-                this.$api.get('dragon/orderCancel/resume', {id:idStr}, r => {
+                this.$api.get('bull/orderCancel/resume', {id:idStr}, r => {
                      location.reload()
                 })
             },
@@ -158,7 +158,7 @@
                 }else{
                   stockCode = null;
                 }
-                this.$api.get('dragon/orderCancel/dataList', {stockCode:stockCode}, r => {
+                this.$api.get('bull/orderCancel/dataList', {stockCode:stockCode}, r => {
                     var infos = r.data;
                     infos.forEach(item => {
                        if(item.status==0){

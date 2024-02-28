@@ -63,7 +63,7 @@
 <script>
     export default {
         created () {
-            this.$api.get('dragon/cancelLog/dataList', {pageNo:1,pageSize:50}, r => {
+            this.$api.get('bull/cancelLog/dataList', {pageNo:1,pageSize:50}, r => {
                r.data.forEach(item => {
                  if(item.success==0){
                    item.successStr = "失败"
@@ -126,7 +126,7 @@
                 }else{
                   stockCode = null;
                 }
-                this.$api.get('dragon/cancelLog/dataList', {stockCode:stockCode,pageNo:1,pageSize:50}, r => {
+                this.$api.get('bull/cancelLog/dataList', {stockCode:stockCode,pageNo:1,pageSize:50}, r => {
                   r.data.forEach(item => {
                     if(item.success==0){
                       item.successStr = "失败"
