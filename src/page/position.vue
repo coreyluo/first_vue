@@ -94,12 +94,6 @@
           <div>
             通用仓位:<Input name= "generalPosition" v-model="generalPosition" placeholder="" style="width: 300px" />
           </div>
-<!--          <div>
-            ai仓位:<Input name= "aiPosition" v-model="aiPosition" placeholder="" style="width: 300px" />
-          </div>
-          <div>
-            未匹配仓位:<Input name= "unmatchPosition" v-model="unmatchPosition" placeholder="" style="width: 300px" />
-          </div>-->
         </Modal>
       </template>
 
@@ -118,9 +112,6 @@
           <div>
             大市值仓位比例:<Input name= "paramBig" v-model="paramBig" placeholder="" style="width: 300px" />
           </div>
-<!--          <div>
-            跟随比例:<Input name= "paramFollowDaLaoRatio" v-model="paramFollowDaLaoRatio" placeholder="" style="width: 300px" />
-          </div>-->
         </Modal>
       </template>
 
@@ -229,8 +220,6 @@
         this.param300=this.data7[index].position300;
         this.param688=this.data7[index].position688;
         this.generalPosition = this.data7[index].generalPosition;
-        /*this.aiPosition = this.data7[index].aiPosition
-        this.unmatchPosition = this.data7[index].unmatchPosition*/
       },
       ok () {
         var position= this.param1;
@@ -238,27 +227,21 @@
         var position300 = this.param300;
         var position688 = this.param688;
         var generalPosition = this.generalPosition;
-       /* var aiPosition = this.aiPosition;
-        var unmatchPosition = this.unmatchPosition;*/
 
         if(position>=3000000||position300>=3000000||position688>=3000000||generalPosition>=3000000){
           this.currentPosition = position;
           this.currentPosition300 = position300;
           this.currentPosition688 = position688;
           this.currentGeneralPosition = generalPosition;
-          /*this.currentAiPosition = aiPosition;
-          this.currentUnmatchPosition = unmatchPosition;*/
           this.modal3 = true;
         }else if(aiPosition>=10000000){
           this.currentPosition = position;
           this.currentPosition300 = position300;
           this.currentPosition688 = position688;
           this.currentGeneralPosition = generalPosition;
-          /*this.currentAiPosition = aiPosition;
-          this.currentUnmatchPosition = unmatchPosition;*/
           this.modal4 = true;
         }else{
-          this.$api.post('bull/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition/*,aiPosition:aiPosition,unmatchPosition:unmatchPosition*/}, r => {
+          this.$api.post('bull/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition}, r => {
             location.reload();
           })
         }
@@ -274,15 +257,13 @@
         this.paramTwoPlankRatio = this.data7[index].twoPlankRatio;
         this.paramHighPlankRatio = this.data7[index].highPlankRatio;
         this.paramBig = this.data7[index].positionBigAmount;
-        this.paramFollowDaLaoRatio = this.data7[index].followDaLaoRatio;
       },
       ok2 () {
         var changerId = this.indexId;
         var twoPlankRatio = this.paramTwoPlankRatio;
         var highPlankRatio = this.paramHighPlankRatio;
         var positionBigAmount = this.paramBig;
-        //var followDaLaoRatio = this.paramFollowDaLaoRatio;
-        this.$api.post('bull/tradeAccount/changeRate', {id:changerId,twoPlankRatio:twoPlankRatio,highPlankRatio:highPlankRatio,positionBigAmount:positionBigAmount/*,followDaLaoRatio:followDaLaoRatio*/}, r => {
+        this.$api.post('bull/tradeAccount/changeRate', {id:changerId,twoPlankRatio:twoPlankRatio,highPlankRatio:highPlankRatio,positionBigAmount:positionBigAmount}, r => {
           location.reload();
         })
 
@@ -327,8 +308,7 @@
         var position300 = this.currentPosition300;
         var position688 = this.currentPosition688;
         var generalPosition= this.currentGeneralPosition;
-        var aiPosition = this.currentAiPosition;
-        this.$api.post('bull/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition,aiPosition:aiPosition}, r => {
+        this.$api.post('bull/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition}, r => {
           location.reload();
         })
 
