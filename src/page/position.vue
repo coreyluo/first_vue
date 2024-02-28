@@ -258,7 +258,7 @@
           this.currentUnmatchPosition = unmatchPosition;*/
           this.modal4 = true;
         }else{
-          this.$api.post('bull/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition,aiPosition:aiPosition,unmatchPosition:unmatchPosition}, r => {
+          this.$api.post('bull/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition/*,aiPosition:aiPosition,unmatchPosition:unmatchPosition*/}, r => {
             location.reload();
           })
         }
@@ -281,8 +281,8 @@
         var twoPlankRatio = this.paramTwoPlankRatio;
         var highPlankRatio = this.paramHighPlankRatio;
         var positionBigAmount = this.paramBig;
-        var followDaLaoRatio = this.paramFollowDaLaoRatio;
-        this.$api.post('bull/tradeAccount/changeRate', {id:changerId,twoPlankRatio:twoPlankRatio,highPlankRatio:highPlankRatio,positionBigAmount:positionBigAmount,followDaLaoRatio:followDaLaoRatio}, r => {
+        //var followDaLaoRatio = this.paramFollowDaLaoRatio;
+        this.$api.post('bull/tradeAccount/changeRate', {id:changerId,twoPlankRatio:twoPlankRatio,highPlankRatio:highPlankRatio,positionBigAmount:positionBigAmount/*,followDaLaoRatio:followDaLaoRatio*/}, r => {
           location.reload();
         })
 
