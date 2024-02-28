@@ -94,12 +94,12 @@
           <div>
             通用仓位:<Input name= "generalPosition" v-model="generalPosition" placeholder="" style="width: 300px" />
           </div>
-          <div>
+<!--          <div>
             ai仓位:<Input name= "aiPosition" v-model="aiPosition" placeholder="" style="width: 300px" />
           </div>
           <div>
             未匹配仓位:<Input name= "unmatchPosition" v-model="unmatchPosition" placeholder="" style="width: 300px" />
-          </div>
+          </div>-->
         </Modal>
       </template>
 
@@ -118,9 +118,9 @@
           <div>
             大市值仓位比例:<Input name= "paramBig" v-model="paramBig" placeholder="" style="width: 300px" />
           </div>
-          <div>
+<!--          <div>
             跟随比例:<Input name= "paramFollowDaLaoRatio" v-model="paramFollowDaLaoRatio" placeholder="" style="width: 300px" />
-          </div>
+          </div>-->
         </Modal>
       </template>
 
