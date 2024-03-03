@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
         '/**/**': {
-            target: 'http://1.1.101.229:8080', // 你接口的域名
+            target: 'http://125.93.72.194:5277', // 你接口的域名
             secure: false,
             changeOrigin: true,
             pathRewrite:{

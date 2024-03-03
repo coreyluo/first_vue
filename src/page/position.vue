@@ -234,12 +234,6 @@
           this.currentPosition688 = position688;
           this.currentGeneralPosition = generalPosition;
           this.modal3 = true;
-        }else if(aiPosition>=10000000){
-          this.currentPosition = position;
-          this.currentPosition300 = position300;
-          this.currentPosition688 = position688;
-          this.currentGeneralPosition = generalPosition;
-          this.modal4 = true;
         }else{
           this.$api.post('bull/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition}, r => {
             location.reload();
