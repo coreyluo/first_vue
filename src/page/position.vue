@@ -98,6 +98,9 @@
             ai仓位:<Input name= "aiPosition" v-model="aiPosition" placeholder="" style="width: 300px" />
           </div>
           <div>
+            ai仓位:<Input name= "aiPosition300" v-model="aiPosition300" placeholder="" style="width: 300px" />
+          </div>
+          <div>
             未匹配仓位:<Input name= "unmatchPosition" v-model="unmatchPosition" placeholder="" style="width: 300px" />
           </div>
         </Modal>
@@ -188,8 +191,13 @@
             align: 'center'
           },
           {
-            title: 'ai仓位',
+            title: '扫板',
             key: 'aiPosition',
+            align: 'center'
+          },
+          {
+            title: '扫板300',
+            key: 'aiPosition300',
             align: 'center'
           },
           {
@@ -233,6 +241,7 @@
         currentPosition688:0,
         currentGeneralPosition:0,
         currentAiPosition:0,
+        currentAiPosition300:0,
         currentUnmatchPosition:0
 
       }
@@ -245,6 +254,7 @@
         this.param688=this.data7[index].position688;
         this.generalPosition = this.data7[index].generalPosition;
         this.aiPosition = this.data7[index].aiPosition
+        this.aiPosition300 = this.data7[index].aiPosition300
         this.unmatchPosition = this.data7[index].unmatchPosition
       },
       ok () {
@@ -254,6 +264,7 @@
         var position688 = this.param688;
         var generalPosition = this.generalPosition;
         var aiPosition = this.aiPosition;
+        var aiPosition300 = this.aiPosition300;
         var unmatchPosition = this.unmatchPosition;
 
         if(position>=3000000||position300>=3000000||position688>=3000000||generalPosition>=3000000){
@@ -262,6 +273,7 @@
           this.currentPosition688 = position688;
           this.currentGeneralPosition = generalPosition;
           this.currentAiPosition = aiPosition;
+          this.currentAiPosition300 = aiPosition300;
           this.currentUnmatchPosition = unmatchPosition;
           this.modal3 = true;
         }else if(aiPosition>=10000000){
@@ -270,10 +282,11 @@
           this.currentPosition688 = position688;
           this.currentGeneralPosition = generalPosition;
           this.currentAiPosition = aiPosition;
+          this.currentAiPosition300 = aiPosition300;
           this.currentUnmatchPosition = unmatchPosition;
           this.modal4 = true;
         }else{
-          this.$api.post('dragon/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition,aiPosition:aiPosition,unmatchPosition:unmatchPosition}, r => {
+          this.$api.post('dragon/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition,aiPosition:aiPosition,aiPosition300:aiPosition300,unmatchPosition:unmatchPosition}, r => {
             location.reload();
           })
         }
@@ -343,7 +356,8 @@
         var position688 = this.currentPosition688;
         var generalPosition= this.currentGeneralPosition;
         var aiPosition = this.currentAiPosition;
-        this.$api.post('dragon/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition,aiPosition:aiPosition}, r => {
+        var aiPosition300 = this.currentAiPosition300;
+        this.$api.post('dragon/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition,aiPosition:aiPosition,aiPosition300:aiPosition300}, r => {
           location.reload();
         })
 
