@@ -22,20 +22,8 @@
           </template>
           <MenuItem  name="1-8"><router-link to="/userLogin/1"><font color="#fff">登录</font></router-link></MenuItem>
           <MenuItem  name="1-1"><router-link to="/"><font color="#fff">账户信息</font></router-link></MenuItem>
-          <MenuItem  name="1-2"><router-link to="/disableStockPool/1"><font color="#fff">禁止下单股票池</font></router-link></MenuItem>
           <MenuItem  name="1-3"><router-link to="/radicalDragonPool/1"><font color="#fff">小池子</font></router-link></MenuItem>
           <MenuItem  name="1-4"><router-link to="/orderCancelPool/1"><font color="#fff">等待撤单</font></router-link></MenuItem>
-          <MenuItem  name="1-5"><router-link to="/cancelLog/1"><font color="#fff">撤单日志</font></router-link></MenuItem>
-          <MenuItem  name="1-6"><router-link to="/content/1"><font color="#fff">参数</font></router-link></MenuItem>
-          <MenuItem  name="1-7"><router-link to="/sellOrder/1"><font color="#fff">卖出</font></router-link></MenuItem>
-          <MenuItem  name="1-9"><router-link to="/openButton/1"><font color="#fff">按钮</font></router-link></MenuItem>
-          <MenuItem  name="1-10"><router-link to="/blockView/1"><font color="#fff">板块信息</font></router-link></MenuItem>
-          <MenuItem  name="1-12"><router-link to="/blockDiy/1"><font color="#fff">自定义板块</font></router-link></MenuItem>
-          <MenuItem  name="1-11"><router-link to="/circulateInfo/1"><font color="#fff">股票信息</font></router-link></MenuItem>
-          <MenuItem  name="1-13"><router-link to="/scareBuy/1"><font color="#fff">恐慌买入</font></router-link></MenuItem>
-          <MenuItem  name="1-14"><router-link to="/batchBlock/1"><font color="#fff">批量买入</font></router-link></MenuItem>
-          <MenuItem  name="1-15"><router-link to="/disableUnmatch/1"><font color="#fff">禁止未匹配量买入</font></router-link></MenuItem>
-          <MenuItem  name="1-16"><router-link to="/stockBeforeRateInfo/1"><font color="#fff">涨幅过高股票信息</font></router-link></MenuItem>
         </Submenu>
       </Menu>
     </Sider>
@@ -49,30 +37,27 @@
         <template slot-scope="{ row, index }" slot="action">
           <Button type="primary" style="margin-right: 5px" @click="modal1=true;show(index)">修改三大市场仓位</Button>
 
-          <Button type="primary" style="margin-right: 5px" @click="modal2=true;show2(index)">修改比例</Button>
+<!--          <Button type="primary" style="margin-right: 5px" @click="modal2=true;show2(index)">修改比例</Button>-->
 
-          <Button v-if="row.accountStatus===0" style="margin-left: 5px" type="warning" @click="changeAccountStatus(1,index,1)">主板已经关闭,请开启</Button>
+<!--          <Button v-if="row.accountStatus===0" style="margin-left: 5px" type="warning" @click="changeAccountStatus(1,index,1)">主板已经关闭,请开启</Button>
           <Button v-if="row.accountStatus===1" style="margin-left: 5px" type="primary" @click="changeAccountStatus(1,index,0)">主板已经开启,请关闭</Button>
 
           <Button v-if="row.accountStatus300===0" style="margin-left: 5px" type="warning" @click="changeAccountStatus(2,index,1)">创业板已经关闭,请开启</Button>
           <Button v-if="row.accountStatus300===1" style="margin-left: 5px" type="primary" @click="changeAccountStatus(2,index,0)">创业板已经开启,请关闭</Button>
 
           <Button v-if="row.accountStatus688===0" style="margin-left: 5px" type="warning" @click="changeAccountStatus(3,index,1)">科创板已经关闭,请开启</Button>
-          <Button v-if="row.accountStatus688===1" style="margin-left: 5px" type="primary" @click="changeAccountStatus(3,index,0)">科创板已经开启,请关闭</Button>
-
-          <div>&nbsp</div>
+          <Button v-if="row.accountStatus688===1" style="margin-left: 5px" type="primary" @click="changeAccountStatus(3,index,0)">科创板已经开启,请关闭</Button>-->
+<!--
+          <div>&nbsp</div>-->
 
           <Button v-if="row.dragonRadicalStatus===0" style="margin-right: 5px" type="warning" @click="changeAccountStatus(4,index,1)">超龙头已关闭,请开启</Button>
           <Button v-if="row.dragonRadicalStatus===1" style="margin-right: 5px" type="primary" @click="changeAccountStatus(4,index,0)">超龙头已开启,请禁用</Button>
 
-          <Button v-if="row.twoPlankStatus===0" style="margin-left: 5px" type="warning" @click="changeAccountStatus(5,index,1)">二板已经关闭,请开启</Button>
+<!--          <Button v-if="row.twoPlankStatus===0" style="margin-left: 5px" type="warning" @click="changeAccountStatus(5,index,1)">二板已经关闭,请开启</Button>
           <Button v-if="row.twoPlankStatus===1" style="margin-left: 5px" type="primary" @click="changeAccountStatus(5,index,0)">二板已经开启,请关闭</Button>
 
           <Button v-if="row.highPlankStatus===0" style="margin-left: 5px" type="warning" @click="changeAccountStatus(6,index,1)">高位板已经关闭,请开启</Button>
-          <Button v-if="row.highPlankStatus===1" style="margin-left: 5px" type="primary" @click="changeAccountStatus(6,index,0)">高位板已经开启,请关闭</Button>
-
-
-
+          <Button v-if="row.highPlankStatus===1" style="margin-left: 5px" type="primary" @click="changeAccountStatus(6,index,0)">高位板已经开启,请关闭</Button>-->
         </template>
 
       </Table>
@@ -92,16 +77,16 @@
             科创板仓位:<Input name= "param688" v-model="param688" placeholder="" style="width: 300px" />
           </div>
           <div>
-            通用仓位:<Input name= "generalPosition" v-model="generalPosition" placeholder="" style="width: 300px" />
+<!--            通用仓位:--><Input  type="hidden" name= "generalPosition" v-model="generalPosition" placeholder="" style="width: 300px" />
           </div>
           <div>
-            ai仓位:<Input name= "aiPosition" v-model="aiPosition" placeholder="" style="width: 300px" />
+<!--            ai仓位:--><Input  type="hidden" name= "aiPosition" v-model="aiPosition" placeholder="" style="width: 300px" />
           </div>
           <div>
-            ai仓位:<Input name= "aiPosition300" v-model="aiPosition300" placeholder="" style="width: 300px" />
+<!--            ai仓位:--><Input  type="hidden" name= "aiPosition300" v-model="aiPosition300" placeholder="" style="width: 300px" />
           </div>
           <div>
-            未匹配仓位:<Input name= "unmatchPosition" v-model="unmatchPosition" placeholder="" style="width: 300px" />
+<!--            未匹配仓位:--><Input  type="hidden" name= "unmatchPosition" v-model="unmatchPosition" placeholder="" style="width: 300px" />
           </div>
         </Modal>
       </template>
@@ -178,46 +163,6 @@
           {
             title: '科创板仓位',
             key: 'position688',
-            align: 'center'
-          },
-          {
-            title: '大流通市值仓位系数',
-            key: 'positionBigAmount',
-            align: 'center'
-          },
-          {
-            title: '通用仓位',
-            key: 'generalPosition',
-            align: 'center'
-          },
-          {
-            title: '扫板',
-            key: 'aiPosition',
-            align: 'center'
-          },
-          {
-            title: '扫板300',
-            key: 'aiPosition300',
-            align: 'center'
-          },
-          {
-            title: '二板仓位系数',
-            key: 'twoPlankRatio',
-            align: 'center'
-          },
-          {
-            title: '高位仓位系数',
-            key: 'highPlankRatio',
-            align: 'center'
-          },
-          {
-            title: '未匹配仓位',
-            key: 'unmatchPosition',
-            align: 'center'
-          },
-          {
-            title: '跟随仓位系数分母',
-            key: 'followDaLaoRatio',
             align: 'center'
           },
           {
