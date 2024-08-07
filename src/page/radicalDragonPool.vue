@@ -170,7 +170,7 @@
                       <br>
                       <label><input type="checkbox" v-model="form1.buyOneQuantityFlag" > 封单数量>:&nbsp&nbsp <Input type="number"  v-model="form1.buyOneQuantity"  placeholder="" class="from_input_info" />手</label>
                       <br>
-                      <label><input type="checkbox" v-model="form1.bigOrderAndSealingFlag" > 大单+封单量 大单 > <Input type="number"  v-model="form1.bigOrder"  placeholder="" class="from_input_info" />手 封单量> <Input type="number"  name= "param5" v-model="form1.bigOrderBuyQuantity"  placeholder="" class="from_input_info" /> 手</label>
+                      <label><input type="checkbox" v-model="form1.bigOrderAndSealingFlag" > 大单+封单量 大单 > <Input type="number"  v-model="form1.bigOrder"  placeholder="" class="from_input_info" />万元封单量> <Input type="number"  name= "param5" v-model="form1.bigOrderBuyQuantity"  placeholder="" class="from_input_info" /> 手</label>
                     </div>
                     <div class="column column2">
                       <label><input type="checkbox" v-model="form1.cancelBuyOneQuantityFlag" > 封单量<:&nbsp&nbsp <Input type="number"  v-model="form1.cancelBuyOneQuantity" placeholder="" class="from_input_info" />手 开始时间<Input type="number"  v-model="form1.cancelBuyOneQuantitySec" placeholder="" class="from_input_info" />秒</label>
@@ -189,7 +189,7 @@
                       <br>
                       <label><input type="checkbox" v-model="form2.buyOneQuantityFlag" > 封单数量>:&nbsp&nbsp <Input type="number"  v-model="form2.buyOneQuantity"  placeholder="" class="from_input_info" />手</label>
                       <br>
-                      <label><input type="checkbox" v-model="form2.bigOrderAndSealingFlag" > 大单+封单量 大单 > <Input type="number"  v-model="form2.bigOrder"  placeholder="" class="from_input_info" />手 封单量> <Input type="number"  name= "param5" v-model="form2.bigOrderBuyQuantity"  placeholder="" class="from_input_info" /> 手</label>
+                      <label><input type="checkbox" v-model="form2.bigOrderAndSealingFlag" > 大单+封单量 大单 > <Input type="number"  v-model="form2.bigOrder"  placeholder="" class="from_input_info" />万元 封单量> <Input type="number"  name= "param5" v-model="form2.bigOrderBuyQuantity"  placeholder="" class="from_input_info" /> 手</label>
                     </div>
                     <div class="column column2">
                       <label><input type="checkbox" v-model="form2.cancelBuyOneQuantityFlag" > 封单量<:&nbsp&nbsp <Input type="number"  v-model="form2.cancelBuyOneQuantity" placeholder="" class="from_input_info" />手 开始时间<Input type="number"  v-model="form2.cancelBuyOneQuantitySec" placeholder="" class="from_input_info" />秒</label>
