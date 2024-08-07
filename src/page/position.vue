@@ -74,7 +74,7 @@
             创业板仓位:<Input name= "param300" v-model="param300" placeholder="" style="width: 300px" />
           </div>
           <div>
-            科创板仓位:<Input name= "param688" v-model="param688" placeholder="" style="width: 300px" />
+<!--            科创板仓位:--><Input type="hidden" name= "param688" v-model="param688" placeholder="" style="width: 300px" />
           </div>
           <div>
 <!--            通用仓位:--><Input  type="hidden" name= "generalPosition" v-model="generalPosition" placeholder="" style="width: 300px" />
@@ -158,11 +158,6 @@
           {
             title: '创业板仓位',
             key: 'position300',
-            align: 'center'
-          },
-          {
-            title: '科创板仓位',
-            key: 'position688',
             align: 'center'
           },
           {
