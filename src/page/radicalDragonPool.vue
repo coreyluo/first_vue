@@ -208,7 +208,7 @@
                       <br>
                       <label><input type="checkbox" v-model="form3.buyOneQuantityFlag" > 封单数量>:&nbsp&nbsp <Input type="number"  v-model="form3.buyOneQuantity"  placeholder="" class="from_input_info" />手</label>
                       <br>
-                      <label><input type="checkbox" v-model="form3.bigOrderAndSealingFlag" > 大单+封单量 大单 > <Input type="number"  v-model="form3.bigOrder"  placeholder="" class="from_input_info" />手 封单量> <Input type="number"  name= "param5" v-model="form3.bigOrderBuyQuantity"  placeholder="" class="from_input_info" /> 手</label>
+                      <label><input type="checkbox" v-model="form3.bigOrderAndSealingFlag" > 大单+封单量 大单 > <Input type="number"  v-model="form3.bigOrder"  placeholder="" class="from_input_info" />万元 封单量> <Input type="number"  name= "param5" v-model="form3.bigOrderBuyQuantity"  placeholder="" class="from_input_info" /> 手</label>
                     </div>
                     <div class="column column2">
                       <label><input type="checkbox" v-model="form3.cancelBuyOneQuantityFlag" > 封单量<:&nbsp&nbsp <Input type="number"  v-model="form3.cancelBuyOneQuantity" placeholder="" class="from_input_info" />手 开始时间<Input type="number"  v-model="form3.cancelBuyOneQuantitySec" placeholder="" class="from_input_info" />秒</label>
@@ -537,10 +537,16 @@
               item.sweepTypeStr = "策略3"
             }
           })
-          this.data14=[],
+          this.data14=[];
+          this.data15=[];
+          var dataCount = 0;
           infos.forEach(item =>{
             if(item.radical ==2){
+              dataCount++;
               this.data14.push(item)
+              if(dataCount<=this.pageSize){
+                this.data15.push(item)
+              }
             }
           })
 
