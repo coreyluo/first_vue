@@ -8,18 +8,20 @@
     overflow: hidden;
   }
   .blankRow {
-    height: 30px;
+    height: 10px;
     background: #c5c8ce;
   }
 
   .dragon-pool {
-    height: 41vh;
+    height: 550px;
     background: #ffffff;
   }
   .blank-ground {
+    height: 35px;
     background: #ffffff;
   }
   .container {
+    height: 30vh;
     display: flex;
   }
 
@@ -27,7 +29,7 @@
     flex: 1; /* 每个部分平分空间 */
     text-align: center;
     border: 1px solid #000; /* 边框仅为了清晰地显示每个部分 */
-    padding: 150px;
+    padding: 80px;
   }
 
   .column1 {
@@ -146,36 +148,37 @@
                 <Button type="error" size="small" style="margin-right: 5px" @click="deleteRadical(row.id)">删除</Button>
               </template>
             </Table>
+            <div style = "text-align: right;" class="pagination">
+              <button  @click="prevPage" :disabled="currentPage <= 1">前一页</button>
+              <span>当前第 {{ currentPage }} 页共 {{ totalPages }}</span>
+              <button @click="nextPage" :disabled="currentPage >= totalPages">后一页</button>
+            </div>
           </div>
-          <div style = "text-align: right;" class="pagination">
-            <button  @click="prevPage" :disabled="currentPage <= 1">前一页</button>
-            <span>当前第 {{ currentPage }} 页共 {{ totalPages }}</span>
-            <button @click="nextPage" :disabled="currentPage >= totalPages">后一页</button>
-          </div>
+
           <template>
+            <div class="blank-ground">
+              <button v-if="currentTab=='tab1'" class="color-change-button-two" @click="currentTab = 'tab1'">策略1</button>
+              <button v-if="currentTab!=='tab1'" class="color-change-button" @click="currentTab = 'tab1'">策略1</button>
+              <button v-if="currentTab=='tab2'" class="color-change-button-two" @click="currentTab = 'tab2'">策略2</button>
+              <button v-if="currentTab!=='tab2'" class="color-change-button" @click="currentTab = 'tab2'">策略2</button>
+              <button v-if="currentTab=='tab3'" class="color-change-button-two" @click="currentTab = 'tab3'">策略3</button>
+              <button v-if="currentTab!=='tab3'" class="color-change-button" @click="currentTab = 'tab3'">策略3</button>
+            </div>
             <div>
-              <div class="blank-ground">
-                <button v-if="currentTab=='tab1'" class="color-change-button-two" @click="currentTab = 'tab1'">策略1</button>
-                <button v-if="currentTab!=='tab1'" class="color-change-button" @click="currentTab = 'tab1'">策略1</button>
-                <button v-if="currentTab=='tab2'" class="color-change-button-two" @click="currentTab = 'tab2'">策略2</button>
-                <button v-if="currentTab!=='tab2'" class="color-change-button" @click="currentTab = 'tab2'">策略2</button>
-                <button v-if="currentTab=='tab3'" class="color-change-button-two" @click="currentTab = 'tab3'">策略3</button>
-                <button v-if="currentTab!=='tab3'" class="color-change-button" @click="currentTab = 'tab3'">策略3</button>
-              </div>
               <div v-if="currentTab === 'tab1'">
                 <form  @submit.prevent="onSubmit1">
                   <div class="container">
                     <div class="column column1">
-                      <label><input type="checkbox" v-model="form1.sellQuantityFlag" > 压单数量<:&nbsp&nbsp <Input  type="number" v-model="form1.sellQuantity"  placeholder=""  class="from_input_info" />手</label>
+                      <label><input type="checkbox" v-model="form1.sellQuantityFlag" > 压单金额<:&nbsp&nbsp <Input  type="number" v-model="form1.sellQuantity"  placeholder=""  class="from_input_info" />万</label>
                       <br>
-                      <label><input type="checkbox" v-model="form1.buyOneQuantityFlag" > 封单数量>:&nbsp&nbsp <Input type="number"  v-model="form1.buyOneQuantity"  placeholder="" class="from_input_info" />手</label>
+                      <label><input type="checkbox" v-model="form1.buyOneQuantityFlag" > 封单金额>:&nbsp&nbsp <Input type="number"  v-model="form1.buyOneQuantity"  placeholder="" class="from_input_info" />万</label>
                       <br>
-                      <label><input type="checkbox" v-model="form1.bigOrderAndSealingFlag" > 大单+封单量 大单 > <Input type="number"  v-model="form1.bigOrder"  placeholder="" class="from_input_info" />万元 封单量> <Input type="number"  name= "param5" v-model="form1.bigOrderBuyQuantity"  placeholder="" class="from_input_info" /> 手</label>
+                      <label><input type="checkbox" v-model="form1.bigOrderAndSealingFlag" > 大单+封单金额 大单 > <Input type="number"  v-model="form1.bigOrder"  placeholder="" class="from_input_info" />万 封单金额> <Input type="number"  name= "param5" v-model="form1.bigOrderBuyQuantity"  placeholder="" class="from_input_info" /> 万</label>
                     </div>
                     <div class="column column2">
-                      <label><input type="checkbox" v-model="form1.cancelBuyOneQuantityFlag" > 封单量<:&nbsp&nbsp <Input type="number"  v-model="form1.cancelBuyOneQuantity" placeholder="" class="from_input_info" />手 开始时间<Input type="number"  v-model="form1.cancelBuyOneQuantitySec" placeholder="" class="from_input_info" />秒</label>
+                      <label><input type="checkbox" v-model="form1.cancelBuyOneQuantityFlag" > 封单金额<:&nbsp&nbsp <Input type="number"  v-model="form1.cancelBuyOneQuantity" placeholder="" class="from_input_info" />万 开始时间<Input type="number"  v-model="form1.cancelBuyOneQuantitySec" placeholder="" class="from_input_info" />秒</label>
                       <br>
-                      <label><input type="checkbox" v-model="form1.beforeCancelQuantityFlag" > 前序撤单>:&nbsp&nbsp <Input type="number"  v-model="form1.beforeCancelQuantity"  placeholder="" class="from_input_info" />手 持续时间<Input type="number"  v-model="form1.beforeCancelQuantitySec" placeholder="" class="from_input_info" />秒</label>
+                      <label><input type="checkbox" v-model="form1.beforeCancelQuantityFlag" > 前序撤单金额>:&nbsp&nbsp <Input type="number"  v-model="form1.beforeCancelQuantity"  placeholder="" class="from_input_info" />万 持续时间<Input type="number"  v-model="form1.beforeCancelQuantitySec" placeholder="" class="from_input_info" />秒</label>
                     </div>
                     <div class="column column3"><input class="submit-change-button" type="submit" value="策略1提交"></div>
                   </div>
@@ -185,16 +188,16 @@
                 <form  @submit.prevent="onSubmit2">
                   <div class="container">
                     <div class="column column1">
-                      <label><input type="checkbox" v-model="form2.sellQuantityFlag" > 压单数量<:&nbsp&nbsp <Input type="number" v-model="form2.sellQuantity"  placeholder="" class="from_input_info" />手</label>
+                      <label><input type="checkbox" v-model="form2.sellQuantityFlag" > 压单金额<:&nbsp&nbsp <Input type="number" v-model="form2.sellQuantity"  placeholder="" class="from_input_info" />万</label>
                       <br>
-                      <label><input type="checkbox" v-model="form2.buyOneQuantityFlag" > 封单数量>:&nbsp&nbsp <Input type="number"  v-model="form2.buyOneQuantity"  placeholder="" class="from_input_info" />手</label>
+                      <label><input type="checkbox" v-model="form2.buyOneQuantityFlag" > 封单金额>:&nbsp&nbsp <Input type="number"  v-model="form2.buyOneQuantity"  placeholder="" class="from_input_info" />万</label>
                       <br>
-                      <label><input type="checkbox" v-model="form2.bigOrderAndSealingFlag" > 大单+封单量 大单 > <Input type="number"  v-model="form2.bigOrder"  placeholder="" class="from_input_info" />万元 封单量> <Input type="number"  name= "param5" v-model="form2.bigOrderBuyQuantity"  placeholder="" class="from_input_info" /> 手</label>
+                      <label><input type="checkbox" v-model="form2.bigOrderAndSealingFlag" > 大单+封单金额 大单 > <Input type="number"  v-model="form2.bigOrder"  placeholder="" class="from_input_info" />万 封单金额> <Input type="number"  name= "param5" v-model="form2.bigOrderBuyQuantity"  placeholder="" class="from_input_info" /> 万</label>
                     </div>
                     <div class="column column2">
-                      <label><input type="checkbox" v-model="form2.cancelBuyOneQuantityFlag" > 封单量<:&nbsp&nbsp <Input type="number"  v-model="form2.cancelBuyOneQuantity" placeholder="" class="from_input_info" />手 开始时间<Input type="number"  v-model="form2.cancelBuyOneQuantitySec" placeholder="" class="from_input_info" />秒</label>
+                      <label><input type="checkbox" v-model="form2.cancelBuyOneQuantityFlag" > 封单金额<:&nbsp&nbsp <Input type="number"  v-model="form2.cancelBuyOneQuantity" placeholder="" class="from_input_info" />万 开始时间<Input type="number"  v-model="form2.cancelBuyOneQuantitySec" placeholder="" class="from_input_info" />秒</label>
                       <br>
-                      <label><input type="checkbox" v-model="form2.beforeCancelQuantityFlag" > 前序撤单>:&nbsp&nbsp <Input type="number"  v-model="form2.beforeCancelQuantity"  placeholder="" class="from_input_info" />手 持续时间<Input type="number"  v-model="form2.beforeCancelQuantitySec" placeholder="" class="from_input_info" />秒</label>
+                      <label><input type="checkbox" v-model="form2.beforeCancelQuantityFlag" > 前序撤单金额>:&nbsp&nbsp <Input type="number"  v-model="form2.beforeCancelQuantity"  placeholder="" class="from_input_info" />万 持续时间<Input type="number"  v-model="form2.beforeCancelQuantitySec" placeholder="" class="from_input_info" />秒</label>
                     </div>
                     <div class="column column3"><input class="submit-change-button" type="submit" value="策略2提交"></div>
                   </div>
@@ -204,16 +207,16 @@
                 <form  @submit.prevent="onSubmit3">
                   <div class="container">
                     <div class="column column1">
-                      <label><input type="checkbox" v-model="form3.sellQuantityFlag" > 压单数量<:&nbsp&nbsp <Input type="number" v-model="form3.sellQuantity"  placeholder="" class="from_input_info" />手</label>
+                      <label><input type="checkbox" v-model="form3.sellQuantityFlag" > 压单金额<:&nbsp&nbsp <Input type="number" v-model="form3.sellQuantity"  placeholder="" class="from_input_info" />万</label>
                       <br>
-                      <label><input type="checkbox" v-model="form3.buyOneQuantityFlag" > 封单数量>:&nbsp&nbsp <Input type="number"  v-model="form3.buyOneQuantity"  placeholder="" class="from_input_info" />手</label>
+                      <label><input type="checkbox" v-model="form3.buyOneQuantityFlag" > 封单金额>:&nbsp&nbsp <Input type="number"  v-model="form3.buyOneQuantity"  placeholder="" class="from_input_info" />万</label>
                       <br>
-                      <label><input type="checkbox" v-model="form3.bigOrderAndSealingFlag" > 大单+封单量 大单 > <Input type="number"  v-model="form3.bigOrder"  placeholder="" class="from_input_info" />万元 封单量> <Input type="number"  name= "param5" v-model="form3.bigOrderBuyQuantity"  placeholder="" class="from_input_info" /> 手</label>
+                      <label><input type="checkbox" v-model="form3.bigOrderAndSealingFlag" > 大单+封单金额 大单 > <Input type="number"  v-model="form3.bigOrder"  placeholder="" class="from_input_info" />万 封单金额> <Input type="number"  name= "param5" v-model="form3.bigOrderBuyQuantity"  placeholder="" class="from_input_info" />万</label>
                     </div>
                     <div class="column column2">
-                      <label><input type="checkbox" v-model="form3.cancelBuyOneQuantityFlag" > 封单量<:&nbsp&nbsp <Input type="number"  v-model="form3.cancelBuyOneQuantity" placeholder="" class="from_input_info" />手 开始时间<Input type="number"  v-model="form3.cancelBuyOneQuantitySec" placeholder="" class="from_input_info" />秒</label>
+                      <label><input type="checkbox" v-model="form3.cancelBuyOneQuantityFlag" > 封单金额<:&nbsp&nbsp <Input type="number"  v-model="form3.cancelBuyOneQuantity" placeholder="" class="from_input_info" />万 开始时间<Input type="number"  v-model="form3.cancelBuyOneQuantitySec" placeholder="" class="from_input_info" />秒</label>
                       <br>
-                      <label><input type="checkbox" v-model="form3.beforeCancelQuantityFlag" > 前序撤单>:&nbsp&nbsp <Input type="number"  v-model="form3.beforeCancelQuantity"  placeholder="" class="from_input_info" />手 持续时间<Input type="number"  v-model="form3.beforeCancelQuantitySec" placeholder="" class="from_input_info" />秒</label>
+                      <label><input type="checkbox" v-model="form3.beforeCancelQuantityFlag" > 前序撤单金额>:&nbsp&nbsp <Input type="number"  v-model="form3.beforeCancelQuantity"  placeholder="" class="from_input_info" />万 持续时间<Input type="number"  v-model="form3.beforeCancelQuantitySec" placeholder="" class="from_input_info" />秒</label>
                     </div>
                     <div class="column column3"><input class="submit-change-button" type="submit" value="策略3提交"></div>
                   </div>
@@ -644,9 +647,9 @@
           beforeCancelQuantity:beforeCancelQuantity,cancelBuyOneQuantitySec:cancelBuyOneQuantitySec,beforeCancelQuantitySec:beforeCancelQuantitySec,
           sellQuantityFlag:sellQuantityFlag,buyOneQuantityFlag:buyOneQuantityFlag,bigOrderAndSealingFlag:bigOrderAndSealingFlag,cancelBuyOneQuantityFlag:cancelBuyOneQuantityFlag,beforeCancelQuantityFlag:beforeCancelQuantityFlag}, r => {
           alert(r.msg);
-          if(r.code==0){
+          /*if(r.code==0){
             location.reload()
-          }
+          }*/
         })
       },
       onSubmit2() {
@@ -684,9 +687,9 @@
           sellQuantityFlag:sellQuantityFlag,buyOneQuantityFlag:buyOneQuantityFlag,bigOrderAndSealingFlag:bigOrderAndSealingFlag,cancelBuyOneQuantityFlag:cancelBuyOneQuantityFlag
           ,beforeCancelQuantityFlag:beforeCancelQuantityFlag}, r => {
           alert(r.msg);
-          if(r.code==0){
+          /*if(r.code==0){
             location.reload()
-          }
+          }*/
         })
       },
       onSubmit3() {
@@ -724,9 +727,9 @@
           sellQuantityFlag:sellQuantityFlag,buyOneQuantityFlag:buyOneQuantityFlag,bigOrderAndSealingFlag:bigOrderAndSealingFlag,cancelBuyOneQuantityFlag:cancelBuyOneQuantityFlag
           ,beforeCancelQuantityFlag:beforeCancelQuantityFlag}, r => {
           alert(r.msg);
-          if(r.code==0){
+          /*if(r.code==0){
             location.reload()
-          }
+          }*/
         })
       }
 
