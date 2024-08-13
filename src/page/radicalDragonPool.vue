@@ -186,7 +186,7 @@
                     <div class="column column2">
                       <label><input type="checkbox" v-model="form1.cancelBuyOneQuantityFlag" > 封单金额<:&nbsp&nbsp <Input type="number"  v-model="form1.cancelBuyOneQuantity" placeholder="" class="from_input_info" />万 开始时间<Input type="number"  v-model="form1.cancelBuyOneQuantitySec" placeholder="" class="from_input_info" />秒</label>
                       <br>
-                      <label><input type="checkbox" v-model="form1.beforeCancelQuantityFlag" > 前序撤单金额>:&nbsp&nbsp <Input type="number"  v-model="form1.beforeCancelQuantity"  placeholder="" class="from_input_info" />万 持续时间<Input type="number"  v-model="form1.beforeCancelQuantitySec" placeholder="" class="from_input_info" />秒</label>
+                      <label><input type="checkbox" v-model="form1.beforeCancelQuantityFlag" > 单前量金额<:&nbsp&nbsp <Input type="number"  v-model="form1.beforeCancelQuantity"  placeholder="" class="from_input_info" />万 持续时间<Input type="number"  v-model="form1.beforeCancelQuantitySec" placeholder="" class="from_input_info" />秒</label>
                     </div>
                     <div class="column column3"><input class="submit-change-button" type="submit" value="策略1提交"></div>
                   </div>
@@ -205,7 +205,7 @@
                     <div class="column column2">
                       <label><input type="checkbox" v-model="form2.cancelBuyOneQuantityFlag" > 封单金额<:&nbsp&nbsp <Input type="number"  v-model="form2.cancelBuyOneQuantity" placeholder="" class="from_input_info" />万 开始时间<Input type="number"  v-model="form2.cancelBuyOneQuantitySec" placeholder="" class="from_input_info" />秒</label>
                       <br>
-                      <label><input type="checkbox" v-model="form2.beforeCancelQuantityFlag" > 前序撤单金额>:&nbsp&nbsp <Input type="number"  v-model="form2.beforeCancelQuantity"  placeholder="" class="from_input_info" />万 持续时间<Input type="number"  v-model="form2.beforeCancelQuantitySec" placeholder="" class="from_input_info" />秒</label>
+                      <label><input type="checkbox" v-model="form2.beforeCancelQuantityFlag" > 单前量金额<:&nbsp&nbsp <Input type="number"  v-model="form2.beforeCancelQuantity"  placeholder="" class="from_input_info" />万 持续时间<Input type="number"  v-model="form2.beforeCancelQuantitySec" placeholder="" class="from_input_info" />秒</label>
                     </div>
                     <div class="column column3"><input class="submit-change-button" type="submit" value="策略2提交"></div>
                   </div>
@@ -224,7 +224,7 @@
                     <div class="column column2">
                       <label><input type="checkbox" v-model="form3.cancelBuyOneQuantityFlag" > 封单金额<:&nbsp&nbsp <Input type="number"  v-model="form3.cancelBuyOneQuantity" placeholder="" class="from_input_info" />万 开始时间<Input type="number"  v-model="form3.cancelBuyOneQuantitySec" placeholder="" class="from_input_info" />秒</label>
                       <br>
-                      <label><input type="checkbox" v-model="form3.beforeCancelQuantityFlag" > 前序撤单金额>:&nbsp&nbsp <Input type="number"  v-model="form3.beforeCancelQuantity"  placeholder="" class="from_input_info" />万 持续时间<Input type="number"  v-model="form3.beforeCancelQuantitySec" placeholder="" class="from_input_info" />秒</label>
+                      <label><input type="checkbox" v-model="form3.beforeCancelQuantityFlag" > 单前量金额<:&nbsp&nbsp <Input type="number"  v-model="form3.beforeCancelQuantity"  placeholder="" class="from_input_info" />万 持续时间<Input type="number"  v-model="form3.beforeCancelQuantitySec" placeholder="" class="from_input_info" />秒</label>
                     </div>
                     <div class="column column3"><input class="submit-change-button" type="submit" value="策略3提交"></div>
                   </div>
