@@ -106,6 +106,13 @@
     cursor: pointer;
   }
 
+  .columncs {
+    flex: 1; /* 每个部分平分空间 */
+    text-align: center;
+    border: 1px solid #000; /* 边框仅为了清晰地显示每个部分 */
+    padding: 40px;
+  }
+
 </style>
 
 <template>
@@ -144,7 +151,8 @@
                 <strong>{{ row.tab }}</strong>
               </template>
               <template slot-scope="{ row, index }" slot="action">
-                <Button type="primary" size="small" style="margin-right: 5px" @click="modal1=true;show(row)">修改</Button>
+                <Button type="primary" size="small" style="margin-right: 5px" @click="modal1=true;show(row)">修改仓位</Button>
+                <Button type="primary" size="small" style="margin-right: 5px" @click="modal3=true;show3(row)">修改策略</Button>
                 <Button type="error" size="small" style="margin-right: 5px" @click="deleteRadical(row.id)">删除</Button>
               </template>
             </Table>
@@ -260,6 +268,31 @@
           </div>
         </Modal>
       </template>
+
+      <template>
+        <Modal
+          v-model="modal3"
+          title="个股策略修改"
+          @on-ok="ok3"
+          @on-cancel="cancel3">
+            <div>
+              <div class="columncs column1">
+                <label><input type="checkbox" name= "paramcs1" v-model="paramcs1" > 压单金额<&nbsp:&nbsp&nbsp <Input  type="number" name= "paramcs11" v-model="paramcs11"  placeholder=""  class="from_input_info" />万</label>
+                <br>
+                <label><input type="checkbox" name= "paramcs2" v-model="paramcs2" > 封单金额>&nbsp:&nbsp&nbsp <Input type="number"  name= "paramcs22" v-model="paramcs22"  placeholder="" class="from_input_info" />万</label>
+                <br>
+                <label><input type="checkbox" name= "paramcs3" v-model="paramcs3" > 大单+封单金额 大单>: &nbsp&nbsp&nbsp<Input type="number"  name= "paramcs33" v-model="paramcs33"  placeholder="" class="from_input_info" />万 封单金额> <Input type="number"   name= "paramcs333" v-model="paramcs333"  placeholder="" class="from_input_info" /> 万</label>
+              </div>
+              <div class="columncs column2">
+                <label><input type="checkbox" name= "paramcs4" v-model="paramcs4" > 封单金额<:&nbsp&nbsp <Input type="number"  name= "paramcs44" v-model="paramcs44" placeholder="" class="from_input_info" />万 开始时间<Input type="number"  name= "paramcs444" v-model="paramcs444" placeholder="" class="from_input_info" />秒</label>
+                <br>
+                <label><input type="checkbox" name= "paramcs5" v-model="paramcs5" > 前序撤单金额>:&nbsp&nbsp <Input type="number"  name= "paramcs55" v-model="paramcs55"  placeholder="" class="from_input_info" />万 持续时间<Input type="number"  name= "paramcs555" v-model="paramcs555" placeholder="" class="from_input_info" />秒</label>
+                <Input  type="hidden" name= "paramcs6" v-model="paramcs6" placeholder="" style="width: 100px" />
+              </div>
+            </div>
+        </Modal>
+      </template>
+
       <template>
         <Modal
           v-model="modal2"
@@ -443,7 +476,7 @@
           {
             title: '操作',
             slot: 'action',
-            width: 150,
+            width: 350,
             align: 'center'
           }
         ],
@@ -453,6 +486,7 @@
         ],
         modal1: false,
         modal2: false,
+        modal3: false,
         isVisible: false,
         isVisibleMsg:"",
         indexId:0,
@@ -587,6 +621,83 @@
       cancel () {
         this.$Message.info($("param1").value)
       },
+      show3 (row) {
+        this.paramcs6=row.stockCode;
+        this.paramcs11 = row.csStockParamConfigDTO.sellQuantity;
+        this.paramcs22=row.csStockParamConfigDTO.buyOneQuantity;
+        this.paramcs33=row.csStockParamConfigDTO.bigOrder;
+        this.paramcs333=row.csStockParamConfigDTO.bigOrderBuyQuantity;
+        this.paramcs44=row.csStockParamConfigDTO.cancelBuyOneQuantity;
+        this.paramcs55=row.csStockParamConfigDTO.beforeCancelQuantity;
+        this.paramcs444=row.csStockParamConfigDTO.cancelBuyOneQuantitySec;
+        this.paramcs555=row.csStockParamConfigDTO.beforeCancelQuantitySec;
+        this.paramcs1=false;
+        if(row.csStockParamConfigDTO.sellQuantityFlag==1){
+          this.paramcs1 = true;
+        }
+        this.paramcs2=false;
+        if(row.csStockParamConfigDTO.buyOneQuantityFlag==1){
+          this.paramcs2 = true;
+        }
+        this.paramcs3=false;
+        if(row.csStockParamConfigDTO.bigOrderAndSealingFlag==1){
+          this.paramcs3 = true;
+        }
+        this.paramcs4=false;
+        if(row.csStockParamConfigDTO.cancelBuyOneQuantityFlag==1){
+          this.paramcs4 = true;
+        }
+        this.paramcs5=false;
+        if(row.csStockParamConfigDTO.beforeCancelQuantityFlag==1){
+          this.paramcs5 = true;
+        }
+      },
+
+      ok3 () {
+        var stockCodesc = this.paramcs6;
+        var sellQuantity=this.paramcs11;
+        var buyOneQuantity=this.paramcs22;
+        var bigOrder=this.paramcs33;
+        var bigOrderBuyQuantity=this.paramcs333;
+        var cancelBuyOneQuantity=this.paramcs44;
+        var beforeCancelQuantity=this.paramcs55;
+        var cancelBuyOneQuantitySec=this.paramcs444;
+        var beforeCancelQuantitySec=this.paramcs555;
+        var sellQuantityFlag=0;
+        if(this.paramcs1){
+          sellQuantityFlag = 1;
+        }
+        var buyOneQuantityFlag=0;
+        if(this.paramcs2){
+          buyOneQuantityFlag = 1;
+        }
+        var bigOrderAndSealingFlag=0;
+        if(this.paramcs3){
+          bigOrderAndSealingFlag = 1;
+        }
+        var cancelBuyOneQuantityFlag=0;
+        if(this.paramcs4){
+          cancelBuyOneQuantityFlag = 1;
+        }
+        var beforeCancelQuantityFlag=0;
+        if(this.paramcs5){
+          beforeCancelQuantityFlag = 1;
+        }
+        this.$api.post('dragon/csParamConfig/updateStockConfig', {id:1,stockCode:stockCodesc,sellQuantity:sellQuantity,buyOneQuantity:buyOneQuantity,bigOrder:bigOrder,bigOrderBuyQuantity:bigOrderBuyQuantity,cancelBuyOneQuantity:cancelBuyOneQuantity,
+          beforeCancelQuantity:beforeCancelQuantity,cancelBuyOneQuantitySec:cancelBuyOneQuantitySec,beforeCancelQuantitySec:beforeCancelQuantitySec,
+          sellQuantityFlag:sellQuantityFlag,buyOneQuantityFlag:buyOneQuantityFlag,bigOrderAndSealingFlag:bigOrderAndSealingFlag,cancelBuyOneQuantityFlag:cancelBuyOneQuantityFlag,beforeCancelQuantityFlag:beforeCancelQuantityFlag}, r => {
+          alert(r.msg);
+          if(r.code==0){
+            location.reload()
+          }
+        })
+
+      },
+      cancel3 () {
+        this.$Message.info($("param1").value)
+      },
+
+
       deleteRadical(id){
         this.$api.get('dragon/radicalDragonPool/deleteOne', {id:id}, r => {
           alert(r.msg);
