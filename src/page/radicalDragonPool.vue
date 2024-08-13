@@ -286,7 +286,7 @@
               <div class="columncs column2">
                 <label><input type="checkbox" name= "paramcs4" v-model="paramcs4" > 封单金额<:&nbsp&nbsp <Input type="number"  name= "paramcs44" v-model="paramcs44" placeholder="" class="from_input_info" />万 开始时间<Input type="number"  name= "paramcs444" v-model="paramcs444" placeholder="" class="from_input_info" />秒</label>
                 <br>
-                <label><input type="checkbox" name= "paramcs5" v-model="paramcs5" > 前序撤单金额>:&nbsp&nbsp <Input type="number"  name= "paramcs55" v-model="paramcs55"  placeholder="" class="from_input_info" />万 持续时间<Input type="number"  name= "paramcs555" v-model="paramcs555" placeholder="" class="from_input_info" />秒</label>
+                <label><input type="checkbox" name= "paramcs5" v-model="paramcs5" > 单前量金额<:&nbsp&nbsp <Input type="number"  name= "paramcs55" v-model="paramcs55"  placeholder="" class="from_input_info" />万 持续时间<Input type="number"  name= "paramcs555" v-model="paramcs555" placeholder="" class="from_input_info" />秒</label>
                 <Input  type="hidden" name= "paramcs6" v-model="paramcs6" placeholder="" style="width: 100px" />
               </div>
             </div>

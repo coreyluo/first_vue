@@ -50,8 +50,8 @@
 <!--
           <div>&nbsp</div>-->
 
-          <Button v-if="row.dragonRadicalStatus===0" style="margin-right: 5px" type="warning" @click="changeAccountStatus(4,index,1)">超龙头已关闭,请开启</Button>
-          <Button v-if="row.dragonRadicalStatus===1" style="margin-right: 5px" type="primary" @click="changeAccountStatus(4,index,0)">超龙头已开启,请禁用</Button>
+          <Button v-if="row.dragonRadicalStatus===0" style="margin-right: 5px" type="warning" @click="changeAccountStatus(4,index,1)">小池子已关闭,请开启</Button>
+          <Button v-if="row.dragonRadicalStatus===1" style="margin-right: 5px" type="primary" @click="changeAccountStatus(4,index,0)">小池子已开启,请禁用</Button>
 
 <!--          <Button v-if="row.twoPlankStatus===0" style="margin-left: 5px" type="warning" @click="changeAccountStatus(5,index,1)">二板已经关闭,请开启</Button>
           <Button v-if="row.twoPlankStatus===1" style="margin-left: 5px" type="primary" @click="changeAccountStatus(5,index,0)">二板已经开启,请关闭</Button>
@@ -74,11 +74,15 @@
             创业板仓位:<Input name= "param300" v-model="param300" placeholder="" style="width: 300px" />
           </div>
           <div>
-<!--            科创板仓位:--><Input type="hidden" name= "param688" v-model="param688" placeholder="" style="width: 300px" />
+            限制仓位:<Input  name= "generalPosition" v-model="generalPosition" placeholder="" style="width: 300px" />
           </div>
           <div>
-<!--            通用仓位:--><Input  type="hidden" name= "generalPosition" v-model="generalPosition" placeholder="" style="width: 300px" />
+            限制股数:<Input name= "maxOrderNo" v-model="maxOrderNo" placeholder="" style="width: 300px" />
           </div>
+          <div>
+<!--            科创板仓位:--><Input type="hidden" name= "param688" v-model="param688" placeholder="" style="width: 300px" />
+          </div>
+
           <div>
 <!--            ai仓位:--><Input  type="hidden" name= "aiPosition" v-model="aiPosition" placeholder="" style="width: 300px" />
           </div>
@@ -115,7 +119,7 @@
       <template>
         <Modal
           v-model="modal3"
-          title="有仓位超过300万了，确定吗？"
+          title="有仓位超过100万了，确定吗？"
           @on-ok="okClear"
           @on-cancel="cancelClear">
         </Modal>
@@ -161,6 +165,16 @@
             align: 'center'
           },
           {
+            title: '限制仓位',
+            key: 'generalPosition',
+            align: 'center'
+          },
+          {
+            title: '限制股数',
+            key: 'maxOrderNo',
+            align: 'center'
+          },
+          {
             title: '操作',
             slot: 'action',
             width: 900,
@@ -196,6 +210,7 @@
         this.aiPosition = this.data7[index].aiPosition
         this.aiPosition300 = this.data7[index].aiPosition300
         this.unmatchPosition = this.data7[index].unmatchPosition
+        this.maxOrderNo = this.data7[index].maxOrderNo
       },
       ok () {
         var position= this.param1;
@@ -206,8 +221,18 @@
         var aiPosition = this.aiPosition;
         var aiPosition300 = this.aiPosition300;
         var unmatchPosition = this.unmatchPosition;
-
-        if(position>=3000000||position300>=3000000||position688>=3000000||generalPosition>=3000000){
+        var maxOrderNo = this.maxOrderNo;
+        if(maxOrderNo>1000000){
+          var errmsg  = '最大手数不能超过10000股';
+          alert(errmsg);
+          return;
+        }
+        if(maxOrderNo==''||position==''||position300==''||generalPosition==''){
+          var errmsg  = '参数不能有空';
+          alert(errmsg);
+          return;
+        }
+        if(position>=10000000||position300>=10000000||position688>=10000000||generalPosition>=10000000){
           this.currentPosition = position;
           this.currentPosition300 = position300;
           this.currentPosition688 = position688;
@@ -226,7 +251,7 @@
           this.currentUnmatchPosition = unmatchPosition;
           this.modal4 = true;
         }else{
-          this.$api.post('dragon/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition,aiPosition:aiPosition,aiPosition300:aiPosition300,unmatchPosition:unmatchPosition}, r => {
+          this.$api.post('dragon/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition,aiPosition:aiPosition,aiPosition300:aiPosition300,unmatchPosition:unmatchPosition,maxOrderNo:maxOrderNo}, r => {
             location.reload();
           })
         }
