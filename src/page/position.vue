@@ -124,6 +124,12 @@
           <div>
             跟随比例:<Input name= "paramFollowDaLaoRatio" v-model="paramFollowDaLaoRatio" placeholder="" style="width: 300px" />
           </div>
+          <div>
+            2单比例:<Input name= "position2Ratio" v-model="position2Ratio" placeholder="" style="width: 300px" />
+          </div>
+          <div>
+            3单比例:<Input name= "position3Ratio" v-model="position3Ratio" placeholder="" style="width: 300px" />
+          </div>
         </Modal>
       </template>
 
@@ -303,6 +309,8 @@
         this.paramHighPlankRatio = this.data7[index].highPlankRatio;
         this.paramBig = this.data7[index].positionBigAmount;
         this.paramFollowDaLaoRatio = this.data7[index].followDaLaoRatio;
+        this.position2Ratio = this.data7[index].positionRatio2;
+        this.position3Ratio = this.data7[index].positionRatio3;
       },
       ok2 () {
         var changerId = this.indexId;
@@ -310,7 +318,9 @@
         var highPlankRatio = this.paramHighPlankRatio;
         var positionBigAmount = this.paramBig;
         var followDaLaoRatio = this.paramFollowDaLaoRatio;
-        this.$api.post('dragon/tradeAccount/changeRate', {id:changerId,twoPlankRatio:twoPlankRatio,highPlankRatio:highPlankRatio,positionBigAmount:positionBigAmount,followDaLaoRatio:followDaLaoRatio}, r => {
+        var positionRatio2 = this.position2Ratio;
+        var positionRatio3 = this.position3Ratio;
+        this.$api.post('dragon/tradeAccount/changeRate', {id:changerId,twoPlankRatio:twoPlankRatio,highPlankRatio:highPlankRatio,positionBigAmount:positionBigAmount,followDaLaoRatio:followDaLaoRatio,positionRatio2:positionRatio2,positionRatio3:positionRatio3}, r => {
           location.reload();
         })
 
