@@ -140,13 +140,22 @@
             </select>
           </div>
           <div>
-            时间限制:&nbsp&nbsp<Input name= "param5" v-model="param5" placeholder="" style="width: 100px" />
+            第二单时间:&nbsp&nbsp<Input name= "param8" v-model="param8" placeholder="" style="width: 100px" />
           </div>
           <div>
-            买入上限:&nbsp&nbsp<Input name= "param6" v-model="param6" placeholder="" style="width: 100px" />
+            第三单时间:&nbsp&nbsp<Input name= "param9" v-model="param9" placeholder="" style="width: 100px" />
           </div>
           <div>
-            买入次数:&nbsp&nbsp<Input name= "param7" v-model="param7" placeholder="" style="width: 100px" />
+            成交时间限制:&nbsp&nbsp<Input name= "param10" v-model="param10" placeholder="" style="width: 100px" />
+          </div>
+          <div>
+<!--            时间限制:&nbsp&nbsp--><Input type="hidden" name= "param5" v-model="param5" placeholder="" style="width: 100px" />
+          </div>
+          <div>
+<!--            买入上限:&nbsp&nbsp--><Input  type="hidden" name= "param6" v-model="param6" placeholder="" style="width: 100px" />
+          </div>
+          <div>
+<!--            买入次数:&nbsp&nbsp--><Input type="hidden" name= "param7" v-model="param7" placeholder="" style="width: 100px" />
           </div>
           <div>
             <Input type="hidden" name= "param4" v-model="param4" placeholder="" style="width: 100px" />
@@ -232,7 +241,7 @@
             key: 'positionRatio',
             align: 'center'
           },
-          {
+          /*{
             title: '开盘后下单时间限制',
             key: 'afterOpenSeconds',
             align: 'center'
@@ -245,6 +254,21 @@
           {
             title: '买入次数',
             key: 'orderTimes',
+            align: 'center'
+          },*/
+          {
+            title: '第二单间隔时间(毫秒)',
+            key: 'oneTime',
+            align: 'center'
+          },
+          {
+            title: '第三单间隔时间(毫秒)',
+            key: 'twoTime',
+            align: 'center'
+          },
+          {
+            title: '成交时间限制((秒))',
+            key: 'dealTime',
             align: 'center'
           },
           {
@@ -319,6 +343,9 @@
         this.param5 = row.afterOpenSeconds;
         this.param6 = row.highRate;
         this.param7 = row.orderTimes;
+        this.param8 = row.oneTime;
+        this.param9 = row.twoTime;
+        this.param10 = row.dealTime;
       },
       ok () {
         var primaryKey = this.indexId
@@ -329,7 +356,10 @@
         var afterOpenSeconds = this.param5
         var highRate = this.param6
         var orderTimes = this.param7
-        this.$api.post('dragon/radicalDragonPool/addOne', {id:primaryKey,stockCode:stockCode,positionRatio:positionRatio,sweepType:sweepType,radical:radical,afterOpenSeconds:afterOpenSeconds,highRate:highRate,orderTimes:orderTimes}, r => {
+        var oneTime = this.param8
+        var twoTime = this.param9
+        var dealTime = this.param10
+        this.$api.post('dragon/radicalDragonPool/addOne', {id:primaryKey,stockCode:stockCode,positionRatio:positionRatio,sweepType:sweepType,radical:radical,afterOpenSeconds:afterOpenSeconds,highRate:highRate,orderTimes:orderTimes,oneTime:oneTime,twoTime:twoTime,dealTime:dealTime}, r => {
           location.reload()
         })
 
@@ -352,6 +382,10 @@
         this.param5=afterOpenSeconds;
         this.param6 = highRate;
         this.param7 = orderTimes;
+        this.param8 = oneTime;
+        this.param9 = twoTime;
+        this.param10 = dealTime;
+
       },
       okClear () {
         this.$api.get('dragon/radicalDragonPool/deleteAll', null, r => {
