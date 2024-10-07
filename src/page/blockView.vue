@@ -47,6 +47,7 @@
                     <font style="font-weight:bold;font-size:15px;">板块代码或名称：</font><Input name= "param1" v-model="param1" placeholder="stockCode" style="width: 300px" />
                     <Button type="primary" icon="ios-search" @click="search()">查询</Button>
                      <Button style="float:right" type="primary" @click="prohibitAll()">禁止所有板块</Button>
+                  <Button style="float:right" type="primary" @click="marketToRadicalPool()">全市场加入小池子</Button>
                 </div>
 
             </template>
@@ -80,7 +81,15 @@
                   <option  value="3">低于一分钱有成交</option>
                 </select>
               </div>
-
+              <div>
+                第二单时间:&nbsp&nbsp<Input name= "param4" v-model="param4" placeholder="" style="width: 100px" />
+              </div>
+              <div>
+                第三单时间:&nbsp&nbsp<Input name= "param5" v-model="param5" placeholder="" style="width: 100px" />
+              </div>
+              <div>
+                成交时间限制:&nbsp&nbsp<Input name= "param6" v-model="param6" placeholder="" style="width: 100px" />
+              </div>
             </Modal>
           </template>
         </Layout>
@@ -146,6 +155,13 @@
                 })
 
             },
+            marketToRadicalPool(){
+              this.$api.get('dragon/blockView/marketToDragonPool', null, r => {
+                location.reload()
+              })
+
+            },
+
             prohibitBlock(index){
               this.$api.get('dragon/blockView/prohibitBlock', {id:index}, r => {
                 location.reload()
@@ -167,8 +183,11 @@
           ok () {
             var positionRatio= this.param2
             var sweepType= this.param3
+            var oneTime= this.param4
+            var twoTime= this.param5
+            var dealTime= this.param6
             var idVar = this.blockCodeInDragon
-            this.$api.get('dragon/blockView/blockToDragonPool', {id:idVar,positionRatio:positionRatio,sweepType:sweepType}, r => {
+            this.$api.get('dragon/blockView/blockToDragonPool', {id:idVar,positionRatio:positionRatio,sweepType:sweepType,oneTime:oneTime,twoTime:twoTime,dealTime:dealTime}, r => {
               location.reload()
             })
           },

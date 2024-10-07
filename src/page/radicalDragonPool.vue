@@ -204,6 +204,7 @@
               item.sweepTypeStr = "低于一分钱有成交"
             }
           }
+          console.log(item.dealTime)
         })
 
         infos.forEach(item =>{
