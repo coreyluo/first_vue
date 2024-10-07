@@ -36,6 +36,7 @@
                   <MenuItem  name="1-14"><router-link to="/batchBlock/1"><font color="#fff">批量买入</font></router-link></MenuItem>
 <!--                  <MenuItem  name="1-15"><router-link to="/disableUnmatch/1"><font color="#fff">禁止未匹配量买入</font></router-link></MenuItem>
                   <MenuItem  name="1-16"><router-link to="/stockBeforeRateInfo/1"><font color="#fff">涨幅过高股票信息</font></router-link></MenuItem>-->
+                  <MenuItem  name="1-17"><router-link to="/stockOpenInfo/1"><font color="#fff">集合一字信息</font></router-link></MenuItem>
                 </Submenu>
             </Menu>
         </Sider>
@@ -80,7 +81,7 @@
                   <option  value="3">低于一分钱有成交</option>
                 </select>
               </div>
-
+              <div><input type="checkbox" v-model="param4" > 只打一字回封单 封单比例&nbsp&nbsp<Input name= "param5" v-model="param5" placeholder="" style="width: 100px" /></div>
             </Modal>
           </template>
         </Layout>
@@ -167,8 +168,10 @@
           ok () {
             var positionRatio= this.param2
             var sweepType= this.param3
+            var yiZhiFlag = this.param4
+            var rateZ = this.param5
             var idVar = this.blockCodeInDragon
-            this.$api.get('dragon/blockView/blockToDragonPool', {id:idVar,positionRatio:positionRatio,sweepType:sweepType}, r => {
+            this.$api.get('dragon/blockView/blockToDragonPool', {id:idVar,positionRatio:positionRatio,sweepType:sweepType,onlyBeaPlankFlag:yiZhiFlag,rateZ:rateZ}, r => {
               location.reload()
             })
           },

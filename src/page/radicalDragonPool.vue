@@ -63,6 +63,7 @@
           <MenuItem  name="1-14"><router-link to="/batchBlock/1"><font color="#fff">批量买入</font></router-link></MenuItem>
 <!--          <MenuItem  name="1-15"><router-link to="/disableUnmatch/1"><font color="#fff">禁止未匹配量买入</font></router-link></MenuItem>
           <MenuItem  name="1-16"><router-link to="/stockBeforeRateInfo/1"><font color="#fff">涨幅过高股票信息</font></router-link></MenuItem>-->
+          <MenuItem  name="1-17"><router-link to="/stockOpenInfo/1"><font color="#fff">集合一字信息</font></router-link></MenuItem>
         </Submenu>
       </Menu>
     </Sider>
@@ -97,6 +98,8 @@
             <font style="font-weight:bold;font-size:15px;">股票代码：</font><Input name= "paramStock" v-model="paramStock" placeholder="stockCode" style="width: 300px" />
             <Button type="primary" icon="ios-search" @click="searchStock()">查询</Button>
 
+            <Button style="float:right" type="error" @click="modal4=true">修改下单方式</Button>
+            <Button style="float:right" type="primary" @click="modal3=true">修改全部仓位</Button>
             <Button style="float:right" type="error" @click="modal2=true">删除全部</Button>
             <Button style="float:right" type="primary">激进打板</Button>
             <Button style="float:right" type="error" @click="modal1=true;showAdd(2,3,1,30,1.10,1)">添加</Button>
@@ -150,6 +153,36 @@
           </div>
           <div>
             <Input type="hidden" name= "param4" v-model="param4" placeholder="" style="width: 100px" />
+          </div>
+        </Modal>
+      </template>
+
+      <template>
+        <Modal
+          v-model="modal3"
+          title="修改仓位"
+          @on-ok="ok3"
+          @on-cancel="cancel3">
+          <div>
+            仓位系数:&nbsp&nbsp<Input name= "param31" v-model="param31" placeholder="" style="width: 100px" />
+          </div>
+        </Modal>
+      </template>
+
+      <template>
+        <Modal
+          v-model="modal4"
+          title="修改买入方式"
+          @on-ok="ok4"
+          @on-cancel="cancel4">
+          <div>
+            是否扫版:&nbsp&nbsp
+            <select id="sex" name = param41  v-model="param41">
+              <option  value="1">涨停s</option>
+              <option  value="0">排队</option>
+              <option  value="2">涨停价有成交</option>
+              <option  value="3">低于一分钱有成交</option>
+            </select>
           </div>
         </Modal>
       </template>
@@ -264,6 +297,8 @@
         ],
         modal1: false,
         modal2: false,
+        modal3: false,
+        modal4: false,
         indexId:0,
       }
     },
@@ -362,6 +397,28 @@
 
       cancelClear () {
       },
+
+      ok3 () {
+        var positionRatio= this.param31
+        this.$api.post('dragon/radicalDragonPool/changePositionOrType', {positionRatio:positionRatio}, r => {
+          location.reload()
+        })
+
+      },
+      cancel3 () {
+        this.$Message.info($("param31").value)
+      },
+      ok4 () {
+        var sweepType= this.param41
+        this.$api.post('dragon/radicalDragonPool/changePositionOrType', {sweepType:sweepType}, r => {
+          location.reload()
+        })
+
+      },
+      cancel4 () {
+        this.$Message.info($("param41").value)
+      },
+
 
     }
   }
