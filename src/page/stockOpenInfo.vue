@@ -14,7 +14,7 @@
 <template>
     <div class="layout">
         <Sider :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
-            <Menu active-name="1-10" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
+            <Menu active-name="1-17" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
                 <Submenu name="1">
                     <template slot="title">
                         <Icon type="ios-navigate"></Icon>
@@ -36,6 +36,7 @@
                   <MenuItem  name="1-14"><router-link to="/batchBlock/1"><font color="#fff">批量买入</font></router-link></MenuItem>
                   <MenuItem  name="1-15"><router-link to="/disableUnmatch/1"><font color="#fff">禁止未匹配量买入</font></router-link></MenuItem>
                   <MenuItem  name="1-16"><router-link to="/stockBeforeRateInfo/1"><font color="#fff">涨幅过高股票信息</font></router-link></MenuItem>
+                  <MenuItem  name="1-17"><router-link to="/stockOpenInfo/1"><font color="#fff">集合一字信息</font></router-link></MenuItem>
                 </Submenu>
             </Menu>
         </Sider>
@@ -44,21 +45,15 @@
             </div>
             <template>
                 <div>
-                    <font style="font-weight:bold;font-size:15px;">板块代码或名称：</font><Input name= "param1" v-model="param1" placeholder="stockCode" style="width: 300px" />
+                    <font style="font-weight:bold;font-size:15px;">股票代码：</font><Input name= "param1" v-model="param1" placeholder="stockCode" style="width: 300px" />
                     <Button type="primary" icon="ios-search" @click="search()">查询</Button>
-                     <Button style="float:right" type="primary" @click="prohibitAll()">禁止所有板块</Button>
+                  <Button  type="error" size="small"  @click="modal1=true;show()">一键添加小池子</Button>
                 </div>
 
             </template>
             <Table border :columns="columns12" :data="data6">
                 <template slot-scope="{ row }" slot="tab">
                     <strong>{{ row.tab }}</strong>
-                </template>
-                <template slot-scope="{ row, index }" slot="action">
-                    <Button  type="primary" size="small"  @click="prohibitBlock(row.id)">禁止下单</Button>
-                    <Button  type="error" size="small"  @click="allowBlock(row.id)">允许下单</Button>
-                    <Button  type="error" size="small"  @click="modal1=true;show(index)">添加小池子</Button>
-                    <Button  type="error" size="small"  @click="blockRemoveDragonPool(row.id)">移出小池子</Button>
                 </template>
             </Table>
 
@@ -80,7 +75,7 @@
                   <option  value="3">低于一分钱有成交</option>
                 </select>
               </div>
-              <div><input type="checkbox" v-model="param4" > 只打一字回封单 封单比例&nbsp&nbsp<Input name= "param5" v-model="param5" placeholder="" style="width: 100px" /></div>
+              <div>封单比例<Input name= "param5" v-model="param5" placeholder="" style="width: 100px" /></div>
             </Modal>
           </template>
         </Layout>
@@ -89,7 +84,7 @@
 <script>
     export default {
         created () {
-            this.$api.get('dragon/blockView/listData', {blockCode:null}, r => {
+            this.$api.post('dragon/sealingPercent/listData', {stockCode:null,rateZ:null}, r => {
                 var infos = r.data;
                 this.data6=infos;
             })
@@ -98,85 +93,55 @@
             return {
                 columns12: [
                     {
-                        title: '板块代码',
-                        key: 'blockCode'
+                        title: '股票代码',
+                        key: 'stockCode'
                     },
                     {
-                        title: '板块名称',
+                        title: '股票名称',
                         key: 'blockName'
                     },
                     {
-                        title: '包含股票数量',
-                        key: 'totalCount'
+                        title: '占比',
+                        key: 'rateZ'
                     },
                     {
-                        title: 'Action',
-                        slot: 'action',
-                        width: 500,
-                        align: 'center'
+                      title: '日期',
+                      key: 'kbarDate'
                     }
                 ],
                 data6: [
 
                 ],
-                blockCodeInDragon:0,
                 modal1: false
             }
         },
         methods: {
-            show (index) {
-              this.blockCodeInDragon = this.data6[index].id;
-            },
-
             search(){
-                var blockCode = this.param1;
-                if(blockCode){
-                  blockCode = blockCode;
+                var stockCode = this.param1;
+                if(stockCode){
+                  stockCode = stockCode;
                 }else{
-                  blockCode = null;
+                  stockCode = null;
                 }
-                this.$api.get('dragon/blockView/listData', {blockCode:blockCode}, r => {
+                this.$api.post('dragon/sealingPercent/listData', {stockCode:stockCode}, r => {
                     var infos = r.data;
                     this.data6=infos;
                 })
             },
-            prohibitAll(){
-                this.$api.get('dragon/blockView/prohibitAll', null, r => {
-                  location.reload()
-                })
-
+            show () {
             },
-            prohibitBlock(index){
-              this.$api.get('dragon/blockView/prohibitBlock', {id:index}, r => {
+
+            ok () {
+              var positionRatio= this.param2
+              var sweepType= this.param3
+              var rateZ = this.param5;
+              this.$api.get('dragon/sealingPercent/toDragonPool', {positionRatio:positionRatio,sweepType:sweepType,rateZ:rateZ}, r => {
                 location.reload()
               })
-
             },
-            allowBlock(index){
-              this.$api.get('dragon/blockView/allowBlock', {id:index}, r => {
-                location.reload()
-              })
-
+            cancel () {
+              this.$Message.info($("param1").value)
             },
-          blockRemoveDragonPool(index){
-            this.$api.get('dragon/blockView/blockRemoveDragonPool', {id:index}, r => {
-              location.reload()
-            })
-          },
-
-          ok () {
-            var positionRatio= this.param2
-            var sweepType= this.param3
-            var yiZhiFlag = this.param4
-            var rateZ = this.param5
-            var idVar = this.blockCodeInDragon
-            this.$api.get('dragon/blockView/blockToDragonPool', {id:idVar,positionRatio:positionRatio,sweepType:sweepType,onlyBeaPlankFlag:yiZhiFlag,rateZ:rateZ}, r => {
-              location.reload()
-            })
-          },
-          cancel () {
-            this.$Message.info($("param1").value)
-          },
 
         }
     }
