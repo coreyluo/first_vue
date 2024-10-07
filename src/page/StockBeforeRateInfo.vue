@@ -60,7 +60,7 @@
 <script>
     export default {
         created () {
-            this.$api.get('dragon/stockBeforeRateRatio/listData', null, r => {
+            this.$api.get('bull/stockBeforeRateRatio/listData', null, r => {
                 this.data7 = r.data;
             })
         },
@@ -118,7 +118,7 @@
             }else{
               stockCode = null;
             }
-            this.$api.get('dragon/stockBeforeRateRatio/listData', {stockCode:stockCode}, r => {
+            this.$api.get('bull/stockBeforeRateRatio/listData', {stockCode:stockCode}, r => {
               this.data7 = r.data;
             })
           }

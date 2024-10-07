@@ -204,7 +204,7 @@
 <script>
   export default {
     created () {
-      this.$api.post('dragon/radicalDragonPool/dataList', {}, r => {
+      this.$api.post('bull/radicalDragonPool/dataList', {}, r => {
         var infos = r.data.radicalDragonPools;
         infos.forEach(item => {
           if(item.radical==0){
@@ -305,7 +305,7 @@
     methods: {
       searchStock(){
         var stockCode = this.paramStock;
-        this.$api.post('dragon/radicalDragonPool/dataList', {stockCode:stockCode}, r => {
+        this.$api.post('bull/radicalDragonPool/dataList', {stockCode:stockCode}, r => {
           var infos = r.data.radicalDragonPools;
           infos.forEach(item => {
             if(item.radical==0){
@@ -364,7 +364,7 @@
         var afterOpenSeconds = this.param5
         var highRate = this.param6
         var orderTimes = this.param7
-        this.$api.post('dragon/radicalDragonPool/addOne', {id:primaryKey,stockCode:stockCode,positionRatio:positionRatio,sweepType:sweepType,radical:radical,afterOpenSeconds:afterOpenSeconds,highRate:highRate,orderTimes:orderTimes}, r => {
+        this.$api.post('bull/radicalDragonPool/addOne', {id:primaryKey,stockCode:stockCode,positionRatio:positionRatio,sweepType:sweepType,radical:radical,afterOpenSeconds:afterOpenSeconds,highRate:highRate,orderTimes:orderTimes}, r => {
           location.reload()
         })
 
@@ -375,7 +375,7 @@
 
 
       deleteRadical(id){
-        this.$api.get('dragon/radicalDragonPool/deleteOne', {id:id}, r => {
+        this.$api.get('bull/radicalDragonPool/deleteOne', {id:id}, r => {
           location.reload()
         })
       },
@@ -389,7 +389,7 @@
         this.param7 = orderTimes;
       },
       okClear () {
-        this.$api.get('dragon/radicalDragonPool/deleteAll', null, r => {
+        this.$api.get('bull/radicalDragonPool/deleteAll', null, r => {
           location.reload()
         })
 

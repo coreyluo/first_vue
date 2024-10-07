@@ -84,7 +84,7 @@
 <script>
     export default {
         created () {
-            this.$api.get('dragon/circulate/dataList', {}, r => {
+            this.$api.get('bull/circulate/dataList', {}, r => {
                 var infos = r.data;
                  this.data6=infos;
             })
@@ -125,7 +125,7 @@
                 }else{
                   stockCode = null;
                 }
-                this.$api.get('dragon/circulate/dataList', {stockCode:stockCode}, r => {
+                this.$api.get('bull/circulate/dataList', {stockCode:stockCode}, r => {
                     var infos = r.data;
                      this.data6=infos;
                 })
@@ -135,7 +135,7 @@
                 var stockCodeAdd= this.param2;
                 var stockNameAdd = this.param3;
                 var circulateZAdd = this.param4;
-                this.$api.get('dragon/circulate/oneToPool', {stockCode:stockCodeAdd,stockName:stockNameAdd,circulateZ:circulateZAdd}, r => {
+                this.$api.get('bull/circulate/oneToPool', {stockCode:stockCodeAdd,stockName:stockNameAdd,circulateZ:circulateZAdd}, r => {
                   location.reload()
                 })
 
@@ -148,7 +148,7 @@
 
             deleteInfo(index){
                 var primaryKey = this.data6[index].stockCode;
-                this.$api.get('dragon/circulate/removeStockCode', {stockCode:primaryKey}, r => {
+                this.$api.get('bull/circulate/removeStockCode', {stockCode:primaryKey}, r => {
                   location.reload()
                 });
 

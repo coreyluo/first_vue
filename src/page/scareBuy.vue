@@ -114,7 +114,7 @@
     },
     methods: {
       okClear () {
-        this.$api.post('dragon/scareBuy/scareBuyStock', null, r => {
+        this.$api.post('bull/scareBuy/scareBuyStock', null, r => {
           location.reload()
         })
 
@@ -123,7 +123,7 @@
       },
 
       okClear3 () {
-        this.$api.post('dragon/scareBuy/huShen300Buy', null, r => {
+        this.$api.post('bull/scareBuy/huShen300Buy', null, r => {
           location.reload()
         })
 
