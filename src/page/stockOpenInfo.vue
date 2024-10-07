@@ -84,7 +84,7 @@
 <script>
 export default {
   created () {
-    this.$api.post('dragon/sealingPercent/listData', {stockCode:null,rateZ:null}, r => {
+    this.$api.post('bull/sealingPercent/listData', {stockCode:null,rateZ:null}, r => {
       var infos = r.data;
       this.data6=infos;
     })
@@ -123,7 +123,7 @@ export default {
       }else{
         stockCode = null;
       }
-      this.$api.post('dragon/sealingPercent/listData', {stockCode:stockCode}, r => {
+      this.$api.post('bull/sealingPercent/listData', {stockCode:stockCode}, r => {
         var infos = r.data;
         this.data6=infos;
       })
@@ -135,7 +135,7 @@ export default {
       var positionRatio= this.param2
       var sweepType= this.param3
       var rateZ = this.param5;
-      this.$api.get('dragon/sealingPercent/toDragonPool', {positionRatio:positionRatio,sweepType:sweepType,rateZ:rateZ}, r => {
+      this.$api.get('bull/sealingPercent/toDragonPool', {positionRatio:positionRatio,sweepType:sweepType,rateZ:rateZ}, r => {
         location.reload()
       })
     },
