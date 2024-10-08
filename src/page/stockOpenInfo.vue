@@ -84,7 +84,7 @@
 <script>
     export default {
         created () {
-            this.$api.post('dragon/sealingPercent/listData', {stockCode:null,rateZ:null}, r => {
+            this.$api.get('dragon/sealingPercent/listData', {stockCode:null,rateZ:null}, r => {
                 var infos = r.data;
                 this.data6=infos;
             })
@@ -123,7 +123,7 @@
                 }else{
                   stockCode = null;
                 }
-                this.$api.post('dragon/sealingPercent/listData', {stockCode:stockCode}, r => {
+                this.$api.get('dragon/sealingPercent/listData', {stockCode:stockCode}, r => {
                     var infos = r.data;
                     this.data6=infos;
                 })

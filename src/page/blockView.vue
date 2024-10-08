@@ -170,7 +170,7 @@
             var yiZhiFlag = this.param4
             var rateZ = this.param5
             var idVar = this.blockCodeInDragon
-            this.$api.post('dragon/blockView/blockToDragonPool', {id:idVar,positionRatio:positionRatio,sweepType:sweepType,onlyBeaPlankFlag:yiZhiFlag,rateZ:rateZ}, r => {
+            this.$api.get('dragon/blockView/blockToDragonPool', {id:idVar,positionRatio:positionRatio,sweepType:sweepType,onlyBeaPlankFlag:yiZhiFlag,rateZ:rateZ}, r => {
               location.reload()
             })
           },
