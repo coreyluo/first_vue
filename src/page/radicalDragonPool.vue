@@ -400,7 +400,7 @@
 
       ok3 () {
         var positionRatio= this.param31
-        this.$api.post('dragon/radicalDragonPool/changePositionOrType', {positionRatio:positionRatio}, r => {
+        this.$api.post('bull/radicalDragonPool/changePositionOrType', {positionRatio:positionRatio}, r => {
           location.reload()
         })
 
@@ -410,7 +410,7 @@
       },
       ok4 () {
         var sweepType= this.param41
-        this.$api.post('dragon/radicalDragonPool/changePositionOrType', {sweepType:sweepType}, r => {
+        this.$api.post('bull/radicalDragonPool/changePositionOrType', {sweepType:sweepType}, r => {
           location.reload()
         })
 
