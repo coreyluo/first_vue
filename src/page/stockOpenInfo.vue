@@ -98,7 +98,7 @@
                     },
                     {
                         title: '股票名称',
-                        key: 'blockName'
+                        key: 'stockName'
                     },
                     {
                         title: '占比',
