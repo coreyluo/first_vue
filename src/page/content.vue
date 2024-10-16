@@ -179,6 +179,9 @@
                     <div>
                         封单下降百分比参数:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <Input name= "param6" v-model="param6" placeholder="" style="width: 100px" />
                     </div>
+                    <div>
+                      延迟下单参数（10_20_600）:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<Input name= "param8" v-model="param8" placeholder="" style="width: 100px" />
+                    </div>
 
                 </Modal>
             </template>
@@ -304,9 +307,14 @@
                           align: 'center'
                       },
                      {
+                       title: '延迟跟单参数（10_20_600）',
+                       key: 'delayInsertParam',
+                       align: 'center'
+                     },
+                     {
                          title: '操作',
                          slot: 'action',
-                         width: 150,
+                         width: 100,
                          align: 'center'
                      }
                  ],
@@ -346,6 +354,7 @@
                  this.param4=row.cancelCirculatezPercent;
                  this.param5=row.sealDelaySecond;
                  this.param6=row.percentLastSealing;
+                 this.param8 = row.delayInsertParam;
              },
              ok () {
                   var primaryKey = this.indexId
@@ -356,9 +365,10 @@
                   var cancelCirculatezPercent= this.param4
                   var sealDelaySecond= this.param5
                   var percentLastSealing = this.param6;
+                  var delayInsertParam = this.param8;
 
                   this.$api.post('dragon/paramConfig/updateConfig', {id:primaryKey,insertCirculatezPercent:insertCirculatezPercent,soldOneQuantity:soldOneQuantity,buyOneQuantity:buyOneQuantity,buyOneQuantitySh:buyOneQuantitySh,
-                    cancelCirculatezPercent:cancelCirculatezPercent,sealDelaySecond:sealDelaySecond, percentLastSealing:percentLastSealing}, r => {
+                    cancelCirculatezPercent:cancelCirculatezPercent,sealDelaySecond:sealDelaySecond, percentLastSealing:percentLastSealing, delayInsertParam:delayInsertParam}, r => {
                     location.reload()
                   })
 
