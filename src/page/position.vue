@@ -95,6 +95,13 @@
           <div>
             通用仓位:<Input name= "generalPosition" v-model="generalPosition" placeholder="" style="width: 300px" />
           </div>
+          <div>
+            ai仓位:<Input name= "aiPosition" v-model="aiPosition" placeholder="" style="width: 300px" />
+          </div>
+          <div>
+            300ai仓位:<Input name= "aiPosition300" v-model="aiPosition300" placeholder="" style="width: 300px" />
+          </div>
+
         </Modal>
       </template>
 
@@ -128,7 +135,7 @@
       <template>
         <Modal
           v-model="modal4"
-          title="ai仓位超过1000万了，确定吗？"
+          title="ai仓位超过300万了，确定吗？"
           @on-ok="okClear"
           @on-cancel="cancelClear">
         </Modal>
@@ -180,6 +187,17 @@
             align: 'center'
           },
           {
+            title: '扫板',
+            key: 'aiPosition',
+            align: 'center'
+          },
+          {
+            title: '扫板300',
+            key: 'aiPosition300',
+            align: 'center'
+          },
+
+          {
             title: '二板仓位系数',
             key: 'twoPlankRatio',
             align: 'center'
@@ -210,6 +228,7 @@
         currentPosition688:0,
         currentGeneralPosition:0,
         currentAiPosition:0,
+        currentAiPosition300:0,
         currentUnmatchPosition:0
 
       }
@@ -221,6 +240,9 @@
         this.param300=this.data7[index].position300;
         this.param688=this.data7[index].position688;
         this.generalPosition = this.data7[index].generalPosition;
+        this.aiPosition = this.data7[index].aiPosition
+        this.aiPosition300 = this.data7[index].aiPosition300
+
       },
       ok () {
         var position= this.param1;
@@ -228,15 +250,27 @@
         var position300 = this.param300;
         var position688 = this.param688;
         var generalPosition = this.generalPosition;
+        var aiPosition = this.aiPosition;
+        var aiPosition300 = this.aiPosition300;
 
         if(position>=3000000||position300>=3000000||position688>=3000000||generalPosition>=3000000){
           this.currentPosition = position;
           this.currentPosition300 = position300;
           this.currentPosition688 = position688;
           this.currentGeneralPosition = generalPosition;
+          this.currentAiPosition = aiPosition;
+          this.currentAiPosition300 = aiPosition300;
           this.modal3 = true;
+        }else if(aiPosition>=3000000||aiPosition300>=3000000){
+          this.currentPosition = position;
+          this.currentPosition300 = position300;
+          this.currentPosition688 = position688;
+          this.currentGeneralPosition = generalPosition;
+          this.currentAiPosition = aiPosition;
+          this.currentAiPosition300 = aiPosition300;
+          this.modal4 = true;
         }else{
-          this.$api.post('bull/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition}, r => {
+          this.$api.post('bull/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition,aiPosition:aiPosition,aiPosition300:aiPosition300}, r => {
             location.reload();
           })
         }
@@ -303,7 +337,9 @@
         var position300 = this.currentPosition300;
         var position688 = this.currentPosition688;
         var generalPosition= this.currentGeneralPosition;
-        this.$api.post('bull/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition}, r => {
+        var aiPosition = this.currentAiPosition;
+        var aiPosition300 = this.currentAiPosition300;
+        this.$api.post('bull/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition,aiPosition:aiPosition,aiPosition300:aiPosition300}, r => {
           location.reload();
         })
 
