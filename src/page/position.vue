@@ -1,3 +1,4 @@
+
 <style scoped>
   .layout{
     border: 1px solid #d7dde4;
@@ -10,6 +11,22 @@
     background: #fff;
     box-shadow: 0 1px 1px rgba(0,0,0,.1);
   }
+  .button2 {
+    border: 2px solid black;
+    border-collapse: collapse;
+    width: 170px;
+    height: 60px;
+    background: #f5f7f9;
+    opacity: 1;
+    align-items:center;
+    border-radius: 4px;
+    color: black;
+  }
+  table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse; /* 移除单元格之间的间隔 */
+  }
+
 </style>
 <template>
   <div class="layout">
@@ -71,12 +88,44 @@
 
           <Button v-if="row.highPlankStatus===0" style="margin-left: 5px" type="warning" @click="changeAccountStatus(6,index,1)">高位板已经关闭,请开启</Button>
           <Button v-if="row.highPlankStatus===1" style="margin-left: 5px" type="primary" @click="changeAccountStatus(6,index,0)">高位板已经开启,请关闭</Button>
-
-
-
         </template>
-
       </Table>
+
+      <div>
+        <table>
+          <thead>
+          <tr>
+            <th class="button2">仓位名称</th>
+            <th class="button2">比例</th>
+            <th class="button2">比例</th>
+            <th class="button2">比例</th>
+            <th class="button2">比例</th>
+            <th class="button2">比例</th>
+            <th class="button2">比例</th>
+            <th class="button2">比例</th>
+            <th class="button2">比例</th>
+            <th class="button2">比例</th>
+            <th class="button2">比例</th>
+            <th class="button2">比例</th>
+          </tr>
+          </thead>
+          <tbody>
+            <tr class="button2" align="center" v-for="(row, rowIndex) in data8" :key="rowIndex">
+              <td  v-for="(value, key) in row" :key="key">{{ value }}
+                <Button  v-if="rowIndex==0 && percentNormal===value && key!='positionTitle' " style="margin-left: 5px" type="error">使用中</Button >
+                <Button v-if="rowIndex==0 && percentNormal!=value && key!='positionTitle'" style="margin-left: 5px" type="primary" @click="changeDayPercentPosition(rowIndex,value)">未使用</Button>
+                <Button  v-if="rowIndex==1 && percent300===value && key!='positionTitle' " style="margin-left: 5px" type="error">使用中</Button >
+                <Button v-if="rowIndex==1 && percent300!=value && key!='positionTitle'" style="margin-left: 5px" type="primary" @click="changeDayPercentPosition(rowIndex,value)">未使用</Button>
+                <Button  v-if="rowIndex==2 && aiPercentNormal===value && key!='positionTitle' " style="margin-left: 5px" type="error">使用中</Button >
+                <Button v-if="rowIndex==2 && aiPercentNormal!=value && key!='positionTitle'" style="margin-left: 5px" type="primary" @click="changeDayPercentPosition(rowIndex,value)">未使用</Button>
+                <Button  v-if="rowIndex==3 && aiPercent300===value && key!='positionTitle' " style="margin-left: 5px" type="error">使用中</Button >
+                <Button v-if="rowIndex==3 && aiPercent300!=value && key!='positionTitle'" style="margin-left: 5px" type="primary" @click="changeDayPercentPosition(rowIndex,value)">未使用</Button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
       <template>
         <Modal
           v-model="modal1"
@@ -155,6 +204,10 @@
       this.$api.get('dragon/tradeAccount/listOrderPrice', null, r => {
         var infos = r.data;
         this.data7 = infos
+        this.percentNormal = infos[0].percentNormal;
+        this.percent300 = infos[0].percent300;
+        this.aiPercentNormal = infos[0].aiPercentNormal;
+        this.aiPercent300 = infos[0].aiPercent300;
       })
     },
 
@@ -228,7 +281,130 @@
             align: 'center'
           }
         ],
+
+        columns14: [
+          {
+            title: '仓位名称',
+            key: 'positionTitle',
+            align: 'center'
+          },
+          {
+            title: '比例',
+            key: 'percent0',
+            align: 'center'
+          },
+          {
+            title: '比例',
+            key: 'percent1',
+            align: 'center'
+          },
+          {
+            title: '比例',
+            key: 'percent2',
+            align: 'center'
+          },
+          {
+            title: '比例',
+            key: 'percent3',
+            align: 'center'
+          },
+          {
+            title: '比例',
+            key: 'percent4',
+            align: 'center'
+          },
+          {
+            title: '比例',
+            key: 'percent5',
+            align: 'center'
+          },
+          {
+            title: '比例',
+            key: 'percent6',
+            align: 'center'
+          },
+          {
+            title: '比例',
+            key: 'percent7',
+            align: 'center'
+          },
+          {
+            title: '比例',
+            key: 'percent8',
+            align: 'center'
+          },
+          {
+            title: '比例',
+            key: 'percent9',
+            align: 'center'
+          }
+          ,
+          {
+            title: '比例',
+            key: 'percent10',
+            align: 'center'
+          }
+        ],
         data7: [
+
+        ],
+        data8: [
+          {
+            positionTitle: '主板比例',
+            percent0: 0.1,
+            percent1: 1,
+            percent2: 2,
+            percent3: 3,
+            percent4: 4,
+            percent5: 5,
+            percent6: 6,
+            percent7: 7,
+            percent8: 8,
+            percent9: 9,
+            percent10: 10,
+          },
+          {
+            positionTitle: '创业板比例',
+            percent0: 0.1,
+            percent1: 1,
+            percent2: 2,
+            percent3: 3,
+            percent4: 4,
+            percent5: 5,
+            percent6: 6,
+            percent7: 7,
+            percent8: 8,
+            percent9: 9,
+            percent10: 10,
+          },
+          {
+            positionTitle: '主板扫板比例',
+            percent0: 0.1,
+            percent1: 1,
+            percent2: 2,
+            percent3: 3,
+            percent4: 4,
+            percent5: 5,
+            percent6: 6,
+            percent7: 7,
+            percent8: 8,
+            percent9: 9,
+            percent10: 10,
+          },
+          {
+            positionTitle: '创业板扫板比例',
+            percent0: 0.1,
+            percent1: 1,
+            percent2: 2,
+            percent3: 3,
+            percent4: 4,
+            percent5: 5,
+            percent6: 6,
+            percent7: 7,
+            percent8: 8,
+            percent9: 9,
+            percent10: 10,
+          }
 
         ],
         modal1: false,
@@ -243,8 +419,11 @@
         currentGeneralPosition:0,
         currentAiPosition:0,
         currentAiPosition300:0,
-        currentUnmatchPosition:0
-
+        currentUnmatchPosition:0,
+        percentNormal:null,
+        percent300:null,
+        aiPercentNormal:null,
+        aiPercent300:null,
       }
     },
     methods: {
@@ -348,6 +527,30 @@
           }, r => {
           location.reload();
         })
+      },
+
+      changeDayPercentPosition (rowIndexInfo,buttonValue){
+          if(rowIndexInfo==0) {
+            this.percentNormal = buttonValue;
+          }
+          if(rowIndexInfo==1) {
+            this.percent300 = buttonValue;
+          }
+          if(rowIndexInfo==2) {
+            this.aiPercentNormal = buttonValue;
+          }
+          if(rowIndexInfo==3) {
+            this.aiPercent300 = buttonValue;
+          }
+          var idVal=this.data7[0].id;
+          var percentNormal = this.percentNormal;
+          var percent300 = this.percent300;
+          var aiPercentNormal = this.aiPercentNormal;
+          var aiPercent300 = this.aiPercent300;
+
+          this.$api.post('dragon/tradeAccount/changePercentOrderPrice', {id:idVal,percentNormal:percentNormal,percent300:percent300,aiPercentNormal:aiPercentNormal,aiPercent300:aiPercent300}, r => {
+            location.reload();
+          })
       },
 
       okClear () {
