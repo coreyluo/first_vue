@@ -148,7 +148,7 @@
             ai仓位:<Input name= "aiPosition" v-model="aiPosition" placeholder="" style="width: 300px" />
           </div>
           <div>
-            ai仓位:<Input name= "aiPosition300" v-model="aiPosition300" placeholder="" style="width: 300px" />
+            ai300仓位:<Input name= "aiPosition300" v-model="aiPosition300" placeholder="" style="width: 300px" />
           </div>
           <div>
             未匹配仓位:<Input name= "unmatchPosition" v-model="unmatchPosition" placeholder="" style="width: 300px" />
@@ -167,6 +167,9 @@
           </div>
           <div>
             高位板仓位比例:<Input name= "paramHighPlankRatio" v-model="paramHighPlankRatio" placeholder="" style="width: 300px" />
+          </div>
+          <div>
+            反包仓位比例:<Input name= "rePlankRatio" v-model="paramRePlankRatio" placeholder="" style="width: 300px" />
           </div>
           <div>
             大市值仓位比例:<Input name= "paramBig" v-model="paramBig" placeholder="" style="width: 300px" />
@@ -262,6 +265,11 @@
           {
             title: '高位仓位系数',
             key: 'highPlankRatio',
+            align: 'center'
+          },
+          {
+            title: '反包仓位系数',
+            key: 'rePlankRatio',
             align: 'center'
           },
           {
@@ -481,6 +489,7 @@
         this.indexId=this.data7[index].id;
         this.paramTwoPlankRatio = this.data7[index].twoPlankRatio;
         this.paramHighPlankRatio = this.data7[index].highPlankRatio;
+        this.paramRePlankRatio = this.data7[index].rePlankRatio;
         this.paramBig = this.data7[index].positionBigAmount;
         this.paramFollowDaLaoRatio = this.data7[index].followDaLaoRatio;
       },
@@ -488,9 +497,10 @@
         var changerId = this.indexId;
         var twoPlankRatio = this.paramTwoPlankRatio;
         var highPlankRatio = this.paramHighPlankRatio;
+        var rePlankRatio = this.paramRePlankRatio;
         var positionBigAmount = this.paramBig;
         var followDaLaoRatio = this.paramFollowDaLaoRatio;
-        this.$api.post('dragon/tradeAccount/changeRate', {id:changerId,twoPlankRatio:twoPlankRatio,highPlankRatio:highPlankRatio,positionBigAmount:positionBigAmount,followDaLaoRatio:followDaLaoRatio}, r => {
+        this.$api.post('dragon/tradeAccount/changeRate', {id:changerId,twoPlankRatio:twoPlankRatio,highPlankRatio:highPlankRatio,rePlankRatio:rePlankRatio,positionBigAmount:positionBigAmount,followDaLaoRatio:followDaLaoRatio}, r => {
           location.reload();
         })
 
