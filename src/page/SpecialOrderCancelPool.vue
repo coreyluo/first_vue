@@ -14,7 +14,7 @@
 <template>
     <div class="layout">
         <Sider :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
-            <Menu active-name="1-5" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
+            <Menu active-name="1-17" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
                 <Submenu name="1">
                     <template slot="title">
                         <Icon type="ios-navigate"></Icon>
@@ -43,19 +43,13 @@
         <Layout :style="{marginLeft: '200px'}">
             <div style="height: 30px">
             </div>
-            <template>
-                <div>
-                    <font style="font-weight:bold;font-size:15px;">股票代码：</font><Input name= "param1" v-model="param1" placeholder="stockCode" style="width: 300px" />
-                    <Button type="primary" icon="ios-search" @click="search()">查询</Button>
-                </div>
-            </template>
             <Table border :columns="columns12" :data="data6">
                 <template slot-scope="{ row }" slot="tab">
                     <strong>{{ row.tab }}</strong>
                 </template>
                 <template slot-scope="{ row, index }" slot="action">
-                    <Button v-if="row.status==0" type="primary" size="small" @click="stopCancel(index)">停撤</Button>
-                    <Button v-if="row.status==2" type="error" size="small" @click="resume(index)">恢复</Button>
+                    <Button v-if="row.status==1" type="primary" size="small" @click="stopCancel(index)">已经恢复，请停撤</Button>
+                    <Button v-if="row.status==2" type="error" size="small" @click="resume(index)">已经停撤，请恢复</Button>
                 </template>
             </Table>
         </Layout>
@@ -64,53 +58,47 @@
 <script>
     export default {
         created () {
-            this.$api.get('dragon/cancelLog/dataList', {pageNo:1,pageSize:50}, r => {
-               r.data.forEach(item => {
-                 if(item.success==0){
-                   item.successStr = "失败"
+            this.$api.get('dragon/specialOrderCancel/dataList', null, r => {
+               var infos = r.data;
+               infos.forEach(item => {
+                 if(item.status==1){
+                   item.statusStr = "正常监控撤单"
                  }
-                 if(item.success==1){
-                   item.successStr = "成功"
+                 if(item.status==2){
+                   item.statusStr = "已禁止监控撤单"
                  }
-              });
-              this.data6 = r.data;
+              })
+              this.data6 = infos
             })
         },
         data () {
             return {
                 columns12: [
-
+                    {
+                      title: '账号id',
+                      key: 'accountId'
+                    },
                     {
                         title: '股票代码',
                         key: 'stockCode'
                     },
                     {
                         title: '股票名称',
-                        key: 'ticketName'
-                    },
-                    {
-                        title: '撤单策略类型',
-                        key: 'strategyDescribe'
-                    },
-                    {
-                        title: '撤单参数',
-                        key: 'strategyContent'
+                        key: 'stockName'
                     },
                     {
                         title: '委托编号',
                         key: 'orderNo'
                     },
                     {
-                        title: '是否成功',
-                        key: 'successStr'
+                        title: '状态',
+                        key: 'statusStr'
                     },
                     {
-                        title: '撤单时间',
-                        key: 'createTime'
-                    },
-                    {
-                        title: '描述',
-                        key: 'message'
+                        title: 'Action',
+                        slot: 'action',
+                        width: 150,
+                        align: 'center'
                     }
                 ],
                 data6: [
@@ -119,7 +107,18 @@
             }
         },
         methods: {
-
+            stopCancel (index) {
+                var idStr = this.data6[index].id;
+                this.$api.get('dragon/specialOrderCancel/stopCancel', {id:idStr}, r => {
+                     location.reload()
+                })
+            },
+            resume (index) {
+                var idStr = this.data6[index].id;
+                this.$api.get('dragon/specialOrderCancel/resume', {id:idStr}, r => {
+                     location.reload()
+                })
+            },
             search(){
                 var stockCode = this.param1;
                 if(stockCode){
@@ -127,18 +126,32 @@
                 }else{
                   stockCode = null;
                 }
-                this.$api.get('dragon/cancelLog/dataList', {stockCode:stockCode,pageNo:1,pageSize:50}, r => {
-                  r.data.forEach(item => {
-                    if(item.success==0){
-                      item.successStr = "失败"
-                    }
-                    if(item.success==1){
-                      item.successStr = "成功"
-                    }
-                  });
-                  this.data6 = r.data;
+                this.$api.get('dragon/specialOrderCancel/dataList', {stockCode:stockCode}, r => {
+                    var infos = r.data;
+                    infos.forEach(item => {
+                       if(item.status==0){
+                         item.statusStr = "等待撤单"
+                       }
+                       if(item.status==2){
+                         item.statusStr = "已禁止撤单"
+                       }
+                        if(item.insertOrderType==0){
+                          item.insertTypeStr=="L1行情下单"
+                        }
+                        if(item.insertOrderType==1&&item.entrustStatus==0){
+                          item.insertTypeStr=="L2行情下单"
+                        }
+                        if(item.insertOrderType==1&&item.entrustStatus==1){
+                          item.insertTypeStr=="逐笔下单"
+                        }
+                        if(item.orderStamp!=null){
+                          item.beforeQuantityStr = item.beforeQuantity
+                        }
+                    })
+                    this.data6 = infos
                 })
             }
+
         }
     }
 </script>
