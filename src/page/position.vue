@@ -88,6 +88,10 @@
 
           <Button v-if="row.highPlankStatus===0" style="margin-left: 5px" type="warning" @click="changeAccountStatus(6,index,1)">高位板已经关闭,请开启</Button>
           <Button v-if="row.highPlankStatus===1" style="margin-left: 5px" type="primary" @click="changeAccountStatus(6,index,0)">高位板已经开启,请关闭</Button>
+
+          <Button v-if="accountMarketType===0" style="margin-left: 5px" type="warning" >全市场</Button>
+          <Button v-if="accountMarketType===1" style="margin-left: 5px" type="primary">上海</Button>
+          <Button v-if="accountMarketType===2" style="margin-left: 5px" type="primary">深圳</Button>
         </template>
       </Table>
 
@@ -211,6 +215,7 @@
         this.percent300 = infos[0].percent300;
         this.aiPercentNormal = infos[0].aiPercentNormal;
         this.aiPercent300 = infos[0].aiPercent300;
+        this.accountMarketType = infos[0].marketType;
       })
     },
 
@@ -432,6 +437,7 @@
         percent300:null,
         aiPercentNormal:null,
         aiPercent300:null,
+        accountMarketType:0,
       }
     },
     methods: {
