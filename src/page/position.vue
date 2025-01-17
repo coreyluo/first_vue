@@ -220,6 +220,8 @@
         this.percent300 = infos[0].percent300;
         this.aiPercentNormal = infos[0].aiPercentNormal;
         this.aiPercent300 = infos[0].aiPercent300;
+        this.aiScorePercentNormal = infos[0].aiScorePercentNormal;
+        this.aiScorePercent300 = infos[0].aiScorePercent300;
         this.accountMarketType = infos[0].marketType;
       })
     },
@@ -265,6 +267,16 @@
           {
             title: '扫板300',
             key: 'aiPosition300',
+            align: 'center'
+          },
+          {
+            title: 'aiScore',
+            key: 'aiScorePosition',
+            align: 'center'
+          },
+          {
+            title: 'aiScore300',
+            key: 'aiScorePosition300',
             align: 'center'
           },
           {
