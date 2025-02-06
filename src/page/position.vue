@@ -101,6 +101,9 @@
           <div>
             未匹配仓位:<Input name= "unmatchPosition" v-model="unmatchPosition" placeholder="" style="width: 300px" />
           </div>
+          <div>
+            未匹配仓位25:<Input name= "unmatchPositionFiveMin" v-model="unmatchPosition" placeholder="" style="width: 300px" />
+          </div>
         </Modal>
       </template>
 
@@ -209,6 +212,11 @@
             align: 'center'
           },
           {
+            title: '未匹配仓位25',
+            key: 'unmatchPositionFiveMin',
+            align: 'center'
+          },
+          {
             title: '跟随仓位系数分母',
             key: 'followDaLaoRatio',
             align: 'center'
@@ -216,7 +224,7 @@
           {
             title: '操作',
             slot: 'action',
-            width: 900,
+            width: 800,
             align: 'center'
           }
         ],
@@ -234,7 +242,8 @@
         currentPosition688:0,
         currentGeneralPosition:0,
         currentAiPosition:0,
-        currentUnmatchPosition:0
+        currentUnmatchPosition:0,
+        currentUnmatchPositionFiveMin:0
 
       }
     },
@@ -247,6 +256,7 @@
         this.generalPosition = this.data7[index].generalPosition;
         this.aiPosition = this.data7[index].aiPosition
         this.unmatchPosition = this.data7[index].unmatchPosition
+        this.unmatchPositionFiveMin = this.data7[index].unmatchPositionFiveMin
       },
       ok () {
         var position= this.param1;
@@ -256,14 +266,16 @@
         var generalPosition = this.generalPosition;
         var aiPosition = this.aiPosition;
         var unmatchPosition = this.unmatchPosition;
+        var unmatchPositionFiveMin = this.unmatchPositionFiveMin;
 
-        if(position>=3000000||position300>=3000000||position688>=3000000||generalPosition>=3000000){
+        if(position>=3000000||position300>=3000000||position688>=3000000||generalPosition>=3000000||unmatchPosition>3000000||unmatchPositionFiveMin>=3000000){
           this.currentPosition = position;
           this.currentPosition300 = position300;
           this.currentPosition688 = position688;
           this.currentGeneralPosition = generalPosition;
           this.currentAiPosition = aiPosition;
           this.currentUnmatchPosition = unmatchPosition;
+          this.currentUnmatchPositionFiveMin = unmatchPositionFiveMin;
           this.modal3 = true;
         }else if(aiPosition>=10000000){
           this.currentPosition = position;
@@ -272,9 +284,10 @@
           this.currentGeneralPosition = generalPosition;
           this.currentAiPosition = aiPosition;
           this.currentUnmatchPosition = unmatchPosition;
+          this.currentUnmatchPositionFiveMin = unmatchPositionFiveMin;
           this.modal4 = true;
         }else{
-          this.$api.post('dragon/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition,aiPosition:aiPosition,unmatchPosition:unmatchPosition}, r => {
+          this.$api.post('dragon/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition,aiPosition:aiPosition,unmatchPosition:unmatchPosition,unmatchPositionFiveMin:unmatchPositionFiveMin}, r => {
             location.reload();
           })
         }
@@ -344,7 +357,9 @@
         var position688 = this.currentPosition688;
         var generalPosition= this.currentGeneralPosition;
         var aiPosition = this.currentAiPosition;
-        this.$api.post('dragon/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition,aiPosition:aiPosition}, r => {
+        var unmatchPosition = this.unmatchPosition;
+        var unmatchPositionFiveMin = this.unmatchPositionFiveMin;
+        this.$api.post('dragon/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition,aiPosition:aiPosition,unmatchPosition:unmatchPosition,unmatchPositionFiveMin:unmatchPositionFiveMin}, r => {
           location.reload();
         })
 
