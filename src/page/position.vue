@@ -102,7 +102,7 @@
             未匹配仓位:<Input name= "unmatchPosition" v-model="unmatchPosition" placeholder="" style="width: 300px" />
           </div>
           <div>
-            未匹配仓位25:<Input name= "unmatchPositionFiveMin" v-model="unmatchPosition" placeholder="" style="width: 300px" />
+            未匹配仓位25:<Input name= "unmatchPositionFiveMin" v-model="unmatchPositionFiveMin" placeholder="" style="width: 300px" />
           </div>
         </Modal>
       </template>
