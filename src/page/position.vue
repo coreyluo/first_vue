@@ -128,6 +128,10 @@
                 <Button v-if="rowIndex==4 && aiScorePercentNormal!=value && key!='positionTitle'" style="margin-left: 5px" type="primary" @click="changeDayPercentPosition(rowIndex,value)">未使用</Button>
                 <Button  v-if="rowIndex==5 && aiScorePercent300===value && key!='positionTitle' " style="margin-left: 5px" type="error">使用中</Button >
                 <Button v-if="rowIndex==5 && aiScorePercent300!=value && key!='positionTitle'" style="margin-left: 5px" type="primary" @click="changeDayPercentPosition(rowIndex,value)">未使用</Button>
+                <Button  v-if="rowIndex==6 && aiWangPercentNormal===value && key!='positionTitle' " style="margin-left: 5px" type="error">使用中</Button >
+                <Button v-if="rowIndex==6 && aiWangPercentNormal!=value && key!='positionTitle'" style="margin-left: 5px" type="primary" @click="changeDayPercentPosition(rowIndex,value)">未使用</Button>
+                <Button  v-if="rowIndex==7 && aiWangPercent300===value && key!='positionTitle' " style="margin-left: 5px" type="error">使用中</Button >
+                <Button v-if="rowIndex==7 && aiWangPercent300!=value && key!='positionTitle'" style="margin-left: 5px" type="primary" @click="changeDayPercentPosition(rowIndex,value)">未使用</Button>
 
               </td>
             </tr>
@@ -222,6 +226,8 @@
         this.aiPercent300 = infos[0].aiPercent300;
         this.aiScorePercentNormal = infos[0].aiScorePercentNormal;
         this.aiScorePercent300 = infos[0].aiScorePercent300;
+        this.aiWangPercentNormal = infos[0].aiWangPercentNormal;
+        this.aiWangPercent300 = infos[0].aiWangPercent300;
         this.accountMarketType = infos[0].marketType;
       })
     },
@@ -270,13 +276,23 @@
             align: 'center'
           },
           {
-            title: 'aiScore',
+            title: 'ai何',
             key: 'aiScorePosition',
             align: 'center'
           },
           {
-            title: 'aiScore300',
+            title: 'ai何300',
             key: 'aiScorePosition300',
+            align: 'center'
+          },
+          {
+            title: 'ai汪',
+            key: 'aiWangPosition',
+            align: 'center'
+          },
+          {
+            title: 'ai汪300',
+            key: 'aiWangPosition300',
             align: 'center'
           },
           {
@@ -436,7 +452,7 @@
             percent10: 10,
           },
           {
-            positionTitle: '主板aiScore比例',
+            positionTitle: '主板ai何比例',
             percent0: 0.1,
             percent1: 1,
             percent2: 2,
@@ -450,7 +466,35 @@
             percent10: 10,
           },
           {
-            positionTitle: '创业板aiScore比例',
+            positionTitle: '创业板ai何比例',
+            percent0: 0.1,
+            percent1: 1,
+            percent2: 2,
+            percent3: 3,
+            percent4: 4,
+            percent5: 5,
+            percent6: 6,
+            percent7: 7,
+            percent8: 8,
+            percent9: 9,
+            percent10: 10,
+          },
+          {
+            positionTitle: '主板ai汪比例',
+            percent0: 0.1,
+            percent1: 1,
+            percent2: 2,
+            percent3: 3,
+            percent4: 4,
+            percent5: 5,
+            percent6: 6,
+            percent7: 7,
+            percent8: 8,
+            percent9: 9,
+            percent10: 10,
+          },
+          {
+            positionTitle: '创业板ai汪比例',
             percent0: 0.1,
             percent1: 1,
             percent2: 2,
@@ -484,6 +528,8 @@
         aiPercent300:null,
         aiScorePercentNormal:null,
         aiScorePercent300:null,
+        aiWangPercentNormal:null,
+        aiWangPercent300:null,
         accountMarketType:0,
       }
     },
@@ -611,6 +657,12 @@
         if(rowIndexInfo==5) {
           this.aiScorePercent300 = buttonValue;
         }
+        if(rowIndexInfo==6) {
+          this.aiWangPercentNormal = buttonValue;
+        }
+        if(rowIndexInfo==7) {
+          this.aiWangPercent300 = buttonValue;
+        }
           var idVal=this.data7[0].id;
           var percentNormal = this.percentNormal;
           var percent300 = this.percent300;
@@ -618,8 +670,10 @@
           var aiPercent300 = this.aiPercent300;
           var aiScorePercentNormal = this.aiScorePercentNormal;
           var aiScorePercent300 = this.aiScorePercent300;
+          var aiWangPercentNormal = this.aiWangPercentNormal;
+          var aiWangPercent300 = this.aiWangPercent300;
 
-          this.$api.post('dragon/tradeAccount/changePercentOrderPrice', {id:idVal,percentNormal:percentNormal,percent300:percent300,aiPercentNormal:aiPercentNormal,aiPercent300:aiPercent300,aiScorePercentNormal:aiScorePercentNormal,aiScorePercent300:aiScorePercent300}, r => {
+          this.$api.post('dragon/tradeAccount/changePercentOrderPrice', {id:idVal,percentNormal:percentNormal,percent300:percent300,aiPercentNormal:aiPercentNormal,aiPercent300:aiPercent300,aiScorePercentNormal:aiScorePercentNormal,aiScorePercent300:aiScorePercent300,aiWangPercentNormal:aiWangPercentNormal,aiWangPercent300:aiWangPercent300}, r => {
             location.reload();
           })
       },
