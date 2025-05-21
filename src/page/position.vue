@@ -52,6 +52,7 @@
 <!--          <MenuItem  name="1-15"><router-link to="/disableUnmatch/1"><font color="#fff">禁止未匹配量买入</font></router-link></MenuItem>
           <MenuItem  name="1-16"><router-link to="/stockBeforeRateInfo/1"><font color="#fff">涨幅过高股票信息</font></router-link></MenuItem>-->
           <MenuItem  name="1-17"><router-link to="/stockOpenInfo/1"><font color="#fff">集合一字信息</font></router-link></MenuItem>
+          <MenuItem  name="1-18"><router-link to="/strategyRatio/1"><font color="#fff">扫板比例系数</font></router-link></MenuItem>
         </Submenu>
       </Menu>
     </Sider>
@@ -118,6 +119,14 @@
               <Button v-if="rowIndex==2 && aiPercentNormal!=value && key!='positionTitle'" style="margin-left: 5px" type="primary" @click="changeDayPercentPosition(rowIndex,value)">未使用</Button>
               <Button  v-if="rowIndex==3 && aiPercent300===value && key!='positionTitle' " style="margin-left: 5px" type="error">使用中</Button >
               <Button v-if="rowIndex==3 && aiPercent300!=value && key!='positionTitle'" style="margin-left: 5px" type="primary" @click="changeDayPercentPosition(rowIndex,value)">未使用</Button>
+              <Button  v-if="rowIndex==4 && aiScorePercentNormal===value && key!='positionTitle' " style="margin-left: 5px" type="error">使用中</Button >
+              <Button v-if="rowIndex==4 && aiScorePercentNormal!=value && key!='positionTitle'" style="margin-left: 5px" type="primary" @click="changeDayPercentPosition(rowIndex,value)">未使用</Button>
+              <Button  v-if="rowIndex==5 && aiScorePercent300===value && key!='positionTitle' " style="margin-left: 5px" type="error">使用中</Button >
+              <Button v-if="rowIndex==5 && aiScorePercent300!=value && key!='positionTitle'" style="margin-left: 5px" type="primary" @click="changeDayPercentPosition(rowIndex,value)">未使用</Button>
+              <Button  v-if="rowIndex==6 && aiWangPercentNormal===value && key!='positionTitle' " style="margin-left: 5px" type="error">使用中</Button >
+              <Button v-if="rowIndex==6 && aiWangPercentNormal!=value && key!='positionTitle'" style="margin-left: 5px" type="primary" @click="changeDayPercentPosition(rowIndex,value)">未使用</Button>
+              <Button  v-if="rowIndex==7 && aiWangPercent300===value && key!='positionTitle' " style="margin-left: 5px" type="error">使用中</Button >
+              <Button v-if="rowIndex==7 && aiWangPercent300!=value && key!='positionTitle'" style="margin-left: 5px" type="primary" @click="changeDayPercentPosition(rowIndex,value)">未使用</Button>
             </td>
           </tr>
           </tbody>
@@ -201,6 +210,10 @@
         this.percent300 = infos[0].percent300;
         this.aiPercentNormal = infos[0].aiPercentNormal;
         this.aiPercent300 = infos[0].aiPercent300;
+        this.aiScorePercentNormal = infos[0].aiScorePercentNormal;
+        this.aiScorePercent300 = infos[0].aiScorePercent300;
+        this.aiWangPercentNormal = infos[0].aiWangPercentNormal;
+        this.aiWangPercent300 = infos[0].aiWangPercent300;
 
       })
     },
@@ -247,8 +260,26 @@
             title: '扫板300',
             key: 'aiPosition300',
             align: 'center'
+          },{
+            title: 'ai何',
+            key: 'aiScorePosition',
+            align: 'center'
           },
-
+          {
+            title: 'ai何300',
+            key: 'aiScorePosition300',
+            align: 'center'
+          },
+          {
+            title: 'ai汪',
+            key: 'aiWangPosition',
+            align: 'center'
+          },
+          {
+            title: 'ai汪300',
+            key: 'aiWangPosition300',
+            align: 'center'
+          },
           {
             title: '二板仓位系数',
             key: 'twoPlankRatio',
@@ -389,6 +420,62 @@
             percent8: 8,
             percent9: 9,
             percent10: 10,
+          },
+          {
+            positionTitle: '主板ai何比例',
+            percent0: 0.1,
+            percent1: 1,
+            percent2: 2,
+            percent3: 3,
+            percent4: 4,
+            percent5: 5,
+            percent6: 6,
+            percent7: 7,
+            percent8: 8,
+            percent9: 9,
+            percent10: 10,
+          },
+          {
+            positionTitle: '创业板ai何比例',
+            percent0: 0.1,
+            percent1: 1,
+            percent2: 2,
+            percent3: 3,
+            percent4: 4,
+            percent5: 5,
+            percent6: 6,
+            percent7: 7,
+            percent8: 8,
+            percent9: 9,
+            percent10: 10,
+          },
+          {
+            positionTitle: '主板ai汪比例',
+            percent0: 0.1,
+            percent1: 1,
+            percent2: 2,
+            percent3: 3,
+            percent4: 4,
+            percent5: 5,
+            percent6: 6,
+            percent7: 7,
+            percent8: 8,
+            percent9: 9,
+            percent10: 10,
+          },
+          {
+            positionTitle: '创业板ai汪比例',
+            percent0: 0.1,
+            percent1: 1,
+            percent2: 2,
+            percent3: 3,
+            percent4: 4,
+            percent5: 5,
+            percent6: 6,
+            percent7: 7,
+            percent8: 8,
+            percent9: 9,
+            percent10: 10,
           }
 
         ],
@@ -410,6 +497,10 @@
         percent300:null,
         aiPercentNormal:null,
         aiPercent300:null,
+        aiScorePercentNormal:null,
+        aiScorePercent300:null,
+        aiWangPercentNormal:null,
+        aiWangPercent300:null,
 
       }
     },
@@ -523,13 +614,29 @@
         if(rowIndexInfo==3) {
           this.aiPercent300 = buttonValue;
         }
+        if(rowIndexInfo==4) {
+          this.aiScorePercentNormal = buttonValue;
+        }
+        if(rowIndexInfo==5) {
+          this.aiScorePercent300 = buttonValue;
+        }
+        if(rowIndexInfo==6) {
+          this.aiWangPercentNormal = buttonValue;
+        }
+        if(rowIndexInfo==7) {
+          this.aiWangPercent300 = buttonValue;
+        }
         var idVal=this.data7[0].id;
         var percentNormal = this.percentNormal;
         var percent300 = this.percent300;
         var aiPercentNormal = this.aiPercentNormal;
         var aiPercent300 = this.aiPercent300;
+        var aiScorePercentNormal = this.aiScorePercentNormal;
+        var aiScorePercent300 = this.aiScorePercent300;
+        var aiWangPercentNormal = this.aiWangPercentNormal;
+        var aiWangPercent300 = this.aiWangPercent300;
 
-        this.$api.post('bull/tradeAccount/changePercentOrderPrice', {id:idVal,percentNormal:percentNormal,percent300:percent300,aiPercentNormal:aiPercentNormal,aiPercent300:aiPercent300}, r => {
+        this.$api.post('bull/tradeAccount/changePercentOrderPrice', {id:idVal,percentNormal:percentNormal,percent300:percent300,aiPercentNormal:aiPercentNormal,aiPercent300:aiPercent300,aiScorePercentNormal:aiScorePercentNormal,aiScorePercent300:aiScorePercent300,aiWangPercentNormal:aiWangPercentNormal,aiWangPercent300:aiWangPercent300}, r => {
           location.reload();
         })
       },

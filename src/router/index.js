@@ -18,6 +18,7 @@ import BatchBlock from "@/page/batchBlock"
 import DisableUnmatch from "@/page/disableUnmatch"
 import StockBeforeRateInfo from "@/page/stockBeforeRateInfo"
 import StockOpenInfo from "@/page/stockOpenInfo"
+import StrategyRatio from "@/page/strategyRatio"
 Vue.use(Router)
 
 export default new Router({
@@ -73,6 +74,9 @@ export default new Router({
     },{
       path: '/stockOpenInfo/:id',
       component: StockOpenInfo
+    },{
+      path: '/strategyRatio/:id',
+      component: StrategyRatio
     }
 
   ]
