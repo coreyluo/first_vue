@@ -95,6 +95,8 @@
           <Button v-if="!dragonPlankBuyV1Button"  type="primary" @click="dragonPlankBuyV1ButtonSend()">龙年打板1号已关闭,请开启</Button>
           <Button v-if="dragonPlankBuyV1Button"  type="error" @click="dragonPlankBuyV1ButtonSend()">龙年打板1号已开启,请关闭</Button>
 
+          <Button type="primary"  @click="modal4=true;show4()">扫版开始比例系数</Button>
+
         </div>
       </template>
 
@@ -155,6 +157,21 @@
         </Modal>
       </template>
 
+      <template>
+        <Modal
+          v-model="modal4"
+          title="扫版比例系数百分比"
+          @on-ok="ok4"
+          @on-cancel="cancel4">
+          <div>
+            深圳扫版比例:<Input name= "ratioSzParam" v-model="ratioSzParam" placeholder="" style="width: 300px" />
+          </div>
+          <div>
+            上海扫版比例:<Input name= "ratioShParam" v-model="ratioShParam" placeholder="" style="width: 300px" />
+          </div>
+        </Modal>
+      </template>
+
     </Layout>
   </div>
 </template>
@@ -167,7 +184,9 @@
         this.shButton = r.data.shButton;
         this.riskControlButton = r.data.riskControlButton;
         this.delay300Mill = r.data.delay300Mill;
-        this.unmatchPercentRatio =  r.data.unmatchPercentRatio
+        this.unmatchPercentRatio =  r.data.unmatchPercentRatio;
+        this.ratioSz = r.data.ratioSz;
+        this.ratioSh = r.data.ratioSh;
         this.positionRatio = r.data.positionRatio;
         this.rateDay3Ratio = r.data.rateDay3Ratio;
         this.rateDay5Ratio = r.data.rateDay5Ratio;
@@ -190,7 +209,10 @@
         modal1: false,
         modal2: false,
         modal3: false,
+        modal4: false,
         delay300Mill:0,
+        ratioSz:0,
+        ratioSh:0,
         unmatchPercentRatio:0,
         positionRatio:1,
         rateDay3Ratio:10000,
@@ -256,6 +278,11 @@
           location.reload()
         })
       },
+      changeBuyRatioButton (ratioSh,ratioSz) {
+        this.$api.get('dragon/buttonConfig/changeBuyRatio', {ratioSh:ratioSh,ratioSz:ratioSz}, r => {
+          location.reload()
+        })
+      },
 
       show1 () {
         this.param1=this.delay300Mill;
@@ -305,9 +332,22 @@
         if(this.positionRatioParam===''){
           this.positionRatio = 1;
         }
-        this.changeStockBeforeRateRatioButton (this.positionRatio,this.rateDay3Ratio,this.rateDay5Ratio,this.rateDay10Ratio,this.rateDay20Ratio,this.rateDay30Ratio,this.rateDay40Ratio,this.rateDay60Ratio)
+        this.changeStockBeforeRateRatioButton() (this.positionRatio,this.rateDay3Ratio,this.rateDay5Ratio,this.rateDay10Ratio,this.rateDay20Ratio,this.rateDay30Ratio,this.rateDay40Ratio,this.rateDay60Ratio)
       },
       cancel3 () {
+        this.$Message.info()
+      },
+
+      show4 () {
+        this.ratioSzParam=this.ratioSz;
+        this.ratioShParam=this.ratioSh;
+      },
+      ok4 () {
+        this.ratioSz = this.ratioSzParam;
+        this.ratioSh = this.ratioShParam;
+        this.changeBuyRatioButton (this.ratioSh,this.ratioSz)
+      },
+      cancel4 () {
         this.$Message.info()
       },
 
