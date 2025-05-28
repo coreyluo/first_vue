@@ -167,6 +167,9 @@
           <div>
             未匹配仓位:<Input name= "unmatchPosition" v-model="unmatchPosition" placeholder="" style="width: 300px" />
           </div>
+          <div>
+            牵引力仓位:<Input name= "positionBlock" v-model="positionBlock" placeholder="" style="width: 300px" />
+          </div>
         </Modal>
       </template>
 
@@ -207,6 +210,14 @@
         <Modal
           v-model="modal4"
           title="ai仓位超过1000万了，确定吗？"
+          @on-ok="okClear"
+          @on-cancel="cancelClear">
+        </Modal>
+      </template>
+      <template>
+        <Modal
+          v-model="modal5"
+          title="牵引力仓位超过1000万了，确定吗？"
           @on-ok="okClear"
           @on-cancel="cancelClear">
         </Modal>
@@ -314,6 +325,11 @@
           {
             title: '未匹配仓位',
             key: 'unmatchPosition',
+            align: 'center'
+          },
+          {
+            title: '牵引力仓位',
+            key: 'positionBlock',
             align: 'center'
           },
           {
@@ -523,6 +539,7 @@
         currentAiPosition:0,
         currentAiPosition300:0,
         currentUnmatchPosition:0,
+        currentPositionBlock:0,
         percentNormal:null,
         percent300:null,
         aiPercentNormal:null,
@@ -544,6 +561,7 @@
         this.aiPosition = this.data7[index].aiPosition
         this.aiPosition300 = this.data7[index].aiPosition300
         this.unmatchPosition = this.data7[index].unmatchPosition
+        this.positionBlock = this.data7[index].positionBlock
       },
       ok () {
         var position= this.param1;
@@ -554,6 +572,7 @@
         var aiPosition = this.aiPosition;
         var aiPosition300 = this.aiPosition300;
         var unmatchPosition = this.unmatchPosition;
+        var positionBlock = this.positionBlock
 
         if(position>=3000000||position300>=3000000||position688>=3000000||generalPosition>=3000000){
           this.currentPosition = position;
@@ -563,6 +582,7 @@
           this.currentAiPosition = aiPosition;
           this.currentAiPosition300 = aiPosition300;
           this.currentUnmatchPosition = unmatchPosition;
+          this.currentPositionBlock = positionBlock;
           this.modal3 = true;
         }else if(aiPosition>=10000000){
           this.currentPosition = position;
@@ -572,9 +592,20 @@
           this.currentAiPosition = aiPosition;
           this.currentAiPosition300 = aiPosition300;
           this.currentUnmatchPosition = unmatchPosition;
+          this.currentPositionBlock = positionBlock;
+          this.modal4 = true;
+        }else if(positionBlock>=10000000){
+          this.currentPosition = position;
+          this.currentPosition300 = position300;
+          this.currentPosition688 = position688;
+          this.currentGeneralPosition = generalPosition;
+          this.currentAiPosition = aiPosition;
+          this.currentAiPosition300 = aiPosition300;
+          this.currentUnmatchPosition = unmatchPosition;
+          this.currentPositionBlock = positionBlock;
           this.modal4 = true;
         }else{
-          this.$api.post('dragon/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition,aiPosition:aiPosition,aiPosition300:aiPosition300,unmatchPosition:unmatchPosition}, r => {
+          this.$api.post('dragon/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition,aiPosition:aiPosition,aiPosition300:aiPosition300,unmatchPosition:unmatchPosition,positionBlock:positionBlock}, r => {
             location.reload();
           })
         }
@@ -687,7 +718,9 @@
         var generalPosition= this.currentGeneralPosition;
         var aiPosition = this.currentAiPosition;
         var aiPosition300 = this.currentAiPosition300;
-        this.$api.post('dragon/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition,aiPosition:aiPosition,aiPosition300:aiPosition300}, r => {
+        var unmatchPosition = this.currentUnmatchPosition;
+        var positionBlock = this.currentPositionBlock
+        this.$api.post('dragon/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition,aiPosition:aiPosition,aiPosition300:aiPosition300,unmatchPosition:unmatchPosition,positionBlock:positionBlock}, r => {
           location.reload();
         })
 
