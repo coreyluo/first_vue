@@ -24,59 +24,11 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-       path: '/',
-       component: Position
-     },{
-      path: '/disableStockPool/:id',
-      component: DisableStockPool
-    },{
       path: '/radicalDragonPool/:id',
       component: RadicalDragonPool
     },{
-      path: '/orderCancelPool/:id',
-      component: OrderCancelPool
-    },{
-      path: '/cancelLog/:id',
-      component: CancelLog
-    },{
-      path: '/content/:id',
-      component: Content
-    },{
-      path: '/sellOrder/:id',
-      component: SellOrder
-    },{
       path: '/userLogin/:id',
       component: UserLogin
-    },{
-      path: '/openButton/:id',
-      component: OpenButton
-    },{
-      path: '/blockView/:id',
-      component: BlockView
-    },{
-      path: '/circulateInfo/:id',
-      component: CirculateInfo
-    },{
-      path: '/blockDiy/:id',
-      component: BlockDiy
-    },{
-      path: '/scareBuy/:id',
-      component: ScareBuy
-    },{
-      path: '/batchBlock/:id',
-      component: BatchBlock
-    },{
-      path: '/disableUnmatch/:id',
-      component: DisableUnmatch
-    },{
-      path: '/stockBeforeRateInfo/:id',
-      component: StockBeforeRateInfo
-    },{
-      path: '/stockOpenInfo/:id',
-      component: StockOpenInfo
-    },{
-      path: '/strategyRatio/:id',
-      component: StrategyRatio
     }
 
   ]
