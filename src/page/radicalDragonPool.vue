@@ -134,6 +134,7 @@
              <option v-if="param4 ==2" value="0">排队</option>
               <option v-if="param4 ==2" value="2">涨停价有成交</option>
               <option v-if="param4 ==2" value="3">低于一分钱有成交</option>
+              <option v-if="param4 ==2" value="4">板前扫货</option>
 
 
               <option v-if="param4 ==0" value="1">开盘向上买入</option>
@@ -194,6 +195,9 @@
             }
             if (item.sweepType == 3) {
               item.sweepTypeStr = "低于一分钱有成交"
+            }
+            if (item.sweepType == 4) {
+              item.sweepTypeStr = "板前扫货"
             }
           }
         })
@@ -293,6 +297,9 @@
               }
               if (item.sweepType == 3) {
                 item.sweepTypeStr = "低于一分钱有成交"
+              }
+              if (item.sweepType == 4) {
+                item.sweepTypeStr = "板前扫货"
               }
             }
           })
