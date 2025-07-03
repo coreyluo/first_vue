@@ -39,6 +39,7 @@
           </template>
           <MenuItem  name="1-8"><router-link to="/userLogin/1"><font color="#fff">登录</font></router-link></MenuItem>
           <MenuItem  name="1-1"><router-link to="/"><font color="#fff">账户信息</font></router-link></MenuItem>
+          <MenuItem  name="1-18"><router-link to="/strategyRatio/1"><font color="#fff">扫板比例系数</font></router-link></MenuItem>
           <MenuItem  name="1-2"><router-link to="/disableStockPool/1"><font color="#fff">禁止下单股票池</font></router-link></MenuItem>
           <MenuItem  name="1-3"><router-link to="/radicalDragonPool/1"><font color="#fff">小池子</font></router-link></MenuItem>
           <MenuItem  name="1-4"><router-link to="/orderCancelPool/1"><font color="#fff">等待撤单</font></router-link></MenuItem>
@@ -54,7 +55,6 @@
           <MenuItem  name="1-15"><router-link to="/disableUnmatch/1"><font color="#fff">禁止未匹配量买入</font></router-link></MenuItem>
           <MenuItem  name="1-16"><router-link to="/stockBeforeRateInfo/1"><font color="#fff">涨幅过高股票信息</font></router-link></MenuItem>
           <MenuItem  name="1-17"><router-link to="/stockOpenInfo/1"><font color="#fff">集合一字信息</font></router-link></MenuItem>
-          <MenuItem  name="1-18"><router-link to="/strategyRatio/1"><font color="#fff">扫板比例系数</font></router-link></MenuItem>
         </Submenu>
       </Menu>
     </Sider>
@@ -169,6 +169,9 @@
           </div>
           <div>
             牵引力仓位:<Input name= "positionBlock" v-model="positionBlock" placeholder="" style="width: 300px" />
+          </div>
+          <div>
+            低吸单笔:<Input name= "positionBuyLow" v-model="positionBuyLow" placeholder="" style="width: 300px" />
           </div>
         </Modal>
       </template>
@@ -333,6 +336,11 @@
             align: 'center'
           },
           {
+            title: '低吸单笔',
+            key: 'positionBuyLow',
+            align: 'center'
+          },
+          {
             title: '跟随仓位系数分母',
             key: 'followDaLaoRatio',
             align: 'center'
@@ -340,7 +348,7 @@
           {
             title: '操作',
             slot: 'action',
-            width: 900,
+            width: 850,
             align: 'center'
           }
         ],
@@ -540,6 +548,7 @@
         currentAiPosition300:0,
         currentUnmatchPosition:0,
         currentPositionBlock:0,
+        currentPositionBuyLow:0,
         percentNormal:null,
         percent300:null,
         aiPercentNormal:null,
@@ -562,6 +571,7 @@
         this.aiPosition300 = this.data7[index].aiPosition300
         this.unmatchPosition = this.data7[index].unmatchPosition
         this.positionBlock = this.data7[index].positionBlock
+        this.positionBuyLow = this.data7[index].positionBuyLow
       },
       ok () {
         var position= this.param1;
@@ -573,6 +583,7 @@
         var aiPosition300 = this.aiPosition300;
         var unmatchPosition = this.unmatchPosition;
         var positionBlock = this.positionBlock
+        var positionBuyLow = this.positionBuyLow
 
         if(position>=3000000||position300>=3000000||position688>=3000000||generalPosition>=3000000){
           this.currentPosition = position;
@@ -583,6 +594,7 @@
           this.currentAiPosition300 = aiPosition300;
           this.currentUnmatchPosition = unmatchPosition;
           this.currentPositionBlock = positionBlock;
+          this.currentPositionBuyLow = positionBuyLow;
           this.modal3 = true;
         }else if(aiPosition>=10000000){
           this.currentPosition = position;
@@ -593,6 +605,7 @@
           this.currentAiPosition300 = aiPosition300;
           this.currentUnmatchPosition = unmatchPosition;
           this.currentPositionBlock = positionBlock;
+          this.currentPositionBuyLow = positionBuyLow;
           this.modal4 = true;
         }else if(positionBlock>=10000000){
           this.currentPosition = position;
@@ -603,9 +616,10 @@
           this.currentAiPosition300 = aiPosition300;
           this.currentUnmatchPosition = unmatchPosition;
           this.currentPositionBlock = positionBlock;
+          this.currentPositionBuyLow = positionBuyLow;
           this.modal4 = true;
         }else{
-          this.$api.post('dragon/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition,aiPosition:aiPosition,aiPosition300:aiPosition300,unmatchPosition:unmatchPosition,positionBlock:positionBlock}, r => {
+          this.$api.post('dragon/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition,aiPosition:aiPosition,aiPosition300:aiPosition300,unmatchPosition:unmatchPosition,positionBlock:positionBlock,positionBuyLow:positionBuyLow}, r => {
             location.reload();
           })
         }
