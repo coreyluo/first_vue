@@ -76,6 +76,7 @@ table, th, td {
                 <th class="button2">比例</th>
                 <th class="button2">比例</th>
                 <th class="button2">比例</th>
+                <th class="button2">比例</th>
               </tr>
               </thead>
               <tbody>
@@ -97,7 +98,7 @@ table, th, td {
       created: function () {
         this.$api.get('dragon/strategyRatio/listStrategyRatio', {}, r => {
           var infos = r.data;
-          function Person(code, ratio0, ratio1, ratio2, ratio3, ratio4, ratio5, ratio6, ratio7, ratio8, ratio9, ratio10) {
+          function Person(code, ratio0, ratio1, ratio2, ratio3, ratio4, ratio5, ratio6, ratio7, ratio8, ratio9, ratio10, ratio11) {
             this.code = code;
             this.ratio0 = ratio0;
             this.ratio1 = ratio1;
@@ -110,11 +111,12 @@ table, th, td {
             this.ratio8 = ratio8;
             this.ratio9 = ratio9;
             this.ratio10 = ratio10;
+            this.ratio11 = ratio11;
           }
 
           for (var i = 0; i < infos.length; i++) {
              var ratioInfo = infos[i];
-             const person = new Person(ratioInfo.strategyCode, 0.00, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0)
+             const person = new Person(ratioInfo.strategyCode, 0.00, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0,2.0)
              this.data6.push(person)
           }
           this.data7 = infos;
