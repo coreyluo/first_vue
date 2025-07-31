@@ -97,6 +97,12 @@
 
           <Button type="primary"  @click="modal4=true;show4()">扫版开始比例系数</Button>
 
+          <Button v-if="!rePlankButton"  type="primary" @click="rePlankButtonSend()">每次上板都打已开启</Button>
+          <Button v-if="rePlankButton"  type="error" @click="rePlankButtonSend()">只打回封板已开启</Button>
+
+          <Button v-if="!rePlankAiButton"  type="primary" @click="rePlankAiButtonSend()">ai每次上板都打已开启</Button>
+          <Button v-if="rePlankAiButton"  type="error" @click="rePlankAiButtonSend()">ai只打回封板已开启</Button>
+
         </div>
       </template>
 
@@ -196,6 +202,8 @@
         this.rateDay40Ratio = r.data.rateDay40Ratio;
         this.rateDay60Ratio = r.data.rateDay60Ratio;
         this.dragonPlankBuyV1Button = r.data.dragonPlankBuyV1;
+        this.rePlankButton = r.data.rePlank;
+        this.rePlankAiButton = r.data.rePlankAi;
       });
     },
 
@@ -206,6 +214,8 @@
         cancelButton:false,
         riskControlButton:true,
         dragonPlankBuyV1Button:false,
+        rePlankButton:false,
+        rePlankAiButton:false,
         modal1: false,
         modal2: false,
         modal3: false,
@@ -280,6 +290,17 @@
       },
       changeBuyRatioButton (ratioSh,ratioSz) {
         this.$api.get('dragon/buttonConfig/changeBuyRatio', {ratioSh:ratioSh,ratioSz:ratioSz}, r => {
+          location.reload()
+        })
+      },
+
+      rePlankButtonSend () {
+        this.$api.get('dragon/buttonConfig/changeRePlank', {}, r => {
+          location.reload()
+        })
+      },
+      rePlankAiButtonSend () {
+        this.$api.get('dragon/buttonConfig/changeRePlankAi', {}, r => {
           location.reload()
         })
       },
