@@ -97,6 +97,9 @@
 
           <Button type="primary"  @click="modal4=true;show4()">扫版开始比例系数</Button>
 
+          <Button v-if="!aiHighButton"  type="primary" @click="aiHighButtonSend()">ai高位已关闭,请开启</Button>
+          <Button v-if="aiHighButton"  type="error" @click="aiHighButtonSend()">ai高位已开启,请关闭</Button>
+
         </div>
       </template>
 
@@ -196,6 +199,7 @@
         this.rateDay40Ratio = r.data.rateDay40Ratio;
         this.rateDay60Ratio = r.data.rateDay60Ratio;
         this.dragonPlankBuyV1Button = r.data.dragonPlankBuyV1;
+        this.aiHighButton = r.data.aiHigh;
       });
     },
 
@@ -206,6 +210,7 @@
         cancelButton:false,
         riskControlButton:true,
         dragonPlankBuyV1Button:false,
+        aiHighButton:false,
         modal1: false,
         modal2: false,
         modal3: false,
@@ -275,6 +280,12 @@
 
       dragonPlankBuyV1ButtonSend () {
         this.$api.get('dragon/buttonConfig/dragonPlankBuyV1', {}, r => {
+          location.reload()
+        })
+      },
+
+      aiHighButtonSend () {
+        this.$api.get('dragon/buttonConfig/changeAiHigh', {}, r => {
           location.reload()
         })
       },
