@@ -93,6 +93,13 @@
           <Button v-if="accountMarketType===0" style="margin-left: 5px" type="warning" >全市场</Button>
           <Button v-if="accountMarketType===1" style="margin-left: 5px" type="primary">上海</Button>
           <Button v-if="accountMarketType===2" style="margin-left: 5px" type="primary">深圳</Button>
+
+          <div>&nbsp</div>
+          <Button v-if="row.plankTradeButton" style="margin-left: 5px" type="primary" @click="changePlankTradeButton()">普达触碰涨停已开启</Button>
+          <Button v-if="!row.plankTradeButton" style="margin-left: 5px" type="warning" @click="changePlankTradeButton()">普达触碰涨停已关闭</Button>
+
+          <Button type="primary" style="margin-right: 5px" @click="modal6=true;show6()">修改总卖百分比</Button>
+
         </template>
       </Table>
 
@@ -205,6 +212,18 @@
 
       <template>
         <Modal
+          v-model="modal6"
+          title="总卖百分比"
+          @on-ok="ok6"
+          @on-cancel="cancel6">
+          <div>
+            总卖百分比:<Input name= "percentTotalSell" v-model="percentTotalSell" placeholder="" style="width: 300px" />
+          </div>
+        </Modal>
+      </template>
+
+      <template>
+        <Modal
           v-model="modal3"
           title="有仓位超过300万了，确定吗？"
           @on-ok="okClear"
@@ -247,6 +266,8 @@
         this.aiWangPercentNormal = infos[0].aiWangPercentNormal;
         this.aiWangPercent300 = infos[0].aiWangPercent300;
         this.accountMarketType = infos[0].marketType;
+        this.plankTradeButton = infos[0].plankTradeButton;
+        this.percentTotalSell = infos[0].percentTotalSell;
       })
     },
 
@@ -546,6 +567,7 @@
         modal2:false,
         modal3:false,
         modal4:false,
+        modal6:false,
 
         indexId:0,
         currentPosition:0,
@@ -567,6 +589,8 @@
         aiWangPercentNormal:null,
         aiWangPercent300:null,
         accountMarketType:0,
+        plankTradeButton:false,
+        percentTotalSell:0,
       }
     },
     methods: {
@@ -757,7 +781,26 @@
       cancelClear () {
       },
 
+      changePlankTradeButton () {
+        this.$api.get('dragon/tradeAccount/changePlankTradeButton', {}, r => {
+          location.reload()
+        })
+      },
 
+      show6 (index) {
+        this.percentTotalSell = this.data7[index].percentTotalSell;
+      },
+      ok6 () {
+
+        var percentTotalSell = this.percentTotalSell;
+        this.$api.post('dragon/tradeAccount/changePercentTotalSell', {percentTotalSell:percentTotalSell}, r => {
+          location.reload();
+        })
+
+
+      },
+      cancel6 () {
+      },
 
     }
   }
