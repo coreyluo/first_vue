@@ -49,6 +49,7 @@
           </template>
           <MenuItem  name="1-8"><router-link to="/userLogin/1"><font color="#fff">登录</font></router-link></MenuItem>
           <MenuItem  name="1-1"><router-link to="/"><font color="#fff">账户信息</font></router-link></MenuItem>
+          <MenuItem  name="1-18"><router-link to="/strategyRatio/1"><font color="#fff">扫板比例系数</font></router-link></MenuItem>
           <MenuItem  name="1-2"><router-link to="/disableStockPool/1"><font color="#fff">禁止下单股票池</font></router-link></MenuItem>
           <MenuItem  name="1-3"><router-link to="/radicalDragonPool/1"><font color="#fff">小池子</font></router-link></MenuItem>
           <MenuItem  name="1-17"><router-link to="/specialOrderCancelPool/1"><font color="#fff">集合和手动撤单池</font></router-link></MenuItem>
@@ -64,6 +65,7 @@
           <MenuItem  name="1-14"><router-link to="/batchBlock/1"><font color="#fff">批量买入</font></router-link></MenuItem>
           <MenuItem  name="1-15"><router-link to="/disableUnmatch/1"><font color="#fff">禁止未匹配量买入</font></router-link></MenuItem>
           <MenuItem  name="1-16"><router-link to="/stockBeforeRateInfo/1"><font color="#fff">涨幅过高股票信息</font></router-link></MenuItem>
+          <MenuItem  name="1-17"><router-link to="/stockOpenInfo/1"><font color="#fff">集合一字信息</font></router-link></MenuItem>
         </Submenu>
       </Menu>
     </Sider>
@@ -93,6 +95,11 @@
 
           <Button v-if="!dragonPlankBuyV1Button"  type="primary" @click="dragonPlankBuyV1ButtonSend()">龙年打板1号已关闭,请开启</Button>
           <Button v-if="dragonPlankBuyV1Button"  type="error" @click="dragonPlankBuyV1ButtonSend()">龙年打板1号已开启,请关闭</Button>
+
+          <Button type="primary"  @click="modal4=true;show4()">扫版开始比例系数</Button>
+
+          <Button v-if="!aiHighButton"  type="primary" @click="aiHighButtonSend()">ai高位已关闭,请开启</Button>
+          <Button v-if="aiHighButton"  type="error" @click="aiHighButtonSend()">ai高位已开启,请关闭</Button>
 
         </div>
       </template>
@@ -154,6 +161,21 @@
         </Modal>
       </template>
 
+      <template>
+        <Modal
+          v-model="modal4"
+          title="扫版比例系数百分比"
+          @on-ok="ok4"
+          @on-cancel="cancel4">
+          <div>
+            深圳扫版比例:<Input name= "ratioSzParam" v-model="ratioSzParam" placeholder="" style="width: 300px" />
+          </div>
+          <div>
+            上海扫版比例:<Input name= "ratioShParam" v-model="ratioShParam" placeholder="" style="width: 300px" />
+          </div>
+        </Modal>
+      </template>
+
     </Layout>
   </div>
 </template>
@@ -166,7 +188,9 @@
         this.shButton = r.data.shButton;
         this.riskControlButton = r.data.riskControlButton;
         this.delay300Mill = r.data.delay300Mill;
-        this.unmatchPercentRatio =  r.data.unmatchPercentRatio
+        this.unmatchPercentRatio =  r.data.unmatchPercentRatio;
+        this.ratioSz = r.data.ratioSz;
+        this.ratioSh = r.data.ratioSh;
         this.positionRatio = r.data.positionRatio;
         this.rateDay3Ratio = r.data.rateDay3Ratio;
         this.rateDay5Ratio = r.data.rateDay5Ratio;
@@ -176,6 +200,7 @@
         this.rateDay40Ratio = r.data.rateDay40Ratio;
         this.rateDay60Ratio = r.data.rateDay60Ratio;
         this.dragonPlankBuyV1Button = r.data.dragonPlankBuyV1;
+        this.aiHighButton = r.data.aiHigh;
       });
     },
 
@@ -186,10 +211,14 @@
         cancelButton:false,
         riskControlButton:true,
         dragonPlankBuyV1Button:false,
+        aiHighButton:false,
         modal1: false,
         modal2: false,
         modal3: false,
+        modal4: false,
         delay300Mill:0,
+        ratioSz:0,
+        ratioSh:0,
         unmatchPercentRatio:0,
         positionRatio:1,
         rateDay3Ratio:10000,
@@ -256,6 +285,17 @@
         })
       },
 
+      aiHighButtonSend () {
+        this.$api.get('dragon/buttonConfig/changeAiHigh', {}, r => {
+          location.reload()
+        })
+      },
+      changeBuyRatioButton (ratioSh,ratioSz) {
+        this.$api.get('dragon/buttonConfig/changeBuyRatio', {ratioSh:ratioSh,ratioSz:ratioSz}, r => {
+          location.reload()
+        })
+      },
+
       show1 () {
         this.param1=this.delay300Mill;
       },
@@ -304,9 +344,22 @@
         if(this.positionRatioParam===''){
           this.positionRatio = 1;
         }
-        this.changeStockBeforeRateRatioButton (this.positionRatio,this.rateDay3Ratio,this.rateDay5Ratio,this.rateDay10Ratio,this.rateDay20Ratio,this.rateDay30Ratio,this.rateDay40Ratio,this.rateDay60Ratio)
+        this.changeStockBeforeRateRatioButton() (this.positionRatio,this.rateDay3Ratio,this.rateDay5Ratio,this.rateDay10Ratio,this.rateDay20Ratio,this.rateDay30Ratio,this.rateDay40Ratio,this.rateDay60Ratio)
       },
       cancel3 () {
+        this.$Message.info()
+      },
+
+      show4 () {
+        this.ratioSzParam=this.ratioSz;
+        this.ratioShParam=this.ratioSh;
+      },
+      ok4 () {
+        this.ratioSz = this.ratioSzParam;
+        this.ratioSh = this.ratioShParam;
+        this.changeBuyRatioButton (this.ratioSh,this.ratioSz)
+      },
+      cancel4 () {
         this.$Message.info()
       },
 
