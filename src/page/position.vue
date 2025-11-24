@@ -173,6 +173,9 @@
           <div>
             低吸单笔:<Input name= "positionBuyLow" v-model="positionBuyLow" placeholder="" style="width: 300px" />
           </div>
+          <div>
+            etf单笔:<Input name= "positionEtf" v-model="positionEtf" placeholder="" style="width: 300px" />
+          </div>
         </Modal>
       </template>
 
@@ -338,6 +341,11 @@
           {
             title: '低吸单笔',
             key: 'positionBuyLow',
+            align: 'center'
+          },
+          {
+            title: 'etf单笔',
+            key: 'positionEtf',
             align: 'center'
           },
           {
@@ -549,6 +557,7 @@
         currentUnmatchPosition:0,
         currentPositionBlock:0,
         currentPositionBuyLow:0,
+        currentPositionEtf:0,
         percentNormal:null,
         percent300:null,
         aiPercentNormal:null,
@@ -572,6 +581,7 @@
         this.unmatchPosition = this.data7[index].unmatchPosition
         this.positionBlock = this.data7[index].positionBlock
         this.positionBuyLow = this.data7[index].positionBuyLow
+        this.positionEtf = this.data7[index].positionEtf
       },
       ok () {
         var position= this.param1;
@@ -584,6 +594,7 @@
         var unmatchPosition = this.unmatchPosition;
         var positionBlock = this.positionBlock
         var positionBuyLow = this.positionBuyLow
+        var positionEtf = this.positionEtf
 
         if(position>=3000000||position300>=3000000||position688>=3000000||generalPosition>=3000000){
           this.currentPosition = position;
@@ -595,6 +606,7 @@
           this.currentUnmatchPosition = unmatchPosition;
           this.currentPositionBlock = positionBlock;
           this.currentPositionBuyLow = positionBuyLow;
+          this.currentPositionEtf = positionEtf;
           this.modal3 = true;
         }else if(aiPosition>=10000000){
           this.currentPosition = position;
@@ -606,6 +618,7 @@
           this.currentUnmatchPosition = unmatchPosition;
           this.currentPositionBlock = positionBlock;
           this.currentPositionBuyLow = positionBuyLow;
+          this.currentPositionEtf = positionEtf;
           this.modal4 = true;
         }else if(positionBlock>=10000000){
           this.currentPosition = position;
@@ -617,9 +630,10 @@
           this.currentUnmatchPosition = unmatchPosition;
           this.currentPositionBlock = positionBlock;
           this.currentPositionBuyLow = positionBuyLow;
+          this.currentPositionEtf = positionEtf;
           this.modal4 = true;
         }else{
-          this.$api.post('dragon/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition,aiPosition:aiPosition,aiPosition300:aiPosition300,unmatchPosition:unmatchPosition,positionBlock:positionBlock,positionBuyLow:positionBuyLow}, r => {
+          this.$api.post('dragon/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition,aiPosition:aiPosition,aiPosition300:aiPosition300,unmatchPosition:unmatchPosition,positionBlock:positionBlock,positionBuyLow:positionBuyLow,positionEtf:positionEtf}, r => {
             location.reload();
           })
         }
