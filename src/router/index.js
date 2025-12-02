@@ -19,6 +19,7 @@ import DisableUnmatch from "@/page/disableUnmatch"
 import StockBeforeRateInfo from "@/page/stockBeforeRateInfo"
 import StockOpenInfo from "@/page/stockOpenInfo"
 import StrategyRatio from "@/page/strategyRatio"
+import SelfButton from "@/page/selfButton"
 Vue.use(Router)
 
 export default new Router({
@@ -77,6 +78,9 @@ export default new Router({
     },{
       path: '/strategyRatio/:id',
       component: StrategyRatio
+    },{
+      path: '/selfButton/:id',
+      component: SelfButton
     }
 
   ]

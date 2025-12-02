@@ -41,7 +41,7 @@
 <template>
   <div class="layout">
     <Sider :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
-      <Menu active-name="1-13" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
+      <Menu active-name="1-19" theme="dark" width="auto" :open-names="['1']" @on-select="routeTo">
         <Submenu name="1">
           <template slot="title">
             <Icon type="ios-navigate"></Icon>
@@ -75,29 +75,55 @@
 
       <template>
         <div>
-          <Button style="float:right" type="error" @click="modal2=true;">恐慌买入</Button>
-          <Button style="float:right" type="error" @click="modal3=true;">沪深300买入</Button>
+
+          <Button  type="primary" @click="modal1=true;show1()">微盘总仓位{{positionWeiPan}}</Button>
+          <Button  type="primary" @click="modal2=true;show2()">微盘核按钮比例{{weiPanPitPercent}}</Button>
+          <Button  type="primary" @click="modal3=true;show3()">执行买入</Button>
+          <Button  type="error" @click="modal4=true;show4()">执行卖出</Button>
         </div>
       </template>
 
       <template>
         <Modal
+          v-model="modal1"
+          title="微盘总仓位"
+          @on-ok="ok1"
+          @on-cancel="cancel1">
+          <div>
+            微盘总仓位:<Input name= "param1" v-model="param1" placeholder="" style="width: 300px" />
+          </div>
+        </Modal>
+      </template>
+
+      <template>
+        <Modal
           v-model="modal2"
-          title="确定要恐慌买入吗？"
-          @on-ok="okClear"
-          @on-cancel="cancelClear">
+          title="微盘核按钮比例"
+          @on-ok="ok2"
+          @on-cancel="cancel2">
+          <div>
+            微盘核按钮比例:<Input name= "param2" v-model="param2" placeholder="" style="width: 300px" />
+          </div>
         </Modal>
       </template>
 
       <template>
         <Modal
           v-model="modal3"
-          title="确定要沪深300买入吗？"
-          @on-ok="okClear3"
-          @on-cancel="cancelClear3">
+          title="确定要执行买入吗？"
+          @on-ok="ok3"
+          @on-cancel="cancel3">
         </Modal>
       </template>
 
+      <template>
+        <Modal
+          v-model="modal4"
+          title="确定要执行核按钮吗？"
+          @on-ok="ok4"
+          @on-cancel="cancel4">
+        </Modal>
+      </template>
 
     </Layout>
   </div>
@@ -105,32 +131,75 @@
 <script>
   export default {
     created () {
+      this.$api.post('dragon/selfBuy/list', {}, r => {
+        this.weiPanPitPercent = r.data.weiPanPitPercent;
+        this.positionWeiPan = r.data.positionWeiPan;
+        this.accountId = r.data.accountId;
+      });
     },
 
     data: function () {
       return {
-        modal2:false,
-        modal3:false
+        modal1: false,
+        modal2: false,
+        modal3: false,
+        modal4: false,
+        weiPanPitPercent:20,
+        positionWeiPan:0,
+        accountId:0
       }
 
     },
     methods: {
-      okClear () {
-        this.$api.post('dragon/scareBuy/scareBuyStock', null, r => {
+
+
+      show1 () {
+        this.param1=this.positionWeiPan;
+      },
+
+      ok1 () {
+        this.$api.get('dragon/selfBuy/changePositionWeiPan', {positionWeiPan:this.param1,accountId:this.accountId}, r => {
           location.reload()
         })
 
       },
-      cancelClear () {
+      cancel1 () {
+        this.$Message.info($("param1").value)
       },
 
-      okClear3 () {
-        this.$api.post('dragon/scareBuy/huShen300Buy', null, r => {
+      show2 () {
+        this.param2=this.weiPanPitPercent;
+      },
+      ok2 () {
+        this.$api.get('dragon/selfBuy/weiPanPitPercent', {pitPercent:this.param2}, r => {
+          location.reload()
+        })
+      },
+      cancel2 () {
+        this.$Message.info($("param2").value)
+      },
+
+
+      show3 () {
+        this.param1=this.positionWeiPan;
+      },
+
+      ok3 () {
+        this.$api.get('dragon/selfBuy/weiPanBuy', null, r => {
           location.reload()
         })
 
       },
-      cancelClear3 () {
+      cancel3 () {
+      },
+
+      ok4 () {
+        this.$api.get('dragon/selfBuy/weiPanPit', null, r => {
+          location.reload()
+        })
+
+      },
+      cancel4 () {
       },
 
     }
