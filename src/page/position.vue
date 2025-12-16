@@ -101,6 +101,9 @@
 
           <Button type="primary" style="margin-right: 5px" @click="modal6=true;show6()">修改总卖百分比</Button>
 
+          <Button v-if="row.saoBanPositiveButton" style="margin-left: 5px" type="primary" @click="changeSaoBanPositiveButton()">激进扫版已开启</Button>
+          <Button v-if="!row.saoBanPositiveButton" style="margin-left: 5px" type="warning" @click="changeSaoBanPositiveButton()">激进扫版已关闭</Button>
+
         </template>
       </Table>
 
@@ -269,6 +272,7 @@
         this.accountMarketType = infos[0].marketType;
         this.plankTradeButton = infos[0].plankTradeButton;
         this.percentTotalSell = infos[0].percentTotalSell;
+        this.saoBanPositiveButton = info[0].saoBanPositiveButton;
       })
     },
 
@@ -592,6 +596,7 @@
         accountMarketType:0,
         plankTradeButton:false,
         percentTotalSell:0,
+        saoBanPositiveButton:false,
       }
     },
     methods: {
@@ -784,6 +789,12 @@
 
       changePlankTradeButton () {
         this.$api.get('dragon/tradeAccount/changePlankTradeButton', {}, r => {
+          location.reload()
+        })
+      },
+
+      changeSaoBanPositiveButton () {
+        this.$api.get('dragon/tradeAccount/changeSaoBanPositiveButton', {}, r => {
           location.reload()
         })
       },
