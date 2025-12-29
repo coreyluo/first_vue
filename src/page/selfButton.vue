@@ -78,8 +78,16 @@
 
           <Button  type="primary" @click="modal1=true;show1()">微盘总仓位{{positionWeiPan}}</Button>
           <Button  type="primary" @click="modal2=true;show2()">微盘核按钮比例{{weiPanPitPercent}}</Button>
-          <Button  type="primary" @click="modal3=true;show3()">执行买入</Button>
-          <Button  type="error" @click="modal4=true;show4()">执行卖出</Button>
+          <Button  type="primary" @click="modal3=true;show3()">微盘执行买入</Button>
+          <Button  type="error" @click="modal4=true;show4()">微盘执行卖出</Button>
+        </div>
+
+        <div>
+
+          <Button  type="primary" @click="modal21=true;show21()">热股总仓位{{positionReGu}}</Button>
+          <Button  type="primary" @click="modal22=true;show22()">热股核按钮比例{{reGuPitPercent}}</Button>
+          <Button  type="primary" @click="modal23=true;show23()">热股执行买入</Button>
+          <Button  type="error" @click="modal24=true;show24()">热股执行卖出</Button>
         </div>
       </template>
 
@@ -110,7 +118,7 @@
       <template>
         <Modal
           v-model="modal3"
-          title="确定要执行买入吗？"
+          title="微盘确定要执行买入吗？"
           @on-ok="ok3"
           @on-cancel="cancel3">
         </Modal>
@@ -119,9 +127,51 @@
       <template>
         <Modal
           v-model="modal4"
-          title="确定要执行核按钮吗？"
+          title="微盘确定要执行核按钮吗？"
           @on-ok="ok4"
           @on-cancel="cancel4">
+        </Modal>
+      </template>
+
+      <template>
+        <Modal
+            v-model="modal21"
+            title="热股总仓位"
+            @on-ok="ok21"
+            @on-cancel="cancel21">
+          <div>
+            微盘总仓位:<Input name= "param21" v-model="param21" placeholder="" style="width: 300px" />
+          </div>
+        </Modal>
+      </template>
+
+      <template>
+        <Modal
+            v-model="modal22"
+            title="热股核按钮比例"
+            @on-ok="ok22"
+            @on-cancel="cancel22">
+          <div>
+            微盘核按钮比例:<Input name= "param22" v-model="param22" placeholder="" style="width: 300px" />
+          </div>
+        </Modal>
+      </template>
+
+      <template>
+        <Modal
+            v-model="modal23"
+            title="热股确定要执行买入吗？"
+            @on-ok="ok23"
+            @on-cancel="cancel23">
+        </Modal>
+      </template>
+
+      <template>
+        <Modal
+            v-model="modal24"
+            title="热股确定要执行核按钮吗？"
+            @on-ok="ok24"
+            @on-cancel="cancel24">
         </Modal>
       </template>
 
@@ -134,6 +184,8 @@
       this.$api.post('dragon/selfBuy/list', {}, r => {
         this.weiPanPitPercent = r.data.weiPanPitPercent;
         this.positionWeiPan = r.data.positionWeiPan;
+        this.reGuPitPercent = r.data.reGuPitPercent;
+        this.positionReGu = r.data.positionReGu;
         this.accountId = r.data.accountId;
       });
     },
@@ -144,8 +196,14 @@
         modal2: false,
         modal3: false,
         modal4: false,
+        modal21: false,
+        modal22: false,
+        modal23: false,
+        modal24: false,
         weiPanPitPercent:20,
         positionWeiPan:0,
+        reGuPitPercent:20,
+        positionReGu:0,
         accountId:0
       }
 
@@ -200,6 +258,56 @@
 
       },
       cancel4 () {
+      },
+
+
+      show21 () {
+        this.param21=this.positionReGu;
+      },
+
+      ok21 () {
+        this.$api.get('dragon/selfBuy/changePositionReGu', {positionReGu:this.param21,accountId:this.accountId}, r => {
+          location.reload()
+        })
+
+      },
+      cancel21 () {
+        this.$Message.info($("param21").value)
+      },
+
+      show22 () {
+        this.param22=this.reGuPitPercent;
+      },
+      ok22 () {
+        this.$api.get('dragon/selfBuy/reGuPitPercent', {reGuPitPercent:this.param22}, r => {
+          location.reload()
+        })
+      },
+      cancel22 () {
+        this.$Message.info($("param22").value)
+      },
+
+
+      show23 () {
+        this.param21=this.positionReGu;
+      },
+
+      ok23 () {
+        this.$api.get('dragon/selfBuy/reGuBuy', null, r => {
+          location.reload()
+        })
+
+      },
+      cancel23 () {
+      },
+
+      ok24 () {
+        this.$api.get('dragon/selfBuy/reGuPit', null, r => {
+          location.reload()
+        })
+
+      },
+      cancel24 () {
       },
 
     }
