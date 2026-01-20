@@ -81,7 +81,7 @@
           <Button  type="primary" @click="modal3=true;show3()">微盘执行买入</Button>
           <Button  type="error" @click="modal4=true;show4()">微盘执行卖出</Button>
         </div>
-
+        <div>&nbsp</div>
         <div>
 
           <Button  type="primary" @click="modal21=true;show21()">热股总仓位{{positionReGu}}</Button>
