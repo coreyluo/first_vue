@@ -100,6 +100,7 @@
           <Button v-if="!row.plankTradeButton" style="margin-left: 5px" type="warning" @click="changePlankTradeButton()">普达触碰涨停已关闭</Button>
 
           <Button type="primary" style="margin-right: 5px" @click="modal6=true;show6()">修改总卖百分比</Button>
+          <Button type="primary" style="margin-right: 5px" @click="modal7=true;show7()">修改同毫秒百分比</Button>
 
           <Button v-if="row.saoBanPositiveButton" style="margin-left: 5px" type="primary" @click="changeSaoBanPositiveButton()">激进扫版已开启</Button>
           <Button v-if="!row.saoBanPositiveButton" style="margin-left: 5px" type="warning" @click="changeSaoBanPositiveButton()">激进扫版已关闭</Button>
@@ -209,7 +210,7 @@
             大市值仓位比例:<Input name= "paramBig" v-model="paramBig" placeholder="" style="width: 300px" />
           </div>
           <div>
-            跟随比例:<Input name= "paramFollowDaLaoRatio" v-model="paramFollowDaLaoRatio" placeholder="" style="width: 300px" />
+            跟随大佬仓位:<Input name= "paramFollowDaLaoRatio" v-model="paramFollowDaLaoRatio" placeholder="" style="width: 300px" />
           </div>
         </Modal>
       </template>
@@ -222,6 +223,18 @@
           @on-cancel="cancel6">
           <div>
             总卖百分比:<Input name= "percentTotalSell" v-model="percentTotalSell" placeholder="" style="width: 300px" />
+          </div>
+        </Modal>
+      </template>
+
+      <template>
+        <Modal
+          v-model="modal7"
+          title="相同毫秒百分比"
+          @on-ok="ok7"
+          @on-cancel="cancel7">
+          <div>
+            相同毫秒百分比:<Input name= "sameMillionPercent" v-model="sameMillionPercent" placeholder="" style="width: 300px" />
           </div>
         </Modal>
       </template>
@@ -272,7 +285,8 @@
         this.accountMarketType = infos[0].marketType;
         this.plankTradeButton = infos[0].plankTradeButton;
         this.percentTotalSell = infos[0].percentTotalSell;
-        this.saoBanPositiveButton = info[0].saoBanPositiveButton;
+        this.sameMillionPercent = infos[0].sameMillionPercent;
+        this.saoBanPositiveButton = infos[0].saoBanPositiveButton;
       })
     },
 
@@ -375,7 +389,7 @@
             align: 'center'
           },
           {
-            title: '跟随仓位系数分母',
+            title: '跟随大佬仓位',
             key: 'followDaLaoRatio',
             align: 'center'
           },
@@ -573,6 +587,7 @@
         modal3:false,
         modal4:false,
         modal6:false,
+        modal7:false,
 
         indexId:0,
         currentPosition:0,
@@ -596,6 +611,7 @@
         accountMarketType:0,
         plankTradeButton:false,
         percentTotalSell:0,
+        sameMillionPercent:0,
         saoBanPositiveButton:false,
       }
     },
@@ -812,6 +828,21 @@
 
       },
       cancel6 () {
+      },
+
+      show7 (index) {
+        this.sameMillionPercent = this.data7[index].sameMillionPercent;
+      },
+      ok7 () {
+
+        var sameMillionPercent = this.sameMillionPercent;
+        this.$api.post('dragon/tradeAccount/changeSameMillionPercent', {sameMillionPercent:sameMillionPercent}, r => {
+          location.reload();
+        })
+
+
+      },
+      cancel7 () {
       },
 
     }
