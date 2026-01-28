@@ -83,11 +83,14 @@
         </div>
         <div>&nbsp</div>
         <div>
-
           <Button  type="primary" @click="modal21=true;show21()">热股总仓位{{positionReGu}}</Button>
           <Button  type="primary" @click="modal22=true;show22()">热股核按钮比例{{reGuPitPercent}}</Button>
           <Button  type="primary" @click="modal23=true;show23()">热股执行买入</Button>
           <Button  type="error" @click="modal24=true;show24()">热股执行卖出</Button>
+        </div>
+        <div>&nbsp</div>
+        <div>
+          <Button  type="primary" @click="modal32=true;show32()">跟随大佬截止时间{{followDaLaoTime}}</Button>
         </div>
       </template>
 
@@ -175,6 +178,30 @@
         </Modal>
       </template>
 
+      <template>
+        <Modal
+            v-model="modal31"
+            title="跟随大佬仓位"
+            @on-ok="ok31"
+            @on-cancel="cancel31">
+          <div>
+            跟随大佬仓位:<Input name= "param31" v-model="param31" placeholder="" style="width: 300px" />
+          </div>
+        </Modal>
+      </template>
+
+      <template>
+        <Modal
+            v-model="modal32"
+            title="跟随大佬时间（93500或者103100）"
+            @on-ok="ok32"
+            @on-cancel="cancel32">
+          <div>
+            跟随大佬时间:<Input name= "param32" v-model="param32" placeholder="" style="width: 300px" />
+          </div>
+        </Modal>
+      </template>
+
     </Layout>
   </div>
 </template>
@@ -186,6 +213,8 @@
         this.positionWeiPan = r.data.positionWeiPan;
         this.reGuPitPercent = r.data.reGuPitPercent;
         this.positionReGu = r.data.positionReGu;
+        this.followDaLaoTime = r.data.followDaLaoTime;
+        this.positionFollowDaLao = r.data.positionFollowDaLao;
         this.accountId = r.data.accountId;
       });
     },
@@ -200,10 +229,14 @@
         modal22: false,
         modal23: false,
         modal24: false,
+        modal31: false,
+        modal32: false,
         weiPanPitPercent:20,
         positionWeiPan:0,
         reGuPitPercent:20,
         positionReGu:0,
+        followDaLaoTime:93100,
+        positionFollowDaLao:0,
         accountId:0
       }
 
@@ -308,6 +341,20 @@
 
       },
       cancel24 () {
+      },
+
+      show32 () {
+        this.param32=this.followDaLaoTime;
+      },
+
+      ok32 () {
+        this.$api.get('dragon/selfBuy/followDaLaoTime', {followDaLaoTime:this.param32}, r => {
+          location.reload()
+        })
+
+      },
+      cancel32 () {
+        this.$Message.info($("param32").value)
       },
 
     }
