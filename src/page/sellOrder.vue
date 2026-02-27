@@ -62,6 +62,9 @@
                 <Button v-if="!slowSellStartHighAndIncrease"  type="error" @click="changeSlowSellStatus()">慢卖启动高点涨速卖出已关闭,请开启</Button>
                 <Button v-if="slowSellStartHighAndIncrease"  type="primary" @click="changeSlowSellStatus()">慢卖启动高点涨速卖出已开启,请关闭</Button>
 
+                <Button v-if="!autoPositionPitSell"  type="error" @click="changeAutoPitFlag()">仓位不足核按钮已关闭,请开启</Button>
+                <Button v-if="autoPositionPitSell"  type="primary" @click="changeAutoPitFlag()">仓位不足核按钮已开启,请关闭</Button>
+
 
               </div>
             </template>
@@ -157,6 +160,7 @@
                 this.gatherSell = r.data.sellButtonDTO.gatherSell;
                 this.dotSell = r.data.sellButtonDTO.dotSell;
                 this.slowSellStartHighAndIncrease = r.data.sellButtonDTO.slowSellStartHighAndIncrease;
+                this.autoPositionPitSell = r.data.autoPositionPitSell;
             })
         },
         data () {
@@ -196,6 +200,7 @@
                 gatherSell:true,
                 dotSell:true,
                 slowSellStartHighAndIncrease:false,
+                autoPositionPitSell:true,
                 modal1: false,
                 modal2:false,
                 modal3:false,
@@ -235,6 +240,11 @@
           },
           changeSlowSellStatus(){
             this.$api.get('dragon/sellAvailable/changeSlowSellFlag', {}, r => {
+              location.reload()
+            })
+          },
+          changeAutoPitFlag(){
+            this.$api.get('dragon/sellAvailable/changeAutoPitFlag', {}, r => {
               location.reload()
             })
           },
