@@ -49,8 +49,10 @@
                 <font style="font-weight:bold;font-size:15px;">股票代码：</font><Input name= "param19" v-model="param19" placeholder="stockCode" style="width: 300px" />
                 <Button type="primary" icon="ios-search" @click="search()">查询</Button>
 
-                <Button style="float:right" type="error" @click="modal1=true;show1()">买入涨幅</Button>
+                <Button style="float:right" type="error" @click="modal1=true;show1()">最高买入涨幅</Button>
+                <Button style="float:right" type="error" @click="modal6=true;show6()">最低买入涨幅</Button>
                 <Button style="float:right" type="success" @click="modal2=true;show2()">添加股票</Button>
+                <Button style="float:right" type="primary" @click="modal5=true;show5()">全部删除</Button>
                 <Button style="float:right" type="error" @click="modal4=true;show4()">执行买入</Button>
               </div>
             </template>
@@ -59,7 +61,7 @@
                     <strong>{{ row.tab }}</strong>
                 </template>
                 <template slot-scope="{ row, index }" slot="action">
-                  <Button style="float:right" type="primary" @click="modal3=true;show3(row)">买入权重修改</Button>
+<!--                  <Button style="float:right" type="primary" @click="modal3=true;show3(row)">买入权重修改</Button>-->
                   <Button style="float:right" type="error" @click="deleteStock(row)">删除</Button>
                 </template>
             </Table>
@@ -110,6 +112,28 @@
             </Modal>
           </template>
 
+          <template>
+            <Modal
+              v-model="modal5"
+              title="确定执行批量删除？"
+              @on-ok="okClear5"
+              @on-cancel="cancelClear5">
+            </Modal>
+          </template>
+
+          <template>
+            <Modal
+              v-model="modal6"
+              title="买入涨幅"
+              @on-ok="ok6"
+              @on-cancel="cancel6">
+              <div>
+                买入涨幅设置:<Input name= "param6" v-model="param6" placeholder="" style="width: 300px" />
+              </div>
+
+            </Modal>
+          </template>
+
         </Layout>
     </div>
 </template>
@@ -131,13 +155,17 @@
                         title: '股票名称',
                         key: 'stockName'
                     },
-                    {
+                    /*{
                       title: '权重',
                       key: 'positionRatio'
+                    },*/
+                    {
+                      title: '最高买入涨幅',
+                      key: 'buyRate'
                     },
                     {
-                      title: '买入涨幅',
-                      key: 'buyRate'
+                      title: '最低买入涨幅',
+                      key: 'lowRate'
                     },
                     {
                       title: '操作',
@@ -153,6 +181,8 @@
                 modal2:false,
                 modal3:false,
                 modal4:false,
+                modal5:false,
+                modal6: false,
                 currentStockCode:0
             }
         },
@@ -217,6 +247,25 @@
           },
 
           cancelClear4 () {
+          },
+
+          okClear5 () {
+            this.$api.get('dragon/blockBatchBuy/deleteAll', {}, r => {
+              location.reload()
+            })
+          },
+
+          cancelClear5 () {
+          },
+          ok6 () {
+            var lowRate = this.param6;
+            this.$api.get('dragon/blockBatchBuy/batchChangeLowRate', {lowRate:lowRate}, r => {
+              location.reload()
+            })
+
+          },
+
+          cancel6 () {
           },
 
         },

@@ -92,6 +92,11 @@
         <div>
           <Button  type="primary" @click="modal32=true;show32()">跟随大佬截止时间{{followDaLaoTime}}</Button>
         </div>
+        <div>&nbsp</div>
+        <div>
+          <Button  type="primary" @click="modal41=true;show41()">批量买入仓位{{positionBlockBatchBuy}}</Button>
+        </div>
+
       </template>
 
       <template>
@@ -202,6 +207,18 @@
         </Modal>
       </template>
 
+      <template>
+        <Modal
+          v-model="modal41"
+          title="板块批量买入仓位"
+          @on-ok="ok41"
+          @on-cancel="cancel41">
+          <div>
+            板块批量买入:<Input name= "param41" v-model="param41" placeholder="" style="width: 300px" />
+          </div>
+        </Modal>
+      </template>
+
     </Layout>
   </div>
 </template>
@@ -215,6 +232,7 @@
         this.positionReGu = r.data.positionReGu;
         this.followDaLaoTime = r.data.followDaLaoTime;
         this.positionFollowDaLao = r.data.positionFollowDaLao;
+        this.positionBlockBatchBuy = r.data.positionBlockBatchBuy;
         this.accountId = r.data.accountId;
       });
     },
@@ -231,8 +249,10 @@
         modal24: false,
         modal31: false,
         modal32: false,
+        modal41:false,
         weiPanPitPercent:20,
         positionWeiPan:0,
+        positionBlockBatchBuy:0,
         reGuPitPercent:20,
         positionReGu:0,
         followDaLaoTime:93100,
@@ -355,6 +375,20 @@
       },
       cancel32 () {
         this.$Message.info($("param32").value)
+      },
+
+      show41 () {
+        this.param41=this.positionBlockBatchBuy;
+      },
+
+      ok41 () {
+        this.$api.get('dragon/selfBuy/changePositionBlockBatchBuy', {positionBlockBatchBuy:this.param41,accountId:this.accountId}, r => {
+          location.reload()
+        })
+
+      },
+      cancel41 () {
+        this.$Message.info($("param41").value)
       },
 
     }

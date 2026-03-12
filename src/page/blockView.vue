@@ -61,6 +61,7 @@
                     <Button  type="error" size="small"  @click="allowBlock(row.id)">允许下单</Button>
                     <Button  type="error" size="small"  @click="modal1=true;show(index)">添加小池子</Button>
                     <Button  type="error" size="small"  @click="blockRemoveDragonPool(row.id)">移出小池子</Button>
+                  <Button  type="error" @click="modal2=true;show2(row.id)">添加批量买入池</Button>
                 </template>
             </Table>
 
@@ -83,6 +84,15 @@
                 </select>
               </div>
               <div><input type="checkbox" v-model="param4" > 只打一字回封单 封单比例&nbsp&nbsp<Input name= "param5" v-model="param5" placeholder="" style="width: 100px" /></div>
+            </Modal>
+          </template>
+
+          <template>
+            <Modal
+              v-model="modal2"
+              title="确定要放入批量买入池？"
+              @on-ok="ok2"
+              @on-cancel="cancel2">
             </Modal>
           </template>
         </Layout>
@@ -122,6 +132,8 @@
 
                 ],
                 blockCodeInDragon:0,
+                blockToBlockBatchBuyPoolId:null,
+                modal2: false,
                 modal1: false
             }
         },
@@ -164,6 +176,17 @@
             this.$api.get('dragon/blockView/blockRemoveDragonPool', {id:index}, r => {
               location.reload()
             })
+          },
+          show2 (index) {
+            this.blockToBlockBatchBuyPoolId=index;
+          },
+          ok2 () {
+            this.$api.get('dragon/blockView/blockToBlockBatchBuyPool', {id:this.blockToBlockBatchBuyPoolId}, r => {
+              location.reload()
+            })
+
+          },
+          cancel2 () {
           },
 
           ok () {
