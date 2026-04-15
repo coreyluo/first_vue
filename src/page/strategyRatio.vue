@@ -78,6 +78,7 @@ table, th, td {
                 <th class="button2">比例</th>
                 <th class="button2">比例</th>
                 <th class="button2">比例</th>
+                <th class="button2">操作</th>
               </tr>
               </thead>
               <tbody>
@@ -86,6 +87,9 @@ table, th, td {
                   <Button v-if="data7[rowIndex].positionRatio==value && key!='code'" style="margin-left: 5px" type="error">使用中</Button>
                   <Button v-if="data7[rowIndex].positionRatio!=value && key!='code'" style="margin-left: 5px" type="primary" @click="changeDayPercentPosition(data7[rowIndex].id,value)">未使用</Button>
                 </td>
+                <Button v-if="data7[rowIndex].operateStatus==1" style="margin-left: 5px" type="error" @click="changeOperateStatus(data7[rowIndex].id,value)">扫版模式</Button>
+                <Button v-if="data7[rowIndex].operateStatus!=1" style="margin-left: 5px" type="primary" @click="changeOperateStatus(data7[rowIndex].id,value)">普达模式</Button>
+
               </tr>
               </tbody>
             </table>
@@ -138,6 +142,12 @@ table, th, td {
         methods: {
           changeDayPercentPosition (rowIndex,ratio){
             this.$api.post('dragon/strategyRatio/changeRatio', {id:rowIndex,positionRatio:ratio}, r => {
+              location.reload();
+            })
+          },
+
+          changeOperateStatus (rowIndex,ratio){
+            this.$api.post('dragon/strategyRatio/changeOperateStatus', {id:rowIndex}, r => {
               location.reload();
             })
           },

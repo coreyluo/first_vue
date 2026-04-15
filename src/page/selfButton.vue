@@ -94,7 +94,11 @@
         </div>
         <div>&nbsp</div>
         <div>
-          <Button  type="primary" @click="modal41=true;show41()">批量买入仓位{{positionBlockBatchBuy}}</Button>
+          <Button  type="primary" @click="modal41=true;show41()">批量买入仓位(单笔){{positionBlockBatchBuy}}</Button>
+        </div>
+        <div>&nbsp</div>
+        <div>
+          <Button  type="primary" @click="modal51=true;show51()">新闻ai买入仓位(单笔){{positionNewsAiOne}}</Button>
         </div>
 
       </template>
@@ -210,11 +214,23 @@
       <template>
         <Modal
           v-model="modal41"
-          title="板块批量买入仓位"
+          title="板块批量买入仓位（单笔）"
           @on-ok="ok41"
           @on-cancel="cancel41">
           <div>
             板块批量买入:<Input name= "param41" v-model="param41" placeholder="" style="width: 300px" />
+          </div>
+        </Modal>
+      </template>
+
+      <template>
+        <Modal
+          v-model="modal51"
+          title="板块批量买入仓位（单笔）"
+          @on-ok="ok51"
+          @on-cancel="cancel51">
+          <div>
+            板块批量买入:<Input name= "param51" v-model="param51" placeholder="" style="width: 300px" />
           </div>
         </Modal>
       </template>
@@ -233,6 +249,7 @@
         this.followDaLaoTime = r.data.followDaLaoTime;
         this.positionFollowDaLao = r.data.positionFollowDaLao;
         this.positionBlockBatchBuy = r.data.positionBlockBatchBuy;
+        this.positionNewsAiOne = r.data.positionNewsAiOne;
         this.accountId = r.data.accountId;
       });
     },
@@ -250,9 +267,11 @@
         modal31: false,
         modal32: false,
         modal41:false,
+        modal51:false,
         weiPanPitPercent:20,
         positionWeiPan:0,
         positionBlockBatchBuy:0,
+        positionNewsAiOne:0,
         reGuPitPercent:20,
         positionReGu:0,
         followDaLaoTime:93100,
@@ -389,6 +408,21 @@
       },
       cancel41 () {
         this.$Message.info($("param41").value)
+      },
+
+
+      show51 () {
+        this.param51=this.positionNewsAiOne;
+      },
+
+      ok51 () {
+        this.$api.get('dragon/selfBuy/changePositionNewsAiOne', {positionNewsAiOne:this.param51,accountId:this.accountId}, r => {
+          location.reload()
+        })
+
+      },
+      cancel51 () {
+        this.$Message.info($("param51").value)
       },
 
     }

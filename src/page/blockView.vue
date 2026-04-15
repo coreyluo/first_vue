@@ -62,6 +62,7 @@
                     <Button  type="error" size="small"  @click="modal1=true;show(index)">添加小池子</Button>
                     <Button  type="error" size="small"  @click="blockRemoveDragonPool(row.id)">移出小池子</Button>
                   <Button  type="error" @click="modal2=true;show2(row.id)">添加批量买入池</Button>
+                  <Button  type="error" @click="modal3=true;show3(row.id)">添加批量买入池(20cm)</Button>
                 </template>
             </Table>
 
@@ -93,6 +94,14 @@
               title="确定要放入批量买入池？"
               @on-ok="ok2"
               @on-cancel="cancel2">
+            </Modal>
+          </template>
+          <template>
+            <Modal
+              v-model="modal3"
+              title="确定要放入批量买入池(20cm)？"
+              @on-ok="ok3"
+              @on-cancel="cancel3">
             </Modal>
           </template>
         </Layout>
@@ -133,7 +142,9 @@
                 ],
                 blockCodeInDragon:0,
                 blockToBlockBatchBuyPoolId:null,
+                blockToBlockBatchBuyPoolRate20Id:null,
                 modal2: false,
+                modal3: false,
                 modal1: false
             }
         },
@@ -187,6 +198,19 @@
 
           },
           cancel2 () {
+          },
+
+
+          show3 (index) {
+            this.blockToBlockBatchBuyPoolRate20Id=index;
+          },
+          ok3 () {
+            this.$api.get('dragon/blockView/blockToBlockBatchBuyPoolRate20', {id:this.blockToBlockBatchBuyPoolRate20Id}, r => {
+              location.reload()
+            })
+
+          },
+          cancel3 () {
           },
 
           ok () {
