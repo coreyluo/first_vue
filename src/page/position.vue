@@ -180,6 +180,9 @@
             未匹配仓位:<Input name= "unmatchPosition" v-model="unmatchPosition" placeholder="" style="width: 300px" />
           </div>
           <div>
+            未匹配仓位20-25:<Input name= "unmatchPositionFiveMin" v-model="unmatchPositionFiveMin" placeholder="" style="width: 300px" />
+          </div>
+          <div>
             牵引力仓位:<Input name= "positionBlock" v-model="positionBlock" placeholder="" style="width: 300px" />
           </div>
           <div>
@@ -371,6 +374,11 @@
           {
             title: '未匹配仓位',
             key: 'unmatchPosition',
+            align: 'center'
+          },
+          {
+            title: '未匹配仓位20-25',
+            key: 'unmatchPositionFiveMin',
             align: 'center'
           },
           {
@@ -597,6 +605,7 @@
         currentAiPosition:0,
         currentAiPosition300:0,
         currentUnmatchPosition:0,
+        currentUnmatchPositionFiveMin:0,
         currentPositionBlock:0,
         currentPositionBuyLow:0,
         currentPositionEtf:0,
@@ -625,6 +634,7 @@
         this.aiPosition = this.data7[index].aiPosition
         this.aiPosition300 = this.data7[index].aiPosition300
         this.unmatchPosition = this.data7[index].unmatchPosition
+        this.unmatchPositionFiveMin = this.data7[index].unmatchPositionFiveMin
         this.positionBlock = this.data7[index].positionBlock
         this.positionBuyLow = this.data7[index].positionBuyLow
         this.positionEtf = this.data7[index].positionEtf
@@ -638,6 +648,7 @@
         var aiPosition = this.aiPosition;
         var aiPosition300 = this.aiPosition300;
         var unmatchPosition = this.unmatchPosition;
+        var unmatchPositionFiveMin = this.unmatchPositionFiveMin;
         var positionBlock = this.positionBlock
         var positionBuyLow = this.positionBuyLow
         var positionEtf = this.positionEtf
@@ -650,6 +661,7 @@
           this.currentAiPosition = aiPosition;
           this.currentAiPosition300 = aiPosition300;
           this.currentUnmatchPosition = unmatchPosition;
+          this.currentUnmatchPositionFiveMin = unmatchPositionFiveMin;
           this.currentPositionBlock = positionBlock;
           this.currentPositionBuyLow = positionBuyLow;
           this.currentPositionEtf = positionEtf;
@@ -662,6 +674,7 @@
           this.currentAiPosition = aiPosition;
           this.currentAiPosition300 = aiPosition300;
           this.currentUnmatchPosition = unmatchPosition;
+          this.currentUnmatchPositionFiveMin = unmatchPositionFiveMin;
           this.currentPositionBlock = positionBlock;
           this.currentPositionBuyLow = positionBuyLow;
           this.currentPositionEtf = positionEtf;
@@ -674,12 +687,13 @@
           this.currentAiPosition = aiPosition;
           this.currentAiPosition300 = aiPosition300;
           this.currentUnmatchPosition = unmatchPosition;
+          this.currentUnmatchPositionFiveMin = unmatchPositionFiveMin;
           this.currentPositionBlock = positionBlock;
           this.currentPositionBuyLow = positionBuyLow;
           this.currentPositionEtf = positionEtf;
           this.modal4 = true;
         }else{
-          this.$api.post('dragon/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition,aiPosition:aiPosition,aiPosition300:aiPosition300,unmatchPosition:unmatchPosition,positionBlock:positionBlock,positionBuyLow:positionBuyLow,positionEtf:positionEtf}, r => {
+          this.$api.post('dragon/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition,aiPosition:aiPosition,aiPosition300:aiPosition300,unmatchPosition:unmatchPosition,unmatchPositionFiveMin:unmatchPositionFiveMin,positionBlock:positionBlock,positionBuyLow:positionBuyLow,positionEtf:positionEtf}, r => {
             location.reload();
           })
         }
@@ -793,8 +807,9 @@
         var aiPosition = this.currentAiPosition;
         var aiPosition300 = this.currentAiPosition300;
         var unmatchPosition = this.currentUnmatchPosition;
+        var unmatchPositionFiveMin = this.currentUnmatchPositionFiveMin;
         var positionBlock = this.currentPositionBlock
-        this.$api.post('dragon/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition,aiPosition:aiPosition,aiPosition300:aiPosition300,unmatchPosition:unmatchPosition,positionBlock:positionBlock}, r => {
+        this.$api.post('dragon/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition,aiPosition:aiPosition,aiPosition300:aiPosition300,unmatchPosition:unmatchPosition,unmatchPositionFiveMin:unmatchPositionFiveMin,positionBlock:positionBlock}, r => {
           location.reload();
         })
 
