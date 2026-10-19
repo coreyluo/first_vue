@@ -100,6 +100,11 @@
         <div>
           <Button  type="primary" @click="modal51=true;show51()">新闻ai买入仓位(单笔){{positionNewsAiOne}}</Button>
         </div>
+        <div>&nbsp</div>
+        <div>
+          <Button  type="primary" @click="modal61=true;show61()">老何沪深总仓位{{positionLaoHeHsAi}}</Button>
+          <Button  type="primary" @click="modal62=true;show62()">老何沪深执行买入</Button>
+        </div>
 
       </template>
 
@@ -235,6 +240,27 @@
         </Modal>
       </template>
 
+      <template>
+        <Modal
+          v-model="modal61"
+          title="老何沪深总仓位"
+          @on-ok="ok61"
+          @on-cancel="cancel61">
+          <div>
+            微盘总仓位:<Input name= "param61" v-model="param61" placeholder="" style="width: 300px" />
+          </div>
+        </Modal>
+      </template>
+
+      <template>
+        <Modal
+          v-model="modal62"
+          title="老何沪深确定要执行买入吗？"
+          @on-ok="ok62"
+          @on-cancel="cancel62">
+        </Modal>
+      </template>
+
     </Layout>
   </div>
 </template>
@@ -250,6 +276,7 @@
         this.positionFollowDaLao = r.data.positionFollowDaLao;
         this.positionBlockBatchBuy = r.data.positionBlockBatchBuy;
         this.positionNewsAiOne = r.data.positionNewsAiOne;
+        this.positionLaoHeHsAi = r.data.positionLaoHeHsAi;
         this.accountId = r.data.accountId;
       });
     },
@@ -268,6 +295,8 @@
         modal32: false,
         modal41:false,
         modal51:false,
+        modal61:false,
+        modal62:false,
         weiPanPitPercent:20,
         positionWeiPan:0,
         positionBlockBatchBuy:0,
@@ -276,6 +305,7 @@
         positionReGu:0,
         followDaLaoTime:93100,
         positionFollowDaLao:0,
+        positionLaoHeHsAi:0,
         accountId:0
       }
 
@@ -423,6 +453,34 @@
       },
       cancel51 () {
         this.$Message.info($("param51").value)
+      },
+
+
+      show61 () {
+        this.param61=this.positionLaoHeHsAi;
+      },
+
+      ok61 () {
+        this.$api.get('dragon/selfBuy/changePositionLaoHeHsAi', {positionLaoHeHsAi:this.param61,accountId:this.accountId}, r => {
+          location.reload()
+        })
+
+      },
+      cancel61 () {
+        this.$Message.info($("param61").value)
+      },
+
+      show62 () {
+        this.param61=this.positionLaoHeHsAi;
+      },
+
+      ok62 () {
+        this.$api.get('dragon/selfBuy/laoHeHsAiBuy', null, r => {
+          location.reload()
+        })
+
+      },
+      cancel62 () {
       },
 
     }
