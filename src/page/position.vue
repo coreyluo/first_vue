@@ -183,6 +183,12 @@
             未匹配仓位20-25:<Input name= "unmatchPositionFiveMin" v-model="unmatchPositionFiveMin" placeholder="" style="width: 300px" />
           </div>
           <div>
+            未匹配300仓位:<Input name= "unmatchPositioncy" v-model="unmatchPositioncy" placeholder="" style="width: 300px" />
+          </div>
+          <div>
+            未匹配300仓位20-25:<Input name= "unmatchPositionFiveMincy" v-model="unmatchPositionFiveMincy" placeholder="" style="width: 300px" />
+          </div>
+          <div>
             牵引力仓位:<Input name= "positionBlock" v-model="positionBlock" placeholder="" style="width: 300px" />
           </div>
           <div>
@@ -379,6 +385,16 @@
           {
             title: '未匹配仓位20-25',
             key: 'unmatchPositionFiveMin',
+            align: 'center'
+          },
+          {
+            title: '未匹配300仓位',
+            key: 'unmatchPositioncy',
+            align: 'center'
+          },
+          {
+            title: '未匹配300仓位20-25',
+            key: 'unmatchPositionFiveMincy',
             align: 'center'
           },
           {
@@ -606,6 +622,8 @@
         currentAiPosition300:0,
         currentUnmatchPosition:0,
         currentUnmatchPositionFiveMin:0,
+        currentUnmatchPositioncy:0,
+        currentUnmatchPositionFiveMincy:0,
         currentPositionBlock:0,
         currentPositionBuyLow:0,
         currentPositionEtf:0,
@@ -635,6 +653,8 @@
         this.aiPosition300 = this.data7[index].aiPosition300
         this.unmatchPosition = this.data7[index].unmatchPosition
         this.unmatchPositionFiveMin = this.data7[index].unmatchPositionFiveMin
+        this.unmatchPositioncy = this.data7[index].unmatchPositioncy
+        this.unmatchPositionFiveMincy = this.data7[index].unmatchPositionFiveMincy
         this.positionBlock = this.data7[index].positionBlock
         this.positionBuyLow = this.data7[index].positionBuyLow
         this.positionEtf = this.data7[index].positionEtf
@@ -649,6 +669,8 @@
         var aiPosition300 = this.aiPosition300;
         var unmatchPosition = this.unmatchPosition;
         var unmatchPositionFiveMin = this.unmatchPositionFiveMin;
+        var unmatchPositioncy = this.unmatchPositioncy;
+        var unmatchPositionFiveMincy = this.unmatchPositionFiveMincy;
         var positionBlock = this.positionBlock
         var positionBuyLow = this.positionBuyLow
         var positionEtf = this.positionEtf
@@ -662,6 +684,8 @@
           this.currentAiPosition300 = aiPosition300;
           this.currentUnmatchPosition = unmatchPosition;
           this.currentUnmatchPositionFiveMin = unmatchPositionFiveMin;
+          this.currentUnmatchPositioncy = unmatchPositioncy;
+          this.currentUnmatchPositionFiveMincy = unmatchPositionFiveMincy;
           this.currentPositionBlock = positionBlock;
           this.currentPositionBuyLow = positionBuyLow;
           this.currentPositionEtf = positionEtf;
@@ -675,6 +699,8 @@
           this.currentAiPosition300 = aiPosition300;
           this.currentUnmatchPosition = unmatchPosition;
           this.currentUnmatchPositionFiveMin = unmatchPositionFiveMin;
+          this.currentUnmatchPositioncy = unmatchPositioncy;
+          this.currentUnmatchPositionFiveMincy = unmatchPositionFiveMincy;
           this.currentPositionBlock = positionBlock;
           this.currentPositionBuyLow = positionBuyLow;
           this.currentPositionEtf = positionEtf;
@@ -688,12 +714,14 @@
           this.currentAiPosition300 = aiPosition300;
           this.currentUnmatchPosition = unmatchPosition;
           this.currentUnmatchPositionFiveMin = unmatchPositionFiveMin;
+          this.currentUnmatchPositioncy = unmatchPositioncy;
+          this.currentUnmatchPositionFiveMincy = unmatchPositionFiveMincy;
           this.currentPositionBlock = positionBlock;
           this.currentPositionBuyLow = positionBuyLow;
           this.currentPositionEtf = positionEtf;
           this.modal4 = true;
         }else{
-          this.$api.post('dragon/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition,aiPosition:aiPosition,aiPosition300:aiPosition300,unmatchPosition:unmatchPosition,unmatchPositionFiveMin:unmatchPositionFiveMin,positionBlock:positionBlock,positionBuyLow:positionBuyLow,positionEtf:positionEtf}, r => {
+          this.$api.post('dragon/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition,aiPosition:aiPosition,aiPosition300:aiPosition300,unmatchPosition:unmatchPosition,unmatchPositionFiveMin:unmatchPositionFiveMin,unmatchPositioncy:unmatchPositioncy,unmatchPositionFiveMincy:unmatchPositionFiveMincy,positionBlock:positionBlock,positionBuyLow:positionBuyLow,positionEtf:positionEtf}, r => {
             location.reload();
           })
         }
@@ -808,8 +836,10 @@
         var aiPosition300 = this.currentAiPosition300;
         var unmatchPosition = this.currentUnmatchPosition;
         var unmatchPositionFiveMin = this.currentUnmatchPositionFiveMin;
+        var unmatchPositioncy = this.currentUnmatchPositioncy;
+        var unmatchPositionFiveMincy = this.currentUnmatchPositionFiveMincy;
         var positionBlock = this.currentPositionBlock
-        this.$api.post('dragon/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition,aiPosition:aiPosition,aiPosition300:aiPosition300,unmatchPosition:unmatchPosition,unmatchPositionFiveMin:unmatchPositionFiveMin,positionBlock:positionBlock}, r => {
+        this.$api.post('dragon/tradeAccount/changeOrderPrice', {id:changerId,position:position,position300:position300,position688:position688, generalPosition:generalPosition,aiPosition:aiPosition,aiPosition300:aiPosition300,unmatchPosition:unmatchPosition,unmatchPositionFiveMin:unmatchPositionFiveMin,unmatchPositioncy:unmatchPositioncy,unmatchPositionFiveMincy:unmatchPositionFiveMincy,positionBlock:positionBlock}, r => {
           location.reload();
         })
 
